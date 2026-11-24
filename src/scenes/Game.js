@@ -64,10 +64,7 @@ export default class Game extends Phaser.Scene {
     this.uiCamera.setScroll(0, 0);
     this.uiCamera.setRotation(0);
 
-    this.controls = new InputController(this, {
-      uiCamera: this.uiCamera,
-      worldCamera: this.worldCamera
-    });
+    this.controls = new InputController(this, { worldCamera: this.worldCamera });
 
     this.createCameraButtons();
 
