@@ -1,7 +1,6 @@
 export default class TouchControls {
-  constructor(scene, { uiCamera = null, worldCamera = null } = {}) {
+  constructor(scene, { worldCamera = null } = {}) {
     this.scene = scene;
-    this.uiCamera = uiCamera;
     this.worldCamera = worldCamera;
     this.vector = { x: 0, y: 0 };
     this.activeId = null;
