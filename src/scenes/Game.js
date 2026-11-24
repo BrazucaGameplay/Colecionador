@@ -5,6 +5,7 @@ import { SAVE_KEY } from '../config.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.65, max: 2.25, initial: 1 });
 const TAP_MOVE_THRESHOLD = 12;
+const TILE_SIZE = 32;
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -15,16 +16,31 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    for (let y = 0; y < 17; y++) {
-      for (let x = 0; x < 30; x++) {
+    const viewWidth = this.scale.width;
+    const viewHeight = this.scale.height;
+
+    // A area jogavel acompanha a proporcao do aparelho e mantem margem
+    // para arrastar a camera sem revelar o vazio fora do mapa.
+    this.worldWidth = Math.max(960, Math.ceil((viewWidth * 2) / TILE_SIZE) * TILE_SIZE);
+    this.worldHeight = Math.max(800, Math.ceil((viewHeight * 2) / TILE_SIZE) * TILE_SIZE);
+    const centerX = this.worldWidth / 2;
+    const centerY = this.worldHeight / 2;
+
+    for (let y = 0; y < this.worldHeight / TILE_SIZE; y++) {
+      for (let x = 0; x < this.worldWidth / TILE_SIZE; x++) {
         if ((x + y) % 7 === 0) {
-          this.add.image(x * 32 + 16, y * 32 + 16, 'tile').setAlpha(0.25);
+          this.add.image(
+            x * TILE_SIZE + TILE_SIZE / 2,
+            y * TILE_SIZE + TILE_SIZE / 2,
+            'tile'
+          ).setAlpha(0.25);
         }
       }
     }
 
-    this.player = new Player(this, 480, 270);
-    this.monster = new Monster(this, 200, 150);
+    this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
+    this.player = new Player(this, centerX, centerY);
+    this.monster = new Monster(this, centerX - 180, centerY - 120);
     this.physics.add.overlap(this.player.sprite, this.monster.sprite, () => this.hitMonster());
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -43,8 +59,9 @@ export default class Game extends Phaser.Scene {
     }).setScrollFactor(0).setDepth(1000);
 
     this.camera = this.cameras.main;
-    this.camera.setBounds(0, 0, 960, 544);
+    this.camera.setBounds(0, 0, this.worldWidth, this.worldHeight);
     this.camera.setZoom(CAMERA_ZOOM.initial);
+    this.camera.centerOn(centerX, centerY);
 
     this.destinationMarker = this.add.circle(0, 0, 12, 0xfacc15, 0.18)
       .setStrokeStyle(2, 0xfacc15, 0.95)
@@ -105,12 +122,11 @@ export default class Game extends Phaser.Scene {
       );
       if (this.gesture?.type === 'pinch' && this.gesture.startDistance > 0) {
         const ratio = distance / this.gesture.startDistance;
-        const zoom = Phaser.Math.Clamp(
+        this.camera.setZoom(Phaser.Math.Clamp(
           this.gesture.startZoom * ratio,
           CAMERA_ZOOM.min,
           CAMERA_ZOOM.max
-        );
-        this.camera.setZoom(zoom);
+        ));
       }
       return;
     }
@@ -156,9 +172,9 @@ export default class Game extends Phaser.Scene {
   }
 
   setDestination(x, y) {
-    const worldPoint = this.physics.world.bounds;
-    const targetX = Phaser.Math.Clamp(x, worldPoint.x, worldPoint.right);
-    const targetY = Phaser.Math.Clamp(y, worldPoint.y, worldPoint.bottom);
+    const bounds = this.physics.world.bounds;
+    const targetX = Phaser.Math.Clamp(x, bounds.x, bounds.right);
+    const targetY = Phaser.Math.Clamp(y, bounds.y, bounds.bottom);
     this.destination = { x: targetX, y: targetY };
     this.destinationMarker.setPosition(targetX, targetY).setVisible(true);
   }
