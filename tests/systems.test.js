@@ -198,3 +198,44 @@ test('SaveManager supports storage being unavailable', () => {
   assert.deepEqual(manager.load(), { score: 0, at: null });
   assert.equal(manager.save({ score: 1 }), false);
 });
+
+import WorldCore from '../src/world/WorldCore.js';
+
+test('WorldCore enforces bounds and blocked tiles through public APIs', () => {
+  const world = new WorldCore({
+    width: 5,
+    height: 5,
+    blockedTiles: [{ x: 2, y: 2 }],
+    playerBodyTile: { x: 0, y: 0 }
+  });
+  assert.equal(world.isWalkable(1, 1), true);
+  assert.equal(world.isWalkable(2, 2), false);
+  assert.equal(world.isWalkable(-1, 0), false);
+  assert.deepEqual(world.getPlayerBodyTile(), { x: 0, y: 0 });
+  assert.equal(world.setPlayerBodyTile({ x: 2, y: 2 }), false);
+  assert.equal(world.setPlayerBodyTile({ x: 1, y: 1 }), true);
+});
+
+test('WorldCore finds a route around obstacles without cutting blocked corners', () => {
+  const world = new WorldCore({
+    width: 5,
+    height: 5,
+    blockedTiles: [{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }],
+    playerBodyTile: { x: 0, y: 0 }
+  });
+  const path = world.findPath({ x: 0, y: 0 }, { x: 4, y: 0 });
+  assert.deepEqual(path[0], { x: 0, y: 0 });
+  assert.deepEqual(path.at(-1), { x: 4, y: 0 });
+  assert.ok(path.every(tile => world.isWalkable(tile.x, tile.y)));
+});
+
+test('WorldCore returns no route for invalid or unreachable destinations', () => {
+  const world = new WorldCore({
+    width: 3,
+    height: 3,
+    blockedTiles: [{ x: 1, y: 0 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 2, y: 1 }],
+    playerBodyTile: { x: 0, y: 0 }
+  });
+  assert.deepEqual(world.findPath({ x: 0, y: 0 }, { x: 2, y: 2 }), []);
+  assert.deepEqual(world.findPath({ x: -1, y: 0 }, { x: 2, y: 2 }), []);
+});
