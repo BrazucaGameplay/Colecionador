@@ -51,6 +51,8 @@ class MinHeap {
 }
 
 export default class WorldGrid {
+  #blocked;
+
   constructor({ width, height, blocked = [] } = {}) {
     if (!Number.isSafeInteger(width) || width < 1
       || !Number.isSafeInteger(height) || height < 1) {
@@ -59,13 +61,13 @@ export default class WorldGrid {
 
     this.width = width;
     this.height = height;
-    this.blocked = new Uint8Array(width * height);
+    this.#blocked = new Uint8Array(width * height);
 
     for (const point of blocked) {
       if (!isPoint(point) || !this.isInside(point)) {
         throw new TypeError('Blocked tiles must be valid coordinates inside the world.');
       }
-      this.blocked[this.toIndex(point)] = 1;
+      this.#blocked[this.toIndex(point)] = 1;
     }
   }
 
@@ -81,7 +83,7 @@ export default class WorldGrid {
 
   isWalkable(tx, ty) {
     const point = { x: tx, y: ty };
-    return this.isInside(point) && this.blocked[this.toIndex(point)] === 0;
+    return this.isInside(point) && this.#blocked[this.toIndex(point)] === 0;
   }
 
   findPath(start, goal) {
