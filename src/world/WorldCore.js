@@ -22,7 +22,7 @@ function isTile(value) {
 
 function heuristic(a, b) {
   return Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y))
-    + (Math.SQRT2 - 2) * Math.min(Math.abs(a.x - b.x), Math.abs(a.y - b.y));
+    + (Math.SQRT2 - 1) * Math.min(Math.abs(a.x - b.x), Math.abs(a.y - b.y));
 }
 
 export default class WorldCore {
