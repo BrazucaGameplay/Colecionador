@@ -24777,147 +24777,61 @@
     },
     "walk": {
       "bones": {
-        "thigh_l": {
-          "rotate": [
+        "ik_foot_l": {
+          "translate": [
             {
               "time": 0,
-              "value": -22
+              "x": -58,
+              "y": 0
             },
             {
               "time": 0.2,
-              "value": 0
+              "x": 0,
+              "y": 58
             },
             {
               "time": 0.4,
-              "value": 22
+              "x": 58,
+              "y": 0
             },
             {
               "time": 0.6,
-              "value": 0
+              "x": 0,
+              "y": 58
             },
             {
               "time": 0.8,
-              "value": -22
+              "x": -58,
+              "y": 0
             }
           ]
         },
-        "thigh_r": {
-          "rotate": [
+        "ik_foot_r": {
+          "translate": [
             {
               "time": 0,
-              "value": 22
+              "x": 58,
+              "y": 0
             },
             {
               "time": 0.2,
-              "value": 0
+              "x": 0,
+              "y": 58
             },
             {
               "time": 0.4,
-              "value": -22
+              "x": -58,
+              "y": 0
             },
             {
               "time": 0.6,
-              "value": 0
+              "x": 0,
+              "y": 58
             },
             {
               "time": 0.8,
-              "value": 22
-            }
-          ]
-        },
-        "shin_l": {
-          "rotate": [
-            {
-              "time": 0,
-              "value": 8
-            },
-            {
-              "time": 0.2,
-              "value": 2
-            },
-            {
-              "time": 0.4,
-              "value": -18
-            },
-            {
-              "time": 0.6,
-              "value": 2
-            },
-            {
-              "time": 0.8,
-              "value": 8
-            }
-          ]
-        },
-        "shin_r": {
-          "rotate": [
-            {
-              "time": 0,
-              "value": -18
-            },
-            {
-              "time": 0.2,
-              "value": 2
-            },
-            {
-              "time": 0.4,
-              "value": 8
-            },
-            {
-              "time": 0.6,
-              "value": 2
-            },
-            {
-              "time": 0.8,
-              "value": -18
-            }
-          ]
-        },
-        "foot_l": {
-          "rotate": [
-            {
-              "time": 0,
-              "value": -5
-            },
-            {
-              "time": 0.2,
-              "value": 0
-            },
-            {
-              "time": 0.4,
-              "value": 8
-            },
-            {
-              "time": 0.6,
-              "value": 0
-            },
-            {
-              "time": 0.8,
-              "value": -5
-            }
-          ]
-        },
-        "foot_r": {
-          "rotate": [
-            {
-              "time": 0,
-              "value": 8
-            },
-            {
-              "time": 0.2,
-              "value": 0
-            },
-            {
-              "time": 0.4,
-              "value": -5
-            },
-            {
-              "time": 0.6,
-              "value": 0
-            },
-            {
-              "time": 0.8,
-              "value": 8
+              "x": 58,
+              "y": 0
             }
           ]
         }
