@@ -38,7 +38,9 @@ Decisoes ainda NAO definidas e que nao devem ser inventadas:
 - regras, atributos e balanceamento de gameplay.
 
 Os antigos valores de 90 x 120 tiles e viewport 960 x 540 sao referencias
-historicas/provisorias, nao especificacoes finais aprovadas.
+historicas/provisorias, nao especificacoes finais aprovadas. A grade ortogonal
+visivel na cena atual e somente um preview de depuracao configurado em
+prototypePreview; nao e o mapa isometrico final.
 
 ======================================================================
 2. TECNOLOGIA ESCOLHIDA
@@ -190,6 +192,7 @@ CombatConfig e MonsterConfig:
 
 PlayerConfig:
 - velocidade e aceleracao a definir;
+- vida atual e movimentacao de prototipo sao temporarias;
 - dimensoes do corpo de colisao a definir;
 - parametros de animacao e orientacao.
 
