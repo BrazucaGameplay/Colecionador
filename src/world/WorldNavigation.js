@@ -57,6 +57,9 @@ export default class WorldNavigation {
     const key = (c, r) => c + ',' + r;
     const startKey = key(start.col, start.row);
     const endKey = key(end.col, end.row);
+    if (startKey === endKey) {
+      return [{ x: end.col * CELL + CELL / 2, y: end.row * CELL + CELL / 2 }];
+    }
     const open = [{ ...start, g: 0, f: Math.hypot(end.col - start.col, end.row - start.row) }];
     const cameFrom = new Map();
     const costs = new Map([[startKey, 0]]);
