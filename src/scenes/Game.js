@@ -31,6 +31,7 @@ export default class Game extends Phaser.Scene {
     );
 
     this.controls = new InputController(this);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
 
     this.hp = 3;
     this.hpText = this.add.text(16, 16, 'HP ' + this.hp, {
@@ -58,6 +59,11 @@ export default class Game extends Phaser.Scene {
     this.saveManager.save({ score: this.score });
 
     this.time.delayedCall(600, () => this.monster.respawn());
+  }
+
+  shutdown() {
+    this.controls?.destroy();
+    this.controls = null;
   }
 
   update() {
