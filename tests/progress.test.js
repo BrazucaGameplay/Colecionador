@@ -50,12 +50,13 @@ test('ProgressManager loads, snapshots and saves multiple registered sections', 
   assert.equal(loaded.score, 8);
   assert.deepEqual(loaded.player, { level: 3 });
   assert.deepEqual(loaded.inventory, { items: ['rose'] });
-  assert.equal('unregistered' in loaded, false);
+  assert.deepEqual(loaded.unregistered, { ignoredByThisManager: true });
 
   progress.setScore(9);
   assert.equal(progress.save(), true);
   assert.equal(saveManager.getStored().score, 9);
   assert.deepEqual(saveManager.getStored().inventory, { items: ['rose'] });
+  assert.deepEqual(saveManager.getStored().unregistered, { ignoredByThisManager: true });
 });
 
 test('ProgressManager falls back to defaults when a section fails validation', () => {
@@ -81,4 +82,15 @@ test('ProgressManager rejects reserved names, duplicate sections and cyclic valu
   cyclic.self = cyclic;
   assert.equal(progress.setSection('inventory', cyclic), false);
   assert.equal(progress.setScore(-1), false);
+});
+
+test('ProgressManager can register a section after loading and restore preserved data', () => {
+  const progress = new ProgressManager({
+    eventBus: new EventBus(),
+    saveManager: createSaveManager({ score: 0, waifus: { owned: ['slime'] } })
+  });
+
+  progress.load();
+  progress.registerSection('waifus', { owned: [] });
+  assert.deepEqual(progress.getSection('waifus'), { owned: ['slime'] });
 });
