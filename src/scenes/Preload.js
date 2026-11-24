@@ -4,6 +4,8 @@ const WORLD_ASSETS = [
   ['island-01', 'assets/world/Islands/island-01.png']
 ];
 
+const NILA_BASE = 'assets/characters/nila/';
+
 export default class Preload extends Phaser.Scene {
   constructor() {
     super('Preload');
@@ -25,27 +27,39 @@ export default class Preload extends Phaser.Scene {
 
     this.load.on('loaderror', (file) => {
       console.error('Falha ao carregar asset final:', file.key, file.src);
-      label.setText('Falha ao carregar recursos do mundo.');
+      label.setText('Falha ao carregar recursos do jogo.');
     });
 
     for (const [key, url] of WORLD_ASSETS) {
       this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261124-3');
     }
+
+    // Rigby loads the Spine JSON, atlas and its page image (NILA.png).
+    this.load.rigby(
+      'nila',
+      import.meta.env.BASE_URL + NILA_BASE + 'NILA.json',
+      import.meta.env.BASE_URL + NILA_BASE + 'NILA.atlas'
+    );
   }
 
   create() {
+    // Invisible texture used only by the Arcade Physics body. The visible
+    // player is rendered by the Nila Rigby skeleton.
     const graphics = this.make.graphics({ add: false });
-    graphics.fillStyle(0x38bdf8, 1);
-    graphics.fillCircle(16, 16, 14);
-    graphics.generateTexture('player', 32, 32);
-    graphics.clear();
+    graphics.fillStyle(0xffffff, 0);
+    graphics.fillRect(0, 0, 2, 2);
+    graphics.generateTexture('player', 2, 2);
+    graphics.destroy();
 
-    graphics.fillStyle(0xef4444, 1);
-    graphics.fillCircle(16, 16, 14);
-    graphics.fillStyle(0x000000, 1);
-    graphics.fillCircle(11, 12, 3);
-    graphics.fillCircle(21, 12, 3);
-    graphics.generateTexture('monster', 32, 32);
+    const monsterGraphics = this.make.graphics({ add: false });
+    monsterGraphics.fillStyle(0xef4444, 1);
+    monsterGraphics.fillCircle(16, 16, 14);
+    monsterGraphics.fillStyle(0x000000, 1);
+    monsterGraphics.fillCircle(11, 12, 3);
+    monsterGraphics.fillCircle(21, 12, 3);
+    monsterGraphics.generateTexture('monster', 32, 32);
+    monsterGraphics.destroy();
+
     this.scene.start('Menu');
   }
 }

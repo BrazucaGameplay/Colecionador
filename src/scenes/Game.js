@@ -240,6 +240,7 @@ export default class Game extends Phaser.Scene {
       vy /= length;
     }
     this.player.move(vx, vy);
+    this.player.update();
     this.monster.update(this.time.now);
     const monsterNextX = this.monster.sprite.x + this.monster.sprite.body.velocity.x * step;
     const monsterNextY = this.monster.sprite.y + this.monster.sprite.body.velocity.y * step;
