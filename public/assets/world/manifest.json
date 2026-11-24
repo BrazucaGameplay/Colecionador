@@ -1,0 +1,17 @@
+{
+  "name": "Conquistador de Waifus - World Starter Assets",
+  "version": 1,
+  "format": "SVG",
+  "coordinateSystem": "isometric",
+  "assets": {
+    "terrain.grass": "/assets/world/terrain/grass-tile.svg",
+    "vegetation.treeCanopy": "/assets/world/vegetation/tree-canopy.svg",
+    "props.groundAtlas": "/assets/world/vegetation/ground-props.svg"
+  },
+  "notes": [
+    "Original vector starter assets created for this project.",
+    "Terrain tile is a standalone diamond tile with transparent canvas outside the art.",
+    "Tree and prop atlas have transparent backgrounds and can be loaded as Phaser textures.",
+    "The ground-props atlas is a visual atlas; individual frame rectangles should be defined before using it as a Phaser spritesheet."
+  ]
+}
