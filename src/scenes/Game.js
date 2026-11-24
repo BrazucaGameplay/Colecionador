@@ -6,8 +6,6 @@ import { SAVE_KEY } from '../config.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.65, max: 2.25, initial: 1 });
 const TAP_MOVE_THRESHOLD = 12;
-const TILE_WIDTH = 128;
-const TILE_HEIGHT = 64;
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -23,8 +21,8 @@ export default class Game extends Phaser.Scene {
   create() {
     const viewWidth = this.scale.width;
     const viewHeight = this.scale.height;
-    this.worldWidth = Math.max(1280, Math.ceil((viewWidth * 2) / TILE_WIDTH) * TILE_WIDTH);
-    this.worldHeight = Math.max(960, Math.ceil((viewHeight * 2) / TILE_HEIGHT) * TILE_HEIGHT);
+    this.worldWidth = 2560;
+    this.worldHeight = 1100;
     const centerX = this.worldWidth / 2;
     const centerY = this.worldHeight / 2;
 
@@ -76,90 +74,31 @@ export default class Game extends Phaser.Scene {
   }
 
   createGround() {
-    if (!this.textures.exists('world-grass')) {
-      console.error('Textura world-grass ausente; confira o carregamento em Preload.');
-      return;
-    }
-
-    // Malha isométrica: losangos 128x64, com passo vertical de 32px
-    // e deslocamento alternado de 64px. A textura escolhida por célula
-    // compõe o chão sem faixas sobrepostas ou peças espaçadas.
-    const rowStep = TILE_HEIGHT / 2;
-    const rows = Math.ceil(this.worldHeight / rowStep) + 3;
-    const columns = Math.ceil(this.worldWidth / TILE_WIDTH) + 3;
-    const roadRow = Math.floor((this.worldHeight / 2 + 160) / rowStep);
-    const waterCenterRow = Math.floor((this.worldHeight / 2 - 210) / rowStep);
-    const waterCenterColumn = Math.floor((this.worldWidth / 2 + 310) / TILE_WIDTH);
-
-    this.terrainCells = new Map();
-    for (let row = -1; row < rows; row++) {
-      for (let column = -1; column < columns; column++) {
-        const x = column * TILE_WIDTH + ((row & 1) ? TILE_WIDTH / 2 : 0);
-        const y = row * rowStep;
-        const roadCurve = Math.round((row - roadRow) * 0.20);
-        const onRoad = Math.abs(column - Math.floor(columns / 2) - roadCurve) <= 1;
-        const waterDx = column - waterCenterColumn;
-        const waterDy = row - waterCenterRow;
-        const inPond = (waterDx * waterDx) / 7 + (waterDy * waterDy) / 19 <= 1;
-
-        let texture = 'world-grass';
-        if (onRoad && this.textures.exists('world-path')) texture = 'world-path';
-        if (inPond && this.textures.exists('world-water')) texture = 'world-water';
-
-        const tile = this.add.image(x, y, texture)
-          .setDisplaySize(TILE_WIDTH, TILE_HEIGHT)
-          .setOrigin(0.5, 0.5)
-          .setDepth(-1000 + y * 0.0001);
-        this.groundTiles.push(tile);
-        this.terrainCells.set(row + ':' + column, { row, column, x, y, texture });
-        if (texture === 'world-water') this.navigation.addObstacle(x, y, 48, 24);
-      }
-    }
-
-    // A margem de areia acompanha a borda inferior da lagoa e conecta
-    // visualmente a água ao gramado sem transformar a margem em obstáculo.
-    if (this.textures.exists('world-shore')) {
-      const shoreCells = [
-        [waterCenterRow + 3, waterCenterColumn - 2],
-        [waterCenterRow + 4, waterCenterColumn - 1],
-        [waterCenterRow + 4, waterCenterColumn],
-        [waterCenterRow + 3, waterCenterColumn + 1]
-      ];
-      for (const [row, column] of shoreCells) {
-        const cell = this.terrainCells.get(row + ':' + column);
-        if (!cell) continue;
-        const shore = this.add.image(cell.x, cell.y, 'world-shore')
-          .setDisplaySize(TILE_WIDTH, TILE_HEIGHT)
-          .setOrigin(0.5, 0.5)
-          .setDepth(-999 + cell.y * 0.0001);
-        this.groundTiles.push(shore);
-      }
-    }
+    const first = this.add.image(this.worldWidth * 0.255, this.worldHeight / 2, 'terrain-clearing-1')
+      .setOrigin(0.5, 0.5)
+      .setDepth(-1000);
+    const second = this.add.image(this.worldWidth * 0.745, this.worldHeight / 2, 'terrain-clearing-2')
+      .setOrigin(0.5, 0.5)
+      .setDepth(-999);
+    this.groundTiles.push(first, second);
   }
 
   createWorldDecorations(centerX, centerY) {
-    const addProp = (key, x, y, width, depthOffset = 0) => {
+    const addTree = (key, x, y, displayWidth) => {
       if (!this.textures.exists(key)) return null;
-      const image = this.add.image(x, y, key);
-      image.setDisplaySize(width, width * (image.height / image.width));
-      image.setOrigin(0.5, 0.88);
-      image.setDepth(y + depthOffset);
-      this.worldObjects.push(image);
-      if (key === 'world-tree' || key === 'world-rocks') {
-        const baseY = y - width * 0.10;
-        this.navigation.addObstacle(x, baseY, width * (key === 'world-tree' ? 0.20 : 0.30), width * 0.13);
-      }
-      return image;
+      const tree = this.add.image(x, y, key);
+      tree.setDisplaySize(displayWidth, displayWidth * (tree.height / tree.width));
+      tree.setOrigin(0.5, 0.88);
+      tree.setDepth(y);
+      this.worldObjects.push(tree);
+      this.navigation.addObstacle(x, y - displayWidth * 0.08, displayWidth * 0.18, displayWidth * 0.12);
+      return tree;
     };
 
-    addProp('world-tree', centerX - 310, centerY - 210, 190);
-    addProp('world-tree', centerX + 390, centerY + 170, 160);
-    addProp('world-rocks', centerX - 360, centerY + 170, 125);
-    addProp('world-rocks', centerX + 260, centerY - 280, 110);
-    addProp('world-fern', centerX - 210, centerY + 260, 92);
-    addProp('world-fern', centerX + 160, centerY + 250, 82);
-    addProp('world-flowers', centerX - 70, centerY - 250, 115);
-    addProp('world-flowers', centerX + 360, centerY + 10, 100);
+    addTree('tree-large', centerX - 720, centerY - 170, 230);
+    addTree('tree-flowering', centerX - 410, centerY + 230, 205);
+    addTree('tree-large', centerX + 520, centerY - 230, 245);
+    addTree('tree-flowering', centerX + 850, centerY + 205, 210);
   }
 
   onPointerDown(pointer) {
