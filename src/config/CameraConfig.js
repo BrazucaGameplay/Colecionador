@@ -4,9 +4,10 @@ export const CAMERA_CONFIG = Object.freeze({
   allowedRotationDegrees: Object.freeze([0, 90, 180, 270]),
   zoom: Object.freeze({
     initial: 1,
-    min: null,
-    max: null,
-    status: 'pending-visual-validation'
+    min: 0.75,
+    max: 1.5,
+    step: 0.1,
+    status: 'prototype-only'
   }),
   follow: Object.freeze({
     enabled: true,
