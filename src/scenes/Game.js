@@ -90,6 +90,7 @@ export default class Game extends Phaser.Scene {
     this.score = this.progress.load().score;
     this.hud = new HUD(this, { hp: PLAYER_CONFIG.health.initial, score: this.score });
 
+    this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
     this.worldCamera = this.cameras.main;
     this.worldCamera.setBounds(0, 0, worldWidth, worldHeight);
     this.worldCamera.startFollow(
