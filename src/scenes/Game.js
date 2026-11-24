@@ -21,18 +21,19 @@ export default class Game extends Phaser.Scene {
   create() {
     const viewWidth = this.scale.width;
     const viewHeight = this.scale.height;
-    this.worldWidth = 2560;
-    this.worldHeight = 1100;
+    const islandSource = this.textures.get('island-01').getSourceImage();
+    this.worldWidth = islandSource.width;
+    this.worldHeight = islandSource.height;
     const centerX = this.worldWidth / 2;
     const centerY = this.worldHeight / 2;
 
     this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
     this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
     this.createGround();
-    this.createWorldDecorations(centerX, centerY);
+    this.createIslandWalkableMask(islandSource);
 
-    this.player = new Player(this, centerX, centerY + 70);
-    this.monster = new Monster(this, centerX - 180, centerY - 110);
+    this.player = new Player(this, centerX, centerY + 55);
+    this.monster = new Monster(this, centerX - 180, centerY - 105);
     this.physics.add.overlap(this.player.sprite, this.monster.sprite, () => this.hitMonster());
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -74,31 +75,20 @@ export default class Game extends Phaser.Scene {
   }
 
   createGround() {
-    const first = this.add.image(this.worldWidth * 0.255, this.worldHeight / 2, 'terrain-clearing-1')
+    const island = this.add.image(this.worldWidth / 2, this.worldHeight / 2, 'island-01')
       .setOrigin(0.5, 0.5)
       .setDepth(-1000);
-    const second = this.add.image(this.worldWidth * 0.745, this.worldHeight / 2, 'terrain-clearing-2')
-      .setOrigin(0.5, 0.5)
-      .setDepth(-999);
-    this.groundTiles.push(first, second);
+    this.groundTiles.push(island);
   }
 
-  createWorldDecorations(centerX, centerY) {
-    const addTree = (key, x, y, displayWidth) => {
-      if (!this.textures.exists(key)) return null;
-      const tree = this.add.image(x, y, key);
-      tree.setDisplaySize(displayWidth, displayWidth * (tree.height / tree.width));
-      tree.setOrigin(0.5, 0.88);
-      tree.setDepth(y);
-      this.worldObjects.push(tree);
-      this.navigation.addObstacle(x, y - displayWidth * 0.08, displayWidth * 0.18, displayWidth * 0.12);
-      return tree;
-    };
-
-    addTree('tree-large', centerX - 720, centerY - 170, 230);
-    addTree('tree-flowering', centerX - 410, centerY + 230, 205);
-    addTree('tree-large', centerX + 520, centerY - 230, 245);
-    addTree('tree-flowering', centerX + 850, centerY + 205, 210);
+  createIslandWalkableMask(source) {
+    const canvas = document.createElement('canvas');
+    canvas.width = source.width;
+    canvas.height = source.height;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    context.drawImage(source, 0, 0);
+    const pixels = context.getImageData(0, 0, source.width, source.height).data;
+    this.navigation.setAlphaMask(pixels, source.width, source.height, 150);
   }
 
   onPointerDown(pointer) {
@@ -160,17 +150,17 @@ export default class Game extends Phaser.Scene {
   }
 
   setDestination(x, y) {
-    const bounds = this.physics.world.bounds;
-    const targetX = Phaser.Math.Clamp(x, bounds.x + 12, bounds.right - 12);
-    const targetY = Phaser.Math.Clamp(y, bounds.y + 12, bounds.bottom - 12);
-    this.destination = { x: targetX, y: targetY };
+    const targetX = Phaser.Math.Clamp(x, 0, this.worldWidth);
+    const targetY = Phaser.Math.Clamp(y, 0, this.worldHeight);
     this.route = this.navigation.findPath(this.player.sprite.x, this.player.sprite.y, targetX, targetY);
     if (!this.route.length) {
       this.destination = null;
       this.destinationMarker.setVisible(false);
       return;
     }
-    this.destinationMarker.setPosition(targetX, targetY).setVisible(true);
+    const last = this.route[this.route.length - 1];
+    this.destination = { x: last.x, y: last.y };
+    this.destinationMarker.setPosition(last.x, last.y).setVisible(true);
   }
 
   hitMonster() {
