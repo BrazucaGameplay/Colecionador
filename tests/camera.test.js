@@ -11,8 +11,7 @@ function createCamera() {
     rotation: 0,
     zoom: 1,
     rotateTo(...args) { this.rotations.push(args); this.rotation = args[0]; },
-    setZoom(value) { this.zooms.push(value); this.zoom = value; },
-    setZoom(value) { this.zooms.push(value); }
+    setZoom(value) { this.zooms.push(value); this.zoom = value; }
   };
 }
 
