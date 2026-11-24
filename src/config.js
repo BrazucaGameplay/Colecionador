@@ -10,3 +10,5 @@ export { CAMERA_CONFIG } from './config/CameraConfig.js';
 export { PLAYER_CONFIG } from './config/PlayerConfig.js';
 export { INPUT_CONFIG } from './config/InputConfig.js';
 export { RENDER_CONFIG } from './config/RenderConfig.js';
+export { COMBAT_CONFIG } from './config/CombatConfig.js';
+export { MONSTER_CONFIG } from './config/MonsterConfig.js';
