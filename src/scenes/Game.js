@@ -17,6 +17,10 @@ import { MONSTER_CONFIG } from '../config/MonsterConfig.js';
 import { CAMERA_CONFIG } from '../config/CameraConfig.js';
 import { PLAYER_CONFIG } from '../config/PlayerConfig.js';
 import { WORLD_CONFIG } from '../config/WorldConfig.js';
+import WorldManager from '../world/WorldManager.js';
+import DepthSortingSystem from '../world/DepthSortingSystem.js';
+import WorldEntitySyncSystem from '../systems/WorldEntitySyncSystem.js';
+import { tileToWorld } from '../world/IsometricProjection.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -26,19 +30,35 @@ export default class Game extends Phaser.Scene {
   create() {
     const worldObjects = [];
     const preview = WORLD_CONFIG.prototypePreview;
-    const cellSize = preview.cellSize;
+    const metrics = {
+      tileWidth: preview.tileWidth,
+      tileHeight: preview.tileHeight,
+      originX: preview.originX,
+      originY: preview.originY
+    };
+    const worldWidth = ((preview.columns + preview.rows - 2) * preview.tileWidth / 2)
+      + preview.tileWidth;
+    const worldHeight = ((preview.columns + preview.rows - 2) * preview.tileHeight / 2)
+      + preview.tileHeight;
 
-    // Grade ortogonal temporaria para depuracao; nao representa o mapa final isometrico.
+    this.worldManager = new WorldManager({
+      scene: this,
+      width: preview.columns,
+      height: preview.rows,
+      playerBodyTile: preview.playerSpawnTile,
+      tileWidth: metrics.tileWidth,
+      tileHeight: metrics.tileHeight,
+      originX: metrics.originX,
+      originY: metrics.originY
+    });
+
+    const mapTiles = [];
     for (let y = 0; y < preview.rows; y++) {
       for (let x = 0; x < preview.columns; x++) {
-        if ((x + y) % 7 === 0) {
-          worldObjects.push(
-            this.add.image(x * cellSize + cellSize / 2, y * cellSize + cellSize / 2, 'tile').setAlpha(0.25)
-          );
-        }
+        mapTiles.push({ x, y, texture: 'tile' });
       }
     }
-
+    worldObjects.push(...this.worldManager.render(mapTiles));
     this.saveManager = new SaveManager();
     this.eventBus = new EventBus();
     this.progress = new ProgressManager({
@@ -47,10 +67,12 @@ export default class Game extends Phaser.Scene {
     });
     this.combat = new CombatSystem(COMBAT_CONFIG.prototype);
 
-    this.player = new Player(this, preview.playerSpawn.x, preview.playerSpawn.y);
-    this.monsters = preview.monsterSpawns.map(spawn => (
-      new Monster(this, spawn.x, spawn.y, MONSTER_CONFIG.prototype)
-    ));
+    const playerSpawn = tileToWorld(preview.playerSpawnTile, metrics);
+    this.player = new Player(this, playerSpawn.x, playerSpawn.y);
+    this.monsters = preview.monsterSpawnTiles.map(tile => {
+      const spawn = tileToWorld(tile, metrics);
+      return new Monster(this, spawn.x, spawn.y, MONSTER_CONFIG.prototype);
+    });
     worldObjects.push(this.player.sprite, ...this.monsters.map(monster => monster.sprite));
 
     for (const monster of this.monsters) {
@@ -69,7 +91,7 @@ export default class Game extends Phaser.Scene {
     this.hud = new HUD(this, { hp: PLAYER_CONFIG.health.initial, score: this.score });
 
     this.worldCamera = this.cameras.main;
-    this.worldCamera.setBounds(0, 0, preview.columns * cellSize, preview.rows * cellSize);
+    this.worldCamera.setBounds(0, 0, worldWidth, worldHeight);
     this.worldCamera.startFollow(
       this.player.sprite,
       true,
@@ -92,6 +114,14 @@ export default class Game extends Phaser.Scene {
       cameraController: this.cameraController
     });
     this.cameraControls = new CameraControls(this, this.cameraController);
+    this.depthSorting = new DepthSortingSystem();
+    this.worldSync = new WorldEntitySyncSystem({
+      player: this.player,
+      monsters: this.monsters,
+      worldManager: this.worldManager,
+      metrics,
+      depthSorting: this.depthSorting
+    });
 
     this.worldLayer = this.add.group(worldObjects);
     this.uiLayer = this.add.group([
@@ -126,6 +156,10 @@ export default class Game extends Phaser.Scene {
     this.movement = null;
     this.monsterBehavior?.destroy();
     this.monsterBehavior = null;
+    this.worldSync?.destroy();
+    this.worldSync = null;
+    this.worldManager?.destroy();
+    this.worldManager = null;
     this.cameraControls?.destroy();
     this.cameraControls = null;
     this.hud?.destroy();
@@ -139,5 +173,6 @@ export default class Game extends Phaser.Scene {
   update() {
     this.movement.update();
     this.monsterBehavior.update(this.time.now);
+    this.worldSync.update();
   }
 }
