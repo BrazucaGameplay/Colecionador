@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Player from '../entities/Player.js';
 import Monster from '../entities/Monster.js';
+import WorldNavigation from '../world/WorldNavigation.js';
 import { SAVE_KEY } from '../config.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.65, max: 2.25, initial: 1 });
@@ -16,6 +17,7 @@ export default class Game extends Phaser.Scene {
     this.gesture = null;
     this.worldObjects = [];
     this.groundTiles = [];
+    this.route = [];
   }
 
   create() {
@@ -27,6 +29,7 @@ export default class Game extends Phaser.Scene {
     const centerY = this.worldHeight / 2;
 
     this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
+    this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
     this.createGround();
     this.createWorldDecorations(centerX, centerY);
 
@@ -141,6 +144,10 @@ export default class Game extends Phaser.Scene {
       image.setOrigin(0.5, 0.88);
       image.setDepth(y + depthOffset);
       this.worldObjects.push(image);
+      if (key === 'world-tree' || key === 'world-rocks') {
+        const baseY = y - width * 0.10;
+        this.navigation.addObstacle(x, baseY, width * (key === 'world-tree' ? 0.20 : 0.30), width * 0.13);
+      }
       return image;
     };
 
@@ -219,6 +226,12 @@ export default class Game extends Phaser.Scene {
     const targetX = Phaser.Math.Clamp(x, bounds.x + 12, bounds.right - 12);
     const targetY = Phaser.Math.Clamp(y, bounds.y + 12, bounds.bottom - 12);
     this.destination = { x: targetX, y: targetY };
+    this.route = this.navigation.findPath(this.player.sprite.x, this.player.sprite.y, targetX, targetY);
+    if (!this.route.length) {
+      this.destination = null;
+      this.destinationMarker.setVisible(false);
+      return;
+    }
     this.destinationMarker.setPosition(targetX, targetY).setVisible(true);
   }
 
@@ -248,14 +261,19 @@ export default class Game extends Phaser.Scene {
 
     if (vx !== 0 || vy !== 0) {
       this.destination = null;
+      this.route.length = 0;
       this.destinationMarker.setVisible(false);
-    } else if (this.destination) {
-      const dx = this.destination.x - this.player.sprite.x;
-      const dy = this.destination.y - this.player.sprite.y;
+    } else if (this.destination && this.route.length) {
+      const waypoint = this.route[0];
+      const dx = waypoint.x - this.player.sprite.x;
+      const dy = waypoint.y - this.player.sprite.y;
       const distance = Math.hypot(dx, dy);
-      if (distance <= 7) {
-        this.destination = null;
-        this.destinationMarker.setVisible(false);
+      if (distance <= 10) {
+        this.route.shift();
+        if (!this.route.length) {
+          this.destination = null;
+          this.destinationMarker.setVisible(false);
+        }
       } else {
         vx = dx / distance;
         vy = dy / distance;
@@ -276,6 +294,7 @@ export default class Game extends Phaser.Scene {
     this.input.off('pointerupoutside', this.onPointerUp, this);
     this.pointers.clear();
     this.destination = null;
+    this.route.length = 0;
     this.worldObjects.length = 0;
     this.groundTiles.length = 0;
   }
