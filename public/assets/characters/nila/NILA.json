@@ -589,16 +589,6 @@
     },
     {
       "type": "ik",
-      "name": "ik_foot_l",
-      "target": "ik_foot_l",
-      "bones": [
-        "thigh_l",
-        "shin_l"
-      ],
-      "bendPositive": false
-    },
-    {
-      "type": "ik",
       "name": "ik_hand_r",
       "target": "ik_hand_r",
       "bones": [
@@ -607,15 +597,6 @@
       ],
       "mix": 0,
       "bendPositive": false
-    },
-    {
-      "type": "ik",
-      "name": "ik_foot_r",
-      "target": "ik_foot_r",
-      "bones": [
-        "thigh_r",
-        "shin_r"
-      ]
     },
     {
       "type": "physics",
@@ -24666,7 +24647,152 @@
       }
     },
     "walk": {
-      "bones": {},
+      "bones": {
+        "thigh_l": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": -22
+            },
+            {
+              "time": 0.2,
+              "value": 0
+            },
+            {
+              "time": 0.4,
+              "value": 22
+            },
+            {
+              "time": 0.6,
+              "value": 0
+            },
+            {
+              "time": 0.8,
+              "value": -22
+            }
+          ]
+        },
+        "thigh_r": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": 22
+            },
+            {
+              "time": 0.2,
+              "value": 0
+            },
+            {
+              "time": 0.4,
+              "value": -22
+            },
+            {
+              "time": 0.6,
+              "value": 0
+            },
+            {
+              "time": 0.8,
+              "value": 22
+            }
+          ]
+        },
+        "shin_l": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": 8
+            },
+            {
+              "time": 0.2,
+              "value": 2
+            },
+            {
+              "time": 0.4,
+              "value": -18
+            },
+            {
+              "time": 0.6,
+              "value": 2
+            },
+            {
+              "time": 0.8,
+              "value": 8
+            }
+          ]
+        },
+        "shin_r": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": -18
+            },
+            {
+              "time": 0.2,
+              "value": 2
+            },
+            {
+              "time": 0.4,
+              "value": 8
+            },
+            {
+              "time": 0.6,
+              "value": 2
+            },
+            {
+              "time": 0.8,
+              "value": -18
+            }
+          ]
+        },
+        "foot_l": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": -5
+            },
+            {
+              "time": 0.2,
+              "value": 0
+            },
+            {
+              "time": 0.4,
+              "value": 8
+            },
+            {
+              "time": 0.6,
+              "value": 0
+            },
+            {
+              "time": 0.8,
+              "value": -5
+            }
+          ]
+        },
+        "foot_r": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": 8
+            },
+            {
+              "time": 0.2,
+              "value": 0
+            },
+            {
+              "time": 0.4,
+              "value": -5
+            },
+            {
+              "time": 0.6,
+              "value": 0
+            },
+            {
+              "time": 0.8,
+              "value": 8
+            }
+          ]
+        }
+      },
       "slots": {}
     }
   }
