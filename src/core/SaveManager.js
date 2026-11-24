@@ -5,9 +5,19 @@ const DEFAULT_SAVE = Object.freeze({
   at: null
 });
 
+function resolveStorage(storage) {
+  if (storage !== undefined) return storage;
+
+  try {
+    return globalThis.localStorage ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export default class SaveManager {
-  constructor({ storage = globalThis.localStorage, key = SAVE_KEY } = {}) {
-    this.storage = storage;
+  constructor({ storage, key = SAVE_KEY } = {}) {
+    this.storage = resolveStorage(storage);
     this.key = key;
   }
 
