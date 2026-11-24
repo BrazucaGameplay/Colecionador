@@ -73,23 +73,39 @@ export default class Game extends Phaser.Scene {
   }
 
   createGround() {
-    // The ground is now composed from the authored grass texture, not debug
-    // diamonds drawn by Graphics. Staggered rows form a continuous isometric field.
+    // Tilemap visual composto com o asset original de grama.
     if (!this.textures.exists('world-grass')) {
       console.error('Textura world-grass ausente; confira o carregamento em Preload.');
       return;
     }
 
-    const rows = Math.ceil(this.worldHeight / TILE_HEIGHT) + 2;
-    const columns = Math.ceil(this.worldWidth / TILE_WIDTH) + 2;
+    // Um tile isométrico 2:1 ocupa 128x64. As fileiras avançam 32px
+    // e alternam 64px horizontalmente para preencher os losangos sem lacunas.
+    const rowStep = TILE_HEIGHT / 2;
+    const rows = Math.ceil(this.worldHeight / rowStep) + 3;
+    const columns = Math.ceil(this.worldWidth / TILE_WIDTH) + 3;
     for (let row = -1; row < rows; row++) {
       for (let column = -1; column < columns; column++) {
         const x = column * TILE_WIDTH + ((row & 1) ? TILE_WIDTH / 2 : 0);
-        const y = row * TILE_HEIGHT + TILE_HEIGHT / 2;
+        const y = row * rowStep;
         const tile = this.add.image(x, y, 'world-grass')
           .setDisplaySize(TILE_WIDTH, TILE_HEIGHT)
+          .setOrigin(0.5, 0.5)
           .setDepth(-1000);
         this.groundTiles.push(tile);
+      }
+    }
+
+    // Caminho principal: sequência de peças do asset de terra, mantendo
+    // a faixa central livre para circulação e combate.
+    if (this.textures.exists('world-path')) {
+      const pathCount = Math.ceil(this.worldWidth / 150);
+      const pathY = this.worldHeight / 2 + 245;
+      for (let i = 0; i < pathCount; i++) {
+        const pathTile = this.add.image(70 + i * 150, pathY, 'world-path')
+          .setDisplaySize(150, 94)
+          .setDepth(-900);
+        this.groundTiles.push(pathTile);
       }
     }
   }
