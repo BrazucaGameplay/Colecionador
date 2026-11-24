@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 export default class TouchControls {
   constructor(scene) {
       this.vector = { x: 0, y: 0 };
