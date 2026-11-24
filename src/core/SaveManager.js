@@ -21,12 +21,24 @@ function isRecord(value) {
 }
 
 function sanitizeSave(data) {
-  return {
-    score: Number.isSafeInteger(data?.score) && data.score >= 0
-      ? data.score
-      : DEFAULT_SAVE.score,
-    at: Number.isFinite(data?.at) ? data.at : null
-  };
+  if (!isRecord(data)) return null;
+
+  try {
+    const serialized = JSON.stringify(data);
+    if (typeof serialized !== 'string') return null;
+    const snapshot = JSON.parse(serialized);
+    if (!isRecord(snapshot)) return null;
+
+    // Preserve domain sections (player, inventory, waifus, world, settings, etc.)
+    // while keeping the original score/timestamp contract compatible.
+    snapshot.score = Number.isSafeInteger(snapshot.score) && snapshot.score >= 0
+      ? snapshot.score
+      : DEFAULT_SAVE.score;
+    snapshot.at = Number.isFinite(snapshot.at) ? snapshot.at : null;
+    return snapshot;
+  } catch {
+    return null;
+  }
 }
 
 export default class SaveManager {
@@ -50,19 +62,22 @@ export default class SaveManager {
       if (!isRecord(parsed)) return { ...DEFAULT_SAVE };
 
       if (parsed.version === this.version && isRecord(parsed.data)) {
-        return sanitizeSave({
+        const loaded = sanitizeSave({
           ...parsed.data,
           at: parsed.savedAt
         });
+        return loaded ?? { ...DEFAULT_SAVE };
       }
 
       // Legacy format: { score, at }. Preserve its data while upgrading storage.
       if (parsed.version === undefined && ('score' in parsed || 'at' in parsed)) {
         const migrated = sanitizeSave(parsed);
+        if (!migrated) return { ...DEFAULT_SAVE };
         this.writeEnvelope(migrated, migrated.at);
         return migrated;
       }
 
+      // Never overwrite a save created by a newer version of the game.
       return { ...DEFAULT_SAVE };
     } catch (error) {
       console.warn('[SaveManager] Não foi possível carregar o salvamento.', error);
@@ -71,18 +86,22 @@ export default class SaveManager {
   }
 
   save(data) {
-    return this.writeEnvelope(sanitizeSave(data));
+    const snapshot = sanitizeSave(data);
+    if (!snapshot) return false;
+    return this.writeEnvelope(snapshot, snapshot.at);
   }
 
   writeEnvelope(data, savedAt = Date.now()) {
-    if (!this.storage) return false;
+    if (!this.storage || !isRecord(data)) return false;
 
+    const snapshot = sanitizeSave(data);
+    if (!snapshot) return false;
+
+    const { at, ...persistedData } = snapshot;
     const payload = {
       version: this.version,
-      savedAt: Number.isFinite(savedAt) ? savedAt : Date.now(),
-      data: {
-        score: data.score
-      }
+      savedAt: Number.isFinite(savedAt) ? savedAt : (at ?? Date.now()),
+      data: persistedData
     };
 
     try {
