@@ -2,8 +2,8 @@ import TouchControls from './touch.js';
 import { cameraRelativeVector } from './CameraRelativeInput.js';
 
 export default class InputController {
-  constructor(scene, { uiCamera = null, worldCamera = null } = {}) {
-    this.touch = new TouchControls(scene, { uiCamera, worldCamera });
+  constructor(scene, { worldCamera = null } = {}) {
+    this.touch = new TouchControls(scene, { worldCamera });
     this.cursors = scene.input.keyboard.createCursorKeys();
     this.wasd = scene.input.keyboard.addKeys('W,A,S,D');
     this.destroyed = false;
