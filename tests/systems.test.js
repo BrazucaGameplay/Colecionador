@@ -261,7 +261,7 @@ test('WorldGrid reports walkability without exposing its collision storage', () 
   assert.equal(world.isWalkable(1, 1), false);
   assert.equal(world.isWalkable(-1, 0), false);
   assert.equal(world.isWalkable(4, 0), false);
-  assert.equal('blocked' in world, true);
+  assert.equal('blocked' in world, false);
   assert.equal(world.blocked, undefined);
 });
 
