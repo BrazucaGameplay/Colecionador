@@ -253,3 +253,38 @@ test('WorldCore pathfinding scales across the configured 90 by 120 grid', () => 
   assert.deepEqual(path.at(-1), { x: 89, y: 119 });
   assert.ok(path.length > 0);
 });
+
+test('SaveManager preserves modular game sections in the versioned envelope', () => {
+  const storage = createStorage();
+  const manager = new SaveManager({ storage });
+  const snapshot = {
+    score: 9,
+    player: { level: 4, experience: 125 },
+    inventory: { items: [{ id: 'rose', quantity: 2 }] },
+    waifus: { owned: ['slime'], equipped: ['slime'] },
+    world: { region: 'starter' }
+  };
+
+  assert.equal(manager.save(snapshot), true);
+  const envelope = JSON.parse(storage.getItem('colecionador-save-v1'));
+  assert.deepEqual(envelope.data, snapshot);
+  const loaded = manager.load();
+
+  assert.equal(loaded.score, 9);
+  assert.deepEqual(loaded.player, snapshot.player);
+  assert.deepEqual(loaded.inventory, snapshot.inventory);
+  assert.deepEqual(loaded.waifus, snapshot.waifus);
+  assert.deepEqual(loaded.world, snapshot.world);
+});
+
+test('SaveManager rejects cyclic snapshots without changing stored data', () => {
+  const storage = createStorage({
+    'colecionador-save-v1': JSON.stringify({ version: 2, savedAt: 123, data: { score: 6 } })
+  });
+  const manager = new SaveManager({ storage });
+  const cyclic = { score: 10 };
+  cyclic.player = cyclic;
+
+  assert.equal(manager.save(cyclic), false);
+  assert.equal(JSON.parse(storage.getItem('colecionador-save-v1')).data.score, 6);
+});
