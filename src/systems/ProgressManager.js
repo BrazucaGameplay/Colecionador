@@ -1,7 +1,3 @@
-function isRecord(value) {
-  return value !== null && typeof value === 'object' && !Array.isArray(value);
-}
-
 const INVALID_JSON = Symbol('invalid-json');
 
 function cloneJson(value) {
