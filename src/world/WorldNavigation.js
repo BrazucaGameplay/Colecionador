@@ -3,6 +3,43 @@ const DIRECTIONS = [
   [1, 0, 1], [-1, 0, 1], [0, 1, 1], [0, -1, 1],
   [1, 1, Math.SQRT2], [1, -1, Math.SQRT2], [-1, 1, Math.SQRT2], [-1, -1, Math.SQRT2]
 ];
+const MAX_SEARCH_NODES = 12000;
+
+class MinHeap {
+  constructor() { this.items = []; }
+  get size() { return this.items.length; }
+  push(item) {
+    const a = this.items;
+    a.push(item);
+    let i = a.length - 1;
+    while (i > 0) {
+      const p = (i - 1) >> 1;
+      if (a[p].f <= item.f) break;
+      a[i] = a[p];
+      i = p;
+    }
+    a[i] = item;
+  }
+  pop() {
+    const a = this.items;
+    if (!a.length) return null;
+    const first = a[0];
+    const last = a.pop();
+    if (a.length) {
+      let i = 0;
+      while (true) {
+        let child = i * 2 + 1;
+        if (child >= a.length) break;
+        if (child + 1 < a.length && a[child + 1].f < a[child].f) child++;
+        if (a[child].f >= last.f) break;
+        a[i] = a[child];
+        i = child;
+      }
+      a[i] = last;
+    }
+    return first;
+  }
+}
 
 export default class WorldNavigation {
   constructor(width, height) {
@@ -14,6 +51,7 @@ export default class WorldNavigation {
     this.alphaMask = null;
     this.maskWidth = 0;
     this.maskHeight = 0;
+    this.walkableGrid = null;
   }
 
   setAlphaMask(rgbaPixels, width, height, threshold = 150) {
@@ -23,12 +61,21 @@ export default class WorldNavigation {
     for (let i = 0; i < this.alphaMask.length; i++) {
       this.alphaMask[i] = rgbaPixels[i * 4 + 3] >= threshold ? 1 : 0;
     }
+
+    // Precompute the navigation grid once during scene creation. Previously,
+    // every A* expansion sampled the full-resolution alpha mask repeatedly.
+    this.walkableGrid = new Uint8Array(this.cols * this.rows);
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.cols; col++) {
+        const x = col * CELL + CELL / 2;
+        const y = row * CELL + CELL / 2;
+        this.walkableGrid[row * this.cols + col] = this.isInsideIsland(x, y) ? 1 : 0;
+      }
+    }
   }
 
   isInsideIsland(x, y) {
     if (!this.alphaMask) return true;
-    // Keep a small safety margin inside the opaque silhouette so characters
-    // do not stand on the visual cliff edge or overhangs.
     const inset = 14;
     const offsets = [
       [0, 0], [inset, 0], [-inset, 0], [0, inset], [0, -inset],
@@ -55,9 +102,11 @@ export default class WorldNavigation {
 
   isWalkable(col, row) {
     if (col < 0 || row < 0 || col >= this.cols || row >= this.rows) return false;
+    const index = row * this.cols + col;
+    if (this.walkableGrid && this.walkableGrid[index] !== 1) return false;
+    if (!this.walkableGrid && !this.isInsideIsland(col * CELL + CELL / 2, row * CELL + CELL / 2)) return false;
     const x = col * CELL + CELL / 2;
     const y = row * CELL + CELL / 2;
-    if (!this.isInsideIsland(x, y)) return false;
     return !this.blockers.some(b => {
       const dx = (x - b.x) / (b.radiusX + 12);
       const dy = (y - b.y) / (b.radiusY + 12);
@@ -97,44 +146,51 @@ export default class WorldNavigation {
     const start = this.nearestWalkable(Math.floor(startX / CELL), Math.floor(startY / CELL));
     const end = this.nearestWalkable(Math.floor(endX / CELL), Math.floor(endY / CELL));
     if (!start || !end) return [];
-    const key = (c, r) => c + ',' + r;
+    const key = (col, row) => row * this.cols + col;
     const startKey = key(start.col, start.row);
     const endKey = key(end.col, end.row);
     if (startKey === endKey) {
       return [{ x: end.col * CELL + CELL / 2, y: end.row * CELL + CELL / 2 }];
     }
-    const open = [{ ...start, g: 0, f: Math.hypot(end.col - start.col, end.row - start.row) }];
+
+    // Binary heap avoids sorting the entire open list on every search step.
+    const open = new MinHeap();
     const cameFrom = new Map();
     const costs = new Map([[startKey, 0]]);
     const closed = new Set();
-    while (open.length) {
-      open.sort((a, b) => a.f - b.f);
-      const current = open.shift();
-      const currentKey = key(current.col, current.row);
-      if (closed.has(currentKey)) continue;
-      if (currentKey === endKey) {
+    open.push({ ...start, key: startKey, g: 0, f: Math.hypot(end.col - start.col, end.row - start.row) });
+    let visited = 0;
+
+    while (open.size && visited < MAX_SEARCH_NODES) {
+      const current = open.pop();
+      if (closed.has(current.key)) continue;
+      if (current.key === endKey) {
         const path = [];
         let cursor = endKey;
         while (cursor !== startKey) {
-          const [col, row] = cursor.split(',').map(Number);
+          const row = Math.floor(cursor / this.cols);
+          const col = cursor - row * this.cols;
           path.unshift({ x: col * CELL + CELL / 2, y: row * CELL + CELL / 2 });
           cursor = cameFrom.get(cursor);
-          if (!cursor) return [];
+          if (cursor === undefined) return [];
         }
         return path;
       }
-      closed.add(currentKey);
+      closed.add(current.key);
+      visited++;
+
       for (const [dx, dy, weight] of DIRECTIONS) {
         const col = current.col + dx;
         const row = current.row + dy;
         if (!this.isWalkable(col, row)) continue;
         if (dx && dy && (!this.isWalkable(current.col + dx, current.row) || !this.isWalkable(current.col, current.row + dy))) continue;
         const nextKey = key(col, row);
+        if (closed.has(nextKey)) continue;
         const cost = current.g + weight;
         if (cost >= (costs.get(nextKey) ?? Infinity)) continue;
         costs.set(nextKey, cost);
-        cameFrom.set(nextKey, currentKey);
-        open.push({ col, row, g: cost, f: cost + Math.hypot(end.col - col, end.row - row) });
+        cameFrom.set(nextKey, current.key);
+        open.push({ col, row, key: nextKey, g: cost, f: cost + Math.hypot(end.col - col, end.row - row) });
       }
     }
     return [];
