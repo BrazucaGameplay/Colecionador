@@ -99,3 +99,28 @@ test('IsometricMapRenderer rejects invalid tile records', () => {
   assert.throws(() => renderer.render([{ x: 0, y: 0 }]), TypeError);
   assert.equal(renderer.objects.length, 0);
 });
+
+import WorldManager from '../src/world/WorldManager.js';
+
+test('WorldManager exposes guarded world APIs and renders only in-bounds visual tiles', () => {
+  const scene = createRenderScene();
+  const world = new WorldManager({
+    scene,
+    width: 4,
+    height: 4,
+    blockedTiles: [{ x: 1, y: 1 }],
+    playerBodyTile: { x: 0, y: 0 },
+    tileWidth: 64,
+    tileHeight: 32
+  });
+
+  assert.equal(world.isWalkable(1, 1), false);
+  assert.deepEqual(world.getPlayerBodyTile(), { x: 0, y: 0 });
+  assert.equal(world.setPlayerBodyTile({ x: 1, y: 1 }), false);
+  assert.equal(world.setPlayerBodyTile({ x: 2, y: 2 }), true);
+  assert.equal(world.render([{ x: 2, y: 1, texture: 'grass' }]).length, 1);
+  assert.throws(() => world.render([{ x: 4, y: 0, texture: 'grass' }]), RangeError);
+
+  world.destroy();
+  assert.equal(scene.images[0].destroyed, true);
+});
