@@ -41,14 +41,18 @@ test('CameraController does not guess zoom limits that remain undefined', () => 
   assert.deepEqual(camera.zooms, []);
 });
 
-test('camera-relative input maps screen direction to world direction', () => {
-  const up = cameraRelativeVector({ x: 1, y: 0 }, 90);
-  assert.ok(Math.abs(up.x) < 1e-10);
-  assert.equal(Math.round(up.y), -1);
+test('camera-relative input rotates screen vector into world coordinates', () => {
+  const down = cameraRelativeVector({ x: 1, y: 0 }, 90);
+  assert.equal(Math.round(down.x), 0);
+  assert.equal(Math.round(down.y), 1);
 
   const left = cameraRelativeVector({ x: 1, y: 0 }, 180);
   assert.equal(Math.round(left.x), -1);
-  assert.ok(Math.abs(left.y) < 1e-10);
+  assert.equal(Math.round(left.y), 0);
+
+  const up = cameraRelativeVector({ x: 1, y: 0 }, 270);
+  assert.equal(Math.round(up.x), 0);
+  assert.equal(Math.round(up.y), -1);
 });
 
 test('camera-relative input rejects invalid vectors and rotations', () => {
