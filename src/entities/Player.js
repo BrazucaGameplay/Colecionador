@@ -26,7 +26,8 @@ export default class Player {
     const len = Math.hypot(vx, vy);
     if (len > 0.001) {
       this.sprite.setVelocity((vx / len) * this.speed, (vy / len) * this.speed);
-      this.setAnimation('walk');
+      // Keep the known-good idle track during movement while isolating the
+      // Rigby walk-transition freeze. Movement itself remains enabled.
       if (vx < 0) this.visual.setFlipX(true);
       else if (vx > 0) this.visual.setFlipX(false);
     } else {
