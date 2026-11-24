@@ -1,14 +1,14 @@
 import Phaser from 'phaser';
 
 const WORLD_ASSETS = [
-  ['world-grass', '/assets/world/terrain/grass-tile.svg'],
-  ['world-path', '/assets/world/terrain/dirt-path.svg'],
-  ['world-water', '/assets/world/terrain/water-tile.svg'],
-  ['world-shore', '/assets/world/terrain/water-shore.svg'],
-  ['world-tree', '/assets/world/vegetation/tree-canopy.svg'],
-  ['world-fern', '/assets/world/vegetation/fern.svg'],
-  ['world-rocks', '/assets/world/vegetation/rock-cluster.svg'],
-  ['world-flowers', '/assets/world/vegetation/flower-patch.svg']
+  ['world-grass', 'assets/world/terrain/grass-tile.svg'],
+  ['world-path', 'assets/world/terrain/dirt-path.svg'],
+  ['world-water', 'assets/world/terrain/water-tile.svg'],
+  ['world-shore', 'assets/world/terrain/water-shore.svg'],
+  ['world-tree', 'assets/world/vegetation/tree-canopy.svg'],
+  ['world-fern', 'assets/world/vegetation/fern.svg'],
+  ['world-rocks', 'assets/world/vegetation/rock-cluster.svg'],
+  ['world-flowers', 'assets/world/vegetation/flower-patch.svg']
 ];
 
 export default class Preload extends Phaser.Scene {
@@ -36,7 +36,7 @@ export default class Preload extends Phaser.Scene {
     });
 
     for (const [key, url] of WORLD_ASSETS) {
-      this.load.image(key, url);
+      this.load.image(key, import.meta.env.BASE_URL + url);
     }
   }
 
