@@ -170,15 +170,19 @@ export default class Game extends Phaser.Scene {
   setDestination(x, y) {
     const targetX = Phaser.Math.Clamp(x, 0, this.worldWidth);
     const targetY = Phaser.Math.Clamp(y, 0, this.worldHeight);
-    this.route = this.navigation.findPath(this.player.sprite.x, this.player.sprite.y, targetX, targetY);
-    if (!this.route.length) {
+    // Temporary direct-target movement: bypass A* entirely while isolating
+    // the first-tap freeze. The walkability checks in update() still prevent
+    // crossing the island boundary.
+    const target = this.navigation.findNearestWalkablePoint(targetX, targetY);
+    if (!target) {
       this.destination = null;
+      this.route.length = 0;
       this.destinationMarker.setVisible(false);
       return;
     }
-    const last = this.route[this.route.length - 1];
-    this.destination = { x: last.x, y: last.y };
-    this.destinationMarker.setPosition(last.x, last.y).setVisible(true);
+    this.route = [target];
+    this.destination = { x: target.x, y: target.y };
+    this.destinationMarker.setPosition(target.x, target.y).setVisible(true);
   }
 
   hitMonster() {
