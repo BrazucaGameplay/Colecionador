@@ -1,17 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="160" viewBox="0 0 256 160">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="128" viewBox="0 0 256 128">
 <defs>
- <linearGradient id="g" x2="0" y2="1"><stop stop-color="#9be84b"/><stop offset=".52" stop-color="#55b92f"/><stop offset="1" stop-color="#287a2c"/></linearGradient>
- <linearGradient id="edge" x2="0" y2="1"><stop stop-color="#568d35"/><stop offset="1" stop-color="#24532c"/></linearGradient>
- <linearGradient id="soil" x2="0" y2="1"><stop stop-color="#a96d3d"/><stop offset="1" stop-color="#633a2a"/></linearGradient>
- <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur stdDeviation="4"/></filter>
+ <linearGradient id="grass" x1="0" y1="0" x2="0.15" y2="1"><stop stop-color="#91d94a"/><stop offset=".48" stop-color="#69bd39"/><stop offset="1" stop-color="#438f32"/></linearGradient>
+ <linearGradient id="light" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d5f78a" stop-opacity=".28"/><stop offset="1" stop-color="#1e6b2b" stop-opacity=".08"/></linearGradient>
+ <clipPath id="tile"><path d="M128 1 255 64 128 127 1 64Z"/></clipPath>
 </defs>
-<ellipse cx="128" cy="105" rx="106" ry="27" fill="#132017" opacity=".22" filter="url(#shadow)"/>
-<path d="M128 17 244 76 128 139 12 76Z" fill="url(#edge)" stroke="#28552c" stroke-width="2"/>
-<path d="M12 76 128 139 128 151 12 88Z" fill="url(#soil)"/>
-<path d="M244 76 128 139 128 151 244 88Z" fill="#70412c"/>
-<path d="M128 8 244 68 128 130 12 68Z" fill="url(#g)" stroke="#4a9a31" stroke-width="2"/>
-<path d="M24 67 128 14 231 67 128 121Z" fill="none" stroke="#c4f56b" stroke-opacity=".32" stroke-width="3"/>
-<g fill="#d5f77a" opacity=".8"><path d="m59 52 4-9 3 9 8 3-8 3-3 8-4-8-7-3Z"/><path d="m177 76 3-7 3 7 7 3-7 3-3 7-3-7-7-3Z"/><path d="m119 39 3-6 3 6 6 2-6 3-3 6-3-6-6-3Z"/></g>
-<g fill="#276f2e"><path d="m44 69 5-12 4 12 8 4-8 4-4 10-5-10-8-4Z"/><path d="m197 58 5-11 4 11 8 4-8 4-4 10-5-10-8-4Z"/><path d="m132 91 4-9 4 9 7 3-7 4-4 8-4-8-7-4Z"/></g>
-<g fill="#fff1c4"><circle cx="83" cy="65" r="2"/><circle cx="169" cy="45" r="2"/><circle cx="145" cy="83" r="1.8"/></g>
+<path d="M128 1 255 64 128 127 1 64Z" fill="url(#grass)" stroke="#397e2e" stroke-width="2"/>
+<g clip-path="url(#tile)">
+ <path d="M128 1 255 64 128 127 1 64Z" fill="url(#light)"/>
+ <g fill="#d6f58a" opacity=".68">
+  <path d="m57 47 3-7 3 7 6 3-6 3-3 7-3-7-6-3Z"/>
+  <path d="m174 70 3-7 3 7 6 3-6 3-3 7-3-7-6-3Z"/>
+  <path d="m119 28 2-5 3 5 5 2-5 2-3 6-2-6-5-2Z"/>
+  <path d="m91 85 2-5 3 5 5 2-5 2-3 6-2-6-5-2Z"/>
+ </g>
+ <g fill="#286f2d" opacity=".68">
+  <path d="m36 67 5-11 4 11 7 4-7 4-4 9-5-9-7-4Z"/>
+  <path d="m203 49 4-9 4 9 7 4-7 4-4 8-4-8-7-4Z"/>
+  <path d="m144 98 4-8 4 8 6 3-6 3-4 7-4-7-6-3Z"/>
+ </g>
+ <g fill="#f5f2c5" opacity=".8"><circle cx="81" cy="63" r="2"/><circle cx="163" cy="39" r="2"/><circle cx="142" cy="78" r="1.7"/><circle cx="105" cy="47" r="1.5"/></g>
+</g>
 </svg>
