@@ -49,9 +49,11 @@ visual da imagem.
 
 ## Limites desta etapa
 
-- O WorldManager e os módulos de projeção/renderização estão preparados,
-  mas ainda não foram ligados ao mapa final da cena.
-- A integração visual depende da definição de dimensões do mundo,
-  métricas dos tiles e assets isométricos.
+- O WorldManager, a projeção e o renderizador estão integrados à cena por
+  meio de um mapa isométrico de depuração.
+- As dimensões 30 × 17 e os tiles 64 × 32 pertencem somente ao preview;
+  não são especificações do mundo final.
+- A substituição do preview depende da definição do mapa, métricas finais
+  dos tiles e assets isométricos.
 - Chunks não são obrigatórios. Só serão introduzidos se escala ou medições
   reais de desempenho justificarem.
