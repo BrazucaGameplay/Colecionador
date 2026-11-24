@@ -94,3 +94,12 @@ test('ProgressManager can register a section after loading and restore preserved
   progress.registerSection('waifus', { owned: [] });
   assert.deepEqual(progress.getSection('waifus'), { owned: ['slime'] });
 });
+
+test('ProgressManager preserves explicit null values in unregistered sections', () => {
+  const saveManager = createSaveManager({ score: 0, optionalFeature: null });
+  const progress = new ProgressManager({ eventBus: new EventBus(), saveManager });
+
+  assert.equal(progress.load().optionalFeature, null);
+  assert.equal(progress.save(), true);
+  assert.equal(saveManager.getStored().optionalFeature, null);
+});
