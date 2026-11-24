@@ -32,3 +32,70 @@ test('isometric projection rejects invalid metrics', () => {
   assert.throws(() => tileToWorld({ x: 0, y: 0 }, { tileWidth: 0, tileHeight: 32 }), TypeError);
   assert.throws(() => worldToTile({ x: 0, y: 0 }, null), TypeError);
 });
+
+import IsometricMapRenderer from '../src/world/IsometricMapRenderer.js';
+import DepthSortingSystem from '../src/world/DepthSortingSystem.js';
+
+function createRenderScene() {
+  const images = [];
+  return {
+    images,
+    add: {
+      image(x, y, texture) {
+        const image = {
+          x, y, texture, destroyed: false,
+          setOrigin() { return this; },
+          setDisplaySize(width, height) { this.width = width; this.height = height; return this; },
+          setDepth(depth) { this.depth = depth; return this; },
+          destroy() { this.destroyed = true; }
+        };
+        images.push(image);
+        return image;
+      }
+    }
+  };
+}
+
+test('IsometricMapRenderer positions and depth-sorts map tiles', () => {
+  const scene = createRenderScene();
+  const renderer = new IsometricMapRenderer(scene, { tileWidth: 64, tileHeight: 32 });
+  const rendered = renderer.render([
+    { x: 1, y: 1, texture: 'grass' },
+    { x: 0, y: 0, texture: 'grass' }
+  ]);
+
+  assert.equal(rendered.length, 2);
+  assert.deepEqual(rendered.map(item => item.texture), ['grass', 'grass']);
+  assert.equal(rendered[0].x, 0);
+  assert.equal(rendered[0].y, 0);
+  assert.equal(rendered[1].x, 0);
+  assert.equal(rendered[1].y, 32);
+  assert.ok(rendered[1].depth > rendered[0].depth);
+});
+
+test('IsometricMapRenderer clears previous objects before rerendering', () => {
+  const scene = createRenderScene();
+  const renderer = new IsometricMapRenderer(scene, { tileWidth: 64, tileHeight: 32 });
+  const first = renderer.render([{ x: 0, y: 0, texture: 'grass' }])[0];
+  renderer.render([{ x: 1, y: 0, texture: 'stone' }]);
+
+  assert.equal(first.destroyed, true);
+  assert.equal(renderer.objects.length, 1);
+  assert.equal(renderer.objects[0].texture, 'stone');
+});
+
+test('DepthSortingSystem applies projected tile depth to entities', () => {
+  const sorter = new DepthSortingSystem();
+  const object = { depth: 0, setDepth(value) { this.depth = value; return this; } };
+
+  assert.equal(sorter.setTileDepth(object, { x: 2, y: 3 }), object);
+  assert.ok(object.depth > 5);
+  sorter.setWorldDepth(object, tileToWorld({ x: 2, y: 3 }, metrics), metrics);
+  assert.ok(Math.abs(object.depth - depthForTile({ x: 2, y: 3 })) < 1e-10);
+});
+
+test('IsometricMapRenderer rejects invalid tile records', () => {
+  const renderer = new IsometricMapRenderer(createRenderScene(), { tileWidth: 64, tileHeight: 32 });
+  assert.throws(() => renderer.render([{ x: 0, y: 0 }]), TypeError);
+  assert.equal(renderer.objects.length, 0);
+});
