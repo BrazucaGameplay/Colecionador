@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import Player from '../entities/Player.js';
 import Monster from '../entities/Monster.js';
-import TouchControls from '../systems/touch.js';
+import InputController from '../systems/InputController.js';
 import CombatSystem from '../systems/CombatSystem.js';
 import SaveManager from '../core/SaveManager.js';
 
@@ -30,9 +30,7 @@ export default class Game extends Phaser.Scene {
       () => this.hitMonster()
     );
 
-    this.touch = new TouchControls(this);
-    this.cursors = this.input.keyboard.createCursorKeys();
-    this.wasd = this.input.keyboard.addKeys('W,A,S,D');
+    this.controls = new InputController(this);
 
     this.hp = 3;
     this.hpText = this.add.text(16, 16, 'HP ' + this.hp, {
@@ -63,16 +61,8 @@ export default class Game extends Phaser.Scene {
   }
 
   update() {
-    const touch = this.touch.vector;
-    let vx = touch.x;
-    let vy = touch.y;
-
-    if (this.cursors.left.isDown || this.wasd.A.isDown) vx = -1;
-    if (this.cursors.right.isDown || this.wasd.D.isDown) vx = 1;
-    if (this.cursors.up.isDown || this.wasd.W.isDown) vy = -1;
-    if (this.cursors.down.isDown || this.wasd.S.isDown) vy = 1;
-
-    this.player.move(vx, vy);
+    const movement = this.controls.getMovementVector();
+    this.player.move(movement.x, movement.y);
     this.monster.update(this.time.now);
   }
 }
