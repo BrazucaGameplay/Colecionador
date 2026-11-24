@@ -239,3 +239,16 @@ test('WorldCore returns no route for invalid or unreachable destinations', () =>
   assert.deepEqual(world.findPath({ x: 0, y: 0 }, { x: 2, y: 2 }), []);
   assert.deepEqual(world.findPath({ x: -1, y: 0 }, { x: 2, y: 2 }), []);
 });
+
+test('WorldCore returns the current tile when start and goal are identical', () => {
+  const world = new WorldCore({ width: 4, height: 4 });
+  assert.deepEqual(world.findPath({ x: 2, y: 2 }, { x: 2, y: 2 }), [{ x: 2, y: 2 }]);
+});
+
+test('WorldCore pathfinding scales across the configured 90 by 120 grid', () => {
+  const world = new WorldCore({ blockedTiles: [{ x: 45, y: 45 }, { x: 45, y: 46 }] });
+  const path = world.findPath({ x: 0, y: 0 }, { x: 89, y: 119 });
+  assert.deepEqual(path[0], { x: 0, y: 0 });
+  assert.deepEqual(path.at(-1), { x: 89, y: 119 });
+  assert.ok(path.length > 0);
+});
