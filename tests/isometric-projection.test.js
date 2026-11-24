@@ -114,6 +114,8 @@ test('WorldManager exposes guarded world APIs and renders only in-bounds visual 
     tileHeight: 32
   });
 
+  assert.equal(world.core, undefined);
+  assert.equal(world.renderer, undefined);
   assert.equal(world.isWalkable(1, 1), false);
   assert.deepEqual(world.getPlayerBodyTile(), { x: 0, y: 0 });
   assert.equal(world.setPlayerBodyTile({ x: 1, y: 1 }), false);
