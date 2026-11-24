@@ -23,7 +23,6 @@ export default class TouchControls {
     scene.input.on('pointercancel', this.onPointerEnd);
 
     this.worldCamera?.ignore([this.base, this.knob]);
-    this.uiCamera?.ignore([]);
   }
 
   handlePointerDown(pointer) {
