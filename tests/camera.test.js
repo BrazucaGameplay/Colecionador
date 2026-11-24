@@ -8,7 +8,8 @@ function createCamera() {
   return {
     rotations: [],
     zooms: [],
-    rotateTo(...args) { this.rotations.push(args); },
+    rotation: 0,
+    rotateTo(...args) { this.rotations.push(args); this.rotation = args[0]; },
     setZoom(value) { this.zooms.push(value); }
   };
 }
@@ -58,4 +59,14 @@ test('camera-relative input rotates screen vector into world coordinates', () =>
 test('camera-relative input rejects invalid vectors and rotations', () => {
   assert.throws(() => cameraRelativeVector(null, 0), TypeError);
   assert.throws(() => cameraRelativeVector({ x: 1, y: 0 }, NaN), TypeError);
+});
+
+test('camera-relative orientation follows the live camera angle during animation', () => {
+  const camera = createCamera();
+  const controller = new CameraController(camera);
+
+  controller.setOrientation(90, 500);
+  camera.rotation = Math.PI / 4;
+  assert.equal(Math.round(controller.orientation), 45);
+  assert.equal(controller.targetOrientation, 90);
 });
