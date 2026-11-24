@@ -8,6 +8,7 @@ import CameraController from '../world/CameraController.js';
 import { GAME_WIDTH, GAME_HEIGHT } from '../config.js';
 import CameraControls from '../ui/CameraControls.js';
 import HUD from '../ui/HUD.js';
+import MovementSystem from '../systems/MovementSystem.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -58,6 +59,11 @@ export default class Game extends Phaser.Scene {
     this.uiCamera.setRotation(0);
 
     this.controls = new InputController(this, { worldCamera: this.worldCamera });
+    this.movement = new MovementSystem({
+      player: this.player,
+      inputController: this.controls,
+      cameraController: this.cameraController
+    });
     this.cameraControls = new CameraControls(this, this.cameraController);
 
     this.worldLayer = this.add.group(worldObjects);
@@ -88,6 +94,8 @@ export default class Game extends Phaser.Scene {
   shutdown() {
     this.controls?.destroy();
     this.controls = null;
+    this.movement?.destroy();
+    this.movement = null;
     this.cameraControls?.destroy();
     this.cameraControls = null;
     this.hud?.destroy();
@@ -96,8 +104,7 @@ export default class Game extends Phaser.Scene {
   }
 
   update() {
-    const movement = this.controls.getMovementVector(this.cameraController.orientation);
-    this.player.move(movement.x, movement.y);
+    this.movement.update();
     this.monster.update(this.time.now);
   }
 }
