@@ -15,6 +15,7 @@ export default class Game extends Phaser.Scene {
     this.destination = null;
     this.gesture = null;
     this.worldObjects = [];
+    this.groundTiles = [];
   }
 
   create() {
@@ -72,38 +73,24 @@ export default class Game extends Phaser.Scene {
   }
 
   createGround() {
-    const graphics = this.add.graphics().setDepth(-1000);
-    graphics.fillStyle(0x477d32, 1);
-    graphics.fillRect(0, 0, this.worldWidth, this.worldHeight);
+    // The ground is now composed from the authored grass texture, not debug
+    // diamonds drawn by Graphics. Staggered rows form a continuous isometric field.
+    if (!this.textures.exists('world-grass')) {
+      console.error('Textura world-grass ausente; confira o carregamento em Preload.');
+      return;
+    }
 
-    const rows = Math.ceil(this.worldHeight / (TILE_HEIGHT / 2)) + 2;
+    const rows = Math.ceil(this.worldHeight / TILE_HEIGHT) + 2;
     const columns = Math.ceil(this.worldWidth / TILE_WIDTH) + 2;
     for (let row = -1; row < rows; row++) {
       for (let column = -1; column < columns; column++) {
         const x = column * TILE_WIDTH + ((row & 1) ? TILE_WIDTH / 2 : 0);
-        const y = row * (TILE_HEIGHT / 2);
-        const shade = ((column * 13 + row * 7) % 5 + 5) % 5;
-        const colors = [0x57943a, 0x5b983d, 0x528d36, 0x609d42, 0x558f38];
-        graphics.fillStyle(colors[shade], 1);
-        graphics.lineStyle(1, 0x3f7c32, 0.22);
-        graphics.beginPath();
-        graphics.moveTo(x, y - TILE_HEIGHT / 2);
-        graphics.lineTo(x + TILE_WIDTH / 2, y);
-        graphics.lineTo(x, y + TILE_HEIGHT / 2);
-        graphics.lineTo(x - TILE_WIDTH / 2, y);
-        graphics.closePath();
-        graphics.fillPath();
-        graphics.strokePath();
+        const y = row * TILE_HEIGHT + TILE_HEIGHT / 2;
+        const tile = this.add.image(x, y, 'world-grass')
+          .setDisplaySize(TILE_WIDTH, TILE_HEIGHT)
+          .setDepth(-1000);
+        this.groundTiles.push(tile);
       }
-    }
-
-    // Small, restrained ground highlights add texture without replacing the
-    // authored transparent props or creating a distracting debug grid.
-    for (let i = 0; i < 240; i++) {
-      const x = Phaser.Math.Between(24, this.worldWidth - 24);
-      const y = Phaser.Math.Between(24, this.worldHeight - 24);
-      graphics.fillStyle(i % 3 === 0 ? 0x9acb58 : 0x315f2d, 0.22);
-      graphics.fillEllipse(x, y, Phaser.Math.Between(2, 5), 2);
     }
   }
 
@@ -118,11 +105,8 @@ export default class Game extends Phaser.Scene {
       return image;
     };
 
-    // Water and shore form a single landmark at the edge of the initial clearing.
     addProp('world-water', centerX + 360, centerY - 180, 190, -2);
     addProp('world-shore', centerX + 300, centerY - 135, 190, -1);
-
-    // A clear central corridor is intentionally preserved for movement and combat.
     addProp('world-tree', centerX - 310, centerY - 210, 190);
     addProp('world-tree', centerX + 390, centerY + 170, 160);
     addProp('world-rocks', centerX - 360, centerY + 170, 125);
@@ -134,21 +118,9 @@ export default class Game extends Phaser.Scene {
   }
 
   onPointerDown(pointer) {
-    this.pointers.set(pointer.id, {
-      x: pointer.x,
-      y: pointer.y,
-      startX: pointer.x,
-      startY: pointer.y,
-      moved: false
-    });
-
+    this.pointers.set(pointer.id, { x: pointer.x, y: pointer.y, startX: pointer.x, startY: pointer.y, moved: false });
     if (this.pointers.size === 1) {
-      this.gesture = {
-        type: 'pending',
-        pointerId: pointer.id,
-        lastX: pointer.x,
-        lastY: pointer.y
-      };
+      this.gesture = { type: 'pending', pointerId: pointer.id, lastX: pointer.x, lastY: pointer.y };
     } else if (this.pointers.size === 2) {
       const points = [...this.pointers.values()];
       this.gesture = {
@@ -191,7 +163,6 @@ export default class Game extends Phaser.Scene {
       const destination = this.camera.getWorldPoint(pointer.x, pointer.y);
       this.setDestination(destination.x, destination.y);
     }
-
     this.pointers.delete(pointer.id);
     if (this.pointers.size === 0) {
       this.gesture = null;
@@ -267,5 +238,6 @@ export default class Game extends Phaser.Scene {
     this.pointers.clear();
     this.destination = null;
     this.worldObjects.length = 0;
+    this.groundTiles.length = 0;
   }
 }
