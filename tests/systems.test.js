@@ -77,6 +77,7 @@ import InputController from '../src/systems/InputController.js';
 
 function createInputScene() {
   const handlers = {};
+  const removed = {};
   const keyboard = {
     createCursorKeys: () => ({
       left: { isDown: false },
@@ -95,16 +96,19 @@ function createInputScene() {
     setScrollFactor() { return this; },
     setVisible() { return this; },
     setDepth() { return this; },
-    setPosition() { return this; }
+    setPosition() { return this; },
+    destroy() { this.destroyed = true; }
   };
 
   return {
     handlers,
+    removed,
     scene: {
       add: { circle: () => ({ ...circle }) },
       input: {
         keyboard,
-        on: (event, callback) => { handlers[event] = callback; }
+        on: (event, callback) => { handlers[event] = callback; },
+        off: (event, callback) => { removed[event] = callback; }
       }
     }
   };
@@ -130,4 +134,17 @@ test('InputController keeps keyboard as an alternative to touch', () => {
   controls.cursors.up.isDown = true;
 
   assert.deepEqual(controls.getMovementVector(), { x: 1, y: -1 });
+});
+
+test('InputController removes touch listeners and destroys joystick on shutdown', () => {
+  const { scene, removed } = createInputScene();
+  const controls = new InputController(scene);
+  const joystickBase = controls.touch.base;
+  const joystickKnob = controls.touch.knob;
+  controls.destroy();
+  controls.destroy();
+  assert.equal(Object.keys(removed).length, 4);
+  assert.equal(joystickBase.destroyed, true);
+  assert.equal(joystickKnob.destroyed, true);
+  assert.deepEqual(controls.getMovementVector(), { x: 0, y: 0 });
 });
