@@ -14,6 +14,9 @@ import ProgressManager from '../systems/ProgressManager.js';
 import MonsterBehaviorSystem from '../systems/MonsterBehaviorSystem.js';
 import { COMBAT_CONFIG } from '../config/CombatConfig.js';
 import { MONSTER_CONFIG } from '../config/MonsterConfig.js';
+import { CAMERA_CONFIG } from '../config/CameraConfig.js';
+import { PLAYER_CONFIG } from '../config/PlayerConfig.js';
+import { WORLD_CONFIG } from '../config/WorldConfig.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -22,13 +25,15 @@ export default class Game extends Phaser.Scene {
 
   create() {
     const worldObjects = [];
+    const preview = WORLD_CONFIG.prototypePreview;
+    const cellSize = preview.cellSize;
 
-    // Conteudo visual temporario do prototipo; sera substituido pelo MapRenderer.
-    for (let y = 0; y < 17; y++) {
-      for (let x = 0; x < 30; x++) {
+    // Grade ortogonal temporaria para depuracao; nao representa o mapa final isometrico.
+    for (let y = 0; y < preview.rows; y++) {
+      for (let x = 0; x < preview.columns; x++) {
         if ((x + y) % 7 === 0) {
           worldObjects.push(
-            this.add.image(x * 32 + 16, y * 32 + 16, 'tile').setAlpha(0.25)
+            this.add.image(x * cellSize + cellSize / 2, y * cellSize + cellSize / 2, 'tile').setAlpha(0.25)
           );
         }
       }
@@ -42,8 +47,10 @@ export default class Game extends Phaser.Scene {
     });
     this.combat = new CombatSystem(COMBAT_CONFIG.prototype);
 
-    this.player = new Player(this, 480, 270);
-    this.monsters = [new Monster(this, 200, 150, MONSTER_CONFIG.prototype)];
+    this.player = new Player(this, preview.playerSpawn.x, preview.playerSpawn.y);
+    this.monsters = preview.monsterSpawns.map(spawn => (
+      new Monster(this, spawn.x, spawn.y, MONSTER_CONFIG.prototype)
+    ));
     worldObjects.push(this.player.sprite, ...this.monsters.map(monster => monster.sprite));
 
     for (const monster of this.monsters) {
@@ -59,11 +66,16 @@ export default class Game extends Phaser.Scene {
     });
 
     this.score = this.progress.load().score;
-    this.hud = new HUD(this, { hp: 3, score: this.score });
+    this.hud = new HUD(this, { hp: PLAYER_CONFIG.health.initial, score: this.score });
 
     this.worldCamera = this.cameras.main;
-    this.worldCamera.setBounds(0, 0, 960, 544);
-    this.worldCamera.startFollow(this.player.sprite, true, 0.1, 0.1);
+    this.worldCamera.setBounds(0, 0, preview.columns * cellSize, preview.rows * cellSize);
+    this.worldCamera.startFollow(
+      this.player.sprite,
+      true,
+      CAMERA_CONFIG.follow.lerpX,
+      CAMERA_CONFIG.follow.lerpY
+    );
     this.cameraController = new CameraController(this.worldCamera);
 
     // A camera secundaria desenha somente a interface, sem herdar a rotacao do mundo.
