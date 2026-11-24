@@ -112,6 +112,7 @@ export default class Game extends Phaser.Scene {
           .setDepth(-1000 + y * 0.0001);
         this.groundTiles.push(tile);
         this.terrainCells.set(row + ':' + column, { row, column, x, y, texture });
+        if (texture === 'world-water') this.navigation.addObstacle(x, y, 48, 24);
       }
     }
 
@@ -151,8 +152,6 @@ export default class Game extends Phaser.Scene {
       return image;
     };
 
-    addProp('world-water', centerX + 360, centerY - 180, 190, -2);
-    addProp('world-shore', centerX + 300, centerY - 135, 190, -1);
     addProp('world-tree', centerX - 310, centerY - 210, 190);
     addProp('world-tree', centerX + 390, centerY + 170, 160);
     addProp('world-rocks', centerX - 360, centerY + 170, 125);
