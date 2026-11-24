@@ -250,7 +250,7 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  update() {
+  update(time, delta = 16.67) {
     let vx = 0;
     let vy = 0;
     if (this.cursors.left.isDown || this.wasd.A.isDown) vx = -1;
@@ -279,8 +279,26 @@ export default class Game extends Phaser.Scene {
       }
     }
 
+    const step = Math.max(0, Math.min(delta, 50)) / 1000;
+    const speed = this.player.speed;
+    const playerX = this.player.sprite.x;
+    const playerY = this.player.sprite.y;
+    const nextX = playerX + vx * speed * step;
+    const nextY = playerY + vy * speed * step;
+    if (!this.navigation.isAreaWalkable(nextX, playerY, 10)) vx = 0;
+    if (!this.navigation.isAreaWalkable(playerX, nextY, 10)) vy = 0;
+    if (vx && vy) {
+      const length = Math.hypot(vx, vy);
+      vx /= length;
+      vy /= length;
+    }
     this.player.move(vx, vy);
     this.monster.update(this.time.now);
+    const monsterNextX = this.monster.sprite.x + this.monster.sprite.body.velocity.x * step;
+    const monsterNextY = this.monster.sprite.y + this.monster.sprite.body.velocity.y * step;
+    if (!this.navigation.isAreaWalkable(monsterNextX, monsterNextY, 12)) {
+      this.monster.sprite.setVelocity(0, 0);
+    }
     this.player.sprite.setDepth(this.player.sprite.y + 20);
     this.monster.sprite.setDepth(this.monster.sprite.y + 20);
     for (const object of this.worldObjects) object.setDepth(object.y);
