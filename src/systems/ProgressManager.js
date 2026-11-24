@@ -29,6 +29,7 @@ export default class ProgressManager {
     this.saveManager = saveManager;
     this.sections = new Map();
     this.values = new Map();
+    this.extraData = new Map();
     this.score = 0;
   }
 
@@ -49,7 +50,13 @@ export default class ProgressManager {
     }
 
     this.sections.set(name, { initialValue: snapshot, validator });
-    this.values.set(name, snapshot);
+    const savedValue = this.extraData.get(name);
+    const restored = savedValue !== undefined
+      && (!validator || validator(savedValue))
+      ? cloneJson(savedValue)
+      : snapshot;
+    this.values.set(name, restored);
+    this.extraData.delete(name);
   }
 
   load() {
@@ -58,6 +65,7 @@ export default class ProgressManager {
       ? saved.score
       : 0;
 
+    this.extraData.clear();
     for (const [name, definition] of this.sections) {
       const candidate = cloneJson(saved[name]);
       const valid = candidate !== null
@@ -66,6 +74,12 @@ export default class ProgressManager {
         name,
         valid ? candidate : cloneJson(definition.initialValue)
       );
+    }
+
+    for (const [name, value] of Object.entries(saved)) {
+      if (name === 'score' || name === 'at' || this.sections.has(name)) continue;
+      const extra = cloneJson(value);
+      if (extra !== null) this.extraData.set(name, extra);
     }
 
     const snapshot = this.getSnapshot();
@@ -107,6 +121,9 @@ export default class ProgressManager {
 
   getSnapshot() {
     const snapshot = { score: this.score };
+    for (const [name, value] of this.extraData) {
+      snapshot[name] = cloneJson(value);
+    }
     for (const [name, value] of this.values) {
       snapshot[name] = cloneJson(value);
     }
