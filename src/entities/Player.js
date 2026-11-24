@@ -3,13 +3,11 @@ export default class Player {
     this.scene = scene;
     this.speed = 220;
 
-    // Arcade body remains responsible for collision and navigation. Its
-    // display is hidden so the Rigby character is the only visible player.
+    // Arcade body handles collision/navigation; Rigby is the visible character.
     this.sprite = scene.physics.add.sprite(x, y, 'player');
     this.sprite.setVisible(false);
     this.sprite.setCollideWorldBounds(true);
     this.sprite.setSize(24, 14);
-    this.sprite.setOffset(-10, 9);
 
     this.visual = scene.add.rigby(x, y, 'nila', 'idle', true);
     this.visual.setScale(0.04);
