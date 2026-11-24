@@ -88,6 +88,8 @@ src/
     PlayerConfig
     InputConfig
     RenderConfig
+    CombatConfig
+    MonsterConfig
   core/
     EventBus
     SaveManager
@@ -108,6 +110,7 @@ src/
   systems/
     Movement
     ProgressManager
+    MonsterBehaviorSystem
     Combat
     Inventory
     Progression
@@ -179,6 +182,11 @@ CameraConfig:
 - limites de zoom a definir;
 - suavizacao e acompanhamento;
 - limites de mundo.
+
+CombatConfig e MonsterConfig:
+- valores atuais de dano, cooldown, vida e comportamento sao apenas
+  parametros de prototipo, centralizados e explicitamente nao aprovados;
+- regras e balanceamento finais serao fornecidos pelo usuario.
 
 PlayerConfig:
 - velocidade e aceleracao a definir;
