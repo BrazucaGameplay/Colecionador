@@ -315,6 +315,20 @@ valido. Nao reescrever sem necessidade demonstrada.
 
 A mesma base de codigo deve atender navegador/PWA e Android via Capacitor.
 
+PWA implementada na fundacao:
+- manifest.webmanifest com modo standalone e orientacao any enquanto a
+  orientacao final nao for definida;
+- service worker com cache de shell, estrategia network-first e fallback
+  offline para navegacao;
+- registro do service worker apenas em build web de producao;
+- icone SVG atual e provisório, a ser substituido quando a identidade visual
+  final do jogo estiver definida.
+
+Vite usa base relativa por padrao para builds locais e Capacitor. O workflow
+GitHub Pages define GITHUB_PAGES=true para gerar caminhos sob /Colecionador/.
+Isso evita que os caminhos absolutos do deploy web quebrem os assets no
+aplicativo Android empacotado.
+
 Requisitos:
 - layout responsivo e orientacao definida apos validacao visual;
 - controles touch com multiplos ponteiros;
