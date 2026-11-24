@@ -63,11 +63,13 @@ export default class Game extends Phaser.Scene {
     this.fitZoom = Math.min(viewWidth / this.worldWidth, viewHeight / this.worldHeight) * CAMERA_ZOOM.fitPadding;
     this.camera.setZoom(Math.max(CAMERA_ZOOM.min, this.fitZoom));
 
-    // Give the camera a small pan margin beyond the island. Without it,
-    // Phaser clamps an axis when the viewport is larger than the map on that
-    // axis, making touch-drag appear to work in only one direction.
-    const panMarginX = Math.max(160, (viewWidth / this.camera.zoom) * 0.25);
-    const panMarginY = Math.max(160, (viewHeight / this.camera.zoom) * 0.25);
+    // Keep at least one full viewport of extra world space on every side.
+    // A smaller margin can still leave the camera bounds shorter than the
+    // viewport on the vertical axis, causing Phaser to clamp vertical panning.
+    const viewportWorldWidth = this.camera.width / this.camera.zoom;
+    const viewportWorldHeight = this.camera.height / this.camera.zoom;
+    const panMarginX = Math.max(160, viewportWorldWidth);
+    const panMarginY = Math.max(160, viewportWorldHeight);
     this.camera.setBounds(
       -panMarginX,
       -panMarginY,
