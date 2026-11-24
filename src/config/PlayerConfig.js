@@ -1,8 +1,11 @@
 export const PLAYER_CONFIG = Object.freeze({
   movement: Object.freeze({
-    // Valor herdado do prototipo; deve ser calibrado com a escala final do mundo.
     speed: 220,
     status: 'provisional'
+  }),
+  health: Object.freeze({
+    initial: 3,
+    status: 'prototype-only'
   }),
   body: Object.freeze({
     width: null,
