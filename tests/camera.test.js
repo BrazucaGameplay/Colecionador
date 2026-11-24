@@ -9,7 +9,9 @@ function createCamera() {
     rotations: [],
     zooms: [],
     rotation: 0,
+    zoom: 1,
     rotateTo(...args) { this.rotations.push(args); this.rotation = args[0]; },
+    setZoom(value) { this.zooms.push(value); this.zoom = value; },
     setZoom(value) { this.zooms.push(value); }
   };
 }
@@ -34,12 +36,15 @@ test('CameraController rejects unsupported orientations and invalid durations', 
   assert.equal(camera.rotations.length, 0);
 });
 
-test('CameraController does not guess zoom limits that remain undefined', () => {
+test('CameraController clamps zoom to the configured prototype range', () => {
   const camera = createCamera();
   const controller = new CameraController(camera, CAMERA_CONFIG);
 
-  assert.equal(controller.setZoom(1.5), false);
-  assert.deepEqual(camera.zooms, []);
+  assert.equal(controller.setZoom(2), true);
+  assert.equal(controller.setZoom(0.1), true);
+  assert.deepEqual(camera.zooms, [1.5, 0.75]);
+  assert.equal(controller.adjustZoom(0.1), true);
+  assert.equal(camera.zoom, 0.85);
 });
 
 test('camera-relative input rotates screen vector into world coordinates', () => {
