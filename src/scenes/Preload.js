@@ -1,10 +1,7 @@
 import Phaser from 'phaser';
 
 const WORLD_ASSETS = [
-  ['terrain-clearing-1', 'assets/world/terrain/terrain-clearing-1.png'],
-  ['terrain-clearing-2', 'assets/world/terrain/terrain-clearing-2.png'],
-  ['tree-flowering', 'assets/world/vegetation/tree-flowering.png'],
-  ['tree-large', 'assets/world/vegetation/tree-large.png']
+  ['island-01', 'assets/world/Islands/island-01.png']
 ];
 
 export default class Preload extends Phaser.Scene {
