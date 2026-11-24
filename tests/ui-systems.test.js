@@ -42,18 +42,25 @@ function createUIScene() {
 test('CameraControls rotate the camera from buttons and keyboard and clean up listeners', () => {
   const scene = createUIScene();
   const calls = [];
-  const camera = { rotateQuarterTurn(direction) { calls.push(direction); } };
+  const camera = {
+    rotateQuarterTurn(direction) { calls.push(direction); },
+    adjustZoom(delta) { calls.push(delta); }
+  };
   const controls = new CameraControls(scene, camera);
 
-  assert.equal(controls.objects.length, 4);
-  controls.objects[1].handlers.pointerdown();
+  assert.equal(controls.objects.length, 8);
+  controls.objects[5].handlers.pointerdown();
   scene.keyboardHandlers['keydown-E']();
   scene.keyboardHandlers['keydown-Q']();
-  assert.deepEqual(calls, [-1, 1, -1]);
+  scene.keyboardHandlers['keydown-MINUS']();
+  scene.keyboardHandlers['keydown-PLUS']();
+  assert.deepEqual(calls, [-1, 1, -1, -0.1, 0.1]);
 
   controls.destroy();
   assert.equal(scene.removedKeyboardHandlers['keydown-Q'] !== undefined, true);
   assert.equal(scene.removedKeyboardHandlers['keydown-E'] !== undefined, true);
+  assert.equal(scene.removedKeyboardHandlers['keydown-MINUS'] !== undefined, true);
+  assert.equal(scene.removedKeyboardHandlers['keydown-PLUS'] !== undefined, true);
   assert.ok(controls.objects.length === 0);
 });
 
