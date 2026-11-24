@@ -208,7 +208,7 @@ O mundo e 2D e deve separar representacao visual, coordenadas logicas,
 colisao e navegacao.
 
 Responsabilidades:
-- WorldGrid: estado logico privado de tiles e limites.
+- WorldCore: estado logico privado de tiles e limites (autoridade unica atual).
 - MapRenderer: renderizacao de terreno e elementos visuais.
 - Collision: consultas e regras de colisao.
 - Pathfinding: calculo de caminhos sem acesso direto a estruturas privadas.
