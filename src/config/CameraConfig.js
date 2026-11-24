@@ -10,7 +10,8 @@ export const CAMERA_CONFIG = Object.freeze({
   }),
   follow: Object.freeze({
     enabled: true,
-    smoothing: null,
-    status: 'pending-tuning'
+    lerpX: 0.1,
+    lerpY: 0.1,
+    status: 'provisional'
   })
 });
