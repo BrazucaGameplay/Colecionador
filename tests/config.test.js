@@ -30,6 +30,7 @@ test('world projection is isometric without prematurely fixing world dimensions'
 test('hybrid camera allows four quarter-turn orientations', () => {
   assert.equal(CAMERA_CONFIG.mode, 'hybrid');
   assert.equal(CAMERA_CONFIG.follow.status, 'provisional');
+  assert.equal(CAMERA_CONFIG.zoom.status, 'prototype-only');
   assert.deepEqual(CAMERA_CONFIG.allowedRotationDegrees, [0, 90, 180, 270]);
 });
 
