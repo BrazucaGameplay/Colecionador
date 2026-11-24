@@ -24652,7 +24652,7 @@
           "rotate": [
             {
               "time": 0,
-              "value": -22
+              "value": -30
             },
             {
               "time": 0.2,
@@ -24660,15 +24660,15 @@
             },
             {
               "time": 0.4,
-              "value": 22
+              "value": 30
             },
             {
-              "time": 0.6,
+              "time": 0.6000000000000001,
               "value": 0
             },
             {
               "time": 0.8,
-              "value": -22
+              "value": -30
             }
           ]
         },
@@ -24676,7 +24676,7 @@
           "rotate": [
             {
               "time": 0,
-              "value": 22
+              "value": 30
             },
             {
               "time": 0.2,
@@ -24684,15 +24684,15 @@
             },
             {
               "time": 0.4,
-              "value": -22
+              "value": -30
             },
             {
-              "time": 0.6,
+              "time": 0.6000000000000001,
               "value": 0
             },
             {
               "time": 0.8,
-              "value": 22
+              "value": 30
             }
           ]
         },
@@ -24700,23 +24700,23 @@
           "rotate": [
             {
               "time": 0,
-              "value": 8
+              "value": 10
             },
             {
               "time": 0.2,
-              "value": 2
+              "value": 0
             },
             {
               "time": 0.4,
-              "value": -18
+              "value": -24
             },
             {
-              "time": 0.6,
-              "value": 2
+              "time": 0.6000000000000001,
+              "value": 0
             },
             {
               "time": 0.8,
-              "value": 8
+              "value": 10
             }
           ]
         },
@@ -24724,23 +24724,23 @@
           "rotate": [
             {
               "time": 0,
-              "value": -18
+              "value": -24
             },
             {
               "time": 0.2,
-              "value": 2
+              "value": 0
             },
             {
               "time": 0.4,
-              "value": 8
+              "value": 10
             },
             {
-              "time": 0.6,
-              "value": 2
+              "time": 0.6000000000000001,
+              "value": 0
             },
             {
               "time": 0.8,
-              "value": -18
+              "value": -24
             }
           ]
         },
@@ -24748,7 +24748,7 @@
           "rotate": [
             {
               "time": 0,
-              "value": -5
+              "value": -8
             },
             {
               "time": 0.2,
@@ -24756,15 +24756,15 @@
             },
             {
               "time": 0.4,
-              "value": 8
+              "value": 11
             },
             {
-              "time": 0.6,
+              "time": 0.6000000000000001,
               "value": 0
             },
             {
               "time": 0.8,
-              "value": -5
+              "value": -8
             }
           ]
         },
@@ -24772,7 +24772,7 @@
           "rotate": [
             {
               "time": 0,
-              "value": 8
+              "value": 11
             },
             {
               "time": 0.2,
@@ -24780,15 +24780,159 @@
             },
             {
               "time": 0.4,
-              "value": -5
+              "value": -8
             },
             {
-              "time": 0.6,
+              "time": 0.6000000000000001,
               "value": 0
             },
             {
               "time": 0.8,
-              "value": 8
+              "value": 11
+            }
+          ]
+        },
+        "upperarm_l": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": -18
+            },
+            {
+              "time": 0.2,
+              "value": 0
+            },
+            {
+              "time": 0.4,
+              "value": 18
+            },
+            {
+              "time": 0.6000000000000001,
+              "value": 0
+            },
+            {
+              "time": 0.8,
+              "value": -18
+            }
+          ]
+        },
+        "upperarm_r": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": 18
+            },
+            {
+              "time": 0.2,
+              "value": 0
+            },
+            {
+              "time": 0.4,
+              "value": -18
+            },
+            {
+              "time": 0.6000000000000001,
+              "value": 0
+            },
+            {
+              "time": 0.8,
+              "value": 18
+            }
+          ]
+        },
+        "forearm_l": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": -7
+            },
+            {
+              "time": 0.2,
+              "value": 0
+            },
+            {
+              "time": 0.4,
+              "value": 7
+            },
+            {
+              "time": 0.6000000000000001,
+              "value": 0
+            },
+            {
+              "time": 0.8,
+              "value": -7
+            }
+          ]
+        },
+        "forearm_r": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": 7
+            },
+            {
+              "time": 0.2,
+              "value": 0
+            },
+            {
+              "time": 0.4,
+              "value": -7
+            },
+            {
+              "time": 0.6000000000000001,
+              "value": 0
+            },
+            {
+              "time": 0.8,
+              "value": 7
+            }
+          ]
+        },
+        "hand_l": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": -3
+            },
+            {
+              "time": 0.2,
+              "value": 0
+            },
+            {
+              "time": 0.4,
+              "value": 3
+            },
+            {
+              "time": 0.6000000000000001,
+              "value": 0
+            },
+            {
+              "time": 0.8,
+              "value": -3
+            }
+          ]
+        },
+        "hand_r": {
+          "rotate": [
+            {
+              "time": 0,
+              "value": 3
+            },
+            {
+              "time": 0.2,
+              "value": 0
+            },
+            {
+              "time": 0.4,
+              "value": -3
+            },
+            {
+              "time": 0.6000000000000001,
+              "value": 0
+            },
+            {
+              "time": 0.8,
+              "value": 3
             }
           ]
         }

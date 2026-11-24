@@ -37,8 +37,8 @@ export default class Preload extends Phaser.Scene {
     // Rigby loads the Spine JSON, atlas and its page image (NILA.png).
     this.load.rigby(
       'nila',
-      import.meta.env.BASE_URL + NILA_BASE + 'NILA.json?v=20261124-112',
-      import.meta.env.BASE_URL + NILA_BASE + 'NILA.atlas?v=20261124-112'
+      import.meta.env.BASE_URL + NILA_BASE + 'NILA.json?v=20261124-113',
+      import.meta.env.BASE_URL + NILA_BASE + 'NILA.atlas?v=20261124-113'
     );
   }
 
