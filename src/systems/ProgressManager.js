@@ -2,11 +2,15 @@ function isRecord(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
+const INVALID_JSON = Symbol('invalid-json');
+
 function cloneJson(value) {
   try {
-    return JSON.parse(JSON.stringify(value));
+    const serialized = JSON.stringify(value);
+    if (serialized === undefined) return INVALID_JSON;
+    return JSON.parse(serialized);
   } catch {
-    return null;
+    return INVALID_JSON;
   }
 }
 
@@ -45,14 +49,14 @@ export default class ProgressManager {
     }
 
     const snapshot = cloneJson(initialValue);
-    if (snapshot === null || (validator && !validator(snapshot))) {
+    if (snapshot === INVALID_JSON || (validator && !validator(snapshot))) {
       throw new TypeError('Initial progress section data is invalid.');
     }
 
     this.sections.set(name, { initialValue: snapshot, validator });
+    const hasSavedValue = this.extraData.has(name);
     const savedValue = this.extraData.get(name);
-    const restored = savedValue !== undefined
-      && (!validator || validator(savedValue))
+    const restored = hasSavedValue && (!validator || validator(savedValue))
       ? cloneJson(savedValue)
       : snapshot;
     this.values.set(name, restored);
@@ -68,7 +72,7 @@ export default class ProgressManager {
     this.extraData.clear();
     for (const [name, definition] of this.sections) {
       const candidate = cloneJson(saved[name]);
-      const valid = candidate !== null
+      const valid = candidate !== INVALID_JSON
         && (!definition.validator || definition.validator(candidate));
       this.values.set(
         name,
@@ -79,7 +83,7 @@ export default class ProgressManager {
     for (const [name, value] of Object.entries(saved)) {
       if (name === 'score' || name === 'at' || this.sections.has(name)) continue;
       const extra = cloneJson(value);
-      if (extra !== null) this.extraData.set(name, extra);
+      if (extra !== INVALID_JSON) this.extraData.set(name, extra);
     }
 
     const snapshot = this.getSnapshot();
@@ -97,7 +101,7 @@ export default class ProgressManager {
     if (!definition) return false;
 
     const snapshot = cloneJson(value);
-    if (snapshot === null || (definition.validator && !definition.validator(snapshot))) {
+    if (snapshot === INVALID_JSON || (definition.validator && !definition.validator(snapshot))) {
       return false;
     }
 
