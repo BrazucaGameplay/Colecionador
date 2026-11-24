@@ -1,14 +1,10 @@
 import Phaser from 'phaser';
 
 const WORLD_ASSETS = [
-  ['world-grass', 'assets/world/terrain/grass-tile.svg'],
-  ['world-path', 'assets/world/terrain/dirt-path.svg'],
-  ['world-water', 'assets/world/terrain/water-tile.svg'],
-  ['world-shore', 'assets/world/terrain/water-shore.svg'],
-  ['world-tree', 'assets/world/vegetation/tree-canopy.svg'],
-  ['world-fern', 'assets/world/vegetation/fern.svg'],
-  ['world-rocks', 'assets/world/vegetation/rock-cluster.svg'],
-  ['world-flowers', 'assets/world/vegetation/flower-patch.svg']
+  ['terrain-clearing-1', 'assets/world/terrain/terrain-clearing-1.png'],
+  ['terrain-clearing-2', 'assets/world/terrain/terrain-clearing-2.png'],
+  ['tree-flowering', 'assets/world/vegetation/tree-flowering.png'],
+  ['tree-large', 'assets/world/vegetation/tree-large.png']
 ];
 
 export default class Preload extends Phaser.Scene {
@@ -31,8 +27,8 @@ export default class Preload extends Phaser.Scene {
     });
 
     this.load.on('loaderror', (file) => {
-      console.warn('Asset de cenário não carregado:', file.key, file.src);
-      label.setText('Carregando recursos restantes...');
+      console.error('Falha ao carregar asset final:', file.key, file.src);
+      label.setText('Falha ao carregar recursos do mundo.');
     });
 
     for (const [key, url] of WORLD_ASSETS) {
@@ -53,11 +49,6 @@ export default class Preload extends Phaser.Scene {
     graphics.fillCircle(11, 12, 3);
     graphics.fillCircle(21, 12, 3);
     graphics.generateTexture('monster', 32, 32);
-    graphics.clear();
-
-    graphics.fillStyle(0x22c55e, 1);
-    graphics.fillRect(0, 0, 32, 32);
-    graphics.generateTexture('tile', 32, 32);
     this.scene.start('Menu');
   }
 }
