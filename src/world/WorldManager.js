@@ -38,15 +38,15 @@ export default class WorldManager {
   }
 
   findPath(start, goal) {
-    return this.core.findPath(start, goal);
+    return this.#core.findPath(start, goal);
   }
 
   getPlayerBodyTile() {
-    return this.core.getPlayerBodyTile();
+    return this.#core.getPlayerBodyTile();
   }
 
   setPlayerBodyTile(tile) {
-    return this.core.setPlayerBodyTile(tile);
+    return this.#core.setPlayerBodyTile(tile);
   }
 
   render(tiles) {
@@ -62,6 +62,6 @@ export default class WorldManager {
   }
 
   destroy() {
-    this.renderer.destroy();
+    this.#renderer.destroy();
   }
 }
