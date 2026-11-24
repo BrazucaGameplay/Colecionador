@@ -111,6 +111,7 @@ function createInputScene() {
     removed,
     scene: {
       add: { circle: () => ({ ...circle }) },
+      scale: { width: 960, height: 540 },
       input: {
         keyboard,
         on: (event, callback) => { handlers[event] = callback; },
@@ -124,8 +125,8 @@ test('InputController preserves touch joystick movement', () => {
   const { scene, handlers } = createInputScene();
   const controls = new InputController(scene);
 
-  handlers.pointerdown({ id: 1, x: 100, y: 100 });
-  handlers.pointermove({ id: 1, x: 130, y: 100 });
+  handlers.pointerdown({ id: 1, x: 100, y: 400 });
+  handlers.pointermove({ id: 1, x: 130, y: 400 });
 
   const movement = controls.getMovementVector();
   assert.ok(movement.x > 0);
