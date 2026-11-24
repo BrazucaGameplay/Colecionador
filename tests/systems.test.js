@@ -148,3 +148,32 @@ test('InputController removes touch listeners and destroys joystick on shutdown'
   assert.equal(joystickKnob.destroyed, true);
   assert.deepEqual(controls.getMovementVector(), { x: 0, y: 0 });
 });
+
+import EventBus from '../src/core/EventBus.js';
+
+test('EventBus emits payloads to registered listeners', () => {
+  const bus = new EventBus();
+  let received = null;
+  bus.on('monster:defeated', payload => { received = payload; });
+  assert.equal(bus.emit('monster:defeated', { id: 'slime' }), 1);
+  assert.deepEqual(received, { id: 'slime' });
+});
+
+test('EventBus unsubscribe prevents future notifications', () => {
+  const bus = new EventBus();
+  let calls = 0;
+  const unsubscribe = bus.on('player:moved', () => { calls += 1; });
+  bus.emit('player:moved');
+  unsubscribe();
+  bus.emit('player:moved');
+  assert.equal(calls, 1);
+});
+
+test('EventBus once listener is called only once', () => {
+  const bus = new EventBus();
+  let calls = 0;
+  bus.once('save:completed', () => { calls += 1; });
+  bus.emit('save:completed');
+  bus.emit('save:completed');
+  assert.equal(calls, 1);
+});
