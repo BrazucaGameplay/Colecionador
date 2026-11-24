@@ -11,6 +11,9 @@ import HUD from '../ui/HUD.js';
 import MovementSystem from '../systems/MovementSystem.js';
 import EventBus from '../core/EventBus.js';
 import ProgressManager from '../systems/ProgressManager.js';
+import MonsterBehaviorSystem from '../systems/MonsterBehaviorSystem.js';
+import { COMBAT_CONFIG } from '../config/CombatConfig.js';
+import { MONSTER_CONFIG } from '../config/MonsterConfig.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -37,17 +40,23 @@ export default class Game extends Phaser.Scene {
       eventBus: this.eventBus,
       saveManager: this.saveManager
     });
-    this.combat = new CombatSystem({ cooldownMs: 500 });
+    this.combat = new CombatSystem(COMBAT_CONFIG.prototype);
 
     this.player = new Player(this, 480, 270);
-    this.monster = new Monster(this, 200, 150);
-    worldObjects.push(this.player.sprite, this.monster.sprite);
+    this.monsters = [new Monster(this, 200, 150, MONSTER_CONFIG.prototype)];
+    worldObjects.push(this.player.sprite, ...this.monsters.map(monster => monster.sprite));
 
-    this.physics.add.overlap(
-      this.player.sprite,
-      this.monster.sprite,
-      () => this.hitMonster()
-    );
+    for (const monster of this.monsters) {
+      this.physics.add.overlap(
+        this.player.sprite,
+        monster.sprite,
+        () => this.hitMonster(monster)
+      );
+    }
+    this.monsterBehavior = new MonsterBehaviorSystem({
+      monsters: this.monsters,
+      config: MONSTER_CONFIG.prototype
+    });
 
     this.score = this.progress.load().score;
     this.hud = new HUD(this, { hp: 3, score: this.score });
@@ -86,8 +95,8 @@ export default class Game extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
   }
 
-  hitMonster() {
-    const result = this.combat.hitMonster(this.monster, this.time.now);
+  hitMonster(monster) {
+    const result = this.combat.hitMonster(monster, this.time.now);
     if (!result.defeated) return;
 
     this.score += 1;
@@ -95,7 +104,7 @@ export default class Game extends Phaser.Scene {
     this.progress.setScore(this.score);
     this.progress.save();
 
-    this.time.delayedCall(600, () => this.monster.respawn());
+    this.time.delayedCall(600, () => monster.respawn());
   }
 
   shutdown() {
@@ -103,6 +112,8 @@ export default class Game extends Phaser.Scene {
     this.controls = null;
     this.movement?.destroy();
     this.movement = null;
+    this.monsterBehavior?.destroy();
+    this.monsterBehavior = null;
     this.cameraControls?.destroy();
     this.cameraControls = null;
     this.hud?.destroy();
@@ -115,6 +126,6 @@ export default class Game extends Phaser.Scene {
 
   update() {
     this.movement.update();
-    this.monster.update(this.time.now);
+    this.monsterBehavior.update(this.time.now);
   }
 }
