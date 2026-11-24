@@ -52,6 +52,14 @@ export default class CameraController {
     return this.setOrientation(next, duration);
   }
 
+  adjustZoom(delta) {
+    if (!Number.isFinite(delta)) return false;
+    const current = Number.isFinite(this.camera.zoom)
+      ? this.camera.zoom
+      : this.config.zoom.initial;
+    return this.setZoom(current + delta);
+  }
+
   setZoom(value) {
     const { min, max } = this.config.zoom;
     if (!Number.isFinite(min) || !Number.isFinite(max) || min <= 0 || max < min) {
