@@ -10,14 +10,17 @@ export const WORLD_CONFIG = Object.freeze({
     tileHeight: null,
     status: 'pending-art-scale'
   }),
-  // Cena de depuracao ortogonal, sem valor de especificacao para o mundo final.
+  // Mapa temporario apenas para testar projecao/camera; nao e especificacao final.
   prototypePreview: Object.freeze({
     columns: 30,
     rows: 17,
-    cellSize: 32,
-    playerSpawn: Object.freeze({ x: 480, y: 270 }),
-    monsterSpawns: Object.freeze([
-      Object.freeze({ x: 200, y: 150 })
+    tileWidth: 64,
+    tileHeight: 32,
+    originX: 544,
+    originY: 16,
+    playerSpawnTile: Object.freeze({ x: 8, y: 8 }),
+    monsterSpawnTiles: Object.freeze([
+      Object.freeze({ x: 12, y: 8 })
     ]),
     status: 'debug-only'
   }),
