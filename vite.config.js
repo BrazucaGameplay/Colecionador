@@ -1,8 +1,10 @@
 import { defineConfig } from 'vite';
 
+const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+
 export default defineConfig({
-  // GitHub Pages publica este projeto no subcaminho /Colecionador/.
-  base: '/Colecionador/',
+  // GitHub Pages usa subcaminho; builds locais/Capacitor usam caminhos relativos.
+  base: isGitHubPages ? '/Colecionador/' : './',
   server: {
     host: true,
     port: 5173
