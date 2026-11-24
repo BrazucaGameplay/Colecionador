@@ -10,9 +10,10 @@ export function cameraRelativeVector(vector, rotationDegrees) {
   const cosine = Math.cos(radians);
   const sine = Math.sin(radians);
 
-  // Inverse da rotacao visual: converte direcao da tela para direcao do mundo.
+  // Camera.rotateTo gira a vista; aplica a rotacao inversa ao vetor da tela
+  // para preservar a direcao percebida pelo jogador no mundo.
   return {
-    x: (vector.x * cosine) + (vector.y * sine),
-    y: (-vector.x * sine) + (vector.y * cosine)
+    x: (vector.x * cosine) - (vector.y * sine),
+    y: (vector.x * sine) + (vector.y * cosine)
   };
 }
