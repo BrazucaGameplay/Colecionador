@@ -54,3 +54,21 @@ test('CombatSystem applies damage only after its cooldown', () => {
   assert.deepEqual(combat.hitMonster(monster, 1200), { hit: false, defeated: false });
   assert.deepEqual(combat.hitMonster(monster, 1500), { hit: true, defeated: true });
 });
+
+test('SaveManager handles storage write failures without throwing', () => {
+  const storage = {
+    getItem() { return null; },
+    setItem() { throw new Error('quota exceeded'); }
+  };
+  const saveManager = new SaveManager({ storage });
+
+  assert.equal(saveManager.save({ score: 3 }), false);
+});
+
+test('SaveManager sanitizes invalid score values', () => {
+  const storage = createStorage();
+  const saveManager = new SaveManager({ storage });
+
+  assert.equal(saveManager.save({ score: -4 }), true);
+  assert.equal(JSON.parse(storage.getItem('colecionador-save-v1')).score, 0);
+});
