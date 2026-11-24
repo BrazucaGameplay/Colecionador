@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import { MONSTER_CONFIG } from '../config/MonsterConfig.js';
 
 export default class Monster {
