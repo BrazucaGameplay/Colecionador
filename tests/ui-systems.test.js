@@ -43,6 +43,7 @@ test('CameraControls rotate the camera from buttons and keyboard and clean up li
   const scene = createUIScene();
   const calls = [];
   const camera = {
+    config: { zoom: { step: 0.1 } },
     rotateQuarterTurn(direction) { calls.push(direction); },
     adjustZoom(delta) { calls.push(delta); }
   };
