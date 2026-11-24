@@ -2,6 +2,9 @@ import WorldCore from './WorldCore.js';
 import IsometricMapRenderer from './IsometricMapRenderer.js';
 
 export default class WorldManager {
+  #core;
+  #renderer;
+
   constructor({
     scene,
     width,
@@ -16,8 +19,8 @@ export default class WorldManager {
     if (!scene) throw new TypeError('A Phaser scene is required.');
     this.width = width;
     this.height = height;
-    this.core = new WorldCore({ width, height, blockedTiles, playerBodyTile });
-    this.renderer = new IsometricMapRenderer(scene, {
+    this.#core = new WorldCore({ width, height, blockedTiles, playerBodyTile });
+    this.#renderer = new IsometricMapRenderer(scene, {
       tileWidth,
       tileHeight,
       originX,
@@ -31,7 +34,7 @@ export default class WorldManager {
   }
 
   isWalkable(tx, ty) {
-    return this.core.isWalkable(tx, ty);
+    return this.#core.isWalkable(tx, ty);
   }
 
   findPath(start, goal) {
@@ -55,7 +58,7 @@ export default class WorldManager {
         throw new RangeError('Visual tile is outside the configured world bounds.');
       }
     }
-    return this.renderer.render(tiles);
+    return this.#renderer.render(tiles);
   }
 
   destroy() {
