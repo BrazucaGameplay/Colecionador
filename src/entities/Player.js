@@ -2,6 +2,7 @@ export default class Player {
   constructor(scene, x, y) {
     this.scene = scene;
     this.speed = 220;
+    this.currentAnimation = 'idle';
 
     // Arcade body handles collision/navigation; Rigby is the visible character.
     this.sprite = scene.physics.add.sprite(x, y, 'player');
@@ -15,12 +16,23 @@ export default class Player {
     this.visual.setDepth(y + 20);
   }
 
-  move(vx, vy) {
-    const len = Math.hypot(vx, vy) || 1;
-    this.sprite.setVelocity((vx / len) * this.speed, (vy / len) * this.speed);
+  setAnimation(name) {
+    if (this.currentAnimation === name) return;
+    this.currentAnimation = name;
+    this.visual.play(name, true, 0.12);
+  }
 
-    if (vx < 0) this.visual.setFlipX(true);
-    else if (vx > 0) this.visual.setFlipX(false);
+  move(vx, vy) {
+    const len = Math.hypot(vx, vy);
+    if (len > 0.001) {
+      this.sprite.setVelocity((vx / len) * this.speed, (vy / len) * this.speed);
+      this.setAnimation('walk');
+      if (vx < 0) this.visual.setFlipX(true);
+      else if (vx > 0) this.visual.setFlipX(false);
+    } else {
+      this.sprite.setVelocity(0, 0);
+      this.setAnimation('idle');
+    }
   }
 
   update() {
