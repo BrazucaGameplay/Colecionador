@@ -7,12 +7,21 @@ import Game from './scenes/Game.js';
 
 const config = {
   type: Phaser.AUTO,
-    parent: 'game',
-      width: GAME_WIDTH,
-        height: GAME_HEIGHT,
-          backgroundColor: '#0b0f1a',
-            scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, width: GAME_WIDTH, height: GAME_HEIGHT },
-              physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
-                scene: [Boot, Preload, Menu, Game]
-                };
-                new Phaser.Game(config);
+  parent: 'game',
+  width: GAME_WIDTH,
+  height: GAME_HEIGHT,
+  backgroundColor: '#0b0f1a',
+  scale: {
+    mode: Phaser.Scale.RESIZE,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: GAME_WIDTH,
+    height: GAME_HEIGHT
+  },
+  physics: {
+    default: 'arcade',
+    arcade: { gravity: { y: 0 }, debug: false }
+  },
+  scene: [Boot, Preload, Menu, Game]
+};
+
+new Phaser.Game(config);
