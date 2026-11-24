@@ -28,6 +28,15 @@ export default class WorldNavigation {
     });
   }
 
+  isAreaWalkable(x, y, radius = 10) {
+    if (x - radius < 0 || y - radius < 0 || x + radius > this.width || y + radius > this.height) return false;
+    return !this.blockers.some(b => {
+      const dx = (x - b.x) / (b.radiusX + radius);
+      const dy = (y - b.y) / (b.radiusY + radius);
+      return dx * dx + dy * dy < 1;
+    });
+  }
+
   nearestWalkable(col, row) {
     if (this.isWalkable(col, row)) return { col, row };
     for (let radius = 1; radius < 12; radius++) {
