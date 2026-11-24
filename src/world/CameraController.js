@@ -11,11 +11,20 @@ export default class CameraController {
     }
     this.camera = camera;
     this.config = config;
-    this.orientation = normalizeDegrees(config.initialRotationDegrees);
+    this.targetOrientation = normalizeDegrees(config.initialRotationDegrees);
     this.allowed = new Set(config.allowedRotationDegrees);
-    if (!this.allowed.has(this.orientation)) {
+    if (!this.allowed.has(this.targetOrientation)) {
       throw new RangeError('Initial camera orientation is not allowed.');
     }
+  }
+
+  // Retorna a rotacao atual, inclusive durante a animacao, para que o
+  // joystick acompanhe a camera sem antecipar o fim da transicao.
+  get orientation() {
+    const radians = Number.isFinite(this.camera.rotation)
+      ? this.camera.rotation
+      : this.targetOrientation * (Math.PI / 180);
+    return normalizeDegrees(radians * (180 / Math.PI));
   }
 
   setOrientation(degrees, duration = 250) {
@@ -25,7 +34,7 @@ export default class CameraController {
       throw new TypeError('Camera rotation duration must be a non-negative number.');
     }
 
-    this.orientation = target;
+    this.targetOrientation = target;
     this.camera.rotateTo(
       target * (Math.PI / 180),
       true,
@@ -39,7 +48,7 @@ export default class CameraController {
     if (!Number.isInteger(direction) || direction === 0) {
       throw new TypeError('Rotation direction must be a non-zero integer.');
     }
-    const next = normalizeDegrees(this.orientation + (Math.sign(direction) * 90));
+    const next = normalizeDegrees(this.targetOrientation + (Math.sign(direction) * 90));
     return this.setOrientation(next, duration);
   }
 
