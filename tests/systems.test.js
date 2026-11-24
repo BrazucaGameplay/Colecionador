@@ -22,6 +22,10 @@ test('SaveManager loads the existing score save format', () => {
   const saveManager = new SaveManager({ storage });
 
   assert.deepEqual(saveManager.load(), { score: 7, at: 1234 });
+  const migrated = JSON.parse(storage.getItem('colecionador-save-v1'));
+  assert.equal(migrated.version, 2);
+  assert.deepEqual(migrated.data, { score: 7 });
+  assert.equal(migrated.savedAt, 1234);
 });
 
 test('SaveManager returns safe defaults for invalid JSON', () => {
@@ -36,7 +40,9 @@ test('SaveManager persists score using the existing storage key', () => {
   const saveManager = new SaveManager({ storage });
 
   assert.equal(saveManager.save({ score: 12 }), true);
-  assert.equal(JSON.parse(storage.getItem('colecionador-save-v1')).score, 12);
+  const saved = JSON.parse(storage.getItem('colecionador-save-v1'));
+  assert.equal(saved.version, 2);
+  assert.equal(saved.data.score, 12);
 });
 
 test('CombatSystem applies damage only after its cooldown', () => {
@@ -70,7 +76,7 @@ test('SaveManager sanitizes invalid score values', () => {
   const saveManager = new SaveManager({ storage });
 
   assert.equal(saveManager.save({ score: -4 }), true);
-  assert.equal(JSON.parse(storage.getItem('colecionador-save-v1')).score, 0);
+  assert.equal(JSON.parse(storage.getItem('colecionador-save-v1')).data.score, 0);
 });
 
 import InputController from '../src/systems/InputController.js';
@@ -176,4 +182,19 @@ test('EventBus once listener is called only once', () => {
   bus.emit('save:completed');
   bus.emit('save:completed');
   assert.equal(calls, 1);
+});
+
+test('SaveManager rejects unsupported future save versions without overwriting them', () => {
+  const futureSave = JSON.stringify({ version: 99, savedAt: 123, data: { score: 42 } });
+  const storage = createStorage({ 'colecionador-save-v1': futureSave });
+  const manager = new SaveManager({ storage });
+
+  assert.deepEqual(manager.load(), { score: 0, at: null });
+  assert.equal(storage.getItem('colecionador-save-v1'), futureSave);
+});
+
+test('SaveManager supports storage being unavailable', () => {
+  const manager = new SaveManager({ storage: null });
+  assert.deepEqual(manager.load(), { score: 0, at: null });
+  assert.equal(manager.save({ score: 1 }), false);
 });
