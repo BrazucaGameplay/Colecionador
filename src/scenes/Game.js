@@ -6,6 +6,8 @@ import CombatSystem from '../systems/CombatSystem.js';
 import SaveManager from '../core/SaveManager.js';
 import CameraController from '../world/CameraController.js';
 import { GAME_WIDTH, GAME_HEIGHT } from '../config.js';
+import CameraControls from '../ui/CameraControls.js';
+import HUD from '../ui/HUD.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -39,18 +41,9 @@ export default class Game extends Phaser.Scene {
       () => this.hitMonster()
     );
 
-    this.hp = 3;
-    this.hpText = this.add.text(16, 16, 'HP ' + this.hp, {
-      fontSize: '20px',
-      color: '#fff'
-    }).setScrollFactor(0);
-
     const savedData = this.saveManager.load();
     this.score = savedData.score;
-    this.scoreText = this.add.text(16, 44, 'Monstros: ' + this.score, {
-      fontSize: '18px',
-      color: '#fff'
-    }).setScrollFactor(0);
+    this.hud = new HUD(this, { hp: 3, score: this.score });
 
     this.worldCamera = this.cameras.main;
     this.worldCamera.setBounds(0, 0, 960, 544);
@@ -65,54 +58,20 @@ export default class Game extends Phaser.Scene {
     this.uiCamera.setRotation(0);
 
     this.controls = new InputController(this, { worldCamera: this.worldCamera });
-
-    this.createCameraButtons();
+    this.cameraControls = new CameraControls(this, this.cameraController);
 
     this.worldLayer = this.add.group(worldObjects);
     this.uiLayer = this.add.group([
-      this.hpText,
-      this.scoreText,
+      ...this.hud.objects,
       this.controls.touch.base,
       this.controls.touch.knob,
-      ...this.cameraButtons
+      ...this.cameraControls.objects
     ]);
 
     this.worldCamera.ignore(this.uiLayer);
     this.uiCamera.ignore(this.worldLayer);
 
-    this.onRotateLeft = () => this.cameraController.rotateQuarterTurn(-1);
-    this.onRotateRight = () => this.cameraController.rotateQuarterTurn(1);
-    this.input.keyboard.on('keydown-Q', this.onRotateLeft);
-    this.input.keyboard.on('keydown-E', this.onRotateRight);
-
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
-  }
-
-  createCameraButtons() {
-    const right = this.scale.width - 36;
-    const left = this.scale.width - 84;
-    const y = 34;
-
-    const createButton = (x, label, direction) => {
-      const background = this.add.circle(x, y, 19, 0x111827, 0.8)
-        .setStrokeStyle(1, 0xffffff, 0.65)
-        .setScrollFactor(0)
-        .setDepth(100);
-
-      const text = this.add.text(x, y, label, {
-        fontSize: '24px',
-        color: '#ffffff'
-      }).setOrigin(0.5).setScrollFactor(0).setDepth(101);
-
-      text.setInteractive({ useHandCursor: true });
-      text.on('pointerdown', () => this.cameraController.rotateQuarterTurn(direction));
-      return [background, text];
-    };
-
-    this.cameraButtons = [
-      ...createButton(left, '↶', -1),
-      ...createButton(right, '↷', 1)
-    ];
   }
 
   hitMonster() {
@@ -120,7 +79,7 @@ export default class Game extends Phaser.Scene {
     if (!result.defeated) return;
 
     this.score += 1;
-    this.scoreText.setText('Monstros: ' + this.score);
+    this.hud.setScore(this.score);
     this.saveManager.save({ score: this.score });
 
     this.time.delayedCall(600, () => this.monster.respawn());
@@ -129,8 +88,10 @@ export default class Game extends Phaser.Scene {
   shutdown() {
     this.controls?.destroy();
     this.controls = null;
-    this.input.keyboard.off('keydown-Q', this.onRotateLeft);
-    this.input.keyboard.off('keydown-E', this.onRotateRight);
+    this.cameraControls?.destroy();
+    this.cameraControls = null;
+    this.hud?.destroy();
+    this.hud = null;
     this.cameraController = null;
   }
 
