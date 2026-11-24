@@ -63,7 +63,7 @@ export default class WorldCore {
   #blocked;
   #playerBodyTile;
 
-  constructor({ width = 90, height = 120, blockedTiles = [], playerBodyTile = { x: 0, y: 0 } } = {}) {
+  constructor({ width, height, blockedTiles = [], playerBodyTile = { x: 0, y: 0 } } = {}) {
     if (!Number.isSafeInteger(width) || width < 1
       || !Number.isSafeInteger(height) || height < 1) {
       throw new TypeError('World dimensions must be positive integers.');
