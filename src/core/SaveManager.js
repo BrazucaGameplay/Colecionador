@@ -59,7 +59,7 @@ export default class SaveManager {
       // Legacy format: { score, at }. Preserve its data while upgrading storage.
       if (parsed.version === undefined && ('score' in parsed || 'at' in parsed)) {
         const migrated = sanitizeSave(parsed);
-        this.writeEnvelope(migrated);
+        this.writeEnvelope(migrated, migrated.at);
         return migrated;
       }
 
@@ -74,12 +74,12 @@ export default class SaveManager {
     return this.writeEnvelope(sanitizeSave(data));
   }
 
-  writeEnvelope(data) {
+  writeEnvelope(data, savedAt = Date.now()) {
     if (!this.storage) return false;
 
     const payload = {
       version: this.version,
-      savedAt: Date.now(),
+      savedAt: Number.isFinite(savedAt) ? savedAt : Date.now(),
       data: {
         score: data.score
       }
