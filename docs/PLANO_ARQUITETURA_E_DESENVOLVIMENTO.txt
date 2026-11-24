@@ -208,11 +208,12 @@ O mundo e 2D e deve separar representacao visual, coordenadas logicas,
 colisao e navegacao.
 
 Responsabilidades:
-- WorldCore: estado logico privado de tiles e limites (autoridade unica atual).
-- MapRenderer: renderizacao de terreno e elementos visuais.
+- WorldManager: fachada publica e composicao do mundo.
+- WorldCore: estado logico privado de tiles e limites (autoridade logica unica atual).
+- IsometricMapRenderer: renderizacao de terreno e elementos visuais por coordenadas projetadas.
 - Collision: consultas e regras de colisao.
 - Pathfinding: calculo de caminhos sem acesso direto a estruturas privadas.
-- DepthSorting: ordenacao de entidades conforme sua posicao projetada.
+- DepthSortingSystem: ordenacao de entidades conforme sua posicao projetada.
 - CameraController: acompanhamento, zoom, rotacao e limites.
 
 Camera:
