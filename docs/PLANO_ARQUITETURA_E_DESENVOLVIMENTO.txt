@@ -107,6 +107,7 @@ src/
     objetos interativos
   systems/
     Movement
+    ProgressManager
     Combat
     Inventory
     Progression
