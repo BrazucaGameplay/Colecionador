@@ -27,10 +27,26 @@ export default class WorldNavigation {
 
   isInsideIsland(x, y) {
     if (!this.alphaMask) return true;
-    const px = Math.floor(x * this.maskWidth / this.width);
-    const py = Math.floor(y * this.maskHeight / this.height);
-    if (px < 0 || py < 0 || px >= this.maskWidth || py >= this.maskHeight) return false;
-    return this.alphaMask[py * this.maskWidth + px] === 1;
+    // Keep a small safety margin inside the opaque silhouette so characters
+    // do not stand on the visual cliff edge or overhangs.
+    const inset = 14;
+    const offsets = [
+      [0, 0], [inset, 0], [-inset, 0], [0, inset], [0, -inset],
+      [inset * 0.7, inset * 0.7], [-inset * 0.7, inset * 0.7],
+      [inset * 0.7, -inset * 0.7], [-inset * 0.7, -inset * 0.7]
+    ];
+    return offsets.every(([dx, dy]) => {
+      const px = Math.floor((x + dx) * this.maskWidth / this.width);
+      const py = Math.floor((y + dy) * this.maskHeight / this.height);
+      return px >= 0 && py >= 0 && px < this.maskWidth && py < this.maskHeight &&
+        this.alphaMask[py * this.maskWidth + px] === 1;
+    });
+  }
+
+  findNearestWalkablePoint(x, y) {
+    const cell = this.nearestWalkable(Math.floor(x / CELL), Math.floor(y / CELL));
+    if (!cell) return null;
+    return { x: cell.col * CELL + CELL / 2, y: cell.row * CELL + CELL / 2 };
   }
 
   addObstacle(x, y, radiusX, radiusY = radiusX) {
