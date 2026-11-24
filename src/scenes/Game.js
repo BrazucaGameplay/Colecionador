@@ -73,39 +73,62 @@ export default class Game extends Phaser.Scene {
   }
 
   createGround() {
-    // Tilemap visual composto com o asset original de grama.
     if (!this.textures.exists('world-grass')) {
       console.error('Textura world-grass ausente; confira o carregamento em Preload.');
       return;
     }
 
-    // Um tile isométrico 2:1 ocupa 128x64. As fileiras avançam 32px
-    // e alternam 64px horizontalmente para preencher os losangos sem lacunas.
+    // Malha isométrica: losangos 128x64, com passo vertical de 32px
+    // e deslocamento alternado de 64px. A textura escolhida por célula
+    // compõe o chão sem faixas sobrepostas ou peças espaçadas.
     const rowStep = TILE_HEIGHT / 2;
     const rows = Math.ceil(this.worldHeight / rowStep) + 3;
     const columns = Math.ceil(this.worldWidth / TILE_WIDTH) + 3;
+    const roadRow = Math.floor((this.worldHeight / 2 + 160) / rowStep);
+    const waterCenterRow = Math.floor((this.worldHeight / 2 - 210) / rowStep);
+    const waterCenterColumn = Math.floor((this.worldWidth / 2 + 310) / TILE_WIDTH);
+
+    this.terrainCells = new Map();
     for (let row = -1; row < rows; row++) {
       for (let column = -1; column < columns; column++) {
         const x = column * TILE_WIDTH + ((row & 1) ? TILE_WIDTH / 2 : 0);
         const y = row * rowStep;
-        const tile = this.add.image(x, y, 'world-grass')
+        const roadCurve = Math.round((row - roadRow) * 0.20);
+        const onRoad = Math.abs(column - Math.floor(columns / 2) - roadCurve) <= 1;
+        const waterDx = column - waterCenterColumn;
+        const waterDy = row - waterCenterRow;
+        const inPond = (waterDx * waterDx) / 7 + (waterDy * waterDy) / 19 <= 1;
+
+        let texture = 'world-grass';
+        if (onRoad && this.textures.exists('world-path')) texture = 'world-path';
+        if (inPond && this.textures.exists('world-water')) texture = 'world-water';
+
+        const tile = this.add.image(x, y, texture)
           .setDisplaySize(TILE_WIDTH, TILE_HEIGHT)
           .setOrigin(0.5, 0.5)
-          .setDepth(-1000);
+          .setDepth(-1000 + y * 0.0001);
         this.groundTiles.push(tile);
+        this.terrainCells.set(row + ':' + column, { row, column, x, y, texture });
       }
     }
 
-    // Caminho principal: sequência de peças do asset de terra, mantendo
-    // a faixa central livre para circulação e combate.
-    if (this.textures.exists('world-path')) {
-      const pathCount = Math.ceil(this.worldWidth / 150);
-      const pathY = this.worldHeight / 2 + 245;
-      for (let i = 0; i < pathCount; i++) {
-        const pathTile = this.add.image(70 + i * 150, pathY, 'world-path')
-          .setDisplaySize(150, 94)
-          .setDepth(-900);
-        this.groundTiles.push(pathTile);
+    // A margem de areia acompanha a borda inferior da lagoa e conecta
+    // visualmente a água ao gramado sem transformar a margem em obstáculo.
+    if (this.textures.exists('world-shore')) {
+      const shoreCells = [
+        [waterCenterRow + 3, waterCenterColumn - 2],
+        [waterCenterRow + 4, waterCenterColumn - 1],
+        [waterCenterRow + 4, waterCenterColumn],
+        [waterCenterRow + 3, waterCenterColumn + 1]
+      ];
+      for (const [row, column] of shoreCells) {
+        const cell = this.terrainCells.get(row + ':' + column);
+        if (!cell) continue;
+        const shore = this.add.image(cell.x, cell.y, 'world-shore')
+          .setDisplaySize(TILE_WIDTH, TILE_HEIGHT)
+          .setOrigin(0.5, 0.5)
+          .setDepth(-999 + cell.y * 0.0001);
+        this.groundTiles.push(shore);
       }
     }
   }
