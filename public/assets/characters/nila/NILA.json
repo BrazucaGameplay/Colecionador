@@ -12811,32 +12811,7 @@
   ],
   "animations": {
     "idle": {
-      "bones": {
-        "hair": {
-          "rotate": [
-            {
-              "time": 0,
-              "value": 0
-            },
-            {
-              "time": 0.75,
-              "value": 1.2
-            },
-            {
-              "time": 1.5,
-              "value": 0
-            },
-            {
-              "time": 2.25,
-              "value": -1.2
-            },
-            {
-              "time": 3,
-              "value": 0
-            }
-          ]
-        }
-      },
+      "bones": {},
       "slots": {
         "mouth": {
           "attachment": [
