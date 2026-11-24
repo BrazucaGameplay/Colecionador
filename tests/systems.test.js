@@ -72,3 +72,62 @@ test('SaveManager sanitizes invalid score values', () => {
   assert.equal(saveManager.save({ score: -4 }), true);
   assert.equal(JSON.parse(storage.getItem('colecionador-save-v1')).score, 0);
 });
+
+import InputController from '../src/systems/InputController.js';
+
+function createInputScene() {
+  const handlers = {};
+  const keyboard = {
+    createCursorKeys: () => ({
+      left: { isDown: false },
+      right: { isDown: false },
+      up: { isDown: false },
+      down: { isDown: false }
+    }),
+    addKeys: () => ({
+      A: { isDown: false },
+      D: { isDown: false },
+      W: { isDown: false },
+      S: { isDown: false }
+    })
+  };
+  const circle = {
+    setScrollFactor() { return this; },
+    setVisible() { return this; },
+    setDepth() { return this; },
+    setPosition() { return this; }
+  };
+
+  return {
+    handlers,
+    scene: {
+      add: { circle: () => ({ ...circle }) },
+      input: {
+        keyboard,
+        on: (event, callback) => { handlers[event] = callback; }
+      }
+    }
+  };
+}
+
+test('InputController preserves touch joystick movement', () => {
+  const { scene, handlers } = createInputScene();
+  const controls = new InputController(scene);
+
+  handlers.pointerdown({ id: 1, x: 100, y: 100 });
+  handlers.pointermove({ id: 1, x: 130, y: 100 });
+
+  const movement = controls.getMovementVector();
+  assert.ok(movement.x > 0);
+  assert.equal(movement.y, 0);
+});
+
+test('InputController keeps keyboard as an alternative to touch', () => {
+  const { scene } = createInputScene();
+  const controls = new InputController(scene);
+
+  controls.wasd.D.isDown = true;
+  controls.cursors.up.isDown = true;
+
+  assert.deepEqual(controls.getMovementVector(), { x: 1, y: -1 });
+});
