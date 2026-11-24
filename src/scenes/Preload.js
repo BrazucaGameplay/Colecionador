@@ -29,7 +29,7 @@ export default class Preload extends Phaser.Scene {
     });
 
     for (const [key, url] of WORLD_ASSETS) {
-      this.load.image(key, import.meta.env.BASE_URL + url);
+      this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261124-2');
     }
   }
 
