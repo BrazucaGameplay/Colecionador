@@ -374,27 +374,23 @@ validada.
   metodo central. Usar modulos e contratos proprios.
 
 ======================================================================
-10. ESTADO E LIMITES DESTE DOCUMENTO
+10. RELACAO COM O ESTADO ATUAL
 ======================================================================
 
-Este documento registra a direcao arquitetural e o roteiro proposto.
-Ele nao significa que todos os modulos descritos ja existam ou estejam
-implementados.
+Este arquivo define a arquitetura-alvo, principios e roteiro de
+desenvolvimento. Nao deve ser usado como registro do estado operacional
+mais recente.
 
-Estado conhecido no momento da criacao:
-- O repositorio publica pelo GitHub Pages.
-- Phaser 4 esta declarado em package.json como ^4.2.1.
-- A aplicacao possui cenas e entidades iniciais.
-- O jogo ainda e um prototipo e precisa evoluir.
-- A arquitetura-alvo descrita aqui ainda precisa ser implementada
-  gradualmente e validada.
+Para saber o que esta implementado, o que foi validado e quais sao as
+proximas tarefas, consultar:
+docs/ESTADO_DO_PROJETO.md
 
-Decisao recomendada:
-Manter BrazucaGameplay/Colecionador como repositorio de desenvolvimento,
-evoluir a base atual de forma incremental e preservar os principios
-arquiteturais aqui registrados.
+Para regras especificas sobre consulta e reutilizacao de assets do
+repositorio historico, consultar:
+docs/DIRETRIZ_DE_REUSO_DO_REPOSITORIO_ORIGINAL.txt
 
-Antes de uma migracao ou reescrita ampla, confirmar a decisao com o
-responsavel pelo projeto.
+A arquitetura descrita neste plano e gradual. Nao presumir que modulos
+planejados ja existam no codigo. Antes de qualquer alteracao, conferir
+o repositorio e o documento de estado atual.
 
 FIM DO DOCUMENTO
