@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="160" viewBox="0 0 256 160">
+<defs><linearGradient id="grass" x2="0" y2="1"><stop stop-color="#9be84b"/><stop offset="1" stop-color="#398b30"/></linearGradient><linearGradient id="sand" x2="0" y2="1"><stop stop-color="#f2d18a"/><stop offset="1" stop-color="#bf8c52"/></linearGradient><linearGradient id="water" x2="0" y2="1"><stop stop-color="#58d7e5"/><stop offset="1" stop-color="#0875a6"/></linearGradient></defs>
+<path d="M128 12 244 72 128 135 12 72Z" fill="#075c83"/>
+<path d="M128 7 244 67 128 130 12 67Z" fill="url(#water)"/>
+<path d="M12 67 128 7 244 67 216 82 128 37 39 84Z" fill="url(#sand)" stroke="#e4bd79" stroke-width="2"/>
+<path d="M12 67 39 84 128 37 216 82 244 67 128 130Z" fill="url(#water)" opacity=".95"/>
+<path d="M12 67 39 84 128 37 216 82 244 67" fill="none" stroke="#f7e4ae" stroke-width="4" stroke-linecap="round"/>
+<path d="M12 67 128 7 244 67 128 130Z" fill="none" stroke="#5a9b38" stroke-width="2" stroke-dasharray="2 3" opacity=".6"/>
+<g fill="#d8f7ec" opacity=".85"><path d="m65 78 17-9 13 6-17 9Z"/><path d="m150 98 15-8 11 6-15 8Z"/></g>
+</svg>
