@@ -4,7 +4,7 @@ import Monster from '../entities/Monster.js';
 import WorldNavigation from '../world/WorldNavigation.js';
 import { SAVE_KEY } from '../config.js';
 
-const CAMERA_ZOOM = Object.freeze({ min: 0.65, max: 2.25, initial: 1 });
+const CAMERA_ZOOM = Object.freeze({ min: 0.28, max: 2.25, fitPadding: 0.94 });
 const TAP_MOVE_THRESHOLD = 12;
 
 export default class Game extends Phaser.Scene {
@@ -32,8 +32,12 @@ export default class Game extends Phaser.Scene {
     this.createGround();
     this.createIslandWalkableMask(islandSource);
 
-    this.player = new Player(this, centerX, centerY + 55);
-    this.monster = new Monster(this, centerX - 180, centerY - 105);
+    const playerSpawn = this.navigation.findNearestWalkablePoint(centerX, centerY);
+    const spawn = playerSpawn || { x: centerX, y: centerY };
+    this.player = new Player(this, spawn.x, spawn.y);
+    const monsterSpawn = this.navigation.findNearestWalkablePoint(centerX - 180, centerY - 105);
+    const enemySpawn = monsterSpawn || { x: spawn.x + 90, y: spawn.y };
+    this.monster = new Monster(this, enemySpawn.x, enemySpawn.y);
     this.physics.add.overlap(this.player.sprite, this.monster.sprite, () => this.hitMonster());
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -57,7 +61,8 @@ export default class Game extends Phaser.Scene {
 
     this.camera = this.cameras.main;
     this.camera.setBounds(0, 0, this.worldWidth, this.worldHeight);
-    this.camera.setZoom(CAMERA_ZOOM.initial);
+    this.fitZoom = Math.min(viewWidth / this.worldWidth, viewHeight / this.worldHeight) * CAMERA_ZOOM.fitPadding;
+    this.camera.setZoom(Math.max(CAMERA_ZOOM.min, this.fitZoom));
     this.camera.centerOn(centerX, centerY);
 
     this.destinationMarker = this.add.circle(0, 0, 12, 0xfacc15, 0.18)
