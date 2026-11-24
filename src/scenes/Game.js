@@ -9,6 +9,8 @@ import { GAME_WIDTH, GAME_HEIGHT } from '../config.js';
 import CameraControls from '../ui/CameraControls.js';
 import HUD from '../ui/HUD.js';
 import MovementSystem from '../systems/MovementSystem.js';
+import EventBus from '../core/EventBus.js';
+import ProgressManager from '../systems/ProgressManager.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -30,6 +32,11 @@ export default class Game extends Phaser.Scene {
     }
 
     this.saveManager = new SaveManager();
+    this.eventBus = new EventBus();
+    this.progress = new ProgressManager({
+      eventBus: this.eventBus,
+      saveManager: this.saveManager
+    });
     this.combat = new CombatSystem({ cooldownMs: 500 });
 
     this.player = new Player(this, 480, 270);
@@ -42,8 +49,7 @@ export default class Game extends Phaser.Scene {
       () => this.hitMonster()
     );
 
-    const savedData = this.saveManager.load();
-    this.score = savedData.score;
+    this.score = this.progress.load().score;
     this.hud = new HUD(this, { hp: 3, score: this.score });
 
     this.worldCamera = this.cameras.main;
@@ -86,7 +92,8 @@ export default class Game extends Phaser.Scene {
 
     this.score += 1;
     this.hud.setScore(this.score);
-    this.saveManager.save({ score: this.score });
+    this.progress.setScore(this.score);
+    this.progress.save();
 
     this.time.delayedCall(600, () => this.monster.respawn());
   }
@@ -101,6 +108,9 @@ export default class Game extends Phaser.Scene {
     this.hud?.destroy();
     this.hud = null;
     this.cameraController = null;
+    this.eventBus?.clear();
+    this.eventBus = null;
+    this.progress = null;
   }
 
   update() {
