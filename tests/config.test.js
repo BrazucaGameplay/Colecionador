@@ -6,6 +6,8 @@ import { CAMERA_CONFIG } from '../src/config/CameraConfig.js';
 import { PLAYER_CONFIG } from '../src/config/PlayerConfig.js';
 import { INPUT_CONFIG } from '../src/config/InputConfig.js';
 import { RENDER_CONFIG } from '../src/config/RenderConfig.js';
+import { COMBAT_CONFIG } from '../src/config/CombatConfig.js';
+import { MONSTER_CONFIG } from '../src/config/MonsterConfig.js';
 
 test('game configuration targets web, PWA and Android from one codebase', () => {
   assert.deepEqual(GAME_CONFIG.platforms, ['web', 'pwa', 'android']);
@@ -38,4 +40,10 @@ test('provisional movement speed is centralized and camera-relative input is ena
   assert.equal(PLAYER_CONFIG.movement.speed, 220);
   assert.equal(PLAYER_CONFIG.movement.status, 'provisional');
   assert.equal(INPUT_CONFIG.cameraRelativeMovement, true);
+});
+
+test('combat and monster values remain explicitly provisional until gameplay rules are supplied', () => {
+  assert.equal(COMBAT_CONFIG.prototype.status, 'prototype-only');
+  assert.equal(MONSTER_CONFIG.prototype.status, 'prototype-only');
+  assert.equal(MONSTER_CONFIG.prototype.maxHealth, 2);
 });
