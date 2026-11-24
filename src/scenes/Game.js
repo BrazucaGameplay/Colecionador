@@ -5,7 +5,8 @@ import { SAVE_KEY } from '../config.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.65, max: 2.25, initial: 1 });
 const TAP_MOVE_THRESHOLD = 12;
-const TILE_SIZE = 32;
+const TILE_WIDTH = 128;
+const TILE_HEIGHT = 64;
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -13,34 +14,23 @@ export default class Game extends Phaser.Scene {
     this.pointers = new Map();
     this.destination = null;
     this.gesture = null;
+    this.worldObjects = [];
   }
 
   create() {
     const viewWidth = this.scale.width;
     const viewHeight = this.scale.height;
-
-    // A area jogavel acompanha a proporcao do aparelho e mantem margem
-    // para arrastar a camera sem revelar o vazio fora do mapa.
-    this.worldWidth = Math.max(960, Math.ceil((viewWidth * 2) / TILE_SIZE) * TILE_SIZE);
-    this.worldHeight = Math.max(800, Math.ceil((viewHeight * 2) / TILE_SIZE) * TILE_SIZE);
+    this.worldWidth = Math.max(1280, Math.ceil((viewWidth * 2) / TILE_WIDTH) * TILE_WIDTH);
+    this.worldHeight = Math.max(960, Math.ceil((viewHeight * 2) / TILE_HEIGHT) * TILE_HEIGHT);
     const centerX = this.worldWidth / 2;
     const centerY = this.worldHeight / 2;
 
-    for (let y = 0; y < this.worldHeight / TILE_SIZE; y++) {
-      for (let x = 0; x < this.worldWidth / TILE_SIZE; x++) {
-        if ((x + y) % 7 === 0) {
-          this.add.image(
-            x * TILE_SIZE + TILE_SIZE / 2,
-            y * TILE_SIZE + TILE_SIZE / 2,
-            'tile'
-          ).setAlpha(0.25);
-        }
-      }
-    }
-
     this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
-    this.player = new Player(this, centerX, centerY);
-    this.monster = new Monster(this, centerX - 180, centerY - 120);
+    this.createGround();
+    this.createWorldDecorations(centerX, centerY);
+
+    this.player = new Player(this, centerX, centerY + 70);
+    this.monster = new Monster(this, centerX - 180, centerY - 110);
     this.physics.add.overlap(this.player.sprite, this.monster.sprite, () => this.hitMonster());
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -49,13 +39,17 @@ export default class Game extends Phaser.Scene {
     this.hp = 3;
     this.hpText = this.add.text(16, 16, 'HP ' + this.hp, {
       fontSize: '20px',
-      color: '#fff'
+      color: '#fff',
+      stroke: '#172719',
+      strokeThickness: 4
     }).setScrollFactor(0).setDepth(1000);
 
     this.score = 0;
     this.scoreText = this.add.text(16, 44, 'Monstros: ' + this.score, {
       fontSize: '18px',
-      color: '#fff'
+      color: '#fff',
+      stroke: '#172719',
+      strokeThickness: 4
     }).setScrollFactor(0).setDepth(1000);
 
     this.camera = this.cameras.main;
@@ -75,6 +69,68 @@ export default class Game extends Phaser.Scene {
     this.input.on('pointerupoutside', this.onPointerUp, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this._cooldown = 0;
+  }
+
+  createGround() {
+    const graphics = this.add.graphics().setDepth(-1000);
+    graphics.fillStyle(0x477d32, 1);
+    graphics.fillRect(0, 0, this.worldWidth, this.worldHeight);
+
+    const rows = Math.ceil(this.worldHeight / (TILE_HEIGHT / 2)) + 2;
+    const columns = Math.ceil(this.worldWidth / TILE_WIDTH) + 2;
+    for (let row = -1; row < rows; row++) {
+      for (let column = -1; column < columns; column++) {
+        const x = column * TILE_WIDTH + ((row & 1) ? TILE_WIDTH / 2 : 0);
+        const y = row * (TILE_HEIGHT / 2);
+        const shade = ((column * 13 + row * 7) % 5 + 5) % 5;
+        const colors = [0x57943a, 0x5b983d, 0x528d36, 0x609d42, 0x558f38];
+        graphics.fillStyle(colors[shade], 1);
+        graphics.lineStyle(1, 0x3f7c32, 0.22);
+        graphics.beginPath();
+        graphics.moveTo(x, y - TILE_HEIGHT / 2);
+        graphics.lineTo(x + TILE_WIDTH / 2, y);
+        graphics.lineTo(x, y + TILE_HEIGHT / 2);
+        graphics.lineTo(x - TILE_WIDTH / 2, y);
+        graphics.closePath();
+        graphics.fillPath();
+        graphics.strokePath();
+      }
+    }
+
+    // Small, restrained ground highlights add texture without replacing the
+    // authored transparent props or creating a distracting debug grid.
+    for (let i = 0; i < 240; i++) {
+      const x = Phaser.Math.Between(24, this.worldWidth - 24);
+      const y = Phaser.Math.Between(24, this.worldHeight - 24);
+      graphics.fillStyle(i % 3 === 0 ? 0x9acb58 : 0x315f2d, 0.22);
+      graphics.fillEllipse(x, y, Phaser.Math.Between(2, 5), 2);
+    }
+  }
+
+  createWorldDecorations(centerX, centerY) {
+    const addProp = (key, x, y, width, depthOffset = 0) => {
+      if (!this.textures.exists(key)) return null;
+      const image = this.add.image(x, y, key);
+      image.setDisplaySize(width, width * (image.height / image.width));
+      image.setOrigin(0.5, 0.88);
+      image.setDepth(y + depthOffset);
+      this.worldObjects.push(image);
+      return image;
+    };
+
+    // Water and shore form a single landmark at the edge of the initial clearing.
+    addProp('world-water', centerX + 360, centerY - 180, 190, -2);
+    addProp('world-shore', centerX + 300, centerY - 135, 190, -1);
+
+    // A clear central corridor is intentionally preserved for movement and combat.
+    addProp('world-tree', centerX - 310, centerY - 210, 190);
+    addProp('world-tree', centerX + 390, centerY + 170, 160);
+    addProp('world-rocks', centerX - 360, centerY + 170, 125);
+    addProp('world-rocks', centerX + 260, centerY - 280, 110);
+    addProp('world-fern', centerX - 210, centerY + 260, 92);
+    addProp('world-fern', centerX + 160, centerY + 250, 82);
+    addProp('world-flowers', centerX - 70, centerY - 250, 115);
+    addProp('world-flowers', centerX + 360, centerY + 10, 100);
   }
 
   onPointerDown(pointer) {
@@ -97,9 +153,7 @@ export default class Game extends Phaser.Scene {
       const points = [...this.pointers.values()];
       this.gesture = {
         type: 'pinch',
-        startDistance: Phaser.Math.Distance.Between(
-          points[0].x, points[0].y, points[1].x, points[1].y
-        ),
+        startDistance: Phaser.Math.Distance.Between(points[0].x, points[0].y, points[1].x, points[1].y),
         startZoom: this.camera.zoom
       };
     }
@@ -108,47 +162,31 @@ export default class Game extends Phaser.Scene {
   onPointerMove(pointer) {
     const point = this.pointers.get(pointer.id);
     if (!point) return;
-
     point.x = pointer.x;
     point.y = pointer.y;
-    if (Math.hypot(pointer.x - point.startX, pointer.y - point.startY) > TAP_MOVE_THRESHOLD) {
-      point.moved = true;
-    }
+    if (Math.hypot(pointer.x - point.startX, pointer.y - point.startY) > TAP_MOVE_THRESHOLD) point.moved = true;
 
     if (this.pointers.size >= 2) {
       const points = [...this.pointers.values()];
-      const distance = Phaser.Math.Distance.Between(
-        points[0].x, points[0].y, points[1].x, points[1].y
-      );
+      const distance = Phaser.Math.Distance.Between(points[0].x, points[0].y, points[1].x, points[1].y);
       if (this.gesture?.type === 'pinch' && this.gesture.startDistance > 0) {
-        const ratio = distance / this.gesture.startDistance;
-        this.camera.setZoom(Phaser.Math.Clamp(
-          this.gesture.startZoom * ratio,
-          CAMERA_ZOOM.min,
-          CAMERA_ZOOM.max
-        ));
+        this.camera.setZoom(Phaser.Math.Clamp(this.gesture.startZoom * distance / this.gesture.startDistance, CAMERA_ZOOM.min, CAMERA_ZOOM.max));
       }
       return;
     }
 
-    if (this.gesture?.pointerId !== pointer.id) return;
-    if (point.moved) {
-      this.gesture.type = 'pan';
-      const dx = pointer.x - this.gesture.lastX;
-      const dy = pointer.y - this.gesture.lastY;
-      this.camera.scrollX -= dx / this.camera.zoom;
-      this.camera.scrollY -= dy / this.camera.zoom;
-      this.gesture.lastX = pointer.x;
-      this.gesture.lastY = pointer.y;
-    }
+    if (this.gesture?.pointerId !== pointer.id || !point.moved) return;
+    this.gesture.type = 'pan';
+    this.camera.scrollX -= (pointer.x - this.gesture.lastX) / this.camera.zoom;
+    this.camera.scrollY -= (pointer.y - this.gesture.lastY) / this.camera.zoom;
+    this.gesture.lastX = pointer.x;
+    this.gesture.lastY = pointer.y;
   }
 
   onPointerUp(pointer) {
     const point = this.pointers.get(pointer.id);
     if (!point) return;
-
-    const wasTap = this.pointers.size === 1 && !point.moved
-      && this.gesture?.type === 'pending';
+    const wasTap = this.pointers.size === 1 && !point.moved && this.gesture?.type === 'pending';
     if (wasTap) {
       const destination = this.camera.getWorldPoint(pointer.x, pointer.y);
       this.setDestination(destination.x, destination.y);
@@ -159,12 +197,7 @@ export default class Game extends Phaser.Scene {
       this.gesture = null;
     } else if (this.pointers.size === 1) {
       const remaining = [...this.pointers.entries()][0];
-      this.gesture = {
-        type: 'pending',
-        pointerId: remaining[0],
-        lastX: remaining[1].x,
-        lastY: remaining[1].y
-      };
+      this.gesture = { type: 'pending', pointerId: remaining[0], lastX: remaining[1].x, lastY: remaining[1].y };
       remaining[1].startX = remaining[1].x;
       remaining[1].startY = remaining[1].y;
       remaining[1].moved = true;
@@ -173,8 +206,8 @@ export default class Game extends Phaser.Scene {
 
   setDestination(x, y) {
     const bounds = this.physics.world.bounds;
-    const targetX = Phaser.Math.Clamp(x, bounds.x, bounds.right);
-    const targetY = Phaser.Math.Clamp(y, bounds.y, bounds.bottom);
+    const targetX = Phaser.Math.Clamp(x, bounds.x + 12, bounds.right - 12);
+    const targetY = Phaser.Math.Clamp(y, bounds.y + 12, bounds.bottom - 12);
     this.destination = { x: targetX, y: targetY };
     this.destinationMarker.setPosition(targetX, targetY).setVisible(true);
   }
@@ -221,6 +254,9 @@ export default class Game extends Phaser.Scene {
 
     this.player.move(vx, vy);
     this.monster.update(this.time.now);
+    this.player.sprite.setDepth(this.player.sprite.y + 20);
+    this.monster.sprite.setDepth(this.monster.sprite.y + 20);
+    for (const object of this.worldObjects) object.setDepth(object.y);
   }
 
   shutdown() {
@@ -230,5 +266,6 @@ export default class Game extends Phaser.Scene {
     this.input.off('pointerupoutside', this.onPointerUp, this);
     this.pointers.clear();
     this.destination = null;
+    this.worldObjects.length = 0;
   }
 }
