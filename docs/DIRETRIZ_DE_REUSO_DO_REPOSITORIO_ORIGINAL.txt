@@ -1,0 +1,82 @@
+CONQUISTADOR DE WAIFU'S
+DIRETRIZ DE USO DO REPOSITORIO ORIGINAL
+Data: 24/11/2026
+Repositorio principal: BrazucaGameplay/Colecionador
+Repositorio de referencia: BrazucaGameplay/CONQUISTADOR-
+
+======================================================================
+1. DECISAO
+======================================================================
+
+O repositorio BrazucaGameplay/CONQUISTADOR- sera mantido separado e nao
+sera migrado integralmente para BrazucaGameplay/Colecionador.
+
+O Colecionador sera desenvolvido conforme a arquitetura e o planejamento
+registrados em docs/PLANO_ARQUITETURA_E_DESENVOLVIMENTO.txt, usando Phaser 4.
+
+======================================================================
+2. CONTEUDO QUE PODE SER REUTILIZADO
+======================================================================
+
+Do repositorio original, o escopo de reutilizacao visual fica limitado a:
+
+- Cartas/ilustracoes das waifus.
+- Cartas/ilustracoes dos monstros.
+
+Essas imagens poderao ser consultadas e aproveitadas quando forem
+necessarias para implementar galerias, bestiario, colecoes ou outras
+interfaces do Colecionador.
+
+A reutilizacao sera seletiva: copiar para o Colecionador somente as imagens
+realmente necessarias para a funcionalidade em desenvolvimento, mantendo
+nomes e caminhos organizados na estrutura nova.
+
+======================================================================
+3. CONTEUDO QUE PERMANECE NO REPOSITORIO ORIGINAL
+======================================================================
+
+Permanecem exclusivamente no repositorio BrazucaGameplay/CONQUISTADOR-,
+sem migracao para o Colecionador por padrao:
+
+- Sprites e assets de monstros usados no mundo.
+- Tiles, terrenos, mapas e cenarios.
+- Arvores, objetos, estruturas e elementos ambientais.
+- Sprites e assets de bosses.
+- Codigo-fonte antigo, scripts, sistemas, cenas e implementacoes.
+- Configuracoes antigas de Phaser 3, PWA e demais recursos do projeto
+  anterior.
+
+O codigo antigo nao deve ser copiado nem adaptado automaticamente. O novo
+jogo sera implementado segundo a arquitetura planejada e as APIs do Phaser 4.
+O repositorio original pode ser consultado como referencia historica, mas
+nao e a base de codigo do Colecionador.
+
+======================================================================
+4. REGRAS DE REUTILIZACAO DE IMAGENS
+======================================================================
+
+- Consultar as cartas de waifus e monstros quando uma funcionalidade
+  precisar dessas imagens.
+- Nao copiar antecipadamente todo o diretorio de assets.
+- Nao transferir sprites de monstros, tiles, mapas, cenarios ou assets
+  ambientais sem uma nova autorizacao explicita.
+- Antes de copiar uma imagem, verificar dimensoes, formato, transparencia,
+  qualidade e adequacao ao uso.
+- Manter os arquivos originais intactos no repositorio de referencia.
+- O Colecionador deve possuir sua propria copia versionada apenas dos
+  arquivos visuais efetivamente utilizados.
+
+======================================================================
+5. PRINCIPIO DE SEPARACAO
+======================================================================
+
+CONQUISTADOR- e uma fonte de referencia visual limitada as cartas de
+waifus e monstros.
+
+Colecionador e o unico repositorio de desenvolvimento ativo para a nova
+implementacao Phaser 4.
+
+Nao realizar migracao integral, sincronizacao automatica ou transferencia
+de codigo entre os repositorios.
+
+FIM DO DOCUMENTO
