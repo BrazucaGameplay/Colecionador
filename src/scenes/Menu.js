@@ -10,9 +10,9 @@ export default class Menu extends Phaser.Scene {
 
     this.add.rectangle(0, 0, width, height, 0x0b0f1a).setOrigin(0);
 
-    this.add.text(width / 2, height * 0.32, "COLECIONADOR", {
+    this.add.text(width / 2, height * 0.32, "CONQUISTADOR DE WAIFU'S", {
       fontFamily: "Arial, sans-serif",
-      fontSize: "32px",
+      fontSize: "25px",
       fontStyle: "bold",
       color: "#f8fafc"
     }).setOrigin(0.5);
