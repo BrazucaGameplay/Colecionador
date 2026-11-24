@@ -24,10 +24,12 @@ test('world projection is isometric without prematurely fixing world dimensions'
   assert.equal(WORLD_CONFIG.dimensions.widthTiles, null);
   assert.equal(WORLD_CONFIG.dimensions.heightTiles, null);
   assert.equal(WORLD_CONFIG.chunks.requiredForInitialWorld, false);
+  assert.equal(WORLD_CONFIG.prototypePreview.status, 'debug-only');
 });
 
 test('hybrid camera allows four quarter-turn orientations', () => {
   assert.equal(CAMERA_CONFIG.mode, 'hybrid');
+  assert.equal(CAMERA_CONFIG.follow.status, 'provisional');
   assert.deepEqual(CAMERA_CONFIG.allowedRotationDegrees, [0, 90, 180, 270]);
 });
 
@@ -39,6 +41,7 @@ test('visual direction explicitly excludes pixel art', () => {
 test('provisional movement speed is centralized and camera-relative input is enabled', () => {
   assert.equal(PLAYER_CONFIG.movement.speed, 220);
   assert.equal(PLAYER_CONFIG.movement.status, 'provisional');
+  assert.equal(PLAYER_CONFIG.health.status, 'prototype-only');
   assert.equal(INPUT_CONFIG.cameraRelativeMovement, true);
 });
 
