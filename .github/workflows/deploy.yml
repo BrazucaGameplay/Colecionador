@@ -4,7 +4,7 @@ name: Deploy
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: github-pages
@@ -18,35 +18,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
       - run: npm install
-      - name: Download and verify original player model
-        env:
-          MODEL_URL: https://github.com/BrazucaGameplay/Colecionador/releases/download/1.1.4/warrior.glb
-          EXPECTED_SHA256: 78c2615adbe2cb2b1f18c2bd3c4b6936022a45c5fbd561354cd6c55827c0974d
+      - name: Verify current character and weapon assets
         run: |
-          mkdir -p public/assets/characters/warrior
-          curl --fail --location --retry 3 --retry-delay 2 "$MODEL_URL" --output public/assets/characters/warrior/warrior.glb
-          echo "$EXPECTED_SHA256  public/assets/characters/warrior/warrior.glb" | sha256sum --check
-          test "$(stat -c%s public/assets/characters/warrior/warrior.glb)" -eq 32744112
-          echo "Verified original GLB: $(stat -c%s public/assets/characters/warrior/warrior.glb) bytes"
-      - name: Commit original model into repository
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/assets/characters/warrior/warrior.glb
-          if ! git diff --cached --quiet; then
-            git commit -m "Add original warrior GLB player asset"
-            git pull --rebase origin main
-            git push origin HEAD:main
-          else
-            echo "Original warrior GLB is already committed."
-          fi
+          test -s public/assets/characters/crimson-flame-sovereign/character.glb
+          test -s public/assets/characters/crimson-veinblade/character.glb
+          test -s public/assets/weapons/Colossal_Sword_optimized.glb
+          echo "Character and weapon assets verified."
       - run: npm run build
-      - name: Verify model is present in build output
+      - name: Verify assets in build output
         run: |
-          test -s dist/assets/characters/warrior/warrior.glb
-          cmp public/assets/characters/warrior/warrior.glb dist/assets/characters/warrior/warrior.glb
-          echo "Verified model in build: $(stat -c%s dist/assets/characters/warrior/warrior.glb) bytes"
+          test -s dist/assets/characters/crimson-flame-sovereign/character.glb
+          test -s dist/assets/characters/crimson-veinblade/character.glb
+          test -s dist/assets/weapons/Colossal_Sword_optimized.glb
+          echo "Build assets verified."
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
