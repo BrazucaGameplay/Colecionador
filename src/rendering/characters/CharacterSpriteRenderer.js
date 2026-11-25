@@ -7,6 +7,8 @@ const atlas = (id, file, clip, move = false) => ({
   path: `assets/characters/sprites/skin_01/${file}`
 });
 
+const SHARED_IDLE_ATLAS = atlas('shared', 'character-anterior-idle_03', 'idle_03');
+
 export const PLAYER_SPRITE_SKINS = Object.freeze({
   'skin-padrao-1': Object.freeze({
     name: 'Skin padrão 1',
@@ -54,8 +56,6 @@ export const PLAYER_SPRITE_SKINS = Object.freeze({
     ]
   })
 });
-
-const SHARED_IDLE_ATLAS = atlas('shared', 'character-anterior-idle_03', 'idle_03');
 
 const ATTACK_ATLASES = [
   atlas('shared', 'character-anterior-combate', 'combate'),
