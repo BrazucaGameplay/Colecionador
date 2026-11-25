@@ -11,9 +11,9 @@ previewRenderer.toneMapping = THREE.ACESFilmicToneMapping;
 previewRenderer.toneMappingExposure = 1.1;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(32, 1, 0.01, 1000);
-camera.position.set(0, 1.2, 5.5);
-camera.lookAt(0, 0.9, 0);
+const camera = new THREE.OrthographicCamera(-1.15, 1.15, 1.15, -1.15, 0.01, 1000);
+camera.position.set(0, 0.99, 5.5);
+camera.lookAt(0, 0.99, 0);
 scene.add(new THREE.HemisphereLight(0xffffff, 0x657080, 2.1));
 const key = new THREE.DirectionalLight(0xffffff, 2.4);
 key.position.set(-3, 5, 4);
@@ -190,9 +190,15 @@ async function bakeClip(index) {
 
   const oldSize = previewRenderer.getSize(new THREE.Vector2());
   previewRenderer.setSize(frameSize, frameSize, false);
-  camera.aspect = 1;
-  camera.position.set(0, 1.0, 5.5);
-  camera.lookAt(0, 0.9, 0);
+  const viewHeight = 1.8 / scalePercent;
+  const viewBottom = -viewHeight * 0.08;
+  const viewTop = viewBottom + viewHeight;
+  camera.left = -viewHeight / 2;
+  camera.right = viewHeight / 2;
+  camera.top = viewTop;
+  camera.bottom = viewBottom;
+  camera.position.set(0, (viewTop + viewBottom) / 2, 5.5);
+  camera.lookAt(0, (viewTop + viewBottom) / 2, 0);
   camera.updateProjectionMatrix();
 
   const atlas = document.createElement('canvas');
@@ -201,10 +207,10 @@ async function bakeClip(index) {
   const ctx = atlas.getContext('2d');
   const frames = [];
   let frameIndex = 0;
-  const baseYaw = [0, Math.PI / 2, Math.PI, -Math.PI / 2, Math.PI / 4, 3 * Math.PI / 4, -3 * Math.PI / 4, -Math.PI / 4];
+  const yawStep = (Math.PI * 2) / directions;
 
   for (let d = 0; d < directions; d++) {
-    const yaw = directions === 1 ? 0 : baseYaw[Math.round(d * 8 / directions) % 8];
+    const yaw = d * yawStep;
     for (let f = 0; f < frameCount; f++) {
       const time = Math.min(f / fps, Math.max(0, duration - 0.0001));
       const tile = makeFrame(time, yaw, frameSize);
