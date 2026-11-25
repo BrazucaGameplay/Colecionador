@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
-const MODEL_URL = `${import.meta.env.BASE_URL}assets/characters/player/warrior.glb?v=1.1.8`;
 const MODEL_HEIGHT_WORLD = 76;
 const IDLE_POSE_TIME = 0.12;
 
@@ -14,9 +13,15 @@ const ANIMATION = Object.freeze({
   death: 'Dead'
 });
 
+/**
+ * Standalone GLB presentation adapter.
+ * It receives a DOM mount point and transform/camera snapshots, never a Player
+ * instance, physics body, input controller or gameplay system.
+ */
 export default class CharacterRenderer3D {
-  constructor(scene, { onReady = () => {}, onError = () => {}, onProgress = () => {} } = {}) {
-    this.scene = scene;
+  constructor(parent, { modelUrl, onReady = () => {}, onError = () => {}, onProgress = () => {} } = {}) {
+    this.parent = parent;
+    this.modelUrl = modelUrl;
     this.onReady = onReady;
     this.onError = onError;
     this.onProgress = onProgress;
@@ -31,7 +36,11 @@ export default class CharacterRenderer3D {
     this.moving = false;
     this.lockedAction = false;
     this.dead = false;
-    this.parent = scene.sys.game.canvas.parentElement;
+
+    if (!parent) {
+      this.onError('Não foi encontrado o elemento de exibição do jogo.');
+      return;
+    }
 
     try {
       this.renderer = new THREE.WebGLRenderer({
@@ -98,7 +107,7 @@ export default class CharacterRenderer3D {
     const loader = new GLTFLoader();
     loader.setMeshoptDecoder(MeshoptDecoder);
     loader.load(
-      MODEL_URL,
+      modelUrl,
       (gltf) => this.onModelLoaded(gltf),
       (event) => {
         if (this.disposed) return;
@@ -112,8 +121,8 @@ export default class CharacterRenderer3D {
       },
       (error) => {
         if (this.disposed) return;
-        console.error('Falha ao carregar o modelo obrigatório do jogador:', error);
-        this.onError('Falha ao carregar warrior.glb. Verifique a conexão e tente atualizar a página.');
+        console.error('Falha ao carregar warrior.glb:', error);
+        this.onError('warrior.glb ainda não está na pasta de assets. O jogador lógico continuará funcionando.');
       }
     );
   }
@@ -147,12 +156,15 @@ export default class CharacterRenderer3D {
     this.mixer.addEventListener('finished', this.onActionFinished);
     this.ready = true;
     this.root.rotation.y = this.direction;
-    this.setAnimation(this.moving ? ANIMATION.walk : ANIMATION.idle, { idlePose: !this.moving });
+    this.setAnimation(this.moving ? ANIMATION.walk : ANIMATION.idle, {
+      idlePose: !this.moving
+    });
     this.onReady();
   }
 
   setAnimation(name, { loop = true, idlePose = false } = {}) {
-    if (!this.ready || !this.actions.has(name)) return;
+    if (!this.ready && !this.mixer) return;
+    if (!this.actions.has(name)) return;
     const next = this.actions.get(name);
     if (this.currentAction === name) {
       if (idlePose) {
@@ -183,15 +195,13 @@ export default class CharacterRenderer3D {
     if (!this.ready || this.dead || this.lockedAction || !this.actions.has(name)) return;
     this.lockedAction = true;
     this.setAnimation(name, { loop: false });
-    const action = this.actions.get(name);
-    action.timeScale = speed;
+    this.actions.get(name).timeScale = speed;
   }
 
   onActionFinished = (event) => {
     if (this.disposed || !this.ready) return;
     if (this.actions.get(this.currentAction) !== event.action) return;
     if (this.dead || this.currentAction === ANIMATION.death) return;
-
     this.lockedAction = false;
     this.currentAction = null;
     this.setAnimation(this.moving ? ANIMATION.walk : ANIMATION.idle, {
@@ -199,13 +209,8 @@ export default class CharacterRenderer3D {
     });
   };
 
-  playSlash() {
-    this.playOneShot(ANIMATION.attack, 1.15);
-  }
-
-  playJump() {
-    this.playOneShot(ANIMATION.jump);
-  }
+  playSlash() { this.playOneShot(ANIMATION.attack, 1.15); }
+  playJump() { this.playOneShot(ANIMATION.jump); }
 
   playDeath() {
     if (!this.ready || this.dead || !this.actions.has(ANIMATION.death)) return;
@@ -215,21 +220,28 @@ export default class CharacterRenderer3D {
   }
 
   setMoving(moving) {
-    this.moving = moving;
+    this.moving = Boolean(moving);
     if (!this.ready || this.lockedAction || this.dead) return;
-    this.setAnimation(moving ? ANIMATION.walk : ANIMATION.idle, {
-      idlePose: !moving
+    this.setAnimation(this.moving ? ANIMATION.walk : ANIMATION.idle, {
+      idlePose: !this.moving
     });
   }
 
-  setDirection(angle) {
+  setDirection(x, y) {
+    if (Math.hypot(x, y) < 0.0001) return;
+    const angle = Math.atan2(x, -y);
     const step = Math.PI / 4;
     this.direction = Math.round(angle / step) * step;
     if (this.root) this.root.rotation.y = this.direction;
   }
 
+  setTransform(x, y) {
+    this.worldX = x;
+    this.worldY = y;
+  }
+
   resize() {
-    if (this.disposed || !this.renderer) return;
+    if (this.disposed || !this.renderer || !this.parent) return;
     const width = Math.max(1, this.parent.clientWidth);
     const height = Math.max(1, this.parent.clientHeight);
     this.renderer.setSize(width, height, false);
@@ -240,15 +252,10 @@ export default class CharacterRenderer3D {
     this.camera.updateProjectionMatrix();
   }
 
-  setPosition(x, y) {
-    this.worldX = x;
-    this.worldY = y;
-  }
-
   update(delta, camera2d) {
     if (this.disposed || !this.renderer) return;
-    if (this.mixer) this.mixer.update(Math.min(Math.max(delta, 0), 50) / 1000);
-    if (!this.ready) return;
+    this.mixer?.update(Math.min(Math.max(delta, 0), 50) / 1000);
+    if (!this.ready || !camera2d) return;
 
     const height = this.parent.clientHeight;
     const zoomX = camera2d.zoomX || camera2d.zoom;
@@ -278,5 +285,6 @@ export default class CharacterRenderer3D {
     this.renderer?.domElement.remove();
     this.actions.clear();
     this.currentAction = null;
+    this.parent = null;
   }
 }

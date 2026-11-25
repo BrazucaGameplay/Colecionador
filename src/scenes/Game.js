@@ -1,18 +1,19 @@
 import Phaser from 'phaser';
 import Player from '../entities/Player.js';
+import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
+import CharacterRenderer3D from '../entities/CharacterRenderer3D.js';
+import { PLAYER_MODEL_URL } from '../rendering/characters/CharacterAssets.js';
 import Monster from '../entities/Monster.js';
 import WorldNavigation from '../world/WorldNavigation.js';
-import MovementController from '../systems/MovementController.js';
+import MovementSystem from '../systems/MovementSystem.js';
+import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.28, max: 2.25, fitPadding: 0.94 });
-const TAP_MOVE_THRESHOLD = 12;
 
 export default class Game extends Phaser.Scene {
   constructor() {
     super('Game');
-    this.pointers = new Map();
-    this.gesture = null;
     this.worldObjects = [];
     this.groundTiles = [];
   }
@@ -36,14 +37,24 @@ export default class Game extends Phaser.Scene {
       throw new Error('Não foi encontrado um ponto caminhável para iniciar o jogador.');
     }
 
-    this.player = new Player(this, playerSpawn.x, playerSpawn.y);
+    // Logical player state exists independently of the GLB and all renderers.
+    this.player = new Player({ x: playerSpawn.x, y: playerSpawn.y, speed: 220, maxHealth: 3 });
+    this.playerBody = new PlayerBodyAdapter(this, this.player);
+    this.characterRenderer = new CharacterRenderer3D(this.game.canvas.parentElement, {
+      modelUrl: PLAYER_MODEL_URL,
+      onError: (message) => console.warn('[CharacterRenderer]', message)
+    });
+
     const monsterSpawn = this.navigation.findNearestWalkablePoint(centerX - 180, centerY - 105);
     const enemySpawn = monsterSpawn || { x: playerSpawn.x + 90, y: playerSpawn.y };
     this.monster = new Monster(this, enemySpawn.x, enemySpawn.y);
-    this.physics.add.overlap(this.player.sprite, this.monster.sprite, () => this.hitMonster());
+    this.physics.add.overlap(
+      this.playerBody.object,
+      this.monster.sprite,
+      () => this.hitMonster()
+    );
 
-    this.hp = 3;
-    this.hpText = this.add.text(16, 16, 'HP ' + this.hp, {
+    this.hpText = this.add.text(16, 16, 'HP ' + this.player.health, {
       fontSize: '20px',
       color: '#fff',
       stroke: '#172719',
@@ -82,18 +93,21 @@ export default class Game extends Phaser.Scene {
       .setDepth(900)
       .setVisible(false);
 
-    this.movement = new MovementController(
-      this,
-      this.player,
-      this.navigation,
-      this.destinationMarker
-    );
+    this.movement = new MovementSystem(this.player, this.navigation);
+    this.touchInput = new TouchInputController(this, {
+      camera: this.camera,
+      onTap: (screenX, screenY) => {
+        const target = this.camera.getWorldPoint(screenX, screenY);
+        const accepted = this.movement.setDestination(target.x, target.y);
+        if (accepted) {
+          const destination = this.movement.destination;
+          this.destinationMarker.setPosition(destination.x, destination.y).setVisible(true);
+        } else {
+          this.destinationMarker.setVisible(false);
+        }
+      }
+    });
 
-    this.input.addPointer(1);
-    this.input.on('pointerdown', this.onPointerDown, this);
-    this.input.on('pointermove', this.onPointerMove, this);
-    this.input.on('pointerup', this.onPointerUp, this);
-    this.input.on('pointerupoutside', this.onPointerUp, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this._cooldown = 0;
   }
@@ -117,99 +131,10 @@ export default class Game extends Phaser.Scene {
     this.navigation.setAlphaMask(pixels, source.width, source.height, 150);
   }
 
-  onPointerDown(pointer) {
-    this.pointers.set(pointer.id, {
-      x: pointer.x,
-      y: pointer.y,
-      startX: pointer.x,
-      startY: pointer.y,
-      moved: false
-    });
-
-    if (this.pointers.size === 1) {
-      this.gesture = {
-        type: 'pending',
-        pointerId: pointer.id,
-        lastX: pointer.x,
-        lastY: pointer.y
-      };
-    } else if (this.pointers.size === 2) {
-      const points = [...this.pointers.values()];
-      this.gesture = {
-        type: 'pinch',
-        startDistance: Phaser.Math.Distance.Between(
-          points[0].x, points[0].y, points[1].x, points[1].y
-        ),
-        startZoom: this.camera.zoom
-      };
-    }
-  }
-
-  onPointerMove(pointer) {
-    const point = this.pointers.get(pointer.id);
-    if (!point) return;
-    point.x = pointer.x;
-    point.y = pointer.y;
-    if (Math.hypot(pointer.x - point.startX, pointer.y - point.startY) > TAP_MOVE_THRESHOLD) {
-      point.moved = true;
-    }
-
-    if (this.pointers.size >= 2) {
-      const points = [...this.pointers.values()];
-      const distance = Phaser.Math.Distance.Between(
-        points[0].x, points[0].y, points[1].x, points[1].y
-      );
-      if (this.gesture?.type === 'pinch' && this.gesture.startDistance > 0) {
-        this.camera.setZoom(Phaser.Math.Clamp(
-          this.gesture.startZoom * distance / this.gesture.startDistance,
-          CAMERA_ZOOM.min,
-          CAMERA_ZOOM.max
-        ));
-      }
-      return;
-    }
-
-    if (this.gesture?.pointerId !== pointer.id || !point.moved) return;
-    this.gesture.type = 'pan';
-    this.camera.scrollX -= (pointer.x - this.gesture.lastX) / this.camera.zoom;
-    this.camera.scrollY -= (pointer.y - this.gesture.lastY) / this.camera.zoom;
-    this.gesture.lastX = pointer.x;
-    this.gesture.lastY = pointer.y;
-  }
-
-  onPointerUp(pointer) {
-    const point = this.pointers.get(pointer.id);
-    if (!point) return;
-    const wasTap = this.pointers.size === 1 &&
-      !point.moved &&
-      this.gesture?.type === 'pending';
-
-    if (wasTap) {
-      const destination = this.camera.getWorldPoint(pointer.x, pointer.y);
-      this.movement.setDestination(destination.x, destination.y);
-    }
-
-    this.pointers.delete(pointer.id);
-    if (this.pointers.size === 0) {
-      this.gesture = null;
-    } else if (this.pointers.size === 1) {
-      const remaining = [...this.pointers.entries()][0];
-      this.gesture = {
-        type: 'pending',
-        pointerId: remaining[0],
-        lastX: remaining[1].x,
-        lastY: remaining[1].y
-      };
-      remaining[1].startX = remaining[1].x;
-      remaining[1].startY = remaining[1].y;
-      remaining[1].moved = true;
-    }
-  }
-
   hitMonster() {
-    if (this._cooldown > this.time.now || this.monster.dead) return;
+    if (this._cooldown > this.time.now || this.monster.dead || !this.player.alive) return;
     this._cooldown = this.time.now + 500;
-    this.player.attack();
+    this.characterRenderer?.playSlash();
     this.monster.takeHit();
 
     if (this.monster.dead) {
@@ -224,17 +149,26 @@ export default class Game extends Phaser.Scene {
         console.warn('Não foi possível salvar o progresso neste dispositivo.', error);
       }
       this.time.delayedCall(600, () => {
-        if (this.monster && !this.monster.scene) return;
-        this.monster?.respawn();
+        if (!this.monster || !this.monster.scene) return;
+        this.monster.respawn();
       });
     }
   }
 
   update(time, delta = 16.67) {
     this.movement?.update(delta);
-    this.player?.update(delta, this.camera);
-    this.monster?.update(this.time.now);
+    this.playerBody?.sync();
 
+    this.characterRenderer?.setTransform(this.player.x, this.player.y);
+    this.characterRenderer?.setMoving(this.player.moving);
+    if (this.player.moving) {
+      this.characterRenderer?.setDirection(this.player.facing.x, this.player.facing.y);
+    }
+    this.characterRenderer?.update(delta, this.camera);
+
+    if (!this.movement?.destination) this.destinationMarker?.setVisible(false);
+
+    this.monster?.update(this.time.now);
     if (this.monster && !this.monster.dead) {
       const seconds = Math.min(Math.max(delta, 0), 50) / 1000;
       const nextX = this.monster.sprite.x + this.monster.sprite.body.velocity.x * seconds;
@@ -244,24 +178,22 @@ export default class Game extends Phaser.Scene {
       }
       this.monster.sprite.setDepth(this.monster.sprite.y + 20);
     }
-
-    if (this.player) this.player.sprite.setDepth(this.player.sprite.y + 20);
+    this.playerBody?.object.setDepth(this.player.y + 20);
     for (const object of this.worldObjects) object.setDepth(object.y);
   }
 
   shutdown() {
+    this.touchInput?.destroy();
     this.movement?.destroy();
-    this.player?.destroy();
+    this.playerBody?.destroy();
+    this.characterRenderer?.destroy();
     this.monster?.destroy();
-    this.input.off('pointerdown', this.onPointerDown, this);
-    this.input.off('pointermove', this.onPointerMove, this);
-    this.input.off('pointerup', this.onPointerUp, this);
-    this.input.off('pointerupoutside', this.onPointerUp, this);
-    this.pointers.clear();
-    this.gesture = null;
     this.worldObjects.length = 0;
     this.groundTiles.length = 0;
+    this.touchInput = null;
     this.movement = null;
+    this.playerBody = null;
+    this.characterRenderer = null;
     this.player = null;
     this.monster = null;
   }
