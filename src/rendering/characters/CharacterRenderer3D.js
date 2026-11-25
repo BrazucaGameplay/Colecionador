@@ -256,11 +256,20 @@ export default class CharacterRenderer3D {
       bounds.getSize(size);
       bounds.getCenter(center);
 
-      // O GLB da espada tem seu comprimento no eixo Y. Centralizamos a malha
-      // e posicionamos o cabo próximo à origem do osso da mão.
-      weapon.position.set(-center.x, -bounds.min.y, -center.z);
-      weapon.scale.setScalar(22);
+      // O GLB da espada tem o comprimento no eixo Y. Como a mão herda
+      // a escala de normalização do personagem, a escala da arma precisa
+      // compensá-la para manter o tamanho final em unidades do mundo.
+      const characterScale = Math.max(Math.abs(this.model.scale.x), 0.0001);
+      const targetWorldLength = 48;
+      const weaponScale = targetWorldLength / (Math.max(size.y, 0.0001) * characterScale);
+      weapon.position.set(
+        -center.x * weaponScale,
+        -bounds.min.y * weaponScale,
+        -center.z * weaponScale
+      );
+      weapon.scale.setScalar(weaponScale);
       weapon.rotation.set(0, 0, 0);
+      weapon.visible = true;
 
       const anchor = new THREE.Group();
       anchor.name = 'RightHandWeaponAnchor';
@@ -272,6 +281,11 @@ export default class CharacterRenderer3D {
 
       this.weapon = weapon;
       this.weaponAnchor = anchor;
+      console.info('[CharacterWeapon] espada anexada à mão direita', {
+        characterScale,
+        weaponScale,
+        worldLength: size.y * weaponScale * characterScale
+      });
       return true;
     } catch (error) {
       console.error('[CharacterWeapon] Falha ao carregar a espada.', error);
