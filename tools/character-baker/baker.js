@@ -100,7 +100,7 @@ async function loadModel() {
   status('Carregando GLB…');
   try {
     disposeCurrent();
-    const url = $('model').value;
+    const url = import.meta.env.BASE_URL + $('model').value;
     const gltf = await new GLTFLoader().loadAsync(url);
     gltfData = gltf;
     model = gltf.scene;
@@ -233,7 +233,7 @@ async function bakeClip(index) {
   downloadBlob(png, prefix + '-' + animationName + '.png');
   const metadata = {
     schema: 'colecionador.sprite-atlas.v1',
-    source: $('model').value,
+    source: import.meta.env.BASE_URL + $('model').value,
     animation: currentClip.name,
     fps,
     frameSize: { width: frameSize, height: frameSize },
