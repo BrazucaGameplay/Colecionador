@@ -11,9 +11,7 @@ const models = [
   'assets/characters/skin_01/skin-padrão1.glb',
   'assets/characters/skin_01/skin_padrão2.glb',
   'assets/characters/skin_01/skin_padrão3.glb',
-  'assets/characters/skin_01/skin_padrão4.glb',
-  // Fonte com espada embutida: fornece ataque e morte para a migração 2D.
-  'assets/characters/skin_01/character.glb'
+  'assets/characters/skin_01/skin_padrão4.glb'
 ];
 
 await rm(output, { recursive: true, force: true });
