@@ -228,62 +228,82 @@ export default class Game extends Phaser.Scene {
    * interna das nuvens, sem cobrir a área caminhável nem exigir PNG externo.
    */
   createCloudBoundary() {
-    const key = 'generated-cloud-bank';
-    const width = 512;
-    const height = 256;
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) throw new Error('Não foi possível criar a textura das nuvens.');
+    const textureKey = 'generated-cloud-sea';
+    const bankKey = 'generated-cloud-bank';
+    const size = 512;
 
-    const puffs = [
-      [65, 164, 74, 54], [130, 128, 90, 82], [218, 150, 104, 78],
-      [310, 132, 92, 88], [398, 164, 86, 62], [462, 184, 58, 44],
-      [172, 198, 116, 42], [300, 202, 126, 40]
-    ];
-    for (const [x, y, rx, ry] of puffs) {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.scale(1, ry / rx);
-      const gradient = ctx.createRadialGradient(0, -rx * 0.18, rx * 0.08, 0, 0, rx);
-      gradient.addColorStop(0, 'rgba(255,255,255,0.98)');
-      gradient.addColorStop(0.48, 'rgba(235,246,255,0.96)');
-      gradient.addColorStop(0.78, 'rgba(190,216,240,0.88)');
-      gradient.addColorStop(1, 'rgba(150,190,225,0)');
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(0, 0, rx, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
+    // Campo de nuvens opaco que preenche toda a área externa visível.
+    const fieldCanvas = document.createElement('canvas');
+    fieldCanvas.width = size;
+    fieldCanvas.height = size;
+    const field = fieldCanvas.getContext('2d');
+    if (!field) throw new Error('Não foi possível criar o campo de nuvens.');
+
+    const sky = field.createLinearGradient(0, 0, size, size);
+    sky.addColorStop(0, '#a9cbea');
+    sky.addColorStop(0.5, '#c7def3');
+    sky.addColorStop(1, '#8fb8df');
+    field.fillStyle = sky;
+    field.fillRect(0, 0, size, size);
+
+    // Nuvens densas em posições determinísticas para repetir sem cintilação.
+    for (let i = 0; i < 64; i++) {
+      const x = (i * 137.5 + (i % 4) * 31) % size;
+      const y = (i * 83.7 + (i % 7) * 19) % size;
+      const radius = 32 + (i % 5) * 9;
+      const puff = field.createRadialGradient(x - radius * 0.18, y - radius * 0.28, radius * 0.08, x, y, radius);
+      puff.addColorStop(0, 'rgba(255,255,255,0.99)');
+      puff.addColorStop(0.55, 'rgba(244,250,255,0.96)');
+      puff.addColorStop(0.84, 'rgba(219,235,250,0.9)');
+      puff.addColorStop(1, 'rgba(193,220,244,0)');
+      field.fillStyle = puff;
+      field.beginPath();
+      field.arc(x, y, radius, 0, Math.PI * 2);
+      field.fill();
     }
 
-    // Sombra azul suave na base para dar volume sem parecer fumaça escura.
-    const base = ctx.createLinearGradient(0, 170, 0, 256);
-    base.addColorStop(0, 'rgba(190,218,244,0)');
-    base.addColorStop(1, 'rgba(125,169,210,0.58)');
-    ctx.fillStyle = base;
-    ctx.fillRect(0, 170, width, 86);
+    if (this.textures.exists(textureKey)) this.textures.remove(textureKey);
+    this.textures.addCanvas(textureKey, fieldCanvas);
+    this.add.tileSprite(ISLAND_RADIUS, ISLAND_RADIUS, 8192, 8192, textureKey)
+      .setOrigin(0.5).setDepth(-1200);
 
-    if (this.textures.exists(key)) this.textures.remove(key);
-    this.textures.addCanvas(key, canvas);
+    // Faixa volumosa em primeiro plano, avançando sobre a grama.
+    const bankCanvas = document.createElement('canvas');
+    bankCanvas.width = size;
+    bankCanvas.height = 256;
+    const ctx = bankCanvas.getContext('2d');
+    if (!ctx) throw new Error('Não foi possível criar a borda de nuvens.');
+
+    const puffs = [[35,150,58],[95,118,76],[165,145,82],[245,116,78],[325,145,84],[405,120,76],[475,158,62],[135,195,92],[275,195,100],[410,195,90]];
+    for (const [x, y, radius] of puffs) {
+      const puff = ctx.createRadialGradient(x-radius*0.2,y-radius*0.3,radius*0.06,x,y,radius);
+      puff.addColorStop(0,'rgba(255,255,255,1)');
+      puff.addColorStop(0.48,'rgba(244,250,255,0.99)');
+      puff.addColorStop(0.76,'rgba(211,231,249,0.94)');
+      puff.addColorStop(1,'rgba(165,202,235,0)');
+      ctx.fillStyle=puff;
+      ctx.beginPath();
+      ctx.arc(x,y,radius,0,Math.PI*2);
+      ctx.fill();
+    }
+    if (this.textures.exists(bankKey)) this.textures.remove(bankKey);
+    this.textures.addCanvas(bankKey, bankCanvas);
 
     const count = 48;
-    const ringRadius = ISLAND_RADIUS + 155;
+    const ringRadius = ISLAND_RADIUS - 35;
     for (let i = 0; i < count; i++) {
-      const angle = (Math.PI * 2 * i) / count;
-      const variation = 0.88 + ((i * 17) % 9) * 0.035;
+      const angle = Math.PI * 2 * i / count;
+      const scale = 0.98 + ((i * 13) % 5) * 0.045;
       const x = ISLAND_RADIUS + Math.cos(angle) * ringRadius;
       const y = ISLAND_RADIUS + Math.sin(angle) * ringRadius;
-      const cloud = this.add.image(x, y, key)
-        .setOrigin(0.5, 0.5)
+      this.add.image(x, y, bankKey)
+        .setOrigin(0.5)
         .setRotation(angle + Math.PI / 2)
-        .setScale(variation)
-        .setDepth(-1100);
-      cloud.setAlpha(0.94);
+        .setScale(scale)
+        .setAlpha(0.98)
+        .setDepth(-900);
     }
   }
-
 
   readSavedProgress() {
     try {
