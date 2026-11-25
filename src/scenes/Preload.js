@@ -3,8 +3,8 @@ import Phaser from 'phaser';
 const WORLD_ASSETS = [
   // Silhueta original da ilha: define o tamanho do mundo e a área caminhável.
   ['island-01', 'assets/world/Islands/island-01.png'],
-  // Uma única textura de grama, repetida por código para preencher a silhueta.
-  ['island-ground-tile', 'assets/world/Islands/island-01/ground/Terreno-01.png']
+  // Textura de terreno em alta resolução, repetida por código para preencher a silhueta.
+  ['island-ground-tile', 'assets/world/Islands/island-01/ground/terreno-01.png']
 ];
 
 export default class Preload extends Phaser.Scene {
@@ -27,7 +27,7 @@ export default class Preload extends Phaser.Scene {
       label.setText('Falha ao carregar recursos do jogo.');
     });
     for (const [key, url] of WORLD_ASSETS) {
-      this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-ground-1');
+      this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-terreno-02');
     }
   }
 
