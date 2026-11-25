@@ -121,7 +121,7 @@ src/
 
   ui/
     HUD
-    Joystick
+    TouchControls
     Skills
     Menus
     InventoryUI
