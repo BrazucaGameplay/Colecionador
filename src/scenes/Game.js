@@ -25,7 +25,6 @@ export default class Game extends Phaser.Scene {
   create() {
     const viewWidth = this.scale.width;
     const viewHeight = this.scale.height;
-    const islandSource = this.textures.get('island-01').getSourceImage();
     this.worldWidth = ISLAND_DIAMETER;
     this.worldHeight = ISLAND_DIAMETER;
     const centerX = this.worldWidth / 2;
@@ -120,8 +119,7 @@ export default class Game extends Phaser.Scene {
 
   /**
    * Repete a única textura de grama e recorta o resultado pela transparência
-   * da arte-base da ilha. Assim o terreno mantém a silhueta e o tamanho atuais,
-   * mas deixa de depender da ilustração antiga como superfície do chão.
+   * de uma máscara circular. A dimensão do mundo e a navegação usam o mesmo raio.
    */
   createGround() {
     const tileSource = this.textures.get('island-ground-tile').getSourceImage();
