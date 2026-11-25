@@ -222,43 +222,57 @@ export default class Game extends Phaser.Scene {
    */
   createIslandEdge() {
     const center = ISLAND_RADIUS;
-    const edgeRadius = ISLAND_RADIUS - 115;
-    const waterfallKeys = ['waterfall-edge-a', 'waterfall-edge-b'];
-    const segmentCount = 16;
 
-    for (let i = 0; i < segmentCount; i++) {
-      const angle = (Math.PI * 2 * i) / segmentCount;
-      const x = center + Math.cos(angle) * edgeRadius;
-      const y = center + Math.sin(angle) * edgeRadius;
-      const key = waterfallKeys[i % waterfallKeys.length];
-      const waterfall = this.add.image(x, y, key)
-        .setOrigin(0.5, 0.5)
-        .setRotation(angle + Math.PI / 2)
-        .setDepth(y - 90)
-        .setData('depthOffset', -90);
+    // Cascata lateral esquerda: o asset já foi desenhado com o terreno à direita.
+    // Mantemos a orientação original; girá-lo fazia a água atravessar o mapa.
+    const leftWaterfall = this.add.image(250, 1760, 'waterfall-edge-a')
+      .setOrigin(0.5, 0.5)
+      .setScale(0.72)
+      .setDepth(1760 - 180)
+      .setData('depthOffset', -180);
+    this.worldObjects.push(leftWaterfall);
 
-      const source = this.textures.get(key).getSourceImage();
-      const tangentLength = Math.max(source.width, source.height);
-      const targetLength = 840;
-      waterfall.setScale(targetLength / tangentLength);
-      this.worldObjects.push(waterfall);
-    }
+    // Cascata de borda superior: posicionada como um trecho focal, não repetida
+    // em volta do círculo. A sobreposição com o terreno fica voltada para dentro.
+    const upperWaterfall = this.add.image(center + 880, 300, 'waterfall-edge-b')
+      .setOrigin(0.5, 0.5)
+      .setScale(0.68)
+      .setDepth(300 - 180)
+      .setData('depthOffset', -180);
+    this.worldObjects.push(upperWaterfall);
 
-    // Colinas e rochas quebram a repetição da água e dão volume ao horizonte.
+    // Colinas ocupam setores distintos do horizonte e ficam atrás da área de jogo.
+    // As posições são fixas e escolhidas para não disputar o centro de nascimento.
     const relief = [
-      { key: 'hill-b', angle: -0.75, radius: 1540, height: 480, depth: 0 },
-      { key: 'hill-c', angle: 0.95, radius: 1570, height: 500, depth: 0 },
-      { key: 'rock-cluster', angle: 2.65, radius: 1510, height: 300, depth: 0 }
+      { key: 'hill-b', x: 1040, y: 930, height: 760, originX: 0.5, originY: 0.86 },
+      { key: 'hill-c', x: 3100, y: 2920, height: 790, originX: 0.5, originY: 0.86 }
     ];
 
     for (const item of relief) {
-      const x = center + Math.cos(item.angle) * item.radius;
-      const y = center + Math.sin(item.angle) * item.radius;
-      const image = this.add.image(x, y, item.key).setOrigin(0.5, 0.82);
+      const image = this.add.image(item.x, item.y, item.key)
+        .setOrigin(item.originX, item.originY);
       const source = this.textures.get(item.key).getSourceImage();
       image.setScale(item.height / source.height);
-      image.setDepth(y - 120).setData('depthOffset', -120);
+      image.setDepth(item.y - 160).setData('depthOffset', -160);
       this.worldObjects.push(image);
+    }
+
+    // Rochas menores funcionam como transição entre o terreno e as formações.
+    const rockPositions = [
+      [690, 1450, 0.34], [1240, 3160, 0.30],
+      [2860, 820, 0.32], [3440, 2220, 0.36],
+      [2100, 3650, 0.28]
+    ];
+    const rockSource = this.textures.get('rock-cluster').getSourceImage();
+    for (const [x, y, scale] of rockPositions) {
+      if (!this.navigation.isAreaWalkable(x, y, 46)) continue;
+      const rock = this.add.image(x, y, 'rock-cluster')
+        .setOrigin(0.5, 0.82)
+        .setScale(scale)
+        .setDepth(y + 8)
+        .setData('depthOffset', 8);
+      this.navigation.addObstacle(x, y - 10, 22, 16);
+      this.worldObjects.push(rock);
     }
   }
 
