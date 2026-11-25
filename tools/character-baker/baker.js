@@ -178,9 +178,15 @@ function makeFrame(position, yaw, frameSize, verticalOffset = 0) {
   });
   const poseBounds = new THREE.Box3().setFromObject(model);
   if (!Number.isFinite(poseBounds.min.y)) throw new Error('Não foi possível calcular o ponto de apoio da pose.');
-  fitGroup.position.y = getGroundedFitY(fitBasePosition.y, poseBounds.min.y) + verticalOffset;
+  fitGroup.position.y = getGroundedFitY(fitBasePosition.y, poseBounds.min.y);
   fitGroup.updateMatrixWorld(true);
   model.updateMatrixWorld(true);
+  // Desloca o enquadramento da câmera (não a raiz animada) para alinhar a
+  // margem inferior com o limite real dos pixels renderizados.
+  const cameraBaseY = (camera.top + camera.bottom) / 2;
+  camera.position.y = cameraBaseY - verticalOffset;
+  camera.lookAt(0, cameraBaseY - verticalOffset, 0);
+  camera.updateMatrixWorld(true);
   renderPreview();
 
   const frame = document.createElement('canvas');
