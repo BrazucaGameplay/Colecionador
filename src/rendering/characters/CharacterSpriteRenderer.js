@@ -53,7 +53,7 @@ export const PLAYER_SPRITE_SKINS = Object.freeze({
 });
 
 const ATTACK_ATLASES_BY_SKIN = Object.freeze({
-  'skin-padrao-1': atlas('skin-padrao-1', 'skin-padrao-1-combate-dd', 'combate_dd'),
+  'skin-padrao-1': atlas('skin-padrao-1', 'skin-padrao-1-combate_dd', 'combate_dd'),
   'skin-padrao-4': atlas('skin-padrao-4', 'skin-padrao-4-d', 'd')
 });
 
