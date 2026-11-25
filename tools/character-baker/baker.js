@@ -249,7 +249,7 @@ async function bakeClip(index) {
   return totalFrames;
 }
 
-$('load').addEventListener('click', loadModel);
+// API usada pelo GitHub Actions para gerar os arquivos sem intervenção manual.\nwindow.__characterBaker = {\n  async loadModel(path) {\n    $('model').value = path;\n    await loadModel();\n    if (!model || !clips.length) throw new Error('Não foi possível carregar animações de ' + path);\n    return clips.map((clip, index) => ({ index, name: clip.name, duration: clip.duration }));\n  },\n  async bakeAll() {\n    if (!model || !clips.length) throw new Error('Nenhum modelo carregado.');\n    selected = new Set(clips.map((_, index) => index));\n    const jobs = [...selected];\n    for (let i = 0; i < jobs.length; i++) {\n      await bakeClip(jobs[i]);\n      status('Concluído: ' + (i + 1) + '/' + jobs.length + ' animações exportadas.');\n    }\n    return jobs.length;\n  }\n};\n\n$('load').addEventListener('click', loadModel);
 $('all').addEventListener('click', () => {
   selected = new Set(clips.map((_, i) => i));
   buildClipList();
