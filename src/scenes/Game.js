@@ -4,6 +4,10 @@ import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
 import CharacterSpriteRenderer from '../rendering/characters/CharacterSpriteRenderer.js';
 import Monster from '../entities/Monster.js';
 import WorldNavigation from '../world/WorldNavigation.js';
+import WorldDepthManager from '../world/WorldDepthManager.js';
+import WorldCollisionManager from '../world/WorldCollisionManager.js';
+import WorldObjectManager from '../world/WorldObjectManager.js';
+import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
 import MovementSystem from '../systems/MovementSystem.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
@@ -38,7 +42,13 @@ export default class Game extends Phaser.Scene {
     this.createCloudBoundary();
     this.createGround();
     this.createIslandWalkableMask();
-    this.createTrees();
+    this.depthManager = new WorldDepthManager();
+    this.collisionManager = new WorldCollisionManager(this.navigation);
+    this.worldObjectManager = new WorldObjectManager(this, {
+      depthManager: this.depthManager,
+      collisionManager: this.collisionManager
+    });
+    this.worldObjects = this.worldObjectManager.create(ISLAND_01_LAYOUT);
 
     const playerSpawn = this.navigation.findNearestWalkablePoint(centerX, centerY);
     if (!playerSpawn) {
@@ -50,7 +60,8 @@ export default class Game extends Phaser.Scene {
     this.playerBody = new PlayerBodyAdapter(this, this.player);
     this.characterRenderer = new CharacterSpriteRenderer(this, {
       x: playerSpawn.x,
-      y: playerSpawn.y
+      y: playerSpawn.y,
+      depthManager: this.depthManager
     });
 
     const monsterSpawn = this.navigation.findNearestWalkablePoint(centerX - 180, centerY - 105);
@@ -165,42 +176,6 @@ export default class Game extends Phaser.Scene {
 
   createIslandWalkableMask() {
     this.navigation.setCircleMask(ISLAND_RADIUS, ISLAND_RADIUS, ISLAND_RADIUS - 28);
-  }
-
-
-  /**
-   * Árvores distribuídas pela ilha. A altura visual fica cerca de 1,5x
-   * a altura-base do protagonista (76 unidades), com centro inicial livre.
-   */
-  createTrees() {
-    const treeKeys = ['tree-large', 'tree-flowering'];
-    const totalTrees = 34;
-    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
-
-    for (let i = 0; i < totalTrees; i++) {
-      const angle = i * goldenAngle;
-      const radius = i < 10
-        ? 300 + (i % 5) * 48
-        : 650 + ((i - 10) / (totalTrees - 10)) * 1120;
-      const x = ISLAND_RADIUS + Math.cos(angle) * radius;
-      const y = ISLAND_RADIUS + Math.sin(angle) * radius;
-
-      if (!this.navigation.isAreaWalkable(x, y, 54)) continue;
-
-      const key = treeKeys[i % treeKeys.length];
-      const tree = this.add.image(x, y, key)
-        .setOrigin(0.5, 1)
-        .setDepth(y + 35)
-        .setData('depthOffset', 35);
-
-      const source = this.textures.get(key).getSourceImage();
-      const targetHeight = 112 + (i % 3) * 5;
-      tree.setScale(targetHeight / source.height);
-
-      // Colisão pequena no tronco, não na copa.
-      this.navigation.addObstacle(x, y - 12, 17, 13);
-      this.worldObjects.push(tree);
-    }
   }
 
 
@@ -355,12 +330,9 @@ export default class Game extends Phaser.Scene {
       if (!this.navigation.isAreaWalkable(nextX, nextY, 12)) {
         this.monster.sprite.setVelocity(0, 0);
       }
-      this.monster.sprite.setDepth(this.monster.sprite.y + 20);
+      this.depthManager?.apply(this.monster.sprite, this.monster.sprite.y, 'actor');
     }
-    this.playerBody?.object.setDepth(this.player.y + 20);
-    for (const object of this.worldObjects) {
-      object.setDepth(object.y + (object.getData('depthOffset') || 0));
-    }
+    // O renderer do personagem e os objetos do cenário usam a mesma escala de profundidade.
   }
 
   shutdown() {
@@ -368,6 +340,8 @@ export default class Game extends Phaser.Scene {
     this.movement?.destroy();
     this.playerBody?.destroy();
     this.characterRenderer?.destroy();
+    this.worldObjectManager?.destroy();
+    this.collisionManager?.destroy();
     this.monster?.destroy();
     this.worldObjects.length = 0;
     this.groundTiles.length = 0;
@@ -375,6 +349,9 @@ export default class Game extends Phaser.Scene {
     this.movement = null;
     this.playerBody = null;
     this.characterRenderer = null;
+    this.worldObjectManager = null;
+    this.collisionManager = null;
+    this.depthManager = null;
     this.player = null;
     this.monster = null;
   }

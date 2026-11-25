@@ -24,6 +24,19 @@ jobs:
         with:
           node-version: 20
       - run: npm install
+      - name: Test world layout and depth ordering
+        run: npm test
+      - name: Verify current character models
+        run: |
+          for model in \
+            'skin-padrão1.glb' \
+            'skin_padrão2.glb' \
+            'skin_padrão3.glb' \
+            'skin_padrão4.glb'; do
+            test -s "public/assets/characters/skin_01/$model"
+          done
+          echo "Current character models verified."
+      - run: npm run build
       - name: Verify version in built application
         run: |
           node --input-type=module <<'NODE'
@@ -42,17 +55,6 @@ jobs:
 
           console.log(`Built application version verified: ${version}`);
           NODE
-      - name: Verify current character models
-        run: |
-          for model in \
-            'skin-padrão1.glb' \
-            'skin_padrão2.glb' \
-            'skin_padrão3.glb' \
-            'skin_padrão4.glb'; do
-            test -s "public/assets/characters/skin_01/$model"
-          done
-          echo "Current character models verified."
-      - run: npm run build
       - name: Verify current models in build output
         run: |
           for model in \

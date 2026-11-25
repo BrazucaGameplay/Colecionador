@@ -111,8 +111,9 @@ export function registerPlayerSpriteAnimations(scene) {
 }
 
 export default class CharacterSpriteRenderer {
-  constructor(scene, { x, y, skinId = DEFAULT_PLAYER_SPRITE_SKIN_ID, scale = 0.62 } = {}) {
+  constructor(scene, { x, y, skinId = DEFAULT_PLAYER_SPRITE_SKIN_ID, scale = 0.62, depthManager = scene.worldDepthManager } = {}) {
     this.scene = scene;
+    this.depthManager = depthManager;
     this.skinId = PLAYER_SPRITE_SKINS[skinId] ? skinId : DEFAULT_PLAYER_SPRITE_SKIN_ID;
     this.skin = PLAYER_SPRITE_SKINS[this.skinId];
     this.x = x;
@@ -122,13 +123,14 @@ export default class CharacterSpriteRenderer {
     this.lockedAction = false;
     this.attackIndex = 0;
     this.destroyed = false;
-    this.shadow = scene.add.ellipse(x, y - 2, 22, 9, 0x101522, 0.3).setDepth(y + 19);
+    this.shadow = scene.add.ellipse(x, y - 2, 22, 9, 0x101522, 0.3);
+    this.depthManager.apply(this.shadow, y, 'shadow');
     const initialAtlas = this.findAtlas(this.skin.idle) || this.findAtlas(this.skin.movement);
     const initialFrame = initialAtlas ? 'd0-f0' : undefined;
     this.sprite = scene.add.sprite(x, y, initialAtlas?.key || '__MISSING', initialFrame)
       .setOrigin(0.5, 0.92)
-      .setScale(scale)
-      .setDepth(y + 20);
+      .setScale(scale);
+    this.depthManager.apply(this.sprite, y, 'actor');
     this.applyLocomotion();
   }
 
@@ -188,8 +190,10 @@ export default class CharacterSpriteRenderer {
   setTransform(x, y) {
     this.x = x;
     this.y = y;
-    this.sprite.setPosition(x, y).setDepth(y + 20);
-    this.shadow.setPosition(x, y - 2).setDepth(y + 19);
+    this.sprite.setPosition(x, y);
+    this.shadow.setPosition(x, y - 2);
+    this.depthManager.apply(this.shadow, y, 'shadow');
+    this.depthManager.apply(this.sprite, y, 'actor');
   }
 
   update() {}
