@@ -5,7 +5,7 @@ import { DEFAULT_PLAYER_SKIN_ID, getPlayerSkin } from './CharacterAssets.js';
 
 const MAX_DELTA_MS = 50;
 const CROSS_FADE_SECONDS = 0.16;
-const WEAPON_URL = `${import.meta.env.BASE_URL}assets/weapons/Colossal_Sword_optimized.glb?v=20261125-3`;
+const WEAPON_URL = `${import.meta.env.BASE_URL}assets/weapons/Colossal_Sword_optimized.glb?v=20261125-4`;
 
 /**
  * Renderização visual do personagem.
