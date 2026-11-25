@@ -36,6 +36,7 @@ jobs:
           git add public/assets/characters/warrior/warrior.glb
           if ! git diff --cached --quiet; then
             git commit -m "Add original warrior GLB player asset"
+            git pull --rebase origin main
             git push origin HEAD:main
           else
             echo "Original warrior GLB is already committed."
