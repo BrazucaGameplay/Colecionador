@@ -66,3 +66,24 @@ test('cada pacote catalogado possui PNG e JSON correspondentes', async () => {
     await access(new URL(`../public/${animation.path}.json`, import.meta.url));
   }
 });
+
+
+import { findOpaqueBottomRow, getGroundedFitY, getOpaqueBottomPivot } from '../tools/character-baker/frame-grounding.js';
+
+test('enquadramento compensa deslocamento vertical de raiz sem alterar a posição do mundo', () => {
+  assert.equal(getGroundedFitY(0.42, -0.35), 0.77);
+  assert.equal(getGroundedFitY(0.42, 0.35), 0.07);
+  assert.throws(() => getGroundedFitY(Number.NaN, 0));
+});
+
+test('pivô acompanha o último pixel visível e rejeita quadros cortados', () => {
+  const width = 4;
+  const height = 6;
+  const rgba = new Uint8ClampedArray(width * height * 4);
+  rgba[(4 * width + 1) * 4 + 3] = 255;
+  assert.equal(findOpaqueBottomRow(rgba, width, height), 4);
+  assert.equal(getOpaqueBottomPivot(4, height), 5 / 6);
+  assert.equal(getOpaqueBottomPivot(-1, height), 0.84);
+  assert.throws(() => getOpaqueBottomPivot(5, height), /borda inferior/);
+  assert.throws(() => findOpaqueBottomRow(new Uint8ClampedArray(3), width, height));
+});

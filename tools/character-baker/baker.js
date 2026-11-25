@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { findOpaqueBottomRow, getGroundedFitY, getOpaqueBottomPivot } from './frame-grounding.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('preview');
@@ -31,6 +32,8 @@ root.add(fitGroup);
 let mixer = null;
 let gltfData = null;
 let model = null;
+let modelBaseTransform = null;
+let fitBasePosition = new THREE.Vector3();
 let clips = [];
 let selected = new Set();
 let frameHeightWorld = 1;
@@ -58,6 +61,8 @@ function disposeCurrent() {
     });
   }
   model = null;
+  modelBaseTransform = null;
+  fitBasePosition.set(0, 0, 0);
   clips = [];
   selected.clear();
 }
@@ -81,6 +86,12 @@ function fitModel(object) {
   const fitted = new THREE.Box3().setFromObject(object);
   frameHeightWorld = Math.max(fitted.max.y - fitted.min.y, 0.01);
   pivotY = fitted.min.y;
+  fitBasePosition.copy(fitGroup.position);
+  modelBaseTransform = {
+    position: object.position.clone(),
+    quaternion: object.quaternion.clone(),
+    scale: object.scale.clone()
+  };
 }
 
 function buildClipList() {
@@ -149,7 +160,19 @@ function makeFrame(position, yaw, frameSize) {
   action.clampWhenFinished = true;
   action.play();
   mixer.setTime(position);
+  // O deslocamento de raiz dos GLBs não deve mover o sprite dentro do quadro:
+  // o mundo controla a posição do protagonista, e cada pose é apoiada no chão.
+  model.position.copy(modelBaseTransform.position);
+  model.quaternion.copy(modelBaseTransform.quaternion);
+  model.scale.copy(modelBaseTransform.scale);
+  fitGroup.position.copy(fitBasePosition);
   root.rotation.y = yaw;
+  fitGroup.updateMatrixWorld(true);
+  model.updateMatrixWorld(true);
+  const poseBounds = new THREE.Box3().setFromObject(model);
+  if (!Number.isFinite(poseBounds.min.y)) throw new Error('Não foi possível calcular o ponto de apoio da pose.');
+  fitGroup.position.y = getGroundedFitY(fitBasePosition.y, poseBounds.min.y);
+  fitGroup.updateMatrixWorld(true);
   model.updateMatrixWorld(true);
   renderPreview();
 
@@ -227,24 +250,16 @@ async function bakeClip(index) {
       // O pivot segue o pixel opaco mais baixo de cada pose, não um valor fixo.
       const tileContext = tile.getContext('2d', { willReadFrequently: true });
       const pixels = tileContext.getImageData(0, 0, frameSize, frameSize).data;
-      let bottomOpaqueRow = -1;
-      for (let py = frameSize - 1; py >= 0 && bottomOpaqueRow < 0; py--) {
-        for (let px = 0; px < frameSize; px++) {
-          if (pixels[(py * frameSize + px) * 4 + 3] > 24) {
-            bottomOpaqueRow = py;
-            break;
-          }
-        }
-      }
-      if (bottomOpaqueRow >= frameSize - 3) {
+      const bottomOpaqueRow = findOpaqueBottomRow(pixels, frameSize, frameSize, 24);
+      let framePivotY;
+      try {
+        framePivotY = getOpaqueBottomPivot(bottomOpaqueRow, frameSize);
+      } catch (error) {
         throw new Error(
-          `Quadro ${currentClip.name} d${d}-f${f} encostou na borda inferior (${bottomOpaqueRow}/${frameSize}). ` +
-          'O enquadramento cortaria os pés; bake cancelado para impedir spritesheets defeituosas.'
+          `Quadro ${currentClip.name} d${d}-f${f}: ${error.message} ` +
+          `(pose minY=${new THREE.Box3().setFromObject(model).min.y.toFixed(4)}).`
         );
       }
-      const framePivotY = bottomOpaqueRow >= 0
-        ? Math.min(0.96, (bottomOpaqueRow + 1) / frameSize)
-        : 0.84;
       const x = (frameIndex % columns) * frameSize;
       const y = Math.floor(frameIndex / columns) * frameSize;
       ctx.drawImage(tile, x, y);
@@ -259,7 +274,7 @@ async function bakeClip(index) {
 
   const png = await new Promise(resolve => atlas.toBlob(resolve, 'image/png'));
   if (!png) throw new Error('O navegador não conseguiu codificar o PNG.');
-  const prefix = safeName($('model').selectedOptions[0].textContent);
+  const prefix = safeName($('model').selectedOptions[0].dataset.exportPrefix || $('model').selectedOptions[0].textContent);
   const animationName = safeName(currentClip.name);
   downloadBlob(png, prefix + '-' + animationName + '.png');
   const metadata = {
@@ -272,6 +287,7 @@ async function bakeClip(index) {
     directionCount: directions,
     atlas: { width: atlasWidth, height: atlasHeight, columns, rows },
     pivot: { x: 0.5, y: 0.84, mode: 'per-frame-opaque-bottom' },
+    rootMotion: 'normalized-to-ground; gameplay controls world movement',
     frames
   };
   downloadBlob(new Blob([JSON.stringify(metadata, null, 2)], { type: 'application/json' }), prefix + '-' + animationName + '.json');
