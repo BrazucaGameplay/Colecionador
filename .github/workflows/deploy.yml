@@ -65,6 +65,10 @@ jobs:
             test -s "dist/assets/characters/skin_01/$model"
           done
           echo "Build character models verified."
+      - name: Validate sprite foot anchors in source and build
+        run: |
+          node scripts/validate-character-sprites.mjs public/assets/characters/sprites/skin_01
+          node scripts/validate-character-sprites.mjs dist/assets/characters/sprites/skin_01
       - name: Verify player sprite atlases
         run: |
           for asset in \

@@ -37,7 +37,6 @@
         <option value="assets/characters/skin_01/skin_padrão2.glb">Skin padrão 2</option>
         <option value="assets/characters/skin_01/skin_padrão3.glb">Skin padrão 3</option>
         <option value="assets/characters/skin_01/skin_padrão4.glb">Skin padrão 4</option>
-        <option value="assets/characters/skin_01/character.glb">Character (anterior)</option>
       </select>
       <label>Animações encontradas</label>
       <div id="clips"><span class="hint">Carregue um modelo para listar as animações.</span></div>
@@ -56,7 +55,7 @@
       </select>
       <label for="scale">Altura visual relativa (%)</label>
       <input id="scale" type="number" min="40" max="100" value="78">
-      <p class="hint">O mesmo enquadramento e escala são usados em todos os quadros da animação. O pivô é fixado no centro da base do modelo.</p>
+      <p class="hint">O mesmo enquadramento é usado em todos os quadros. Há margem abaixo dos pés, o pivô é calculado por quadro e o bake falha se o personagem tocar a borda inferior.</p>
       <button id="load">Carregar / atualizar modelo</button>
       <button id="bake" disabled>Exportar animações selecionadas</button>
       <button id="all" disabled>Selecionar todas</button>

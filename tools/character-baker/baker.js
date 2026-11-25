@@ -191,7 +191,9 @@ async function bakeClip(index) {
   const oldSize = previewRenderer.getSize(new THREE.Vector2());
   previewRenderer.setSize(frameSize, frameSize, false);
   const viewHeight = 1.8 / scalePercent;
-  const viewBottom = -viewHeight * 0.08;
+  // Reserve visible space below the feet; the old 8% framing placed opaque
+  // pixels on the final atlas row and visually clipped the character.
+  const viewBottom = -viewHeight * 0.16;
   const viewTop = viewBottom + viewHeight;
   camera.left = -viewHeight / 2;
   camera.right = viewHeight / 2;
@@ -220,15 +222,21 @@ async function bakeClip(index) {
       let bottomOpaqueRow = -1;
       for (let py = frameSize - 1; py >= 0 && bottomOpaqueRow < 0; py--) {
         for (let px = 0; px < frameSize; px++) {
-          if (pixels[(py * frameSize + px) * 4 + 3] > 16) {
+          if (pixels[(py * frameSize + px) * 4 + 3] > 24) {
             bottomOpaqueRow = py;
             break;
           }
         }
       }
+      if (bottomOpaqueRow >= frameSize - 3) {
+        throw new Error(
+          `Quadro ${currentClip.name} d${d}-f${f} encostou na borda inferior (${bottomOpaqueRow}/${frameSize}). ` +
+          'O enquadramento cortaria os pés; bake cancelado para impedir spritesheets defeituosas.'
+        );
+      }
       const framePivotY = bottomOpaqueRow >= 0
-        ? Math.min(1, (bottomOpaqueRow + 1) / frameSize)
-        : 0.92;
+        ? Math.min(0.96, (bottomOpaqueRow + 1) / frameSize)
+        : 0.84;
       const x = (frameIndex % columns) * frameSize;
       const y = Math.floor(frameIndex / columns) * frameSize;
       ctx.drawImage(tile, x, y);
@@ -255,7 +263,7 @@ async function bakeClip(index) {
     frameCount,
     directionCount: directions,
     atlas: { width: atlasWidth, height: atlasHeight, columns, rows },
-    pivot: { x: 0.5, y: 0.92, mode: 'per-frame-opaque-bottom' },
+    pivot: { x: 0.5, y: 0.84, mode: 'per-frame-opaque-bottom' },
     frames
   };
   downloadBlob(new Blob([JSON.stringify(metadata, null, 2)], { type: 'application/json' }), prefix + '-' + animationName + '.json');

@@ -32,11 +32,24 @@ jobs:
         run: npx playwright install chromium --with-deps
       - name: Render every animation from the four GLBs
         run: node scripts/bake-character-sprites.mjs
+      - name: Validate generated sprite anchors
+        run: node scripts/validate-character-sprites.mjs public/assets/characters/sprites/skin_01
+      - name: Increment version when generated sprites change
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync, writeFileSync } from 'node:fs';
+          const path = 'package.json';
+          const pkg = JSON.parse(readFileSync(path, 'utf8'));
+          const [major, minor, patch] = pkg.version.split('.').map(Number);
+          pkg.version = `${major}.${minor}.${patch + 1}`;
+          writeFileSync(path, JSON.stringify(pkg, null, 2) + '\\n');
+          console.log(`Generated sprite update version: ${pkg.version}`);
+          NODE
       - name: Commit generated spritesheets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/assets/characters/sprites/skin_01
+          git add public/assets/characters/sprites/skin_01 package.json
           if git diff --cached --quiet; then
             echo "Spritesheets are already up to date."
           else
