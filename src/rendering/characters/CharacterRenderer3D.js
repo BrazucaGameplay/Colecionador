@@ -207,6 +207,8 @@ export default class CharacterRenderer3D {
     this.model = nextModel;
     this.root.add(nextModel);
     this.skin = skin;
+    // A arma começa sempre oculta ao instalar/trocar o modelo.
+    this.setWeaponVisible(false);
     this.attachWeaponToRightHand();
     this.actions.clear();
     this.currentActionName = null;
