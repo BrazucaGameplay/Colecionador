@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { DEFAULT_PLAYER_SKIN_ID, getPlayerSkin } from './CharacterAssets.js';
 
 const MAX_DELTA_MS = 50;
@@ -281,11 +282,11 @@ export default class CharacterRenderer3D {
       return false;
     }
 
-    // Inspeção do GLB: o cabo/pomo está no extremo +Y; a guarda fica
-    // aproximadamente em +0.45 e a lâmina segue em direção a -Y.
-    // Portanto, o extremo +Y é o ponto de pegada e NÃO deve haver giro
-    // de 180 graus. O GLB anterior deixava o nó em y=+0.78, prendendo
-    // a lâmina à mão. Reposicionamos o extremo do cabo na origem do osso.
+    // Inspeção geométrica do GLB: a empunhadura ocupa aproximadamente
+    // Y=+0.55 a +0.95; a guarda fica em +0.45 e a lâmina segue para -Y.
+    // O centro da empunhadura está em +0.75. O GLB veio com o nó em +0.78,
+    // deslocando a lâmina para a mão. Corrigimos o sinal do deslocamento:
+    // o centro do cabo fica na mão e a lâmina aponta para fora, sem girar.
     const gripAxis = config.gripAxis || 'y';
     if (!weapon.isMesh || !weapon.geometry) {
       this.reportWeaponStatus('GEOMETRIA DA ARMA INVÁLIDA', {
@@ -309,9 +310,15 @@ export default class CharacterRenderer3D {
     weapon.scale.set(1, 1, 1);
 
     if (gripAxis === 'y') {
-      weapon.position.y = -bounds.max.y;
+      const gripOffset = Number.isFinite(config.gripOffset)
+        ? THREE.MathUtils.clamp(config.gripOffset, bounds.min.y, bounds.max.y)
+        : 0.75;
+      weapon.position.y = -gripOffset;
     } else if (gripAxis === '-y') {
-      weapon.position.y = -bounds.min.y;
+      const gripOffset = Number.isFinite(config.gripOffset)
+        ? THREE.MathUtils.clamp(config.gripOffset, Math.abs(bounds.min.y), Math.abs(bounds.max.y))
+        : 0.75;
+      weapon.position.y = gripOffset;
     } else {
       this.reportWeaponStatus('EIXO DE PEGADA NÃO SUPORTADO', { gripAxis });
       return false;
