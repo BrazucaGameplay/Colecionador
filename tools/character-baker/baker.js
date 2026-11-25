@@ -54,7 +54,6 @@ function disposeCurrent() {
     });
   }
   model = null;
-  embeddedWeapon = null;
   clips = [];
   selected.clear();
 }
@@ -105,8 +104,6 @@ async function loadModel() {
     const gltf = await new GLTFLoader().loadAsync(url);
     gltfData = gltf;
     model = gltf.scene;
-    embeddedWeapon = model.getObjectByName('ColossalSword_AttachedToRightHand') || null;
-    if (embeddedWeapon) embeddedWeapon.visible = false;
     root.add(model);
     fitModel(model);
     clips = gltf.animations || [];
@@ -174,10 +171,8 @@ function safeName(value) {
 }
 
 let currentClip = null;
-let embeddedWeapon = null;
 async function bakeClip(index) {
   currentClip = clips[index];
-  if (embeddedWeapon) embeddedWeapon.visible = /combate|attack|slash/i.test(currentClip.name);
   const fps = Math.max(1, Math.min(30, Number($('fps').value) || 12));
   const frameSize = Math.max(64, Math.min(256, Number($('width').value) || 128));
   const directions = Number($('directions').value);
