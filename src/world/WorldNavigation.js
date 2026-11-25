@@ -52,6 +52,22 @@ export default class WorldNavigation {
     this.maskWidth = 0;
     this.maskHeight = 0;
     this.walkableGrid = null;
+    this.circleMask = null;
+  }
+
+  setCircleMask(centerX, centerY, radius) {
+    this.alphaMask = null;
+    this.circleMask = { centerX, centerY, radius };
+    this.maskWidth = 0;
+    this.maskHeight = 0;
+    this.walkableGrid = new Uint8Array(this.cols * this.rows);
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.cols; col++) {
+        const x = col * CELL + CELL / 2;
+        const y = row * CELL + CELL / 2;
+        this.walkableGrid[row * this.cols + col] = this.isInsideIsland(x, y) ? 1 : 0;
+      }
+    }
   }
 
   setAlphaMask(rgbaPixels, width, height, threshold = 150) {
@@ -75,6 +91,11 @@ export default class WorldNavigation {
   }
 
   isInsideIsland(x, y) {
+    if (this.circleMask) {
+      const dx = x - this.circleMask.centerX;
+      const dy = y - this.circleMask.centerY;
+      return dx * dx + dy * dy <= this.circleMask.radius * this.circleMask.radius;
+    }
     if (!this.alphaMask) return true;
     const inset = 14;
     const offsets = [
