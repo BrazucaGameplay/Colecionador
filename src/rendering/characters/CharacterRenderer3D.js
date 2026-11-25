@@ -5,6 +5,7 @@ import { DEFAULT_PLAYER_SKIN_ID, getPlayerSkin } from './CharacterAssets.js';
 
 const MAX_DELTA_MS = 50;
 const CROSS_FADE_SECONDS = 0.16;
+const WEAPON_URL = `${import.meta.env.BASE_URL}assets/weapons/Colossal_Sword_optimized.glb?v=20261125-3`;
 
 /**
  * Renderização visual do personagem.
@@ -46,6 +47,7 @@ export default class CharacterRenderer3D {
     this.weapon = null;
     this.weaponAnchor = null;
     this.weaponShouldBeVisible = false;
+    this.weaponLoadGeneration = 0;
 
     if (!parent) {
       this.onError('Não foi encontrado o elemento de exibição do personagem.');
@@ -205,9 +207,9 @@ export default class CharacterRenderer3D {
     this.model = nextModel;
     this.root.add(nextModel);
     this.skin = skin;
-    // A arma começa sempre oculta ao instalar/trocar o modelo.
+    // A arma é um GLB independente: anexamos ao osso sem alterar o arquivo do personagem.
     this.setWeaponVisible(false);
-    this.attachEmbeddedWeapon();
+    this.attachWeaponToRightHand();
     this.actions.clear();
     this.currentActionName = null;
     this.lockedAction = false;
@@ -248,11 +250,9 @@ export default class CharacterRenderer3D {
     return null;
   }
 
-  attachEmbeddedWeapon() {
-    // A espada já está incluída no GLB do personagem e é filha do osso
-    // mixamorig:RightHand. Não carregamos outro GLB nem criamos outro anchor.
+  async attachWeaponToRightHand() {
+    const generation = ++this.weaponLoadGeneration;
     const hand = this.findRightHand();
-    const weapon = this.model?.getObjectByName('ColossalSword_AttachedToRightHand');
 
     if (!hand) {
       this.weapon = null;
@@ -260,39 +260,68 @@ export default class CharacterRenderer3D {
       return false;
     }
 
-    if (!weapon) {
+    this.reportWeaponStatus('CARREGANDO ESPADA', { hand: hand.name, url: WEAPON_URL });
+    const loader = new GLTFLoader();
+    loader.setMeshoptDecoder(MeshoptDecoder);
+
+    try {
+      const gltf = await loader.loadAsync(WEAPON_URL);
+      if (
+        this.disposed ||
+        generation !== this.weaponLoadGeneration ||
+        hand !== this.findRightHand()
+      ) {
+        this.disposeGltf(gltf);
+        return false;
+      }
+
+      const weapon = gltf.scene;
+      const bounds = new THREE.Box3().setFromObject(weapon);
+      const size = new THREE.Vector3();
+      const center = new THREE.Vector3();
+      bounds.getSize(size);
+      bounds.getCenter(center);
+
+      // O comprimento do GLB está no eixo Y. A ponta (extremo +Y)
+      // deve ficar junto à mão; o cabo fica para fora. Por isso usamos
+      // maxY como origem de pegada e giramos 180° em torno do eixo local Z.
+      const characterScale = Math.max(Math.abs(this.model.scale.x), 0.0001);
+      const targetWorldLength = 48;
+      const weaponScale = targetWorldLength / (Math.max(size.y, 0.0001) * characterScale);
+      weapon.scale.setScalar(weaponScale);
+      weapon.position.set(
+        -center.x * weaponScale,
+        -bounds.max.y * weaponScale,
+        -center.z * weaponScale
+      );
+      weapon.rotation.set(0, 0, Math.PI);
+
+      const anchor = new THREE.Group();
+      anchor.name = 'RightHandWeaponAnchor';
+      anchor.add(weapon);
+      anchor.visible = false;
+      hand.add(anchor);
+
+      this.weapon = weapon;
+      this.weaponAnchor = anchor;
+      this.setWeaponVisible(this.weaponShouldBeVisible);
+      this.reportWeaponStatus('ESPADA ANEXADA À MÃO DIREITA', {
+        hand: hand.name,
+        gripEnd: 'maxY',
+        rotationZ: '180deg',
+        length: targetWorldLength
+      });
+      return true;
+    } catch (error) {
+      if (generation !== this.weaponLoadGeneration || this.disposed) return false;
       this.weapon = null;
-      this.reportWeaponStatus('ESPADA NÃO ENCONTRADA NO MODELO', {
-        expectedNode: 'ColossalSword_AttachedToRightHand',
-        hint: 'O character.glb publicado ainda pode ser a versão sem espada.'
+      this.weaponAnchor = null;
+      this.reportWeaponStatus('ERRO AO CARREGAR ESPADA', {
+        message: error?.message || String(error),
+        url: WEAPON_URL
       });
       return false;
     }
-
-    if (weapon.parent !== hand) {
-      this.weapon = null;
-      this.reportWeaponStatus('ESPADA NÃO ESTÁ ANEXADA À MÃO', {
-        weaponParent: weapon.parent?.name || weapon.parent?.type,
-        expectedParent: hand.name
-      });
-      return false;
-    }
-
-    this.weapon = weapon;
-    this.weaponAnchor = weapon;
-
-    // O GLB da espada foi modelado com a ponta no lado que ficava voltado
-    // para a mão. Gira 180° no eixo local Z para deixar o cabo na pegada
-    // e a lâmina apontada para fora, sem alterar o osso nem as animações.
-    this.weapon.rotation.set(0, 0, Math.PI);
-
-    this.setWeaponVisible(false);
-    this.reportWeaponStatus('ESPADA EMBUTIDA E ANEXADA', {
-      hand: hand.name,
-      weapon: weapon.name,
-      visible: weapon.visible
-    });
-    return true;
   }
 
   countWeaponMeshes(root) {
@@ -314,8 +343,9 @@ export default class CharacterRenderer3D {
     }
     this.mixer = null;
     if (this.model) {
-      // A espada faz parte da hierarquia do GLB do personagem. Não removê-la
-      // nem descartá-la separadamente; clearCurrentModel descarta o modelo todo.
+      this.weaponLoadGeneration += 1;
+      if (this.weaponAnchor?.parent) this.weaponAnchor.parent.remove(this.weaponAnchor);
+      if (this.weapon) this.disposeObject(this.weapon);
       this.weapon = null;
       this.weaponAnchor = null;
       this.root.remove(this.model);
