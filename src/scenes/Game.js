@@ -10,6 +10,7 @@ import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.28, max: 2.25, default: 1.2 });
+const GENERATED_GROUND_TEXTURE = 'island-01-ground-generated';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -29,7 +30,7 @@ export default class Game extends Phaser.Scene {
 
     this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
     this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
-    this.createGround();
+    this.createGround(islandSource);
     this.createIslandWalkableMask(islandSource);
 
     const playerSpawn = this.navigation.findNearestWalkablePoint(centerX, centerY);
@@ -116,13 +117,47 @@ export default class Game extends Phaser.Scene {
     this._cooldown = 0;
   }
 
-  createGround() {
-    const island = this.add.image(
+  /**
+   * Repete a única textura de grama e recorta o resultado pela transparência
+   * da arte-base da ilha. Assim o terreno mantém a silhueta e o tamanho atuais,
+   * mas deixa de depender da ilustração antiga como superfície do chão.
+   */
+  createGround(islandSource) {
+    const tileSource = this.textures.get('island-ground-tile').getSourceImage();
+    const canvas = document.createElement('canvas');
+    canvas.width = this.worldWidth;
+    canvas.height = this.worldHeight;
+
+    const context = canvas.getContext('2d');
+    if (!context) {
+      throw new Error('Não foi possível preparar a textura repetida do terreno.');
+    }
+
+    const pattern = context.createPattern(tileSource, 'repeat');
+    if (!pattern) {
+      throw new Error('Não foi possível criar o padrão repetido de grama.');
+    }
+
+    context.fillStyle = pattern;
+    context.fillRect(0, 0, this.worldWidth, this.worldHeight);
+
+    // destination-in preserva somente os pixels opacos da silhueta original.
+    context.globalCompositeOperation = 'destination-in';
+    context.drawImage(islandSource, 0, 0, this.worldWidth, this.worldHeight);
+    context.globalCompositeOperation = 'source-over';
+
+    if (this.textures.exists(GENERATED_GROUND_TEXTURE)) {
+      this.textures.remove(GENERATED_GROUND_TEXTURE);
+    }
+    this.textures.addCanvas(GENERATED_GROUND_TEXTURE, canvas);
+
+    const ground = this.add.image(
       this.worldWidth / 2,
       this.worldHeight / 2,
-      'island-01'
+      GENERATED_GROUND_TEXTURE
     ).setOrigin(0.5, 0.5).setDepth(-1000);
-    this.groundTiles.push(island);
+
+    this.groundTiles.push(ground);
   }
 
   createIslandWalkableMask(source) {
