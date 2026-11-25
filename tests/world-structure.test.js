@@ -81,6 +81,8 @@ test('pivô acompanha o último pixel visível e rejeita quadros cortados', () =
   const height = 10;
   const rgba = new Uint8ClampedArray(width * height * 4);
   rgba[(6 * width + 1) * 4 + 3] = 255;
+  rgba[(6 * width + 2) * 4 + 3] = 255;
+  rgba[(6 * width + 3) * 4 + 3] = 255;
   assert.equal(findOpaqueBottomRow(rgba, width, height), 6);
   assert.equal(findOpaqueTopRow(rgba, width, height), 6);
   assert.equal(getOpaqueBottomPivot(6, height), 0.7);

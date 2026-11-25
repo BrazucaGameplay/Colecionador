@@ -9,14 +9,25 @@ export function getGroundedFitY(baseFitY, poseMinY) {
   return baseFitY - poseMinY;
 }
 
-export function findOpaqueBottomRow(rgba, width, height, alphaThreshold = 24) {
+export function findOpaqueBottomRow(rgba, width, height, alphaThreshold = 24, minPixelsPerRow = 3) {
   if (!rgba || !Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || rgba.length < width * height * 4) {
     throw new TypeError('Buffer RGBA ou dimensões do quadro inválidos.');
   }
   for (let y = height - 1; y >= 0; y--) {
+    let opaquePixels = 0;
+    let longestRun = 0;
+    let currentRun = 0;
     for (let x = 0; x < width; x++) {
-      if (rgba[(y * width + x) * 4 + 3] > alphaThreshold) return y;
+      if (rgba[(y * width + x) * 4 + 3] > alphaThreshold) {
+        opaquePixels++;
+        currentRun++;
+        longestRun = Math.max(longestRun, currentRun);
+      } else {
+        currentRun = 0;
+      }
     }
+    // Ignora ruído isolado de antialiasing; mantém linhas com uma base visível.
+    if (opaquePixels >= minPixelsPerRow || longestRun >= 2) return y;
   }
   return -1;
 }

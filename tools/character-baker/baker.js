@@ -275,7 +275,7 @@ async function bakeClip(index) {
       if (bottomOpaqueRow > safeBottomRow || (topOpaqueRow >= 0 && topOpaqueRow < 2)) {
         throw new Error(
           `Quadro ${currentClip.name} d${d}-f${f} não cabe com margem segura: ` +
-          `topo=${topOpaqueRow}, base=${bottomOpaqueRow}, limite inferior=${safeBottomRow}.`
+          `topo=${topOpaqueRow}, base=${bottomOpaqueRow}, limite inferior=${safeBottomRow}, deslocamento=${verticalOffset.toFixed(4)}.`
         );
       }
       const framePivotY = getOpaqueBottomPivot(bottomOpaqueRow, frameSize);
