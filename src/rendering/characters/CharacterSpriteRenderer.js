@@ -66,10 +66,10 @@ export const PLAYER_ATTACK_SPRITE_ATLASES = Object.freeze(ATTACK_ATLASES);
 export const DEFAULT_PLAYER_SPRITE_SKIN_ID = 'skin-padrao-1';
 
 export function queuePlayerSpriteAssets(loader) {
-  const all = [
+  const all = new Map([
     ...Object.values(PLAYER_SPRITE_SKINS).flatMap((skin) => skin.atlases),
     ...PLAYER_ATTACK_SPRITE_ATLASES
-  ];
+  ].map((item) => [item.key, item])).values();
   for (const item of all) {
     loader.json(item.key + '-meta', BASE + item.path + '.json');
     loader.image(item.key, BASE + item.path + '.png');
@@ -77,10 +77,10 @@ export function queuePlayerSpriteAssets(loader) {
 }
 
 export function registerPlayerSpriteAnimations(scene) {
-  const all = [
+  const all = new Map([
     ...Object.values(PLAYER_SPRITE_SKINS).flatMap((skin) => skin.atlases),
     ...PLAYER_ATTACK_SPRITE_ATLASES
-  ];
+  ].map((item) => [item.key, item])).values();
   for (const item of all) {
     const metadata = scene.cache.json.get(item.key + '-meta');
     const texture = scene.textures.get(item.key);
