@@ -1,0 +1,5217 @@
+{
+  "schema": "colecionador.sprite-atlas.v1",
+  "source": "/Colecionador/assets/characters/skin_01/animation-sources/animacoes_batalha.glb",
+  "animation": "Combate_dd",
+  "fps": 12,
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "frameCount": 36,
+  "directionCount": 8,
+  "atlas": {
+    "width": 2048,
+    "height": 2304,
+    "columns": 16,
+    "rows": 18
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.9375,
+    "mode": "per-frame-visible-bounds-grounded"
+  },
+  "normalization": {
+    "renderSize": 256,
+    "viewHeight": 6,
+    "padding": 8,
+    "targetContentHeight": 112,
+    "commonScale": 0.7133757961783439
+  },
+  "rootMotion": "normalized-to-ground; gameplay controls world movement",
+  "frames": [
+    {
+      "filename": "Combate_dd",
+      "frame": 0,
+      "direction": 0,
+      "x": 0,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 109,
+        "y": 22,
+        "width": 85,
+        "height": 109
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 1,
+      "direction": 0,
+      "x": 128,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 26,
+        "width": 86,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 2,
+      "direction": 0,
+      "x": 256,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 30,
+        "width": 87,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 3,
+      "direction": 0,
+      "x": 384,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 32,
+        "width": 87,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 4,
+      "direction": 0,
+      "x": 512,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 34,
+        "width": 87,
+        "height": 96
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 5,
+      "direction": 0,
+      "x": 640,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 36,
+        "width": 88,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 6,
+      "direction": 0,
+      "x": 768,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 19,
+        "width": 88,
+        "height": 111
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 7,
+      "direction": 0,
+      "x": 896,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 48,
+        "width": 88,
+        "height": 146
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 8,
+      "direction": 0,
+      "x": 1024,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 37,
+        "width": 63,
+        "height": 157
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 9,
+      "direction": 0,
+      "x": 1152,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 36,
+        "width": 57,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 10,
+      "direction": 0,
+      "x": 1280,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 11,
+        "y": 41,
+        "width": 91,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 11,
+      "direction": 0,
+      "x": 1408,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 33,
+        "y": 48,
+        "width": 64,
+        "height": 80
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 12,
+      "direction": 0,
+      "x": 1536,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 32,
+        "y": 47,
+        "width": 64,
+        "height": 81
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 13,
+      "direction": 0,
+      "x": 1664,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 33,
+        "y": 46,
+        "width": 63,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 14,
+      "direction": 0,
+      "x": 1792,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 32,
+        "y": 45,
+        "width": 64,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 15,
+      "direction": 0,
+      "x": 1920,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 32,
+        "y": 45,
+        "width": 63,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 16,
+      "direction": 0,
+      "x": 0,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 31,
+        "y": 45,
+        "width": 64,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 17,
+      "direction": 0,
+      "x": 128,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 31,
+        "y": 45,
+        "width": 64,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 18,
+      "direction": 0,
+      "x": 256,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 31,
+        "y": 44,
+        "width": 64,
+        "height": 84
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 19,
+      "direction": 0,
+      "x": 384,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 31,
+        "y": 42,
+        "width": 64,
+        "height": 86
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 20,
+      "direction": 0,
+      "x": 512,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 32,
+        "y": 39,
+        "width": 63,
+        "height": 89
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 21,
+      "direction": 0,
+      "x": 640,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 33,
+        "y": 36,
+        "width": 61,
+        "height": 91
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 22,
+      "direction": 0,
+      "x": 768,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 33,
+        "y": 33,
+        "width": 58,
+        "height": 93
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 23,
+      "direction": 0,
+      "x": 896,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 32,
+        "y": 30,
+        "width": 52,
+        "height": 97
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 24,
+      "direction": 0,
+      "x": 1024,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 30,
+        "y": 27,
+        "width": 58,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 25,
+      "direction": 0,
+      "x": 1152,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 28,
+        "y": 25,
+        "width": 64,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 26,
+      "direction": 0,
+      "x": 1280,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 28,
+        "y": 23,
+        "width": 64,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 27,
+      "direction": 0,
+      "x": 1408,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 28,
+        "y": 23,
+        "width": 63,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 28,
+      "direction": 0,
+      "x": 1536,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 29,
+        "y": 22,
+        "width": 62,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 29,
+      "direction": 0,
+      "x": 1664,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 29,
+        "y": 22,
+        "width": 63,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 30,
+      "direction": 0,
+      "x": 1792,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 29,
+        "y": 23,
+        "width": 64,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 31,
+      "direction": 0,
+      "x": 1920,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 29,
+        "y": 23,
+        "width": 64,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 32,
+      "direction": 0,
+      "x": 0,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 29,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 33,
+      "direction": 0,
+      "x": 128,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 29,
+        "y": 23,
+        "width": 66,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 34,
+      "direction": 0,
+      "x": 256,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 29,
+        "y": 23,
+        "width": 66,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 35,
+      "direction": 0,
+      "x": 384,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 29,
+        "y": 23,
+        "width": 67,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 0,
+      "direction": 1,
+      "x": 512,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 22,
+        "width": 69,
+        "height": 109
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 1,
+      "direction": 1,
+      "x": 640,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 26,
+        "width": 74,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 2,
+      "direction": 1,
+      "x": 768,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 30,
+        "width": 78,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 3,
+      "direction": 1,
+      "x": 896,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 32,
+        "width": 80,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 4,
+      "direction": 1,
+      "x": 1024,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 34,
+        "width": 83,
+        "height": 96
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 5,
+      "direction": 1,
+      "x": 1152,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 125,
+        "y": 36,
+        "width": 88,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 6,
+      "direction": 1,
+      "x": 1280,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 127,
+        "y": 18,
+        "width": 82,
+        "height": 112
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 7,
+      "direction": 1,
+      "x": 1408,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 48,
+        "width": 65,
+        "height": 146
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 8,
+      "direction": 1,
+      "x": 1536,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 38,
+        "width": 79,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 9,
+      "direction": 1,
+      "x": 1664,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 36,
+        "width": 69,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 10,
+      "direction": 1,
+      "x": 1792,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 39,
+        "y": 41,
+        "width": 101,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 11,
+      "direction": 1,
+      "x": 1920,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 83,
+        "y": 48,
+        "width": 54,
+        "height": 80
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 12,
+      "direction": 1,
+      "x": 0,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 82,
+        "y": 47,
+        "width": 54,
+        "height": 81
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 13,
+      "direction": 1,
+      "x": 128,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 82,
+        "y": 46,
+        "width": 54,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 14,
+      "direction": 1,
+      "x": 256,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 82,
+        "y": 46,
+        "width": 54,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 15,
+      "direction": 1,
+      "x": 384,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 82,
+        "y": 45,
+        "width": 53,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 16,
+      "direction": 1,
+      "x": 512,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 82,
+        "y": 45,
+        "width": 53,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 17,
+      "direction": 1,
+      "x": 640,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 82,
+        "y": 45,
+        "width": 53,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 18,
+      "direction": 1,
+      "x": 768,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 81,
+        "y": 44,
+        "width": 54,
+        "height": 84
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 19,
+      "direction": 1,
+      "x": 896,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 81,
+        "y": 42,
+        "width": 54,
+        "height": 86
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 20,
+      "direction": 1,
+      "x": 1024,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 79,
+        "y": 39,
+        "width": 57,
+        "height": 89
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 21,
+      "direction": 1,
+      "x": 1152,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 77,
+        "y": 36,
+        "width": 60,
+        "height": 91
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 22,
+      "direction": 1,
+      "x": 1280,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 75,
+        "y": 32,
+        "width": 61,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 23,
+      "direction": 1,
+      "x": 1408,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 73,
+        "y": 29,
+        "width": 61,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 24,
+      "direction": 1,
+      "x": 1536,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 71,
+        "y": 27,
+        "width": 61,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 25,
+      "direction": 1,
+      "x": 1664,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 25,
+        "width": 62,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 26,
+      "direction": 1,
+      "x": 1792,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 23,
+        "width": 63,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 27,
+      "direction": 1,
+      "x": 1920,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 28,
+      "direction": 1,
+      "x": 0,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 22,
+        "width": 66,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 29,
+      "direction": 1,
+      "x": 128,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 23,
+        "width": 66,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 30,
+      "direction": 1,
+      "x": 256,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 23,
+        "width": 66,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 31,
+      "direction": 1,
+      "x": 384,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 23,
+        "width": 66,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 32,
+      "direction": 1,
+      "x": 512,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 33,
+      "direction": 1,
+      "x": 640,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 34,
+      "direction": 1,
+      "x": 768,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 35,
+      "direction": 1,
+      "x": 896,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 0,
+      "direction": 2,
+      "x": 1024,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 114,
+        "y": 22,
+        "width": 93,
+        "height": 109
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 1,
+      "direction": 2,
+      "x": 1152,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 114,
+        "y": 26,
+        "width": 95,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 2,
+      "direction": 2,
+      "x": 1280,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 114,
+        "y": 30,
+        "width": 97,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 3,
+      "direction": 2,
+      "x": 1408,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 115,
+        "y": 32,
+        "width": 97,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 4,
+      "direction": 2,
+      "x": 1536,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 115,
+        "y": 34,
+        "width": 99,
+        "height": 96
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 5,
+      "direction": 2,
+      "x": 1664,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 116,
+        "y": 36,
+        "width": 101,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 6,
+      "direction": 2,
+      "x": 1792,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 18,
+        "width": 99,
+        "height": 112
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 7,
+      "direction": 2,
+      "x": 1920,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 104,
+        "y": 48,
+        "width": 52,
+        "height": 146
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 8,
+      "direction": 2,
+      "x": 0,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 38,
+        "width": 65,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 9,
+      "direction": 2,
+      "x": 128,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 37,
+        "width": 75,
+        "height": 155
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 10,
+      "direction": 2,
+      "x": 256,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 41,
+        "width": 96,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 11,
+      "direction": 2,
+      "x": 384,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 127,
+        "y": 48,
+        "width": 90,
+        "height": 80
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 12,
+      "direction": 2,
+      "x": 512,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 47,
+        "width": 92,
+        "height": 81
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 13,
+      "direction": 2,
+      "x": 640,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 123,
+        "y": 46,
+        "width": 93,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 14,
+      "direction": 2,
+      "x": 768,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 123,
+        "y": 45,
+        "width": 93,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 15,
+      "direction": 2,
+      "x": 896,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 45,
+        "width": 92,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 16,
+      "direction": 2,
+      "x": 1024,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 45,
+        "width": 92,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 17,
+      "direction": 2,
+      "x": 1152,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 125,
+        "y": 45,
+        "width": 91,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 18,
+      "direction": 2,
+      "x": 1280,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 126,
+        "y": 44,
+        "width": 90,
+        "height": 84
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 19,
+      "direction": 2,
+      "x": 1408,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 127,
+        "y": 42,
+        "width": 89,
+        "height": 86
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 20,
+      "direction": 2,
+      "x": 1536,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 129,
+        "y": 39,
+        "width": 87,
+        "height": 89
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 21,
+      "direction": 2,
+      "x": 1664,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 128,
+        "y": 36,
+        "width": 87,
+        "height": 91
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 22,
+      "direction": 2,
+      "x": 1792,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 127,
+        "y": 33,
+        "width": 86,
+        "height": 93
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 23,
+      "direction": 2,
+      "x": 1920,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 127,
+        "y": 29,
+        "width": 85,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 24,
+      "direction": 2,
+      "x": 0,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 131,
+        "y": 27,
+        "width": 80,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 25,
+      "direction": 2,
+      "x": 128,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 133,
+        "y": 25,
+        "width": 78,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 26,
+      "direction": 2,
+      "x": 256,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 133,
+        "y": 24,
+        "width": 78,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 27,
+      "direction": 2,
+      "x": 384,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 132,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 28,
+      "direction": 2,
+      "x": 512,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 132,
+        "y": 23,
+        "width": 78,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 29,
+      "direction": 2,
+      "x": 640,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 131,
+        "y": 22,
+        "width": 79,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 30,
+      "direction": 2,
+      "x": 768,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 131,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 31,
+      "direction": 2,
+      "x": 896,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 131,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 32,
+      "direction": 2,
+      "x": 1024,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 131,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 33,
+      "direction": 2,
+      "x": 1152,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 131,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 34,
+      "direction": 2,
+      "x": 1280,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 130,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 35,
+      "direction": 2,
+      "x": 1408,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 130,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 0,
+      "direction": 3,
+      "x": 1536,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 75,
+        "y": 22,
+        "width": 100,
+        "height": 108
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 1,
+      "direction": 3,
+      "x": 1664,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 75,
+        "y": 26,
+        "width": 98,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 2,
+      "direction": 3,
+      "x": 1792,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 75,
+        "y": 30,
+        "width": 97,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 3,
+      "direction": 3,
+      "x": 1920,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 76,
+        "y": 32,
+        "width": 96,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 4,
+      "direction": 3,
+      "x": 0,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 75,
+        "y": 34,
+        "width": 95,
+        "height": 96
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 5,
+      "direction": 3,
+      "x": 128,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 75,
+        "y": 36,
+        "width": 94,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 6,
+      "direction": 3,
+      "x": 256,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 78,
+        "y": 18,
+        "width": 96,
+        "height": 112
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 7,
+      "direction": 3,
+      "x": 384,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 87,
+        "y": 48,
+        "width": 88,
+        "height": 146
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 8,
+      "direction": 3,
+      "x": 512,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 105,
+        "y": 38,
+        "width": 43,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 9,
+      "direction": 3,
+      "x": 640,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 36,
+        "width": 69,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 10,
+      "direction": 3,
+      "x": 768,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 159,
+        "y": 41,
+        "width": 85,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 11,
+      "direction": 3,
+      "x": 896,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 159,
+        "y": 48,
+        "width": 90,
+        "height": 80
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 12,
+      "direction": 3,
+      "x": 1024,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 159,
+        "y": 47,
+        "width": 90,
+        "height": 81
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 13,
+      "direction": 3,
+      "x": 1152,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 158,
+        "y": 46,
+        "width": 91,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 14,
+      "direction": 3,
+      "x": 1280,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 159,
+        "y": 46,
+        "width": 90,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 15,
+      "direction": 3,
+      "x": 1408,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 160,
+        "y": 45,
+        "width": 89,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 16,
+      "direction": 3,
+      "x": 1536,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 162,
+        "y": 45,
+        "width": 88,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 17,
+      "direction": 3,
+      "x": 1664,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 163,
+        "y": 45,
+        "width": 87,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 18,
+      "direction": 3,
+      "x": 1792,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 163,
+        "y": 44,
+        "width": 87,
+        "height": 84
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 19,
+      "direction": 3,
+      "x": 1920,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 163,
+        "y": 42,
+        "width": 87,
+        "height": 86
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 20,
+      "direction": 3,
+      "x": 0,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 163,
+        "y": 39,
+        "width": 87,
+        "height": 88
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 21,
+      "direction": 3,
+      "x": 128,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 163,
+        "y": 36,
+        "width": 86,
+        "height": 91
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 22,
+      "direction": 3,
+      "x": 256,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 165,
+        "y": 33,
+        "width": 83,
+        "height": 93
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 23,
+      "direction": 3,
+      "x": 384,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 164,
+        "y": 30,
+        "width": 84,
+        "height": 97
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 24,
+      "direction": 3,
+      "x": 512,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 159,
+        "y": 27,
+        "width": 89,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 25,
+      "direction": 3,
+      "x": 640,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 159,
+        "y": 25,
+        "width": 89,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 26,
+      "direction": 3,
+      "x": 768,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 162,
+        "y": 23,
+        "width": 86,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 27,
+      "direction": 3,
+      "x": 896,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 163,
+        "y": 23,
+        "width": 83,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 28,
+      "direction": 3,
+      "x": 1024,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 163,
+        "y": 23,
+        "width": 82,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 29,
+      "direction": 3,
+      "x": 1152,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 164,
+        "y": 23,
+        "width": 81,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 30,
+      "direction": 3,
+      "x": 1280,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 164,
+        "y": 23,
+        "width": 81,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 31,
+      "direction": 3,
+      "x": 1408,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 164,
+        "y": 23,
+        "width": 81,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 32,
+      "direction": 3,
+      "x": 1536,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 164,
+        "y": 23,
+        "width": 80,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 33,
+      "direction": 3,
+      "x": 1664,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 164,
+        "y": 23,
+        "width": 80,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 34,
+      "direction": 3,
+      "x": 1792,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 163,
+        "y": 23,
+        "width": 81,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 35,
+      "direction": 3,
+      "x": 1920,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 163,
+        "y": 23,
+        "width": 81,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 0,
+      "direction": 4,
+      "x": 0,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 62,
+        "y": 22,
+        "width": 85,
+        "height": 108
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 1,
+      "direction": 4,
+      "x": 128,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 62,
+        "y": 26,
+        "width": 86,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 2,
+      "direction": 4,
+      "x": 256,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 62,
+        "y": 30,
+        "width": 87,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 3,
+      "direction": 4,
+      "x": 384,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 62,
+        "y": 32,
+        "width": 87,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 4,
+      "direction": 4,
+      "x": 512,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 61,
+        "y": 34,
+        "width": 87,
+        "height": 96
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 5,
+      "direction": 4,
+      "x": 640,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 60,
+        "y": 36,
+        "width": 88,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 6,
+      "direction": 4,
+      "x": 768,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 62,
+        "y": 19,
+        "width": 89,
+        "height": 111
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 7,
+      "direction": 4,
+      "x": 896,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 49,
+        "width": 89,
+        "height": 145
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 8,
+      "direction": 4,
+      "x": 1024,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 38,
+        "width": 63,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 9,
+      "direction": 4,
+      "x": 1152,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 37,
+        "width": 57,
+        "height": 155
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 10,
+      "direction": 4,
+      "x": 1280,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 154,
+        "y": 41,
+        "width": 91,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 11,
+      "direction": 4,
+      "x": 1408,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 159,
+        "y": 48,
+        "width": 64,
+        "height": 80
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 12,
+      "direction": 4,
+      "x": 1536,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 160,
+        "y": 47,
+        "width": 64,
+        "height": 81
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 13,
+      "direction": 4,
+      "x": 1664,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 160,
+        "y": 46,
+        "width": 64,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 14,
+      "direction": 4,
+      "x": 1792,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 160,
+        "y": 45,
+        "width": 64,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 15,
+      "direction": 4,
+      "x": 1920,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 161,
+        "y": 45,
+        "width": 63,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 16,
+      "direction": 4,
+      "x": 0,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 161,
+        "y": 45,
+        "width": 64,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 17,
+      "direction": 4,
+      "x": 128,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 161,
+        "y": 45,
+        "width": 64,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 18,
+      "direction": 4,
+      "x": 256,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 161,
+        "y": 44,
+        "width": 64,
+        "height": 84
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 19,
+      "direction": 4,
+      "x": 384,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 161,
+        "y": 42,
+        "width": 64,
+        "height": 86
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 20,
+      "direction": 4,
+      "x": 512,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 161,
+        "y": 39,
+        "width": 63,
+        "height": 88
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 21,
+      "direction": 4,
+      "x": 640,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 162,
+        "y": 36,
+        "width": 61,
+        "height": 91
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 22,
+      "direction": 4,
+      "x": 768,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 165,
+        "y": 32,
+        "width": 58,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 23,
+      "direction": 4,
+      "x": 896,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 172,
+        "y": 30,
+        "width": 52,
+        "height": 97
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 24,
+      "direction": 4,
+      "x": 1024,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 168,
+        "y": 27,
+        "width": 58,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 25,
+      "direction": 4,
+      "x": 1152,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 164,
+        "y": 25,
+        "width": 64,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 26,
+      "direction": 4,
+      "x": 1280,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 164,
+        "y": 23,
+        "width": 64,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 27,
+      "direction": 4,
+      "x": 1408,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 165,
+        "y": 23,
+        "width": 63,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 28,
+      "direction": 4,
+      "x": 1536,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 165,
+        "y": 23,
+        "width": 62,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 29,
+      "direction": 4,
+      "x": 1664,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 164,
+        "y": 23,
+        "width": 63,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 30,
+      "direction": 4,
+      "x": 1792,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 163,
+        "y": 23,
+        "width": 64,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 31,
+      "direction": 4,
+      "x": 1920,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 162,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 32,
+      "direction": 4,
+      "x": 0,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 162,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 33,
+      "direction": 4,
+      "x": 128,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 161,
+        "y": 23,
+        "width": 66,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 34,
+      "direction": 4,
+      "x": 256,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 161,
+        "y": 23,
+        "width": 66,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 35,
+      "direction": 4,
+      "x": 384,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 160,
+        "y": 23,
+        "width": 67,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 0,
+      "direction": 5,
+      "x": 512,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 63,
+        "y": 22,
+        "width": 69,
+        "height": 109
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 1,
+      "direction": 5,
+      "x": 640,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 58,
+        "y": 26,
+        "width": 74,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 2,
+      "direction": 5,
+      "x": 768,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 54,
+        "y": 30,
+        "width": 78,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 3,
+      "direction": 5,
+      "x": 896,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 52,
+        "y": 32,
+        "width": 80,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 4,
+      "direction": 5,
+      "x": 1024,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 49,
+        "y": 34,
+        "width": 83,
+        "height": 96
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 5,
+      "direction": 5,
+      "x": 1152,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 43,
+        "y": 36,
+        "width": 88,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 6,
+      "direction": 5,
+      "x": 1280,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 47,
+        "y": 18,
+        "width": 82,
+        "height": 112
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 7,
+      "direction": 5,
+      "x": 1408,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 49,
+        "width": 65,
+        "height": 145
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 8,
+      "direction": 5,
+      "x": 1536,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 38,
+        "width": 79,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 9,
+      "direction": 5,
+      "x": 1664,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 36,
+        "width": 69,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 10,
+      "direction": 5,
+      "x": 1792,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 116,
+        "y": 41,
+        "width": 100,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 11,
+      "direction": 5,
+      "x": 1920,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 48,
+        "width": 54,
+        "height": 80
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 12,
+      "direction": 5,
+      "x": 0,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 47,
+        "width": 54,
+        "height": 81
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 13,
+      "direction": 5,
+      "x": 128,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 46,
+        "width": 54,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 14,
+      "direction": 5,
+      "x": 256,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 46,
+        "width": 54,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 15,
+      "direction": 5,
+      "x": 384,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 45,
+        "width": 54,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 16,
+      "direction": 5,
+      "x": 512,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 45,
+        "width": 53,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 17,
+      "direction": 5,
+      "x": 640,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 45,
+        "width": 53,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 18,
+      "direction": 5,
+      "x": 768,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 44,
+        "width": 54,
+        "height": 84
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 19,
+      "direction": 5,
+      "x": 896,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 42,
+        "width": 54,
+        "height": 86
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 20,
+      "direction": 5,
+      "x": 1024,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 39,
+        "width": 57,
+        "height": 89
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 21,
+      "direction": 5,
+      "x": 1152,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 36,
+        "width": 60,
+        "height": 90
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 22,
+      "direction": 5,
+      "x": 1280,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 33,
+        "width": 61,
+        "height": 93
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 23,
+      "direction": 5,
+      "x": 1408,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 122,
+        "y": 30,
+        "width": 61,
+        "height": 97
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 24,
+      "direction": 5,
+      "x": 1536,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 27,
+        "width": 61,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 25,
+      "direction": 5,
+      "x": 1664,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 25,
+        "width": 62,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 26,
+      "direction": 5,
+      "x": 1792,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 123,
+        "y": 23,
+        "width": 63,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 27,
+      "direction": 5,
+      "x": 1920,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 28,
+      "direction": 5,
+      "x": 0,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 22,
+        "width": 65,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 29,
+      "direction": 5,
+      "x": 128,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 23,
+        "width": 66,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 30,
+      "direction": 5,
+      "x": 256,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 23,
+        "width": 66,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 31,
+      "direction": 5,
+      "x": 384,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 23,
+        "width": 66,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 32,
+      "direction": 5,
+      "x": 512,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 33,
+      "direction": 5,
+      "x": 640,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 34,
+      "direction": 5,
+      "x": 768,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 35,
+      "direction": 5,
+      "x": 896,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 23,
+        "width": 65,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 0,
+      "direction": 6,
+      "x": 1024,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 49,
+        "y": 22,
+        "width": 93,
+        "height": 108
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 1,
+      "direction": 6,
+      "x": 1152,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 47,
+        "y": 26,
+        "width": 95,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 2,
+      "direction": 6,
+      "x": 1280,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 45,
+        "y": 30,
+        "width": 97,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 3,
+      "direction": 6,
+      "x": 1408,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 43,
+        "y": 32,
+        "width": 98,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 4,
+      "direction": 6,
+      "x": 1536,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 42,
+        "y": 34,
+        "width": 99,
+        "height": 96
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 5,
+      "direction": 6,
+      "x": 1664,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 39,
+        "y": 36,
+        "width": 101,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 6,
+      "direction": 6,
+      "x": 1792,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 38,
+        "y": 19,
+        "width": 99,
+        "height": 111
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 7,
+      "direction": 6,
+      "x": 1920,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 101,
+        "y": 48,
+        "width": 51,
+        "height": 146
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 8,
+      "direction": 6,
+      "x": 0,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 37,
+        "width": 65,
+        "height": 157
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 9,
+      "direction": 6,
+      "x": 128,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 36,
+        "width": 75,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 10,
+      "direction": 6,
+      "x": 256,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 41,
+        "y": 41,
+        "width": 96,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 11,
+      "direction": 6,
+      "x": 384,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 39,
+        "y": 49,
+        "width": 90,
+        "height": 79
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 12,
+      "direction": 6,
+      "x": 512,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 40,
+        "y": 47,
+        "width": 92,
+        "height": 81
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 13,
+      "direction": 6,
+      "x": 640,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 40,
+        "y": 46,
+        "width": 93,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 14,
+      "direction": 6,
+      "x": 768,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 40,
+        "y": 45,
+        "width": 93,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 15,
+      "direction": 6,
+      "x": 896,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 40,
+        "y": 45,
+        "width": 92,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 16,
+      "direction": 6,
+      "x": 1024,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 40,
+        "y": 45,
+        "width": 92,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 17,
+      "direction": 6,
+      "x": 1152,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 40,
+        "y": 45,
+        "width": 91,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 18,
+      "direction": 6,
+      "x": 1280,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 40,
+        "y": 44,
+        "width": 91,
+        "height": 84
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 19,
+      "direction": 6,
+      "x": 1408,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 40,
+        "y": 42,
+        "width": 89,
+        "height": 86
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 20,
+      "direction": 6,
+      "x": 1536,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 40,
+        "y": 39,
+        "width": 87,
+        "height": 89
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 21,
+      "direction": 6,
+      "x": 1664,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 41,
+        "y": 36,
+        "width": 87,
+        "height": 91
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 22,
+      "direction": 6,
+      "x": 1792,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 43,
+        "y": 33,
+        "width": 86,
+        "height": 93
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 23,
+      "direction": 6,
+      "x": 1920,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 44,
+        "y": 29,
+        "width": 85,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 24,
+      "direction": 6,
+      "x": 0,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 45,
+        "y": 27,
+        "width": 80,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 25,
+      "direction": 6,
+      "x": 128,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 45,
+        "y": 25,
+        "width": 78,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 26,
+      "direction": 6,
+      "x": 256,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 45,
+        "y": 23,
+        "width": 78,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 27,
+      "direction": 6,
+      "x": 384,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 45,
+        "y": 23,
+        "width": 78,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 28,
+      "direction": 6,
+      "x": 512,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 22,
+        "width": 78,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 29,
+      "direction": 6,
+      "x": 640,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 30,
+      "direction": 6,
+      "x": 768,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 31,
+      "direction": 6,
+      "x": 896,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 32,
+      "direction": 6,
+      "x": 1024,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 33,
+      "direction": 6,
+      "x": 1152,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 34,
+      "direction": 6,
+      "x": 1280,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 47,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 35,
+      "direction": 6,
+      "x": 1408,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 47,
+        "y": 23,
+        "width": 79,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 0,
+      "direction": 7,
+      "x": 1536,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 81,
+        "y": 22,
+        "width": 100,
+        "height": 109
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 1,
+      "direction": 7,
+      "x": 1664,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 83,
+        "y": 26,
+        "width": 98,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 2,
+      "direction": 7,
+      "x": 1792,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 30,
+        "width": 97,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 3,
+      "direction": 7,
+      "x": 1920,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 32,
+        "width": 96,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 4,
+      "direction": 7,
+      "x": 0,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 86,
+        "y": 34,
+        "width": 95,
+        "height": 96
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 5,
+      "direction": 7,
+      "x": 128,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 87,
+        "y": 36,
+        "width": 94,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 6,
+      "direction": 7,
+      "x": 256,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 82,
+        "y": 18,
+        "width": 96,
+        "height": 112
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 7,
+      "direction": 7,
+      "x": 384,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 82,
+        "y": 49,
+        "width": 88,
+        "height": 145
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 8,
+      "direction": 7,
+      "x": 512,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 109,
+        "y": 37,
+        "width": 43,
+        "height": 157
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 9,
+      "direction": 7,
+      "x": 640,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 36,
+        "width": 69,
+        "height": 156
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 10,
+      "direction": 7,
+      "x": 768,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 12,
+        "y": 41,
+        "width": 85,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 11,
+      "direction": 7,
+      "x": 896,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 7,
+        "y": 48,
+        "width": 91,
+        "height": 80
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 12,
+      "direction": 7,
+      "x": 1024,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 7,
+        "y": 47,
+        "width": 90,
+        "height": 81
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 13,
+      "direction": 7,
+      "x": 1152,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 7,
+        "y": 46,
+        "width": 91,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 14,
+      "direction": 7,
+      "x": 1280,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 7,
+        "y": 46,
+        "width": 90,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 15,
+      "direction": 7,
+      "x": 1408,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 7,
+        "y": 45,
+        "width": 89,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 16,
+      "direction": 7,
+      "x": 1536,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 6,
+        "y": 45,
+        "width": 89,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 17,
+      "direction": 7,
+      "x": 1664,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 6,
+        "y": 45,
+        "width": 87,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 18,
+      "direction": 7,
+      "x": 1792,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 6,
+        "y": 44,
+        "width": 87,
+        "height": 84
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 19,
+      "direction": 7,
+      "x": 1920,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 6,
+        "y": 42,
+        "width": 87,
+        "height": 86
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 20,
+      "direction": 7,
+      "x": 0,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 6,
+        "y": 39,
+        "width": 87,
+        "height": 89
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 21,
+      "direction": 7,
+      "x": 128,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 7,
+        "y": 36,
+        "width": 86,
+        "height": 91
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 22,
+      "direction": 7,
+      "x": 256,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 8,
+        "y": 32,
+        "width": 83,
+        "height": 94
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 23,
+      "direction": 7,
+      "x": 384,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 8,
+        "y": 29,
+        "width": 84,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 24,
+      "direction": 7,
+      "x": 512,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 8,
+        "y": 27,
+        "width": 89,
+        "height": 100
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 25,
+      "direction": 7,
+      "x": 640,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 8,
+        "y": 25,
+        "width": 89,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 26,
+      "direction": 7,
+      "x": 768,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 8,
+        "y": 24,
+        "width": 86,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 27,
+      "direction": 7,
+      "x": 896,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 10,
+        "y": 23,
+        "width": 83,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 28,
+      "direction": 7,
+      "x": 1024,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 11,
+        "y": 22,
+        "width": 82,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 29,
+      "direction": 7,
+      "x": 1152,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 11,
+        "y": 23,
+        "width": 81,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 30,
+      "direction": 7,
+      "x": 1280,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 11,
+        "y": 23,
+        "width": 81,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 31,
+      "direction": 7,
+      "x": 1408,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 11,
+        "y": 23,
+        "width": 81,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 32,
+      "direction": 7,
+      "x": 1536,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 12,
+        "y": 23,
+        "width": 80,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 33,
+      "direction": 7,
+      "x": 1664,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 12,
+        "y": 23,
+        "width": 80,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 34,
+      "direction": 7,
+      "x": 1792,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 12,
+        "y": 23,
+        "width": 81,
+        "height": 105
+      }
+    },
+    {
+      "filename": "Combate_dd",
+      "frame": 35,
+      "direction": 7,
+      "x": 1920,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 12,
+        "y": 23,
+        "width": 81,
+        "height": 105
+      }
+    }
+  ]
+}

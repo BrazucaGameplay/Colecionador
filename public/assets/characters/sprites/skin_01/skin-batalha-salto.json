@@ -1,7 +1,7 @@
 {
   "schema": "colecionador.sprite-atlas.v1",
-  "source": "/Colecionador/assets/characters/skin_01/skin-padrão1.glb",
-  "animation": "Combate_dd",
+  "source": "/Colecionador/assets/characters/skin_01/animation-sources/animacoes_batalha.glb",
+  "animation": "Salto",
   "fps": 12,
   "frameSize": {
     "width": 128,
@@ -25,12 +25,12 @@
     "viewHeight": 6,
     "padding": 8,
     "targetContentHeight": 112,
-    "commonScale": 0.9824561403508771
+    "commonScale": 0.6829268292682927
   },
   "rootMotion": "normalized-to-ground; gameplay controls world movement",
   "frames": [
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 0,
       "direction": 0,
       "x": 0,
@@ -41,14 +41,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 115,
-        "y": 53,
-        "width": 72,
-        "height": 73
+        "x": 103,
+        "y": 23,
+        "width": 85,
+        "height": 103
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 1,
       "direction": 0,
       "x": 128,
@@ -59,14 +59,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 117,
-        "y": 64,
-        "width": 69,
-        "height": 63
+        "x": 114,
+        "y": 29,
+        "width": 80,
+        "height": 98
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 2,
       "direction": 0,
       "x": 256,
@@ -77,14 +77,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 92,
-        "y": 67,
-        "width": 94,
-        "height": 59
+        "x": 116,
+        "y": 35,
+        "width": 82,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 3,
       "direction": 0,
       "x": 384,
@@ -95,14 +95,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 90,
-        "y": 69,
-        "width": 96,
-        "height": 61
+        "x": 118,
+        "y": 34,
+        "width": 85,
+        "height": 93
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 4,
       "direction": 0,
       "x": 512,
@@ -113,14 +113,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 87,
-        "y": 69,
-        "width": 98,
-        "height": 58
+        "x": 120,
+        "y": 41,
+        "width": 105,
+        "height": 86
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 5,
       "direction": 0,
       "x": 640,
@@ -131,14 +131,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 120,
-        "y": 72,
-        "width": 65,
-        "height": 58
+        "x": 122,
+        "y": 44,
+        "width": 121,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 6,
       "direction": 0,
       "x": 768,
@@ -149,14 +149,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 128,
-        "y": 50,
-        "width": 46,
-        "height": 80
+        "x": 125,
+        "y": 44,
+        "width": 120,
+        "height": 82
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 7,
       "direction": 0,
       "x": 896,
@@ -167,14 +167,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 107,
-        "y": 45,
-        "width": 76,
-        "height": 83
+        "x": 119,
+        "y": 23,
+        "width": 108,
+        "height": 103
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 8,
       "direction": 0,
       "x": 1024,
@@ -185,14 +185,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 111,
-        "y": 40,
-        "width": 74,
-        "height": 88
+        "x": 85,
+        "y": 42,
+        "width": 88,
+        "height": 149
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 9,
       "direction": 0,
       "x": 1152,
@@ -203,14 +203,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 114,
-        "y": 38,
-        "width": 72,
-        "height": 90
+        "x": 92,
+        "y": 27,
+        "width": 73,
+        "height": 164
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 10,
       "direction": 0,
       "x": 1280,
@@ -221,14 +221,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 116,
-        "y": 38,
-        "width": 70,
-        "height": 90
+        "x": 100,
+        "y": 21,
+        "width": 59,
+        "height": 159
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 11,
       "direction": 0,
       "x": 1408,
@@ -239,14 +239,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 116,
-        "y": 39,
-        "width": 70,
-        "height": 89
+        "x": 91,
+        "y": 27,
+        "width": 86,
+        "height": 142
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 12,
       "direction": 0,
       "x": 1536,
@@ -257,14 +257,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 116,
-        "y": 42,
-        "width": 71,
-        "height": 86
+        "x": 91,
+        "y": 30,
+        "width": 83,
+        "height": 141
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 13,
       "direction": 0,
       "x": 1664,
@@ -275,14 +275,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 114,
-        "y": 46,
-        "width": 73,
-        "height": 82
+        "x": 97,
+        "y": 41,
+        "width": 63,
+        "height": 141
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 14,
       "direction": 0,
       "x": 1792,
@@ -293,14 +293,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 111,
-        "y": 54,
-        "width": 75,
-        "height": 74
+        "x": 9,
+        "y": 43,
+        "width": 85,
+        "height": 84
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 15,
       "direction": 0,
       "x": 1920,
@@ -311,14 +311,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 107,
-        "y": 65,
-        "width": 78,
-        "height": 63
+        "x": 29,
+        "y": 56,
+        "width": 84,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 16,
       "direction": 0,
       "x": 0,
@@ -329,14 +329,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 114,
-        "y": 69,
-        "width": 71,
-        "height": 59
+        "x": 32,
+        "y": 53,
+        "width": 87,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 17,
       "direction": 0,
       "x": 128,
@@ -347,14 +347,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 147,
-        "y": 67,
-        "width": 41,
-        "height": 61
+        "x": 32,
+        "y": 54,
+        "width": 87,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 18,
       "direction": 0,
       "x": 256,
@@ -365,14 +365,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 154,
-        "y": 66,
-        "width": 76,
-        "height": 60
+        "x": 32,
+        "y": 54,
+        "width": 86,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 19,
       "direction": 0,
       "x": 384,
@@ -383,14 +383,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 121,
-        "y": 66,
-        "width": 103,
-        "height": 61
+        "x": 32,
+        "y": 55,
+        "width": 85,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 20,
       "direction": 0,
       "x": 512,
@@ -401,14 +401,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 132,
-        "y": 68,
-        "width": 104,
-        "height": 59
+        "x": 32,
+        "y": 55,
+        "width": 85,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 21,
       "direction": 0,
       "x": 640,
@@ -419,14 +419,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 130,
-        "y": 69,
-        "width": 109,
-        "height": 59
+        "x": 32,
+        "y": 56,
+        "width": 84,
+        "height": 72
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 22,
       "direction": 0,
       "x": 768,
@@ -437,14 +437,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 133,
-        "y": 69,
-        "width": 107,
-        "height": 59
+        "x": 32,
+        "y": 56,
+        "width": 84,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 23,
       "direction": 0,
       "x": 896,
@@ -455,14 +455,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 153,
-        "y": 69,
-        "width": 89,
-        "height": 59
+        "x": 32,
+        "y": 56,
+        "width": 84,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 24,
       "direction": 0,
       "x": 1024,
@@ -473,14 +473,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 174,
-        "y": 68,
-        "width": 71,
-        "height": 59
+        "x": 32,
+        "y": 56,
+        "width": 81,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 25,
       "direction": 0,
       "x": 1152,
@@ -491,14 +491,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 88,
-        "y": 99,
-        "width": 98,
-        "height": 59
+        "x": 32,
+        "y": 53,
+        "width": 73,
+        "height": 76
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 26,
       "direction": 0,
       "x": 1280,
@@ -509,14 +509,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 86,
-        "y": 99,
-        "width": 101,
-        "height": 59
+        "x": 32,
+        "y": 49,
+        "width": 74,
+        "height": 80
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 27,
       "direction": 0,
       "x": 1408,
@@ -527,14 +527,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 166,
-        "y": 70,
-        "width": 85,
-        "height": 57
+        "x": 33,
+        "y": 45,
+        "width": 72,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 28,
       "direction": 0,
       "x": 1536,
@@ -545,14 +545,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 159,
-        "y": 70,
-        "width": 78,
-        "height": 58
+        "x": 34,
+        "y": 40,
+        "width": 66,
+        "height": 87
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 29,
       "direction": 0,
       "x": 1664,
@@ -563,14 +563,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 155,
-        "y": 67,
-        "width": 79,
-        "height": 60
+        "x": 26,
+        "y": 35,
+        "width": 61,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 30,
       "direction": 0,
       "x": 1792,
@@ -581,14 +581,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 153,
-        "y": 60,
-        "width": 79,
-        "height": 67
+        "x": 18,
+        "y": 30,
+        "width": 50,
+        "height": 97
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 31,
       "direction": 0,
       "x": 1920,
@@ -599,14 +599,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 151,
-        "y": 59,
-        "width": 78,
-        "height": 68
+        "x": 11,
+        "y": 25,
+        "width": 53,
+        "height": 104
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 32,
       "direction": 0,
       "x": 0,
@@ -617,179 +617,17 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 150,
-        "y": 57,
-        "width": 78,
-        "height": 70
+        "x": 5,
+        "y": 23,
+        "width": 57,
+        "height": 106
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 33,
       "direction": 0,
       "x": 128,
-      "y": 256,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 148,
-        "y": 55,
-        "width": 78,
-        "height": 72
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 34,
-      "direction": 0,
-      "x": 256,
-      "y": 256,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 147,
-        "y": 52,
-        "width": 78,
-        "height": 75
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 35,
-      "direction": 0,
-      "x": 384,
-      "y": 256,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 146,
-        "y": 51,
-        "width": 77,
-        "height": 76
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 0,
-      "direction": 1,
-      "x": 512,
-      "y": 256,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 115,
-        "y": 54,
-        "width": 85,
-        "height": 72
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 1,
-      "direction": 1,
-      "x": 640,
-      "y": 256,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 113,
-        "y": 64,
-        "width": 60,
-        "height": 63
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 2,
-      "direction": 1,
-      "x": 768,
-      "y": 256,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 114,
-        "y": 67,
-        "width": 59,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 3,
-      "direction": 1,
-      "x": 896,
-      "y": 256,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 102,
-        "y": 69,
-        "width": 78,
-        "height": 60
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 4,
-      "direction": 1,
-      "x": 1024,
-      "y": 256,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 101,
-        "y": 69,
-        "width": 74,
-        "height": 58
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 5,
-      "direction": 1,
-      "x": 1152,
-      "y": 256,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 128,
-        "y": 72,
-        "width": 91,
-        "height": 58
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 6,
-      "direction": 1,
-      "x": 1280,
       "y": 256,
       "width": 128,
       "height": 128,
@@ -798,13 +636,175 @@
       "pivotY": 0.9375,
       "sourceBounds": {
         "x": 98,
-        "y": 50,
-        "width": 88,
-        "height": 80
+        "y": 75,
+        "width": 61,
+        "height": 107
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
+      "frame": 34,
+      "direction": 0,
+      "x": 256,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 75,
+        "width": 68,
+        "height": 107
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 35,
+      "direction": 0,
+      "x": 384,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 75,
+        "width": 73,
+        "height": 107
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 0,
+      "direction": 1,
+      "x": 512,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 129,
+        "y": 23,
+        "width": 44,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 1,
+      "direction": 1,
+      "x": 640,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 131,
+        "y": 29,
+        "width": 55,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 2,
+      "direction": 1,
+      "x": 768,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 133,
+        "y": 35,
+        "width": 92,
+        "height": 92
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 3,
+      "direction": 1,
+      "x": 896,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 135,
+        "y": 34,
+        "width": 94,
+        "height": 93
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 4,
+      "direction": 1,
+      "x": 1024,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 137,
+        "y": 41,
+        "width": 102,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 5,
+      "direction": 1,
+      "x": 1152,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 138,
+        "y": 44,
+        "width": 98,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 6,
+      "direction": 1,
+      "x": 1280,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 139,
+        "y": 44,
+        "width": 72,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Salto",
       "frame": 7,
       "direction": 1,
       "x": 1408,
@@ -815,14 +815,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 107,
-        "y": 45,
-        "width": 85,
-        "height": 83
+        "x": 132,
+        "y": 23,
+        "width": 62,
+        "height": 103
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 8,
       "direction": 1,
       "x": 1536,
@@ -833,14 +833,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 112,
-        "y": 40,
-        "width": 82,
-        "height": 88
+        "x": 95,
+        "y": 42,
+        "width": 68,
+        "height": 149
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 9,
       "direction": 1,
       "x": 1664,
@@ -851,14 +851,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 111,
-        "y": 38,
-        "width": 83,
-        "height": 90
+        "x": 91,
+        "y": 27,
+        "width": 75,
+        "height": 164
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 10,
       "direction": 1,
       "x": 1792,
@@ -869,14 +869,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 110,
-        "y": 38,
-        "width": 85,
-        "height": 90
+        "x": 96,
+        "y": 20,
+        "width": 70,
+        "height": 160
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 11,
       "direction": 1,
       "x": 1920,
@@ -887,14 +887,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 108,
-        "y": 39,
-        "width": 87,
-        "height": 89
+        "x": 100,
+        "y": 27,
+        "width": 82,
+        "height": 142
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 12,
       "direction": 1,
       "x": 0,
@@ -905,14 +905,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 105,
-        "y": 42,
-        "width": 90,
-        "height": 86
+        "x": 100,
+        "y": 30,
+        "width": 86,
+        "height": 141
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 13,
       "direction": 1,
       "x": 128,
@@ -924,13 +924,13 @@
       "pivotY": 0.9375,
       "sourceBounds": {
         "x": 100,
-        "y": 46,
-        "width": 94,
-        "height": 82
+        "y": 41,
+        "width": 66,
+        "height": 141
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 14,
       "direction": 1,
       "x": 256,
@@ -941,14 +941,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 95,
-        "y": 54,
-        "width": 98,
-        "height": 74
+        "x": 33,
+        "y": 43,
+        "width": 73,
+        "height": 84
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 15,
       "direction": 1,
       "x": 384,
@@ -959,14 +959,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 93,
-        "y": 65,
-        "width": 99,
-        "height": 63
+        "x": 49,
+        "y": 56,
+        "width": 65,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 16,
       "direction": 1,
       "x": 512,
@@ -977,14 +977,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 86,
-        "y": 69,
-        "width": 106,
-        "height": 59
+        "x": 51,
+        "y": 53,
+        "width": 66,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 17,
       "direction": 1,
       "x": 640,
@@ -995,14 +995,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 121,
-        "y": 67,
-        "width": 69,
-        "height": 61
+        "x": 52,
+        "y": 54,
+        "width": 65,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 18,
       "direction": 1,
       "x": 768,
@@ -1013,14 +1013,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 144,
-        "y": 66,
-        "width": 95,
-        "height": 60
+        "x": 52,
+        "y": 54,
+        "width": 65,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 19,
       "direction": 1,
       "x": 896,
@@ -1031,14 +1031,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 145,
-        "y": 66,
-        "width": 50,
-        "height": 61
+        "x": 53,
+        "y": 55,
+        "width": 65,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 20,
       "direction": 1,
       "x": 1024,
@@ -1049,14 +1049,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 113,
-        "y": 68,
-        "width": 96,
-        "height": 59
+        "x": 53,
+        "y": 55,
+        "width": 65,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 21,
       "direction": 1,
       "x": 1152,
@@ -1067,14 +1067,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 122,
-        "y": 69,
-        "width": 88,
-        "height": 59
+        "x": 53,
+        "y": 56,
+        "width": 65,
+        "height": 72
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 22,
       "direction": 1,
       "x": 1280,
@@ -1085,14 +1085,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 149,
-        "y": 69,
-        "width": 61,
-        "height": 59
+        "x": 53,
+        "y": 56,
+        "width": 65,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 23,
       "direction": 1,
       "x": 1408,
@@ -1103,14 +1103,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 152,
-        "y": 69,
-        "width": 59,
-        "height": 59
+        "x": 52,
+        "y": 56,
+        "width": 66,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 24,
       "direction": 1,
       "x": 1536,
@@ -1121,14 +1121,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 83,
-        "y": 99,
-        "width": 105,
-        "height": 59
+        "x": 51,
+        "y": 56,
+        "width": 66,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 25,
       "direction": 1,
       "x": 1664,
@@ -1139,14 +1139,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 85,
-        "y": 99,
-        "width": 110,
-        "height": 59
+        "x": 49,
+        "y": 53,
+        "width": 66,
+        "height": 76
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 26,
       "direction": 1,
       "x": 1792,
@@ -1157,14 +1157,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 83,
-        "y": 99,
-        "width": 111,
-        "height": 58
+        "x": 46,
+        "y": 49,
+        "width": 66,
+        "height": 80
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 27,
       "direction": 1,
       "x": 1920,
@@ -1175,14 +1175,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 79,
-        "y": 100,
-        "width": 107,
-        "height": 57
+        "x": 42,
+        "y": 45,
+        "width": 69,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 28,
       "direction": 1,
       "x": 0,
@@ -1193,14 +1193,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 152,
-        "y": 70,
-        "width": 96,
-        "height": 58
+        "x": 35,
+        "y": 40,
+        "width": 75,
+        "height": 87
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 29,
       "direction": 1,
       "x": 128,
@@ -1211,14 +1211,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 149,
-        "y": 67,
-        "width": 81,
-        "height": 60
+        "x": 23,
+        "y": 35,
+        "width": 86,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 30,
       "direction": 1,
       "x": 256,
@@ -1229,14 +1229,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 145,
-        "y": 61,
-        "width": 76,
-        "height": 66
+        "x": 11,
+        "y": 29,
+        "width": 94,
+        "height": 98
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 31,
       "direction": 1,
       "x": 384,
@@ -1247,14 +1247,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 143,
-        "y": 58,
-        "width": 77,
-        "height": 69
+        "x": 11,
+        "y": 25,
+        "width": 90,
+        "height": 104
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 32,
       "direction": 1,
       "x": 512,
@@ -1265,14 +1265,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 142,
-        "y": 57,
-        "width": 78,
-        "height": 70
+        "x": 13,
+        "y": 23,
+        "width": 84,
+        "height": 106
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 33,
       "direction": 1,
       "x": 640,
@@ -1283,14 +1283,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 141,
-        "y": 55,
-        "width": 79,
-        "height": 72
+        "x": 11,
+        "y": 22,
+        "width": 85,
+        "height": 107
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 34,
       "direction": 1,
       "x": 768,
@@ -1301,14 +1301,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 140,
-        "y": 52,
-        "width": 81,
-        "height": 75
+        "x": 7,
+        "y": 22,
+        "width": 88,
+        "height": 107
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 35,
       "direction": 1,
       "x": 896,
@@ -1319,14 +1319,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 140,
-        "y": 51,
-        "width": 81,
-        "height": 76
+        "x": 3,
+        "y": 23,
+        "width": 91,
+        "height": 106
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 0,
       "direction": 2,
       "x": 1024,
@@ -1337,14 +1337,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 110,
-        "y": 53,
-        "width": 91,
-        "height": 73
+        "x": 105,
+        "y": 24,
+        "width": 62,
+        "height": 103
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 1,
       "direction": 2,
       "x": 1152,
@@ -1355,14 +1355,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 113,
-        "y": 64,
-        "width": 88,
-        "height": 63
+        "x": 104,
+        "y": 29,
+        "width": 94,
+        "height": 98
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 2,
       "direction": 2,
       "x": 1280,
@@ -1373,14 +1373,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 109,
-        "y": 67,
-        "width": 52,
-        "height": 59
+        "x": 102,
+        "y": 35,
+        "width": 101,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 3,
       "direction": 2,
       "x": 1408,
@@ -1391,14 +1391,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 109,
-        "y": 69,
-        "width": 41,
-        "height": 60
+        "x": 101,
+        "y": 34,
+        "width": 97,
+        "height": 93
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 4,
       "direction": 2,
       "x": 1536,
@@ -1409,14 +1409,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 112,
-        "y": 69,
-        "width": 41,
-        "height": 58
+        "x": 100,
+        "y": 41,
+        "width": 87,
+        "height": 87
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 5,
       "direction": 2,
       "x": 1664,
@@ -1427,14 +1427,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 102,
-        "y": 72,
-        "width": 98,
-        "height": 58
+        "x": 98,
+        "y": 44,
+        "width": 80,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 6,
       "direction": 2,
       "x": 1792,
@@ -1445,14 +1445,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 68,
-        "y": 50,
-        "width": 106,
-        "height": 80
+        "x": 97,
+        "y": 44,
+        "width": 82,
+        "height": 82
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 7,
       "direction": 2,
       "x": 1920,
@@ -1463,14 +1463,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 108,
-        "y": 46,
-        "width": 61,
-        "height": 82
+        "x": 101,
+        "y": 23,
+        "width": 64,
+        "height": 103
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 8,
       "direction": 2,
       "x": 0,
@@ -1481,14 +1481,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 110,
-        "y": 40,
-        "width": 59,
-        "height": 88
+        "x": 107,
+        "y": 42,
+        "width": 43,
+        "height": 149
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 9,
       "direction": 2,
       "x": 128,
@@ -1499,161 +1499,17 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 110,
-        "y": 38,
-        "width": 59,
-        "height": 90
+        "x": 104,
+        "y": 28,
+        "width": 49,
+        "height": 163
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 10,
       "direction": 2,
       "x": 256,
-      "y": 640,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 110,
-        "y": 39,
-        "width": 59,
-        "height": 89
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 11,
-      "direction": 2,
-      "x": 384,
-      "y": 640,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 110,
-        "y": 40,
-        "width": 59,
-        "height": 88
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 12,
-      "direction": 2,
-      "x": 512,
-      "y": 640,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 106,
-        "y": 42,
-        "width": 62,
-        "height": 86
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 13,
-      "direction": 2,
-      "x": 640,
-      "y": 640,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 102,
-        "y": 46,
-        "width": 66,
-        "height": 82
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 14,
-      "direction": 2,
-      "x": 768,
-      "y": 640,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 99,
-        "y": 54,
-        "width": 69,
-        "height": 74
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 15,
-      "direction": 2,
-      "x": 896,
-      "y": 640,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 99,
-        "y": 65,
-        "width": 69,
-        "height": 63
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 16,
-      "direction": 2,
-      "x": 1024,
-      "y": 640,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 82,
-        "y": 69,
-        "width": 87,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 17,
-      "direction": 2,
-      "x": 1152,
-      "y": 640,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 67,
-        "y": 67,
-        "width": 103,
-        "height": 61
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 18,
-      "direction": 2,
-      "x": 1280,
       "y": 640,
       "width": 128,
       "height": 128,
@@ -1662,13 +1518,157 @@
       "pivotY": 0.9375,
       "sourceBounds": {
         "x": 96,
-        "y": 66,
-        "width": 88,
-        "height": 60
+        "y": 20,
+        "width": 65,
+        "height": 160
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
+      "frame": 11,
+      "direction": 2,
+      "x": 384,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 27,
+        "width": 65,
+        "height": 142
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 12,
+      "direction": 2,
+      "x": 512,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 30,
+        "width": 69,
+        "height": 140
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 13,
+      "direction": 2,
+      "x": 640,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 92,
+        "y": 41,
+        "width": 87,
+        "height": 141
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 14,
+      "direction": 2,
+      "x": 768,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 42,
+        "width": 80,
+        "height": 85
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 15,
+      "direction": 2,
+      "x": 896,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 86,
+        "y": 56,
+        "width": 87,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 16,
+      "direction": 2,
+      "x": 1024,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 53,
+        "width": 87,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 17,
+      "direction": 2,
+      "x": 1152,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 54,
+        "width": 87,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 18,
+      "direction": 2,
+      "x": 1280,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 54,
+        "width": 88,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
       "frame": 19,
       "direction": 2,
       "x": 1408,
@@ -1679,14 +1679,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 108,
-        "y": 66,
-        "width": 51,
-        "height": 61
+        "x": 84,
+        "y": 55,
+        "width": 88,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 20,
       "direction": 2,
       "x": 1536,
@@ -1697,14 +1697,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 103,
-        "y": 68,
-        "width": 48,
-        "height": 59
+        "x": 84,
+        "y": 55,
+        "width": 88,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 21,
       "direction": 2,
       "x": 1664,
@@ -1715,14 +1715,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 110,
-        "y": 69,
-        "width": 41,
-        "height": 59
+        "x": 85,
+        "y": 56,
+        "width": 87,
+        "height": 72
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 22,
       "direction": 2,
       "x": 1792,
@@ -1733,14 +1733,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 111,
-        "y": 69,
-        "width": 48,
-        "height": 59
+        "x": 84,
+        "y": 56,
+        "width": 88,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 23,
       "direction": 2,
       "x": 1920,
@@ -1751,14 +1751,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 112,
-        "y": 69,
-        "width": 80,
-        "height": 59
+        "x": 84,
+        "y": 56,
+        "width": 88,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 24,
       "direction": 2,
       "x": 0,
@@ -1769,14 +1769,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 106,
-        "y": 68,
-        "width": 110,
-        "height": 59
+        "x": 83,
+        "y": 56,
+        "width": 88,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 25,
       "direction": 2,
       "x": 128,
@@ -1787,14 +1787,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 106,
-        "y": 68,
-        "width": 92,
-        "height": 59
+        "x": 81,
+        "y": 53,
+        "width": 87,
+        "height": 76
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 26,
       "direction": 2,
       "x": 256,
@@ -1805,14 +1805,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 107,
-        "y": 69,
-        "width": 86,
-        "height": 58
+        "x": 78,
+        "y": 49,
+        "width": 85,
+        "height": 80
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 27,
       "direction": 2,
       "x": 384,
@@ -1823,14 +1823,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 110,
-        "y": 70,
-        "width": 89,
-        "height": 57
+        "x": 76,
+        "y": 45,
+        "width": 83,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 28,
       "direction": 2,
       "x": 512,
@@ -1841,14 +1841,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 112,
-        "y": 70,
-        "width": 97,
-        "height": 58
+        "x": 76,
+        "y": 40,
+        "width": 82,
+        "height": 87
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 29,
       "direction": 2,
       "x": 640,
@@ -1859,14 +1859,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 113,
-        "y": 67,
-        "width": 94,
-        "height": 60
+        "x": 81,
+        "y": 35,
+        "width": 77,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 30,
       "direction": 2,
       "x": 768,
@@ -1877,14 +1877,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 113,
-        "y": 61,
-        "width": 90,
-        "height": 66
+        "x": 72,
+        "y": 30,
+        "width": 87,
+        "height": 97
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 31,
       "direction": 2,
       "x": 896,
@@ -1895,14 +1895,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 113,
-        "y": 59,
-        "width": 88,
-        "height": 68
+        "x": 65,
+        "y": 26,
+        "width": 92,
+        "height": 102
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 32,
       "direction": 2,
       "x": 1024,
@@ -1913,14 +1913,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 112,
-        "y": 57,
-        "width": 89,
-        "height": 70
+        "x": 62,
+        "y": 23,
+        "width": 92,
+        "height": 106
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 33,
       "direction": 2,
       "x": 1152,
@@ -1931,14 +1931,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 112,
-        "y": 55,
+        "x": 65,
+        "y": 22,
         "width": 87,
-        "height": 72
+        "height": 107
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 34,
       "direction": 2,
       "x": 1280,
@@ -1949,14 +1949,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 111,
-        "y": 52,
-        "width": 87,
-        "height": 75
+        "x": 71,
+        "y": 22,
+        "width": 79,
+        "height": 107
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 35,
       "direction": 2,
       "x": 1408,
@@ -1967,14 +1967,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 111,
-        "y": 51,
-        "width": 86,
-        "height": 76
+        "x": 76,
+        "y": 23,
+        "width": 72,
+        "height": 106
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 0,
       "direction": 3,
       "x": 1536,
@@ -1985,14 +1985,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 80,
-        "y": 54,
-        "width": 79,
-        "height": 72
+        "x": 74,
+        "y": 24,
+        "width": 95,
+        "height": 103
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 1,
       "direction": 3,
       "x": 1664,
@@ -2003,14 +2003,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 82,
-        "y": 64,
-        "width": 104,
-        "height": 63
+        "x": 70,
+        "y": 29,
+        "width": 100,
+        "height": 98
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 2,
       "direction": 3,
       "x": 1792,
@@ -2021,14 +2021,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 85,
-        "y": 67,
-        "width": 92,
-        "height": 59
+        "x": 67,
+        "y": 35,
+        "width": 91,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 3,
       "direction": 3,
       "x": 1920,
@@ -2039,14 +2039,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 93,
-        "y": 69,
-        "width": 63,
-        "height": 61
+        "x": 66,
+        "y": 34,
+        "width": 91,
+        "height": 93
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 4,
       "direction": 3,
       "x": 0,
@@ -2057,14 +2057,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 90,
-        "y": 69,
-        "width": 70,
-        "height": 58
+        "x": 65,
+        "y": 41,
+        "width": 91,
+        "height": 87
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 5,
       "direction": 3,
       "x": 128,
@@ -2075,14 +2075,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 86,
-        "y": 72,
-        "width": 68,
-        "height": 58
+        "x": 64,
+        "y": 44,
+        "width": 91,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 6,
       "direction": 3,
       "x": 256,
@@ -2093,14 +2093,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 74,
-        "y": 50,
-        "width": 63,
-        "height": 80
+        "x": 46,
+        "y": 44,
+        "width": 106,
+        "height": 82
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 7,
       "direction": 3,
       "x": 384,
@@ -2111,14 +2111,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 93,
-        "y": 45,
-        "width": 44,
-        "height": 83
+        "x": 53,
+        "y": 23,
+        "width": 97,
+        "height": 103
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 8,
       "direction": 3,
       "x": 512,
@@ -2130,13 +2130,13 @@
       "pivotY": 0.9375,
       "sourceBounds": {
         "x": 94,
-        "y": 40,
-        "width": 42,
-        "height": 88
+        "y": 42,
+        "width": 69,
+        "height": 149
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 9,
       "direction": 3,
       "x": 640,
@@ -2147,14 +2147,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 94,
-        "y": 38,
-        "width": 38,
-        "height": 90
+        "x": 106,
+        "y": 27,
+        "width": 45,
+        "height": 164
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 10,
       "direction": 3,
       "x": 768,
@@ -2165,14 +2165,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 93,
-        "y": 38,
-        "width": 39,
-        "height": 90
+        "x": 99,
+        "y": 20,
+        "width": 60,
+        "height": 160
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 11,
       "direction": 3,
       "x": 896,
@@ -2183,89 +2183,17 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 93,
-        "y": 40,
-        "width": 38,
-        "height": 88
+        "x": 90,
+        "y": 27,
+        "width": 78,
+        "height": 142
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 12,
       "direction": 3,
       "x": 1024,
-      "y": 896,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 92,
-        "y": 42,
-        "width": 38,
-        "height": 86
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 13,
-      "direction": 3,
-      "x": 1152,
-      "y": 896,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 90,
-        "y": 46,
-        "width": 39,
-        "height": 82
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 14,
-      "direction": 3,
-      "x": 1280,
-      "y": 896,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 89,
-        "y": 54,
-        "width": 40,
-        "height": 74
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 15,
-      "direction": 3,
-      "x": 1408,
-      "y": 896,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 88,
-        "y": 65,
-        "width": 39,
-        "height": 63
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 16,
-      "direction": 3,
-      "x": 1536,
       "y": 896,
       "width": 128,
       "height": 128,
@@ -2274,13 +2202,85 @@
       "pivotY": 0.9375,
       "sourceBounds": {
         "x": 87,
-        "y": 69,
-        "width": 37,
-        "height": 59
+        "y": 30,
+        "width": 83,
+        "height": 141
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
+      "frame": 13,
+      "direction": 3,
+      "x": 1152,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 41,
+        "width": 79,
+        "height": 141
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 14,
+      "direction": 3,
+      "x": 1280,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 140,
+        "y": 43,
+        "width": 85,
+        "height": 84
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 15,
+      "direction": 3,
+      "x": 1408,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 124,
+        "y": 56,
+        "width": 90,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 16,
+      "direction": 3,
+      "x": 1536,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 53,
+        "width": 90,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
       "frame": 17,
       "direction": 3,
       "x": 1664,
@@ -2291,14 +2291,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 48,
-        "y": 67,
-        "width": 80,
-        "height": 61
+        "x": 119,
+        "y": 54,
+        "width": 90,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 18,
       "direction": 3,
       "x": 1792,
@@ -2309,14 +2309,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 62,
-        "y": 66,
-        "width": 67,
-        "height": 60
+        "x": 120,
+        "y": 54,
+        "width": 89,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 19,
       "direction": 3,
       "x": 1920,
@@ -2327,14 +2327,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 50,
-        "y": 67,
-        "width": 104,
-        "height": 60
+        "x": 120,
+        "y": 55,
+        "width": 90,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 20,
       "direction": 3,
       "x": 0,
@@ -2345,14 +2345,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 48,
-        "y": 68,
-        "width": 61,
-        "height": 59
+        "x": 120,
+        "y": 55,
+        "width": 90,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 21,
       "direction": 3,
       "x": 128,
@@ -2363,14 +2363,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 47,
-        "y": 69,
-        "width": 73,
-        "height": 59
+        "x": 120,
+        "y": 56,
+        "width": 90,
+        "height": 72
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 22,
       "direction": 3,
       "x": 256,
@@ -2381,14 +2381,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 45,
-        "y": 69,
-        "width": 100,
-        "height": 59
+        "x": 120,
+        "y": 56,
+        "width": 90,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 23,
       "direction": 3,
       "x": 384,
@@ -2399,14 +2399,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 41,
-        "y": 69,
-        "width": 114,
-        "height": 59
+        "x": 119,
+        "y": 56,
+        "width": 91,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 24,
       "direction": 3,
       "x": 512,
@@ -2417,14 +2417,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 39,
-        "y": 68,
-        "width": 71,
-        "height": 59
+        "x": 119,
+        "y": 56,
+        "width": 91,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 25,
       "direction": 3,
       "x": 640,
@@ -2435,14 +2435,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 42,
-        "y": 68,
-        "width": 64,
-        "height": 59
+        "x": 118,
+        "y": 53,
+        "width": 90,
+        "height": 76
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 26,
       "direction": 3,
       "x": 768,
@@ -2453,14 +2453,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 43,
-        "y": 69,
-        "width": 67,
-        "height": 58
+        "x": 116,
+        "y": 49,
+        "width": 89,
+        "height": 80
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 27,
       "direction": 3,
       "x": 896,
@@ -2471,14 +2471,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 46,
-        "y": 70,
-        "width": 68,
-        "height": 57
+        "x": 116,
+        "y": 45,
+        "width": 86,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 28,
       "direction": 3,
       "x": 1024,
@@ -2489,14 +2489,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 49,
-        "y": 70,
-        "width": 75,
-        "height": 58
+        "x": 119,
+        "y": 40,
+        "width": 81,
+        "height": 87
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 29,
       "direction": 3,
       "x": 1152,
@@ -2507,14 +2507,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 52,
-        "y": 67,
-        "width": 86,
-        "height": 60
+        "x": 133,
+        "y": 35,
+        "width": 69,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 30,
       "direction": 3,
       "x": 1280,
@@ -2525,14 +2525,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 54,
-        "y": 61,
-        "width": 87,
-        "height": 65
+        "x": 155,
+        "y": 30,
+        "width": 50,
+        "height": 97
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 31,
       "direction": 3,
       "x": 1408,
@@ -2543,14 +2543,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 55,
-        "y": 59,
-        "width": 85,
-        "height": 67
+        "x": 155,
+        "y": 25,
+        "width": 52,
+        "height": 104
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 32,
       "direction": 3,
       "x": 1536,
@@ -2561,14 +2561,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 55,
-        "y": 57,
-        "width": 84,
-        "height": 70
+        "x": 150,
+        "y": 23,
+        "width": 56,
+        "height": 106
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 33,
       "direction": 3,
       "x": 1664,
@@ -2579,14 +2579,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 56,
-        "y": 55,
-        "width": 81,
-        "height": 72
+        "x": 155,
+        "y": 22,
+        "width": 50,
+        "height": 107
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 34,
       "direction": 3,
       "x": 1792,
@@ -2597,14 +2597,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 56,
-        "y": 53,
-        "width": 78,
-        "height": 74
+        "x": 166,
+        "y": 22,
+        "width": 38,
+        "height": 107
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 35,
       "direction": 3,
       "x": 1920,
@@ -2615,14 +2615,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 57,
-        "y": 52,
-        "width": 76,
-        "height": 75
+        "x": 168,
+        "y": 23,
+        "width": 36,
+        "height": 106
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 0,
       "direction": 4,
       "x": 0,
@@ -2633,14 +2633,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 69,
-        "y": 54,
-        "width": 72,
-        "height": 72
+        "x": 68,
+        "y": 24,
+        "width": 85,
+        "height": 102
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 1,
       "direction": 4,
       "x": 128,
@@ -2651,14 +2651,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 70,
-        "y": 64,
-        "width": 69,
-        "height": 63
+        "x": 62,
+        "y": 29,
+        "width": 80,
+        "height": 98
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 2,
       "direction": 4,
       "x": 256,
@@ -2669,14 +2669,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 70,
-        "y": 67,
-        "width": 94,
-        "height": 59
+        "x": 58,
+        "y": 35,
+        "width": 82,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 3,
       "direction": 4,
       "x": 384,
@@ -2687,14 +2687,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 70,
-        "y": 69,
-        "width": 95,
-        "height": 60
+        "x": 53,
+        "y": 34,
+        "width": 85,
+        "height": 93
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 4,
       "direction": 4,
       "x": 512,
@@ -2705,14 +2705,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 71,
-        "y": 69,
-        "width": 98,
-        "height": 58
+        "x": 31,
+        "y": 41,
+        "width": 105,
+        "height": 87
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 5,
       "direction": 4,
       "x": 640,
@@ -2723,14 +2723,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 71,
-        "y": 72,
-        "width": 65,
-        "height": 57
+        "x": 13,
+        "y": 44,
+        "width": 121,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 6,
       "direction": 4,
       "x": 768,
@@ -2741,14 +2741,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 82,
-        "y": 50,
-        "width": 46,
-        "height": 80
+        "x": 11,
+        "y": 44,
+        "width": 120,
+        "height": 82
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 7,
       "direction": 4,
       "x": 896,
@@ -2759,14 +2759,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 73,
-        "y": 45,
-        "width": 76,
-        "height": 83
+        "x": 29,
+        "y": 23,
+        "width": 108,
+        "height": 103
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 8,
       "direction": 4,
       "x": 1024,
@@ -2777,14 +2777,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 71,
-        "y": 40,
-        "width": 74,
-        "height": 88
+        "x": 85,
+        "y": 42,
+        "width": 87,
+        "height": 149
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 9,
       "direction": 4,
       "x": 1152,
@@ -2795,14 +2795,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 70,
-        "y": 38,
-        "width": 72,
-        "height": 90
+        "x": 92,
+        "y": 28,
+        "width": 73,
+        "height": 163
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 10,
       "direction": 4,
       "x": 1280,
@@ -2813,14 +2813,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 70,
-        "y": 38,
-        "width": 70,
-        "height": 90
+        "x": 97,
+        "y": 20,
+        "width": 60,
+        "height": 160
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 11,
       "direction": 4,
       "x": 1408,
@@ -2831,14 +2831,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 70,
-        "y": 39,
-        "width": 70,
-        "height": 89
+        "x": 80,
+        "y": 27,
+        "width": 86,
+        "height": 142
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 12,
       "direction": 4,
       "x": 1536,
@@ -2849,14 +2849,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 69,
-        "y": 42,
-        "width": 71,
-        "height": 86
+        "x": 82,
+        "y": 30,
+        "width": 84,
+        "height": 141
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 13,
       "direction": 4,
       "x": 1664,
@@ -2867,14 +2867,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 69,
-        "y": 46,
-        "width": 73,
-        "height": 82
+        "x": 97,
+        "y": 41,
+        "width": 63,
+        "height": 141
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 14,
       "direction": 4,
       "x": 1792,
@@ -2885,14 +2885,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 70,
-        "y": 54,
-        "width": 75,
-        "height": 74
+        "x": 162,
+        "y": 43,
+        "width": 85,
+        "height": 84
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 15,
       "direction": 4,
       "x": 1920,
@@ -2903,14 +2903,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 71,
-        "y": 65,
-        "width": 78,
-        "height": 63
+        "x": 143,
+        "y": 56,
+        "width": 84,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 16,
       "direction": 4,
       "x": 0,
@@ -2921,14 +2921,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 71,
-        "y": 69,
-        "width": 71,
-        "height": 59
+        "x": 137,
+        "y": 53,
+        "width": 87,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 17,
       "direction": 4,
       "x": 128,
@@ -2939,14 +2939,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 68,
-        "y": 67,
-        "width": 41,
-        "height": 61
+        "x": 137,
+        "y": 54,
+        "width": 87,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 18,
       "direction": 4,
       "x": 256,
@@ -2957,14 +2957,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 26,
-        "y": 66,
-        "width": 76,
-        "height": 60
+        "x": 138,
+        "y": 54,
+        "width": 86,
+        "height": 74
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 19,
       "direction": 4,
       "x": 384,
@@ -2975,14 +2975,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 32,
-        "y": 66,
-        "width": 102,
-        "height": 61
+        "x": 139,
+        "y": 55,
+        "width": 85,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 20,
       "direction": 4,
       "x": 512,
@@ -2993,14 +2993,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 20,
-        "y": 68,
-        "width": 104,
-        "height": 59
+        "x": 139,
+        "y": 55,
+        "width": 85,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 21,
       "direction": 4,
       "x": 640,
@@ -3011,14 +3011,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 17,
-        "y": 69,
-        "width": 109,
-        "height": 59
+        "x": 139,
+        "y": 56,
+        "width": 85,
+        "height": 72
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 22,
       "direction": 4,
       "x": 768,
@@ -3029,14 +3029,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 16,
-        "y": 69,
-        "width": 107,
-        "height": 59
+        "x": 140,
+        "y": 56,
+        "width": 84,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 23,
       "direction": 4,
       "x": 896,
@@ -3047,14 +3047,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 14,
-        "y": 69,
-        "width": 88,
-        "height": 59
+        "x": 140,
+        "y": 56,
+        "width": 84,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 24,
       "direction": 4,
       "x": 1024,
@@ -3065,14 +3065,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 10,
-        "y": 68,
-        "width": 71,
-        "height": 59
+        "x": 142,
+        "y": 56,
+        "width": 82,
+        "height": 73
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 25,
       "direction": 4,
       "x": 1152,
@@ -3083,14 +3083,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 72,
-        "y": 99,
-        "width": 97,
-        "height": 59
+        "x": 151,
+        "y": 53,
+        "width": 73,
+        "height": 76
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 26,
       "direction": 4,
       "x": 1280,
@@ -3101,14 +3101,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 69,
-        "y": 99,
-        "width": 102,
-        "height": 58
+        "x": 150,
+        "y": 49,
+        "width": 74,
+        "height": 80
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 27,
       "direction": 4,
       "x": 1408,
@@ -3119,14 +3119,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 5,
-        "y": 70,
-        "width": 86,
-        "height": 57
+        "x": 151,
+        "y": 45,
+        "width": 72,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 28,
       "direction": 4,
       "x": 1536,
@@ -3137,14 +3137,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 20,
-        "y": 70,
-        "width": 77,
-        "height": 58
+        "x": 156,
+        "y": 40,
+        "width": 66,
+        "height": 87
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 29,
       "direction": 4,
       "x": 1664,
@@ -3155,14 +3155,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 22,
-        "y": 67,
-        "width": 79,
-        "height": 60
+        "x": 169,
+        "y": 35,
+        "width": 61,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 30,
       "direction": 4,
       "x": 1792,
@@ -3173,14 +3173,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 25,
-        "y": 60,
-        "width": 78,
-        "height": 67
+        "x": 188,
+        "y": 30,
+        "width": 50,
+        "height": 97
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 31,
       "direction": 4,
       "x": 1920,
@@ -3191,14 +3191,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 27,
-        "y": 58,
-        "width": 78,
-        "height": 69
+        "x": 192,
+        "y": 25,
+        "width": 53,
+        "height": 104
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 32,
       "direction": 4,
       "x": 0,
@@ -3209,14 +3209,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 28,
-        "y": 57,
-        "width": 78,
-        "height": 70
+        "x": 194,
+        "y": 23,
+        "width": 56,
+        "height": 106
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 33,
       "direction": 4,
       "x": 128,
@@ -3227,17 +3227,89 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 30,
-        "y": 55,
-        "width": 78,
-        "height": 72
+        "x": 98,
+        "y": 75,
+        "width": 61,
+        "height": 107
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 34,
       "direction": 4,
       "x": 256,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 95,
+        "y": 75,
+        "width": 69,
+        "height": 107
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 35,
+      "direction": 4,
+      "x": 384,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 76,
+        "width": 73,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 0,
+      "direction": 5,
+      "x": 512,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 83,
+        "y": 24,
+        "width": 44,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 1,
+      "direction": 5,
+      "x": 640,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 29,
+        "width": 55,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 2,
+      "direction": 5,
+      "x": 768,
       "y": 1408,
       "width": 128,
       "height": 128,
@@ -3246,85 +3318,13 @@
       "pivotY": 0.9375,
       "sourceBounds": {
         "x": 31,
-        "y": 52,
-        "width": 78,
-        "height": 75
+        "y": 35,
+        "width": 92,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
-      "frame": 35,
-      "direction": 4,
-      "x": 384,
-      "y": 1408,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 32,
-        "y": 51,
-        "width": 78,
-        "height": 76
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 0,
-      "direction": 5,
-      "x": 512,
-      "y": 1408,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 56,
-        "y": 54,
-        "width": 85,
-        "height": 72
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 1,
-      "direction": 5,
-      "x": 640,
-      "y": 1408,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 83,
-        "y": 64,
-        "width": 60,
-        "height": 63
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 2,
-      "direction": 5,
-      "x": 768,
-      "y": 1408,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 83,
-        "y": 67,
-        "width": 59,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 3,
       "direction": 5,
       "x": 896,
@@ -3335,14 +3335,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 76,
-        "y": 69,
-        "width": 77,
-        "height": 60
+        "x": 28,
+        "y": 34,
+        "width": 93,
+        "height": 93
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 4,
       "direction": 5,
       "x": 1024,
@@ -3353,14 +3353,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 81,
-        "y": 69,
-        "width": 74,
-        "height": 58
+        "x": 18,
+        "y": 41,
+        "width": 101,
+        "height": 87
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 5,
       "direction": 5,
       "x": 1152,
@@ -3371,14 +3371,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 37,
-        "y": 72,
-        "width": 91,
-        "height": 58
+        "x": 20,
+        "y": 44,
+        "width": 98,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 6,
       "direction": 5,
       "x": 1280,
@@ -3389,14 +3389,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 70,
-        "y": 50,
-        "width": 89,
-        "height": 80
+        "x": 45,
+        "y": 44,
+        "width": 72,
+        "height": 82
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 7,
       "direction": 5,
       "x": 1408,
@@ -3407,14 +3407,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 64,
-        "y": 45,
-        "width": 85,
-        "height": 83
+        "x": 62,
+        "y": 23,
+        "width": 62,
+        "height": 103
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 8,
       "direction": 5,
       "x": 1536,
@@ -3425,14 +3425,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 62,
-        "y": 40,
-        "width": 82,
-        "height": 88
+        "x": 94,
+        "y": 42,
+        "width": 68,
+        "height": 149
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 9,
       "direction": 5,
       "x": 1664,
@@ -3443,14 +3443,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 62,
-        "y": 38,
-        "width": 83,
-        "height": 90
+        "x": 91,
+        "y": 27,
+        "width": 75,
+        "height": 164
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 10,
       "direction": 5,
       "x": 1792,
@@ -3461,14 +3461,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 61,
-        "y": 38,
-        "width": 85,
-        "height": 90
+        "x": 90,
+        "y": 20,
+        "width": 71,
+        "height": 160
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 11,
       "direction": 5,
       "x": 1920,
@@ -3479,287 +3479,17 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 61,
-        "y": 39,
-        "width": 87,
-        "height": 89
+        "x": 75,
+        "y": 27,
+        "width": 82,
+        "height": 142
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 12,
       "direction": 5,
       "x": 0,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 61,
-        "y": 42,
-        "width": 90,
-        "height": 86
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 13,
-      "direction": 5,
-      "x": 128,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 62,
-        "y": 46,
-        "width": 94,
-        "height": 82
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 14,
-      "direction": 5,
-      "x": 256,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 63,
-        "y": 54,
-        "width": 98,
-        "height": 74
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 15,
-      "direction": 5,
-      "x": 384,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 64,
-        "y": 65,
-        "width": 99,
-        "height": 63
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 16,
-      "direction": 5,
-      "x": 512,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 64,
-        "y": 69,
-        "width": 106,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 17,
-      "direction": 5,
-      "x": 640,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 66,
-        "y": 67,
-        "width": 69,
-        "height": 61
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 18,
-      "direction": 5,
-      "x": 768,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 16,
-        "y": 66,
-        "width": 96,
-        "height": 60
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 19,
-      "direction": 5,
-      "x": 896,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 61,
-        "y": 67,
-        "width": 50,
-        "height": 60
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 20,
-      "direction": 5,
-      "x": 1024,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 47,
-        "y": 68,
-        "width": 96,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 21,
-      "direction": 5,
-      "x": 1152,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 46,
-        "y": 69,
-        "width": 88,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 22,
-      "direction": 5,
-      "x": 1280,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 46,
-        "y": 69,
-        "width": 61,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 23,
-      "direction": 5,
-      "x": 1408,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 45,
-        "y": 69,
-        "width": 59,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 24,
-      "direction": 5,
-      "x": 1536,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 69,
-        "y": 99,
-        "width": 105,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 25,
-      "direction": 5,
-      "x": 1664,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 62,
-        "y": 99,
-        "width": 110,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 26,
-      "direction": 5,
-      "x": 1792,
-      "y": 1536,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 63,
-        "y": 99,
-        "width": 111,
-        "height": 58
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 27,
-      "direction": 5,
-      "x": 1920,
       "y": 1536,
       "width": 128,
       "height": 128,
@@ -3768,1259 +3498,35 @@
       "pivotY": 0.9375,
       "sourceBounds": {
         "x": 71,
-        "y": 100,
-        "width": 107,
-        "height": 57
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 28,
-      "direction": 5,
-      "x": 0,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 9,
-        "y": 70,
-        "width": 95,
-        "height": 58
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 29,
-      "direction": 5,
-      "x": 128,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 26,
-        "y": 67,
-        "width": 81,
-        "height": 60
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 30,
-      "direction": 5,
-      "x": 256,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 35,
-        "y": 60,
-        "width": 76,
-        "height": 67
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 31,
-      "direction": 5,
-      "x": 384,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 37,
-        "y": 58,
-        "width": 76,
-        "height": 69
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 32,
-      "direction": 5,
-      "x": 512,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 36,
-        "y": 57,
-        "width": 78,
-        "height": 70
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 33,
-      "direction": 5,
-      "x": 640,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 36,
-        "y": 55,
-        "width": 79,
-        "height": 72
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 34,
-      "direction": 5,
-      "x": 768,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 36,
-        "y": 52,
-        "width": 80,
-        "height": 75
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 35,
-      "direction": 5,
-      "x": 896,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 35,
-        "y": 51,
-        "width": 81,
-        "height": 76
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 0,
-      "direction": 6,
-      "x": 1024,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 56,
-        "y": 54,
-        "width": 90,
-        "height": 72
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 1,
-      "direction": 6,
-      "x": 1152,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 55,
-        "y": 64,
-        "width": 88,
-        "height": 63
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 2,
-      "direction": 6,
-      "x": 1280,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 95,
-        "y": 67,
-        "width": 52,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 3,
-      "direction": 6,
-      "x": 1408,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 106,
-        "y": 69,
-        "width": 41,
-        "height": 60
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 4,
-      "direction": 6,
-      "x": 1536,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 102,
-        "y": 69,
-        "width": 42,
-        "height": 58
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 5,
-      "direction": 6,
-      "x": 1664,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 56,
-        "y": 72,
-        "width": 98,
-        "height": 58
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 6,
-      "direction": 6,
-      "x": 1792,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 82,
-        "y": 50,
-        "width": 106,
-        "height": 80
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 7,
-      "direction": 6,
-      "x": 1920,
-      "y": 1664,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 87,
-        "y": 45,
-        "width": 61,
-        "height": 83
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 8,
-      "direction": 6,
-      "x": 0,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 87,
-        "y": 40,
-        "width": 59,
-        "height": 88
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 9,
-      "direction": 6,
-      "x": 128,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 87,
-        "y": 39,
-        "width": 59,
-        "height": 89
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 10,
-      "direction": 6,
-      "x": 256,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 87,
-        "y": 38,
-        "width": 59,
-        "height": 90
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 11,
-      "direction": 6,
-      "x": 384,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 87,
-        "y": 39,
-        "width": 59,
-        "height": 89
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 12,
-      "direction": 6,
-      "x": 512,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 88,
-        "y": 42,
-        "width": 62,
-        "height": 86
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 13,
-      "direction": 6,
-      "x": 640,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 88,
-        "y": 46,
-        "width": 66,
-        "height": 82
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 14,
-      "direction": 6,
-      "x": 768,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 88,
-        "y": 54,
-        "width": 69,
-        "height": 74
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 15,
-      "direction": 6,
-      "x": 896,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 88,
-        "y": 65,
-        "width": 69,
-        "height": 63
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 16,
-      "direction": 6,
-      "x": 1024,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 87,
-        "y": 69,
-        "width": 87,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 17,
-      "direction": 6,
-      "x": 1152,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 86,
-        "y": 67,
-        "width": 103,
-        "height": 61
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 18,
-      "direction": 6,
-      "x": 1280,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 72,
-        "y": 66,
-        "width": 88,
-        "height": 60
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 19,
-      "direction": 6,
-      "x": 1408,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 97,
-        "y": 67,
-        "width": 51,
-        "height": 60
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 20,
-      "direction": 6,
-      "x": 1536,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 105,
-        "y": 68,
-        "width": 48,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 21,
-      "direction": 6,
-      "x": 1664,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 105,
-        "y": 69,
-        "width": 41,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 22,
-      "direction": 6,
-      "x": 1792,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 97,
-        "y": 69,
-        "width": 48,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 23,
-      "direction": 6,
-      "x": 1920,
-      "y": 1792,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 64,
-        "y": 69,
-        "width": 80,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 24,
-      "direction": 6,
-      "x": 0,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 41,
-        "y": 68,
-        "width": 109,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 25,
-      "direction": 6,
-      "x": 128,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 59,
-        "y": 68,
-        "width": 91,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 26,
-      "direction": 6,
-      "x": 256,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 63,
-        "y": 69,
+        "y": 30,
         "width": 86,
-        "height": 58
+        "height": 141
       }
     },
     {
-      "filename": "Combate_dd",
-      "frame": 27,
-      "direction": 6,
-      "x": 384,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 58,
-        "y": 70,
-        "width": 88,
-        "height": 57
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 28,
-      "direction": 6,
-      "x": 512,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 47,
-        "y": 70,
-        "width": 97,
-        "height": 58
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 29,
-      "direction": 6,
-      "x": 640,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 49,
-        "y": 67,
-        "width": 94,
-        "height": 60
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 30,
-      "direction": 6,
-      "x": 768,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 53,
-        "y": 60,
-        "width": 89,
-        "height": 67
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 31,
-      "direction": 6,
-      "x": 896,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 55,
-        "y": 58,
-        "width": 88,
-        "height": 69
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 32,
-      "direction": 6,
-      "x": 1024,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 56,
-        "y": 57,
-        "width": 88,
-        "height": 70
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 33,
-      "direction": 6,
-      "x": 1152,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 56,
-        "y": 55,
-        "width": 88,
-        "height": 72
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 34,
-      "direction": 6,
-      "x": 1280,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 58,
-        "y": 52,
-        "width": 87,
-        "height": 75
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 35,
-      "direction": 6,
-      "x": 1408,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 58,
-        "y": 51,
-        "width": 87,
-        "height": 76
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 0,
-      "direction": 7,
-      "x": 1536,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 97,
-        "y": 54,
-        "width": 79,
-        "height": 72
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 1,
-      "direction": 7,
-      "x": 1664,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 70,
-        "y": 64,
-        "width": 104,
-        "height": 62
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 2,
-      "direction": 7,
-      "x": 1792,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 79,
-        "y": 67,
-        "width": 92,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 3,
-      "direction": 7,
-      "x": 1920,
-      "y": 1920,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 100,
-        "y": 69,
-        "width": 63,
-        "height": 60
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 4,
-      "direction": 7,
-      "x": 0,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 96,
-        "y": 69,
-        "width": 70,
-        "height": 58
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 5,
-      "direction": 7,
-      "x": 128,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 102,
-        "y": 72,
-        "width": 68,
-        "height": 58
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 6,
-      "direction": 7,
-      "x": 256,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 119,
-        "y": 50,
-        "width": 63,
-        "height": 80
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 7,
-      "direction": 7,
-      "x": 384,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 118,
-        "y": 45,
-        "width": 45,
-        "height": 83
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 8,
-      "direction": 7,
-      "x": 512,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 120,
-        "y": 40,
-        "width": 42,
-        "height": 88
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 9,
-      "direction": 7,
-      "x": 640,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 124,
-        "y": 38,
-        "width": 38,
-        "height": 90
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 10,
-      "direction": 7,
-      "x": 768,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 124,
-        "y": 38,
-        "width": 38,
-        "height": 90
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 11,
-      "direction": 7,
-      "x": 896,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 125,
-        "y": 39,
-        "width": 38,
-        "height": 89
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 12,
-      "direction": 7,
-      "x": 1024,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 126,
-        "y": 42,
-        "width": 38,
-        "height": 86
-      }
-    },
-    {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 13,
-      "direction": 7,
-      "x": 1152,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 127,
-        "y": 46,
-        "width": 39,
-        "height": 82
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 14,
-      "direction": 7,
-      "x": 1280,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 127,
-        "y": 53,
-        "width": 40,
-        "height": 75
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 15,
-      "direction": 7,
-      "x": 1408,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 129,
-        "y": 65,
-        "width": 39,
-        "height": 63
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 16,
-      "direction": 7,
-      "x": 1536,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 132,
-        "y": 69,
-        "width": 37,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 17,
-      "direction": 7,
-      "x": 1664,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 128,
-        "y": 67,
-        "width": 80,
-        "height": 61
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 18,
-      "direction": 7,
-      "x": 1792,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 127,
-        "y": 66,
-        "width": 67,
-        "height": 60
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 19,
-      "direction": 7,
-      "x": 1920,
-      "y": 2048,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 102,
-        "y": 66,
-        "width": 104,
-        "height": 61
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 20,
-      "direction": 7,
-      "x": 0,
-      "y": 2176,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 147,
-        "y": 68,
-        "width": 61,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 21,
-      "direction": 7,
+      "direction": 5,
       "x": 128,
-      "y": 2176,
+      "y": 1536,
       "width": 128,
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 136,
-        "y": 69,
-        "width": 73,
-        "height": 59
+        "x": 90,
+        "y": 41,
+        "width": 67,
+        "height": 141
       }
     },
     {
-      "filename": "Combate_dd",
-      "frame": 22,
-      "direction": 7,
+      "filename": "Salto",
+      "frame": 14,
+      "direction": 5,
       "x": 256,
-      "y": 2176,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 110,
-        "y": 69,
-        "width": 101,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 23,
-      "direction": 7,
-      "x": 384,
-      "y": 2176,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 101,
-        "y": 69,
-        "width": 114,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 24,
-      "direction": 7,
-      "x": 512,
-      "y": 2176,
-      "width": 128,
-      "height": 128,
-      "duration": 0.08333333333333333,
-      "pivotX": 0.5,
-      "pivotY": 0.9375,
-      "sourceBounds": {
-        "x": 146,
-        "y": 68,
-        "width": 71,
-        "height": 59
-      }
-    },
-    {
-      "filename": "Combate_dd",
-      "frame": 25,
-      "direction": 7,
-      "x": 640,
-      "y": 2176,
+      "y": 1536,
       "width": 128,
       "height": 128,
       "duration": 0.08333333333333333,
@@ -5028,13 +3534,1507 @@
       "pivotY": 0.9375,
       "sourceBounds": {
         "x": 150,
-        "y": 68,
-        "width": 64,
-        "height": 59
+        "y": 42,
+        "width": 73,
+        "height": 85
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
+      "frame": 15,
+      "direction": 5,
+      "x": 384,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 142,
+        "y": 56,
+        "width": 65,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 16,
+      "direction": 5,
+      "x": 512,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 139,
+        "y": 53,
+        "width": 66,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 17,
+      "direction": 5,
+      "x": 640,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 139,
+        "y": 54,
+        "width": 65,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 18,
+      "direction": 5,
+      "x": 768,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 139,
+        "y": 54,
+        "width": 65,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 19,
+      "direction": 5,
+      "x": 896,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 138,
+        "y": 55,
+        "width": 65,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 20,
+      "direction": 5,
+      "x": 1024,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 138,
+        "y": 55,
+        "width": 65,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 21,
+      "direction": 5,
+      "x": 1152,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 138,
+        "y": 56,
+        "width": 65,
+        "height": 72
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 22,
+      "direction": 5,
+      "x": 1280,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 138,
+        "y": 56,
+        "width": 65,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 23,
+      "direction": 5,
+      "x": 1408,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 138,
+        "y": 56,
+        "width": 66,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 24,
+      "direction": 5,
+      "x": 1536,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 139,
+        "y": 56,
+        "width": 66,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 25,
+      "direction": 5,
+      "x": 1664,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 141,
+        "y": 53,
+        "width": 66,
+        "height": 76
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 26,
+      "direction": 5,
+      "x": 1792,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 144,
+        "y": 49,
+        "width": 66,
+        "height": 80
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 27,
+      "direction": 5,
+      "x": 1920,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 145,
+        "y": 45,
+        "width": 69,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 28,
+      "direction": 5,
+      "x": 0,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 146,
+        "y": 40,
+        "width": 75,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 29,
+      "direction": 5,
+      "x": 128,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 147,
+        "y": 35,
+        "width": 86,
+        "height": 92
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 30,
+      "direction": 5,
+      "x": 256,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 151,
+        "y": 30,
+        "width": 94,
+        "height": 97
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 31,
+      "direction": 5,
+      "x": 384,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 155,
+        "y": 25,
+        "width": 90,
+        "height": 104
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 32,
+      "direction": 5,
+      "x": 512,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 159,
+        "y": 23,
+        "width": 84,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 33,
+      "direction": 5,
+      "x": 640,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 160,
+        "y": 22,
+        "width": 84,
+        "height": 107
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 34,
+      "direction": 5,
+      "x": 768,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 161,
+        "y": 22,
+        "width": 88,
+        "height": 107
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 35,
+      "direction": 5,
+      "x": 896,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 162,
+        "y": 23,
+        "width": 91,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 0,
+      "direction": 6,
+      "x": 1024,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 24,
+        "width": 62,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 1,
+      "direction": 6,
+      "x": 1152,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 58,
+        "y": 29,
+        "width": 94,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 2,
+      "direction": 6,
+      "x": 1280,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 52,
+        "y": 35,
+        "width": 102,
+        "height": 92
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 3,
+      "direction": 6,
+      "x": 1408,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 58,
+        "y": 34,
+        "width": 97,
+        "height": 93
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 4,
+      "direction": 6,
+      "x": 1536,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 69,
+        "y": 41,
+        "width": 87,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 5,
+      "direction": 6,
+      "x": 1664,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 78,
+        "y": 45,
+        "width": 80,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 6,
+      "direction": 6,
+      "x": 1792,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 77,
+        "y": 44,
+        "width": 82,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 7,
+      "direction": 6,
+      "x": 1920,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 23,
+        "width": 64,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 8,
+      "direction": 6,
+      "x": 0,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 42,
+        "width": 43,
+        "height": 149
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 9,
+      "direction": 6,
+      "x": 128,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 103,
+        "y": 27,
+        "width": 50,
+        "height": 164
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 10,
+      "direction": 6,
+      "x": 256,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 20,
+        "width": 65,
+        "height": 160
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 11,
+      "direction": 6,
+      "x": 384,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 27,
+        "width": 65,
+        "height": 142
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 12,
+      "direction": 6,
+      "x": 512,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 30,
+        "width": 69,
+        "height": 140
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 13,
+      "direction": 6,
+      "x": 640,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 78,
+        "y": 41,
+        "width": 87,
+        "height": 141
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 14,
+      "direction": 6,
+      "x": 768,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 78,
+        "y": 43,
+        "width": 80,
+        "height": 84
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 15,
+      "direction": 6,
+      "x": 896,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 83,
+        "y": 56,
+        "width": 87,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 16,
+      "direction": 6,
+      "x": 1024,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 85,
+        "y": 53,
+        "width": 87,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 17,
+      "direction": 6,
+      "x": 1152,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 85,
+        "y": 54,
+        "width": 87,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 18,
+      "direction": 6,
+      "x": 1280,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 54,
+        "width": 87,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 19,
+      "direction": 6,
+      "x": 1408,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 55,
+        "width": 87,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 20,
+      "direction": 6,
+      "x": 1536,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 55,
+        "width": 87,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 21,
+      "direction": 6,
+      "x": 1664,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 56,
+        "width": 88,
+        "height": 72
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 22,
+      "direction": 6,
+      "x": 1792,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 56,
+        "width": 88,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 23,
+      "direction": 6,
+      "x": 1920,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 56,
+        "width": 88,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 24,
+      "direction": 6,
+      "x": 0,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 85,
+        "y": 56,
+        "width": 88,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 25,
+      "direction": 6,
+      "x": 128,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 88,
+        "y": 53,
+        "width": 87,
+        "height": 76
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 26,
+      "direction": 6,
+      "x": 256,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 93,
+        "y": 49,
+        "width": 85,
+        "height": 80
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 27,
+      "direction": 6,
+      "x": 384,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 45,
+        "width": 83,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 28,
+      "direction": 6,
+      "x": 512,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 40,
+        "width": 82,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 29,
+      "direction": 6,
+      "x": 640,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 35,
+        "width": 77,
+        "height": 92
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 30,
+      "direction": 6,
+      "x": 768,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 30,
+        "width": 86,
+        "height": 97
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 31,
+      "direction": 6,
+      "x": 896,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 25,
+        "width": 92,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 32,
+      "direction": 6,
+      "x": 1024,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 23,
+        "width": 92,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 33,
+      "direction": 6,
+      "x": 1152,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 104,
+        "y": 22,
+        "width": 87,
+        "height": 107
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 34,
+      "direction": 6,
+      "x": 1280,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 22,
+        "width": 79,
+        "height": 107
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 35,
+      "direction": 6,
+      "x": 1408,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 23,
+        "width": 71,
+        "height": 106
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 0,
+      "direction": 7,
+      "x": 1536,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 87,
+        "y": 24,
+        "width": 95,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 1,
+      "direction": 7,
+      "x": 1664,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 86,
+        "y": 29,
+        "width": 100,
+        "height": 98
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 2,
+      "direction": 7,
+      "x": 1792,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 35,
+        "width": 91,
+        "height": 92
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 3,
+      "direction": 7,
+      "x": 1920,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 34,
+        "width": 91,
+        "height": 93
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 4,
+      "direction": 7,
+      "x": 0,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 41,
+        "width": 91,
+        "height": 87
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 5,
+      "direction": 7,
+      "x": 128,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 44,
+        "width": 90,
+        "height": 83
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 6,
+      "direction": 7,
+      "x": 256,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 104,
+        "y": 44,
+        "width": 106,
+        "height": 82
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 7,
+      "direction": 7,
+      "x": 384,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 23,
+        "width": 96,
+        "height": 103
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 8,
+      "direction": 7,
+      "x": 512,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 42,
+        "width": 69,
+        "height": 149
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 9,
+      "direction": 7,
+      "x": 640,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 27,
+        "width": 45,
+        "height": 164
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 10,
+      "direction": 7,
+      "x": 768,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 20,
+        "width": 60,
+        "height": 160
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 11,
+      "direction": 7,
+      "x": 896,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 27,
+        "width": 78,
+        "height": 142
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 12,
+      "direction": 7,
+      "x": 1024,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 87,
+        "y": 30,
+        "width": 83,
+        "height": 140
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 13,
+      "direction": 7,
+      "x": 1152,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 87,
+        "y": 41,
+        "width": 79,
+        "height": 141
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 14,
+      "direction": 7,
+      "x": 1280,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 31,
+        "y": 42,
+        "width": 85,
+        "height": 85
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 15,
+      "direction": 7,
+      "x": 1408,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 42,
+        "y": 56,
+        "width": 90,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 16,
+      "direction": 7,
+      "x": 1536,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 47,
+        "y": 53,
+        "width": 89,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 17,
+      "direction": 7,
+      "x": 1664,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 47,
+        "y": 54,
+        "width": 90,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 18,
+      "direction": 7,
+      "x": 1792,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 47,
+        "y": 54,
+        "width": 89,
+        "height": 74
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 19,
+      "direction": 7,
+      "x": 1920,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 55,
+        "width": 90,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 20,
+      "direction": 7,
+      "x": 0,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 55,
+        "width": 90,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 21,
+      "direction": 7,
+      "x": 128,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 56,
+        "width": 90,
+        "height": 72
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 22,
+      "direction": 7,
+      "x": 256,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 56,
+        "width": 90,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 23,
+      "direction": 7,
+      "x": 384,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 56,
+        "width": 91,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 24,
+      "direction": 7,
+      "x": 512,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 46,
+        "y": 56,
+        "width": 91,
+        "height": 73
+      }
+    },
+    {
+      "filename": "Salto",
+      "frame": 25,
+      "direction": 7,
+      "x": 640,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 48,
+        "y": 53,
+        "width": 90,
+        "height": 76
+      }
+    },
+    {
+      "filename": "Salto",
       "frame": 26,
       "direction": 7,
       "x": 768,
@@ -5045,14 +5045,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 146,
-        "y": 69,
-        "width": 67,
-        "height": 58
+        "x": 51,
+        "y": 49,
+        "width": 89,
+        "height": 80
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 27,
       "direction": 7,
       "x": 896,
@@ -5063,14 +5063,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 142,
-        "y": 70,
-        "width": 68,
-        "height": 57
+        "x": 54,
+        "y": 45,
+        "width": 86,
+        "height": 83
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 28,
       "direction": 7,
       "x": 1024,
@@ -5081,14 +5081,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 132,
-        "y": 70,
-        "width": 75,
-        "height": 58
+        "x": 56,
+        "y": 40,
+        "width": 81,
+        "height": 87
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 29,
       "direction": 7,
       "x": 1152,
@@ -5099,14 +5099,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 118,
-        "y": 67,
-        "width": 86,
-        "height": 60
+        "x": 54,
+        "y": 35,
+        "width": 69,
+        "height": 92
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 30,
       "direction": 7,
       "x": 1280,
@@ -5117,14 +5117,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 115,
-        "y": 61,
-        "width": 87,
-        "height": 66
+        "x": 51,
+        "y": 30,
+        "width": 50,
+        "height": 97
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 31,
       "direction": 7,
       "x": 1408,
@@ -5135,14 +5135,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 116,
-        "y": 59,
-        "width": 85,
-        "height": 68
+        "x": 49,
+        "y": 25,
+        "width": 52,
+        "height": 103
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 32,
       "direction": 7,
       "x": 1536,
@@ -5153,14 +5153,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 117,
-        "y": 57,
-        "width": 84,
-        "height": 70
+        "x": 50,
+        "y": 23,
+        "width": 56,
+        "height": 106
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 33,
       "direction": 7,
       "x": 1664,
@@ -5171,14 +5171,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 119,
-        "y": 55,
-        "width": 81,
-        "height": 72
+        "x": 51,
+        "y": 22,
+        "width": 50,
+        "height": 107
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 34,
       "direction": 7,
       "x": 1792,
@@ -5189,14 +5189,14 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 122,
-        "y": 53,
-        "width": 78,
-        "height": 74
+        "x": 52,
+        "y": 22,
+        "width": 38,
+        "height": 107
       }
     },
     {
-      "filename": "Combate_dd",
+      "filename": "Salto",
       "frame": 35,
       "direction": 7,
       "x": 1920,
@@ -5207,10 +5207,10 @@
       "pivotX": 0.5,
       "pivotY": 0.9375,
       "sourceBounds": {
-        "x": 122,
-        "y": 51,
-        "width": 77,
-        "height": 76
+        "x": 52,
+        "y": 23,
+        "width": 36,
+        "height": 106
       }
     }
   ]

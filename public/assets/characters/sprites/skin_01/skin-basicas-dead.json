@@ -1,0 +1,5217 @@
+{
+  "schema": "colecionador.sprite-atlas.v1",
+  "source": "/Colecionador/assets/characters/skin_01/animation-sources/animacoes_basicas.glb",
+  "animation": "Dead",
+  "fps": 12,
+  "frameSize": {
+    "width": 128,
+    "height": 128
+  },
+  "frameCount": 36,
+  "directionCount": 8,
+  "atlas": {
+    "width": 2048,
+    "height": 2304,
+    "columns": 16,
+    "rows": 18
+  },
+  "pivot": {
+    "x": 0.5,
+    "y": 0.9375,
+    "mode": "per-frame-visible-bounds-grounded"
+  },
+  "normalization": {
+    "renderSize": 256,
+    "viewHeight": 6,
+    "padding": 8,
+    "targetContentHeight": 112,
+    "commonScale": 1.3333333333333333
+  },
+  "rootMotion": "normalized-to-ground; gameplay controls world movement",
+  "frames": [
+    {
+      "filename": "Dead",
+      "frame": 0,
+      "direction": 0,
+      "x": 0,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 65,
+        "width": 61,
+        "height": 63
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 1,
+      "direction": 0,
+      "x": 128,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 93,
+        "y": 73,
+        "width": 68,
+        "height": 56
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 2,
+      "direction": 0,
+      "x": 256,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 68,
+        "width": 65,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 3,
+      "direction": 0,
+      "x": 384,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 74,
+        "width": 62,
+        "height": 53
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 4,
+      "direction": 0,
+      "x": 512,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 72,
+        "width": 60,
+        "height": 55
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 5,
+      "direction": 0,
+      "x": 640,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 68,
+        "width": 60,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 6,
+      "direction": 0,
+      "x": 768,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 65,
+        "width": 60,
+        "height": 62
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 7,
+      "direction": 0,
+      "x": 896,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 62,
+        "width": 61,
+        "height": 65
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 8,
+      "direction": 0,
+      "x": 1024,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 60,
+        "width": 61,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 9,
+      "direction": 0,
+      "x": 1152,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 59,
+        "width": 61,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 10,
+      "direction": 0,
+      "x": 1280,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 58,
+        "width": 62,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 11,
+      "direction": 0,
+      "x": 1408,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 57,
+        "width": 62,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 12,
+      "direction": 0,
+      "x": 1536,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 57,
+        "width": 62,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 13,
+      "direction": 0,
+      "x": 1664,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 101,
+        "y": 57,
+        "width": 61,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 14,
+      "direction": 0,
+      "x": 1792,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 58,
+        "width": 61,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 15,
+      "direction": 0,
+      "x": 1920,
+      "y": 0,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 59,
+        "width": 61,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 16,
+      "direction": 0,
+      "x": 0,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 103,
+        "y": 60,
+        "width": 60,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 17,
+      "direction": 0,
+      "x": 128,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 67,
+        "width": 65,
+        "height": 61
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 18,
+      "direction": 0,
+      "x": 256,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 76,
+        "width": 67,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 19,
+      "direction": 0,
+      "x": 384,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 76,
+        "width": 66,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 20,
+      "direction": 0,
+      "x": 512,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 75,
+        "width": 64,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 21,
+      "direction": 0,
+      "x": 640,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 101,
+        "y": 73,
+        "width": 63,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 22,
+      "direction": 0,
+      "x": 768,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 103,
+        "y": 72,
+        "width": 61,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 23,
+      "direction": 0,
+      "x": 896,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 105,
+        "y": 76,
+        "width": 59,
+        "height": 51
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 24,
+      "direction": 0,
+      "x": 1024,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 90,
+        "width": 56,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 25,
+      "direction": 0,
+      "x": 1152,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 95,
+        "width": 52,
+        "height": 32
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 26,
+      "direction": 0,
+      "x": 1280,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 113,
+        "y": 95,
+        "width": 52,
+        "height": 31
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 27,
+      "direction": 0,
+      "x": 1408,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 115,
+        "y": 94,
+        "width": 51,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 28,
+      "direction": 0,
+      "x": 1536,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 116,
+        "y": 92,
+        "width": 49,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 29,
+      "direction": 0,
+      "x": 1664,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 92,
+        "width": 49,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 30,
+      "direction": 0,
+      "x": 1792,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 94,
+        "width": 49,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 31,
+      "direction": 0,
+      "x": 1920,
+      "y": 128,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 95,
+        "width": 48,
+        "height": 35
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 32,
+      "direction": 0,
+      "x": 0,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 95,
+        "width": 48,
+        "height": 36
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 33,
+      "direction": 0,
+      "x": 128,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 94,
+        "width": 48,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 34,
+      "direction": 0,
+      "x": 256,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 93,
+        "width": 48,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 35,
+      "direction": 0,
+      "x": 384,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 93,
+        "width": 48,
+        "height": 39
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 0,
+      "direction": 1,
+      "x": 512,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 65,
+        "width": 43,
+        "height": 63
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 1,
+      "direction": 1,
+      "x": 640,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 73,
+        "width": 48,
+        "height": 56
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 2,
+      "direction": 1,
+      "x": 768,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 68,
+        "width": 49,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 3,
+      "direction": 1,
+      "x": 896,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 74,
+        "width": 48,
+        "height": 53
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 4,
+      "direction": 1,
+      "x": 1024,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 72,
+        "width": 46,
+        "height": 55
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 5,
+      "direction": 1,
+      "x": 1152,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 68,
+        "width": 46,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 6,
+      "direction": 1,
+      "x": 1280,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 65,
+        "width": 46,
+        "height": 62
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 7,
+      "direction": 1,
+      "x": 1408,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 62,
+        "width": 45,
+        "height": 65
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 8,
+      "direction": 1,
+      "x": 1536,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 60,
+        "width": 45,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 9,
+      "direction": 1,
+      "x": 1664,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 59,
+        "width": 45,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 10,
+      "direction": 1,
+      "x": 1792,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 58,
+        "width": 45,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 11,
+      "direction": 1,
+      "x": 1920,
+      "y": 256,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 58,
+        "width": 46,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 12,
+      "direction": 1,
+      "x": 0,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 57,
+        "width": 47,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 13,
+      "direction": 1,
+      "x": 128,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 57,
+        "width": 47,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 14,
+      "direction": 1,
+      "x": 256,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 58,
+        "width": 48,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 15,
+      "direction": 1,
+      "x": 384,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 59,
+        "width": 49,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 16,
+      "direction": 1,
+      "x": 512,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 101,
+        "y": 60,
+        "width": 47,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 17,
+      "direction": 1,
+      "x": 640,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 105,
+        "y": 67,
+        "width": 48,
+        "height": 61
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 18,
+      "direction": 1,
+      "x": 768,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 76,
+        "width": 46,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 19,
+      "direction": 1,
+      "x": 896,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 76,
+        "width": 46,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 20,
+      "direction": 1,
+      "x": 1024,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 75,
+        "width": 46,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 21,
+      "direction": 1,
+      "x": 1152,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 73,
+        "width": 46,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 22,
+      "direction": 1,
+      "x": 1280,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 72,
+        "width": 48,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 23,
+      "direction": 1,
+      "x": 1408,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 76,
+        "width": 53,
+        "height": 51
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 24,
+      "direction": 1,
+      "x": 1536,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 115,
+        "y": 91,
+        "width": 60,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 25,
+      "direction": 1,
+      "x": 1664,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 115,
+        "y": 95,
+        "width": 65,
+        "height": 32
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 26,
+      "direction": 1,
+      "x": 1792,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 116,
+        "y": 95,
+        "width": 65,
+        "height": 31
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 27,
+      "direction": 1,
+      "x": 1920,
+      "y": 384,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 118,
+        "y": 94,
+        "width": 64,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 28,
+      "direction": 1,
+      "x": 0,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 92,
+        "width": 62,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 29,
+      "direction": 1,
+      "x": 128,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 123,
+        "y": 92,
+        "width": 61,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 30,
+      "direction": 1,
+      "x": 256,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 123,
+        "y": 94,
+        "width": 62,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 31,
+      "direction": 1,
+      "x": 384,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 123,
+        "y": 95,
+        "width": 62,
+        "height": 35
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 32,
+      "direction": 1,
+      "x": 512,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 123,
+        "y": 95,
+        "width": 62,
+        "height": 36
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 33,
+      "direction": 1,
+      "x": 640,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 122,
+        "y": 94,
+        "width": 63,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 34,
+      "direction": 1,
+      "x": 768,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 122,
+        "y": 93,
+        "width": 64,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 35,
+      "direction": 1,
+      "x": 896,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 122,
+        "y": 93,
+        "width": 64,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 0,
+      "direction": 2,
+      "x": 1024,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 103,
+        "y": 65,
+        "width": 54,
+        "height": 63
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 1,
+      "direction": 2,
+      "x": 1152,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 72,
+        "width": 35,
+        "height": 57
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 2,
+      "direction": 2,
+      "x": 1280,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 103,
+        "y": 68,
+        "width": 33,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 3,
+      "direction": 2,
+      "x": 1408,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 74,
+        "width": 38,
+        "height": 53
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 4,
+      "direction": 2,
+      "x": 1536,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 72,
+        "width": 38,
+        "height": 55
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 5,
+      "direction": 2,
+      "x": 1664,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 68,
+        "width": 37,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 6,
+      "direction": 2,
+      "x": 1792,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 65,
+        "width": 37,
+        "height": 62
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 7,
+      "direction": 2,
+      "x": 1920,
+      "y": 512,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 101,
+        "y": 62,
+        "width": 36,
+        "height": 65
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 8,
+      "direction": 2,
+      "x": 0,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 60,
+        "width": 35,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 9,
+      "direction": 2,
+      "x": 128,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 59,
+        "width": 35,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 10,
+      "direction": 2,
+      "x": 256,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 58,
+        "width": 36,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 11,
+      "direction": 2,
+      "x": 384,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 103,
+        "y": 57,
+        "width": 35,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 12,
+      "direction": 2,
+      "x": 512,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 104,
+        "y": 57,
+        "width": 35,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 13,
+      "direction": 2,
+      "x": 640,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 104,
+        "y": 57,
+        "width": 36,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 14,
+      "direction": 2,
+      "x": 768,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 105,
+        "y": 58,
+        "width": 36,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 15,
+      "direction": 2,
+      "x": 896,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 59,
+        "width": 35,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 16,
+      "direction": 2,
+      "x": 1024,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 60,
+        "width": 35,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 17,
+      "direction": 2,
+      "x": 1152,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 115,
+        "y": 68,
+        "width": 31,
+        "height": 60
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 18,
+      "direction": 2,
+      "x": 1280,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 76,
+        "width": 29,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 19,
+      "direction": 2,
+      "x": 1408,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 76,
+        "width": 29,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 20,
+      "direction": 2,
+      "x": 1536,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 75,
+        "width": 30,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 21,
+      "direction": 2,
+      "x": 1664,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 73,
+        "width": 33,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 22,
+      "direction": 2,
+      "x": 1792,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 72,
+        "width": 35,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 23,
+      "direction": 2,
+      "x": 1920,
+      "y": 640,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 76,
+        "width": 45,
+        "height": 51
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 24,
+      "direction": 2,
+      "x": 0,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 91,
+        "width": 68,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 25,
+      "direction": 2,
+      "x": 128,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 116,
+        "y": 95,
+        "width": 81,
+        "height": 32
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 26,
+      "direction": 2,
+      "x": 256,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 118,
+        "y": 95,
+        "width": 80,
+        "height": 31
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 27,
+      "direction": 2,
+      "x": 384,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 94,
+        "width": 78,
+        "height": 32
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 28,
+      "direction": 2,
+      "x": 512,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 92,
+        "width": 81,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 29,
+      "direction": 2,
+      "x": 640,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 118,
+        "y": 92,
+        "width": 82,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 30,
+      "direction": 2,
+      "x": 768,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 94,
+        "width": 83,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 31,
+      "direction": 2,
+      "x": 896,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 95,
+        "width": 83,
+        "height": 35
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 32,
+      "direction": 2,
+      "x": 1024,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 95,
+        "width": 83,
+        "height": 36
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 33,
+      "direction": 2,
+      "x": 1152,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 94,
+        "width": 83,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 34,
+      "direction": 2,
+      "x": 1280,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 93,
+        "width": 83,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 35,
+      "direction": 2,
+      "x": 1408,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 93,
+        "width": 84,
+        "height": 39
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 0,
+      "direction": 3,
+      "x": 1536,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 65,
+        "width": 69,
+        "height": 63
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 1,
+      "direction": 3,
+      "x": 1664,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 73,
+        "width": 61,
+        "height": 56
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 2,
+      "direction": 3,
+      "x": 1792,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 68,
+        "width": 53,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 3,
+      "direction": 3,
+      "x": 1920,
+      "y": 768,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 74,
+        "width": 54,
+        "height": 53
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 4,
+      "direction": 3,
+      "x": 0,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 72,
+        "width": 56,
+        "height": 55
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 5,
+      "direction": 3,
+      "x": 128,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 68,
+        "width": 57,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 6,
+      "direction": 3,
+      "x": 256,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 65,
+        "width": 56,
+        "height": 62
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 7,
+      "direction": 3,
+      "x": 384,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 62,
+        "width": 56,
+        "height": 65
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 8,
+      "direction": 3,
+      "x": 512,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 60,
+        "width": 56,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 9,
+      "direction": 3,
+      "x": 640,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 59,
+        "width": 56,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 10,
+      "direction": 3,
+      "x": 768,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 58,
+        "width": 55,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 11,
+      "direction": 3,
+      "x": 896,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 58,
+        "width": 55,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 12,
+      "direction": 3,
+      "x": 1024,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 57,
+        "width": 55,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 13,
+      "direction": 3,
+      "x": 1152,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 57,
+        "width": 55,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 14,
+      "direction": 3,
+      "x": 1280,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 58,
+        "width": 54,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 15,
+      "direction": 3,
+      "x": 1408,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 92,
+        "y": 59,
+        "width": 52,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 16,
+      "direction": 3,
+      "x": 1536,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 92,
+        "y": 60,
+        "width": 52,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 17,
+      "direction": 3,
+      "x": 1664,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 68,
+        "width": 53,
+        "height": 60
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 18,
+      "direction": 3,
+      "x": 1792,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 76,
+        "width": 55,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 19,
+      "direction": 3,
+      "x": 1920,
+      "y": 896,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 76,
+        "width": 54,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 20,
+      "direction": 3,
+      "x": 0,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 75,
+        "width": 54,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 21,
+      "direction": 3,
+      "x": 128,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 73,
+        "width": 53,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 22,
+      "direction": 3,
+      "x": 256,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 101,
+        "y": 72,
+        "width": 53,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 23,
+      "direction": 3,
+      "x": 384,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 103,
+        "y": 76,
+        "width": 63,
+        "height": 51
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 24,
+      "direction": 3,
+      "x": 512,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 91,
+        "width": 73,
+        "height": 36
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 25,
+      "direction": 3,
+      "x": 640,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 105,
+        "y": 95,
+        "width": 76,
+        "height": 32
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 26,
+      "direction": 3,
+      "x": 768,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 95,
+        "width": 71,
+        "height": 31
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 27,
+      "direction": 3,
+      "x": 896,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 94,
+        "width": 69,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 28,
+      "direction": 3,
+      "x": 1024,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 92,
+        "width": 70,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 29,
+      "direction": 3,
+      "x": 1152,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 92,
+        "width": 69,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 30,
+      "direction": 3,
+      "x": 1280,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 94,
+        "width": 69,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 31,
+      "direction": 3,
+      "x": 1408,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 95,
+        "width": 68,
+        "height": 35
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 32,
+      "direction": 3,
+      "x": 1536,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 109,
+        "y": 95,
+        "width": 68,
+        "height": 36
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 33,
+      "direction": 3,
+      "x": 1664,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 94,
+        "width": 67,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 34,
+      "direction": 3,
+      "x": 1792,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 93,
+        "width": 67,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 35,
+      "direction": 3,
+      "x": 1920,
+      "y": 1024,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 93,
+        "width": 67,
+        "height": 39
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 0,
+      "direction": 4,
+      "x": 0,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 65,
+        "width": 61,
+        "height": 63
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 1,
+      "direction": 4,
+      "x": 128,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 95,
+        "y": 72,
+        "width": 67,
+        "height": 57
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 2,
+      "direction": 4,
+      "x": 256,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 68,
+        "width": 64,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 3,
+      "direction": 4,
+      "x": 384,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 95,
+        "y": 74,
+        "width": 62,
+        "height": 53
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 4,
+      "direction": 4,
+      "x": 512,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 72,
+        "width": 61,
+        "height": 55
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 5,
+      "direction": 4,
+      "x": 640,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 68,
+        "width": 60,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 6,
+      "direction": 4,
+      "x": 768,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 65,
+        "width": 60,
+        "height": 62
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 7,
+      "direction": 4,
+      "x": 896,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 97,
+        "y": 62,
+        "width": 61,
+        "height": 65
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 8,
+      "direction": 4,
+      "x": 1024,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 60,
+        "width": 61,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 9,
+      "direction": 4,
+      "x": 1152,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 95,
+        "y": 59,
+        "width": 62,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 10,
+      "direction": 4,
+      "x": 1280,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 95,
+        "y": 58,
+        "width": 62,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 11,
+      "direction": 4,
+      "x": 1408,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 95,
+        "y": 57,
+        "width": 61,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 12,
+      "direction": 4,
+      "x": 1536,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 57,
+        "width": 62,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 13,
+      "direction": 4,
+      "x": 1664,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 57,
+        "width": 61,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 14,
+      "direction": 4,
+      "x": 1792,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 93,
+        "y": 58,
+        "width": 61,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 15,
+      "direction": 4,
+      "x": 1920,
+      "y": 1152,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 93,
+        "y": 59,
+        "width": 61,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 16,
+      "direction": 4,
+      "x": 0,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 93,
+        "y": 60,
+        "width": 60,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 17,
+      "direction": 4,
+      "x": 128,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 67,
+        "width": 65,
+        "height": 61
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 18,
+      "direction": 4,
+      "x": 256,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 76,
+        "width": 67,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 19,
+      "direction": 4,
+      "x": 384,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 76,
+        "width": 66,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 20,
+      "direction": 4,
+      "x": 512,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 75,
+        "width": 65,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 21,
+      "direction": 4,
+      "x": 640,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 92,
+        "y": 73,
+        "width": 63,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 22,
+      "direction": 4,
+      "x": 768,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 92,
+        "y": 72,
+        "width": 60,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 23,
+      "direction": 4,
+      "x": 896,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 92,
+        "y": 76,
+        "width": 59,
+        "height": 51
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 24,
+      "direction": 4,
+      "x": 1024,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 92,
+        "y": 90,
+        "width": 56,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 25,
+      "direction": 4,
+      "x": 1152,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 92,
+        "y": 95,
+        "width": 52,
+        "height": 32
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 26,
+      "direction": 4,
+      "x": 1280,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 95,
+        "width": 51,
+        "height": 31
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 27,
+      "direction": 4,
+      "x": 1408,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 94,
+        "width": 51,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 28,
+      "direction": 4,
+      "x": 1536,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 92,
+        "width": 48,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 29,
+      "direction": 4,
+      "x": 1664,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 92,
+        "width": 49,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 30,
+      "direction": 4,
+      "x": 1792,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 94,
+        "width": 49,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 31,
+      "direction": 4,
+      "x": 1920,
+      "y": 1280,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 95,
+        "width": 48,
+        "height": 35
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 32,
+      "direction": 4,
+      "x": 0,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 95,
+        "width": 48,
+        "height": 36
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 33,
+      "direction": 4,
+      "x": 128,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 94,
+        "width": 48,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 34,
+      "direction": 4,
+      "x": 256,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 93,
+        "width": 48,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 35,
+      "direction": 4,
+      "x": 384,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 93,
+        "width": 49,
+        "height": 39
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 0,
+      "direction": 5,
+      "x": 512,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 65,
+        "width": 44,
+        "height": 63
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 1,
+      "direction": 5,
+      "x": 640,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 73,
+        "width": 48,
+        "height": 56
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 2,
+      "direction": 5,
+      "x": 768,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 111,
+        "y": 68,
+        "width": 49,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 3,
+      "direction": 5,
+      "x": 896,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 74,
+        "width": 48,
+        "height": 53
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 4,
+      "direction": 5,
+      "x": 1024,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 113,
+        "y": 72,
+        "width": 46,
+        "height": 55
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 5,
+      "direction": 5,
+      "x": 1152,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 113,
+        "y": 68,
+        "width": 46,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 6,
+      "direction": 5,
+      "x": 1280,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 113,
+        "y": 65,
+        "width": 46,
+        "height": 62
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 7,
+      "direction": 5,
+      "x": 1408,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 114,
+        "y": 62,
+        "width": 45,
+        "height": 65
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 8,
+      "direction": 5,
+      "x": 1536,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 114,
+        "y": 60,
+        "width": 45,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 9,
+      "direction": 5,
+      "x": 1664,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 114,
+        "y": 59,
+        "width": 45,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 10,
+      "direction": 5,
+      "x": 1792,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 114,
+        "y": 58,
+        "width": 45,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 11,
+      "direction": 5,
+      "x": 1920,
+      "y": 1408,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 113,
+        "y": 58,
+        "width": 46,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 12,
+      "direction": 5,
+      "x": 0,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 57,
+        "width": 47,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 13,
+      "direction": 5,
+      "x": 128,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 111,
+        "y": 57,
+        "width": 47,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 14,
+      "direction": 5,
+      "x": 256,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 109,
+        "y": 58,
+        "width": 49,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 15,
+      "direction": 5,
+      "x": 384,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 59,
+        "width": 49,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 16,
+      "direction": 5,
+      "x": 512,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 60,
+        "width": 47,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 17,
+      "direction": 5,
+      "x": 640,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 103,
+        "y": 67,
+        "width": 48,
+        "height": 61
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 18,
+      "direction": 5,
+      "x": 768,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 76,
+        "width": 46,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 19,
+      "direction": 5,
+      "x": 896,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 76,
+        "width": 45,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 20,
+      "direction": 5,
+      "x": 1024,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 75,
+        "width": 46,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 21,
+      "direction": 5,
+      "x": 1152,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 100,
+        "y": 73,
+        "width": 46,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 22,
+      "direction": 5,
+      "x": 1280,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 72,
+        "width": 48,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 23,
+      "direction": 5,
+      "x": 1408,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 91,
+        "y": 76,
+        "width": 53,
+        "height": 51
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 24,
+      "direction": 5,
+      "x": 1536,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 81,
+        "y": 91,
+        "width": 60,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 25,
+      "direction": 5,
+      "x": 1664,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 76,
+        "y": 95,
+        "width": 65,
+        "height": 32
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 26,
+      "direction": 5,
+      "x": 1792,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 75,
+        "y": 95,
+        "width": 65,
+        "height": 31
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 27,
+      "direction": 5,
+      "x": 1920,
+      "y": 1536,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 74,
+        "y": 94,
+        "width": 64,
+        "height": 32
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 28,
+      "direction": 5,
+      "x": 0,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 73,
+        "y": 92,
+        "width": 62,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 29,
+      "direction": 5,
+      "x": 128,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 72,
+        "y": 92,
+        "width": 61,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 30,
+      "direction": 5,
+      "x": 256,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 71,
+        "y": 94,
+        "width": 62,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 31,
+      "direction": 5,
+      "x": 384,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 71,
+        "y": 95,
+        "width": 62,
+        "height": 35
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 32,
+      "direction": 5,
+      "x": 512,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 71,
+        "y": 95,
+        "width": 62,
+        "height": 36
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 33,
+      "direction": 5,
+      "x": 640,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 94,
+        "width": 64,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 34,
+      "direction": 5,
+      "x": 768,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 93,
+        "width": 64,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 35,
+      "direction": 5,
+      "x": 896,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 93,
+        "width": 64,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 0,
+      "direction": 6,
+      "x": 1024,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 65,
+        "width": 54,
+        "height": 63
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 1,
+      "direction": 6,
+      "x": 1152,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 114,
+        "y": 73,
+        "width": 35,
+        "height": 56
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 2,
+      "direction": 6,
+      "x": 1280,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 68,
+        "width": 33,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 3,
+      "direction": 6,
+      "x": 1408,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 74,
+        "width": 38,
+        "height": 53
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 4,
+      "direction": 6,
+      "x": 1536,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 72,
+        "width": 38,
+        "height": 55
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 5,
+      "direction": 6,
+      "x": 1664,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 68,
+        "width": 37,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 6,
+      "direction": 6,
+      "x": 1792,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 65,
+        "width": 37,
+        "height": 62
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 7,
+      "direction": 6,
+      "x": 1920,
+      "y": 1664,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 62,
+        "width": 36,
+        "height": 65
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 8,
+      "direction": 6,
+      "x": 0,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 60,
+        "width": 35,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 9,
+      "direction": 6,
+      "x": 128,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 59,
+        "width": 35,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 10,
+      "direction": 6,
+      "x": 256,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 118,
+        "y": 58,
+        "width": 36,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 11,
+      "direction": 6,
+      "x": 384,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 118,
+        "y": 58,
+        "width": 35,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 12,
+      "direction": 6,
+      "x": 512,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 57,
+        "width": 35,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 13,
+      "direction": 6,
+      "x": 640,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 116,
+        "y": 57,
+        "width": 36,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 14,
+      "direction": 6,
+      "x": 768,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 115,
+        "y": 58,
+        "width": 36,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 15,
+      "direction": 6,
+      "x": 896,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 114,
+        "y": 59,
+        "width": 35,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 16,
+      "direction": 6,
+      "x": 1024,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 113,
+        "y": 60,
+        "width": 35,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 17,
+      "direction": 6,
+      "x": 1152,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 67,
+        "width": 31,
+        "height": 61
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 18,
+      "direction": 6,
+      "x": 1280,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 76,
+        "width": 29,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 19,
+      "direction": 6,
+      "x": 1408,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 76,
+        "width": 29,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 20,
+      "direction": 6,
+      "x": 1536,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 75,
+        "width": 30,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 21,
+      "direction": 6,
+      "x": 1664,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 104,
+        "y": 73,
+        "width": 33,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 22,
+      "direction": 6,
+      "x": 1792,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 72,
+        "width": 35,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 23,
+      "direction": 6,
+      "x": 1920,
+      "y": 1792,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 93,
+        "y": 76,
+        "width": 44,
+        "height": 51
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 24,
+      "direction": 6,
+      "x": 0,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 71,
+        "y": 91,
+        "width": 68,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 25,
+      "direction": 6,
+      "x": 128,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 59,
+        "y": 95,
+        "width": 81,
+        "height": 32
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 26,
+      "direction": 6,
+      "x": 256,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 57,
+        "y": 95,
+        "width": 81,
+        "height": 31
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 27,
+      "direction": 6,
+      "x": 384,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 57,
+        "y": 94,
+        "width": 79,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 28,
+      "direction": 6,
+      "x": 512,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 56,
+        "y": 92,
+        "width": 81,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 29,
+      "direction": 6,
+      "x": 640,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 56,
+        "y": 92,
+        "width": 82,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 30,
+      "direction": 6,
+      "x": 768,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 56,
+        "y": 94,
+        "width": 83,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 31,
+      "direction": 6,
+      "x": 896,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 56,
+        "y": 95,
+        "width": 83,
+        "height": 35
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 32,
+      "direction": 6,
+      "x": 1024,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 56,
+        "y": 95,
+        "width": 83,
+        "height": 36
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 33,
+      "direction": 6,
+      "x": 1152,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 56,
+        "y": 94,
+        "width": 83,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 34,
+      "direction": 6,
+      "x": 1280,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 56,
+        "y": 93,
+        "width": 83,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 35,
+      "direction": 6,
+      "x": 1408,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 55,
+        "y": 93,
+        "width": 84,
+        "height": 39
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 0,
+      "direction": 7,
+      "x": 1536,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 65,
+        "width": 69,
+        "height": 63
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 1,
+      "direction": 7,
+      "x": 1664,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 104,
+        "y": 73,
+        "width": 61,
+        "height": 56
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 2,
+      "direction": 7,
+      "x": 1792,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 68,
+        "width": 53,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 3,
+      "direction": 7,
+      "x": 1920,
+      "y": 1920,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 74,
+        "width": 54,
+        "height": 53
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 4,
+      "direction": 7,
+      "x": 0,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 111,
+        "y": 72,
+        "width": 56,
+        "height": 55
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 5,
+      "direction": 7,
+      "x": 128,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 68,
+        "width": 57,
+        "height": 59
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 6,
+      "direction": 7,
+      "x": 256,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 110,
+        "y": 65,
+        "width": 57,
+        "height": 62
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 7,
+      "direction": 7,
+      "x": 384,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 111,
+        "y": 62,
+        "width": 56,
+        "height": 65
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 8,
+      "direction": 7,
+      "x": 512,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 111,
+        "y": 60,
+        "width": 56,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 9,
+      "direction": 7,
+      "x": 640,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 111,
+        "y": 59,
+        "width": 56,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 10,
+      "direction": 7,
+      "x": 768,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 111,
+        "y": 58,
+        "width": 56,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 11,
+      "direction": 7,
+      "x": 896,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 58,
+        "width": 54,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 12,
+      "direction": 7,
+      "x": 1024,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 57,
+        "width": 54,
+        "height": 71
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 13,
+      "direction": 7,
+      "x": 1152,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 111,
+        "y": 58,
+        "width": 55,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 14,
+      "direction": 7,
+      "x": 1280,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 58,
+        "width": 53,
+        "height": 70
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 15,
+      "direction": 7,
+      "x": 1408,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 59,
+        "width": 52,
+        "height": 69
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 16,
+      "direction": 7,
+      "x": 1536,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 60,
+        "width": 52,
+        "height": 68
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 17,
+      "direction": 7,
+      "x": 1664,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 106,
+        "y": 67,
+        "width": 54,
+        "height": 61
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 18,
+      "direction": 7,
+      "x": 1792,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 76,
+        "width": 55,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 19,
+      "direction": 7,
+      "x": 1920,
+      "y": 2048,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 76,
+        "width": 54,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 20,
+      "direction": 7,
+      "x": 0,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 75,
+        "width": 54,
+        "height": 52
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 21,
+      "direction": 7,
+      "x": 128,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 103,
+        "y": 73,
+        "width": 53,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 22,
+      "direction": 7,
+      "x": 256,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 72,
+        "width": 53,
+        "height": 54
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 23,
+      "direction": 7,
+      "x": 384,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 76,
+        "width": 63,
+        "height": 51
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 24,
+      "direction": 7,
+      "x": 512,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 77,
+        "y": 90,
+        "width": 73,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 25,
+      "direction": 7,
+      "x": 640,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 75,
+        "y": 95,
+        "width": 76,
+        "height": 32
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 26,
+      "direction": 7,
+      "x": 768,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 78,
+        "y": 95,
+        "width": 71,
+        "height": 31
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 27,
+      "direction": 7,
+      "x": 896,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 80,
+        "y": 94,
+        "width": 69,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 28,
+      "direction": 7,
+      "x": 1024,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 79,
+        "y": 92,
+        "width": 70,
+        "height": 33
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 29,
+      "direction": 7,
+      "x": 1152,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 80,
+        "y": 92,
+        "width": 69,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 30,
+      "direction": 7,
+      "x": 1280,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 80,
+        "y": 94,
+        "width": 68,
+        "height": 34
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 31,
+      "direction": 7,
+      "x": 1408,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 80,
+        "y": 95,
+        "width": 68,
+        "height": 35
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 32,
+      "direction": 7,
+      "x": 1536,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 79,
+        "y": 95,
+        "width": 68,
+        "height": 36
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 33,
+      "direction": 7,
+      "x": 1664,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 79,
+        "y": 94,
+        "width": 67,
+        "height": 37
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 34,
+      "direction": 7,
+      "x": 1792,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 79,
+        "y": 93,
+        "width": 67,
+        "height": 38
+      }
+    },
+    {
+      "filename": "Dead",
+      "frame": 35,
+      "direction": 7,
+      "x": 1920,
+      "y": 2176,
+      "width": 128,
+      "height": 128,
+      "duration": 0.08333333333333333,
+      "pivotX": 0.5,
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 79,
+        "y": 93,
+        "width": 67,
+        "height": 39
+      }
+    }
+  ]
+}
