@@ -21,6 +21,7 @@ export const PLAYER_SKINS = Object.freeze({
       nodeName: 'ColossalSword_AttachedToRightHand',
       handBoneName: 'mixamorig:RightHand',
       gripAxis: 'y',
+      gripOffset: 0.75,
       rotation: Object.freeze([0, 0, 0])
     }),
     animations: Object.freeze({
