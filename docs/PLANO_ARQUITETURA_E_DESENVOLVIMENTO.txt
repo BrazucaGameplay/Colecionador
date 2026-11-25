@@ -394,3 +394,56 @@ planejados ja existam no codigo. Antes de qualquer alteracao, conferir
 o repositorio e o documento de estado atual.
 
 FIM DO DOCUMENTO
+
+
+======================================================================
+11. DIRECAO APROVADA — MUNDO FORMADO POR ILHAS
+======================================================================
+
+Em 25/11/2026 foi aprovada uma revisao da concepcao do mundo. Esta direcao
+complementa e substitui qualquer interpretacao anterior de um mundo aberto
+gigantesco ou de varias ilhas carregadas simultaneamente.
+
+REQUISITOS DE PRODUTO:
+- O mundo e composto por pequenas ilhas independentes.
+- Somente uma ilha fica carregada como mundo jogavel por vez.
+- Pontes e portais conectam uma ilha a outra.
+- O espaco externo a ilha e apresentado como ceu e nuvens.
+- A expansao de conteudo ocorre adicionando novas ilhas, nao ampliando
+  indefinidamente um unico mapa continuo.
+
+DIRECAO VISUAL:
+- Aparencia de ambiente tridimensional, com volumes, relevo, sombras,
+  iluminacao e perspectiva isometrica.
+- Esta direcao pode ser chamada de 2.5D: o visual simula volume 3D,
+  mas a base atual permanece Phaser 4.
+- Nao migrar para Three.js ou motor 3D sem prototipo comparativo e
+  justificativa tecnica. A dependencia Three.js no package.json, isoladamente,
+  nao comprova uso no renderizador do jogo.
+
+ARQUITETURA DE MUNDO A ADOTAR GRADUALMENTE:
+- Catalogo leve de ilhas e metadados.
+- Carregador responsavel por assets da ilha ativa.
+- Runtime/cena responsavel por montar terreno, objetos, entidades e navegacao.
+- Transicao responsavel por salvar estado, descarregar a origem e carregar
+  destino, sem manter dois mundos completos em memoria.
+- Estado persistente por ilha.
+- Conexoes identificadas por IDs estaveis, sem referencias diretas a objetos
+  Phaser nos dados salvos.
+
+IMPORTANTE:
+A decisao esta APROVADA, mas nao esta IMPLEMENTADA no codigo. O prototipo
+atual ainda carrega uma imagem de ilha e cria jogador/monstro nessa area.
+Nao declarar sistema multi-ilhas pronto ate cumprir os criterios de
+aceitacao do documento:
+
+docs/ARQUITETURA_DO_MUNDO_POR_ILHAS.md
+
+ORDEM DE IMPLEMENTACAO:
+1. Estabilizar a ilha-base e sua navegacao.
+2. Definir dados e contrato de ilha.
+3. Criar segunda ilha com assets reais.
+4. Implementar a primeira transicao por ponte ou portal.
+5. Validar descarregamento, retorno, persistencia e memoria em Android.
+6. Expandir o catalogo de ilhas.
+
