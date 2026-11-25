@@ -169,6 +169,13 @@ function makeFrame(position, yaw, frameSize) {
   root.rotation.y = yaw;
   fitGroup.updateMatrixWorld(true);
   model.updateMatrixWorld(true);
+  // Box3 usa os bounds estáticos da geometria se não atualizarmos o SkinnedMesh.
+  // Recalcula a caixa com os ossos já avaliados para capturar os pés na pose atual.
+  model.traverse((node) => {
+    if (!node.isSkinnedMesh) return;
+    node.skeleton?.update();
+    node.computeBoundingBox();
+  });
   const poseBounds = new THREE.Box3().setFromObject(model);
   if (!Number.isFinite(poseBounds.min.y)) throw new Error('Não foi possível calcular o ponto de apoio da pose.');
   fitGroup.position.y = getGroundedFitY(fitBasePosition.y, poseBounds.min.y);
