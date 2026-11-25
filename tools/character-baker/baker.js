@@ -255,9 +255,17 @@ async function bakeClip(index) {
       try {
         framePivotY = getOpaqueBottomPivot(bottomOpaqueRow, frameSize);
       } catch (error) {
+        const alphaAt = (x, y) => pixels[(y * frameSize + x) * 4 + 3];
+        let opaquePixels = 0;
+        for (let i = 3; i < pixels.length; i += 4) if (pixels[i] > 24) opaquePixels++;
+        const alphaDiagnostics = [
+          `corners=${alphaAt(0, 0)},${alphaAt(frameSize - 1, 0)},${alphaAt(0, frameSize - 1)},${alphaAt(frameSize - 1, frameSize - 1)}`,
+          `bottomCenter=${alphaAt(Math.floor(frameSize / 2), frameSize - 1)}`,
+          `opaquePixels=${opaquePixels}/${frameSize * frameSize}`
+        ].join('; ');
         throw new Error(
           `Quadro ${currentClip.name} d${d}-f${f}: ${error.message} ` +
-          `(pose minY=${new THREE.Box3().setFromObject(model).min.y.toFixed(4)}).`
+          `(pose minY=${new THREE.Box3().setFromObject(model).min.y.toFixed(4)}; ${alphaDiagnostics}).`
         );
       }
       const x = (frameIndex % columns) * frameSize;

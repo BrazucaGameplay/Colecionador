@@ -78,12 +78,12 @@ test('enquadramento compensa deslocamento vertical de raiz sem alterar a posiç�
 
 test('pivô acompanha o último pixel visível e rejeita quadros cortados', () => {
   const width = 4;
-  const height = 6;
+  const height = 10;
   const rgba = new Uint8ClampedArray(width * height * 4);
-  rgba[(4 * width + 1) * 4 + 3] = 255;
-  assert.equal(findOpaqueBottomRow(rgba, width, height), 4);
-  assert.equal(getOpaqueBottomPivot(4, height), 5 / 6);
+  rgba[(6 * width + 1) * 4 + 3] = 255;
+  assert.equal(findOpaqueBottomRow(rgba, width, height), 6);
+  assert.equal(getOpaqueBottomPivot(6, height), 0.7);
   assert.equal(getOpaqueBottomPivot(-1, height), 0.84);
-  assert.throws(() => getOpaqueBottomPivot(5, height), /borda inferior/);
+  assert.throws(() => getOpaqueBottomPivot(9, height), /borda inferior/);
   assert.throws(() => findOpaqueBottomRow(new Uint8ClampedArray(3), width, height));
 });
