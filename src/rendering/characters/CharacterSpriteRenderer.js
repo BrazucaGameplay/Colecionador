@@ -139,7 +139,7 @@ export default class CharacterSpriteRenderer {
     if (this.destroyed) return false;
     // Alterna os dois golpes disponíveis quando o jogo solicita "combat".
     const resolvedId = actionId === 'combat'
-      ? (this.nextCombatVariant++ % 2 === 0 ? 'combat' : 'combatSlash')
+      ? (this.nextCombatVariant % 2 === 0 ? 'combat' : 'combatSlash')
       : actionId;
     const animation = CHARACTER_ANIMATIONS[resolvedId];
     if (!animation || ['idle', 'walking', 'running'].includes(resolvedId)) {

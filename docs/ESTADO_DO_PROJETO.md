@@ -385,3 +385,14 @@ VALIDACAO:
 - A geracao dos atlas depende da execucao do workflow apos este commit.
 - O deploy depende do bake e da execucao subsequente do workflow Deploy.
 - Teste visual e de desempenho no Android permanecem pendentes.
+
+
+CORRECAO DA EXECUCAO DO WORKFLOW:
+- A primeira execucao do bake falhou na etapa setup-node porque foi
+  configurado cache npm sem existir package-lock.json no repositorio.
+- Removida a configuracao de cache; npm install permanece como instalacao
+  de dependencias do workflow.
+- Ajustada a alternancia dos golpes para avancar somente depois que a
+  acao for aceita pelo estado de combate.
+- Esta correcao recebe novo patch de versao, conforme o processo
+  obrigatorio do projeto. A nova execucao deve confirmar o bake.
