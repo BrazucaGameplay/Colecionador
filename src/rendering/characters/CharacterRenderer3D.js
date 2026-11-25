@@ -289,12 +289,15 @@ export default class CharacterRenderer3D {
       const targetWorldLength = 48;
       const weaponScale = targetWorldLength / (Math.max(size.y, 0.0001) * characterScale);
       weapon.scale.setScalar(weaponScale);
+      // Primeiro invertemos o eixo longitudinal. Depois compensamos a
+      // translação já no referencial girado: o extremo +Y (ponta, conforme
+      // a orientação do asset) fica exatamente na origem da pegada.
+      weapon.rotation.set(0, 0, Math.PI);
       weapon.position.set(
-        -center.x * weaponScale,
-        -bounds.max.y * weaponScale,
+        center.x * weaponScale,
+        bounds.max.y * weaponScale,
         -center.z * weaponScale
       );
-      weapon.rotation.set(0, 0, Math.PI);
 
       const anchor = new THREE.Group();
       anchor.name = 'RightHandWeaponAnchor';
