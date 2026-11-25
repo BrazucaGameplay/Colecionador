@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'public/assets/characters/sprites/skin_01');
-const models = [
+// Cada GLB mantém seu catálogo de movimentos; nenhum clip é copiado para outro modelo.\nconst models = [
   'assets/characters/skin_01/skin-padrão1.glb',
   'assets/characters/skin_01/skin_padrão2.glb',
   'assets/characters/skin_01/skin_padrão3.glb',
