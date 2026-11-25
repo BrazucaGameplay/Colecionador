@@ -10,7 +10,6 @@ const WORLD_ASSETS = [
   ['tree-flowering', 'assets/world/vegetation/arvore_2.png'],
   ['waterfall-edge-a', 'assets/world/rock/cascata_1.png'],
   ['waterfall-edge-b', 'assets/world/rock/cascata3.png'],
-  ['hill-a', 'assets/world/rock/colina.png'],
   ['hill-b', 'assets/world/rock/colina2.png'],
   ['hill-c', 'assets/world/rock/colina_3.png'],
   ['rock-cluster', 'assets/world/rock/file_0000000086fc820e95353e02c57fdd6f.png']
