@@ -231,3 +231,58 @@ o que foi substituido e por que.
   704f7d70f1bc8331125e8ee80fc04163929c1c4c.
 
 FIM DO DOCUMENTO
+
+
+======================================================================
+9. ATUALIZACAO DE ARQUITETURA — 25/11/2026
+======================================================================
+
+Esta secao e a decisao mais recente e SUBSTITUI qualquer direcao anterior
+que trate o mundo como um continente continuo, varias areas simultaneamente
+carregadas ou uma sequencia de mapas sem uma regra de carregamento definida.
+
+DIRECAO APROVADA:
+- O mundo sera formado por ilhas pequenas e independentes.
+- Apenas uma ilha ficara carregada como mundo jogavel por vez.
+- Pontes e portais conectarao as ilhas.
+- Fora da plataforma da ilha, o ambiente visual sera ceu e nuvens.
+- O visual desejado tem aparencia tridimensional/2.5D, com volume,
+  perspectiva, sombras e iluminacao, mantendo Phaser 4 como base inicial.
+- Nao ha decisao de migrar o jogo para um motor 3D. Three.js presente no
+  package.json nao significa que exista integracao ativa.
+
+FLUXO DE TRANSICAO APROVADO:
+1. Registrar estado da ilha de origem.
+2. Ativar a saida por ponte ou portal.
+3. Executar transicao visual.
+4. Descarregar entidades, navegacao, listeners e recursos da ilha atual.
+5. Carregar configuracao e assets da ilha de destino.
+6. Montar a ilha e preparar navegacao.
+7. Posicionar jogador no ponto de entrada.
+8. Retomar jogo e camera.
+
+ESTADO DE IMPLEMENTACAO EM 25/11/2026:
+- A leitura de src/scenes/Preload.js confirma carregamento de uma imagem
+  chamada island-01.
+- A leitura de src/scenes/Game.js confirma que essa imagem define as
+  dimensoes do mundo e e instanciada como terreno unico.
+- A leitura de src/world/WorldNavigation.js confirma navegacao local
+  por grade e mascara alfa.
+- Os arquivos lidos nao implementam catalogo de ilhas, carregador,
+  transicoes, pontes, portais ou descarregamento/carregamento de ilhas.
+- Portanto, a arquitetura por ilhas esta APROVADA, mas NAO IMPLEMENTADA.
+
+DOCUMENTACAO:
+- Nova referencia: docs/ARQUITETURA_DO_MUNDO_POR_ILHAS.md
+- O documento descreve decisoes, justificativas, modelo de dados conceitual,
+  arquitetura sugerida, fases e criterios de aceitacao.
+- Esta documentacao nao afirma que codigo futuro ja exista.
+
+PROXIMOS PASSOS:
+1. Estabilizar e validar a ilha-base existente.
+2. Definir contrato de dados para cada ilha.
+3. Criar uma segunda ilha real para validar a primeira transicao.
+4. Implementar descarregamento/carregamento e persistencia.
+5. Expandir o catalogo apenas depois da validacao.
+
+Esta atualizacao passa a ser a referencia vigente para o desenho do mundo.
