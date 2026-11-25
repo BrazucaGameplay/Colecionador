@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-const MODEL_URL = `${import.meta.env.BASE_URL}assets/characters/player/warrior.glb?v=1.1.6`;
+const MODEL_URL = `${import.meta.env.BASE_URL}assets/characters/player/warrior.glb?v=1.1.7`;
 const MODEL_HEIGHT_WORLD = 76;
 const ANIMATION = Object.freeze({
   idle: 'Walking',
@@ -12,12 +12,14 @@ const ANIMATION = Object.freeze({
 });
 
 export default class CharacterRenderer3D {
-  constructor(scene, { onReady = () => {}, onError = () => {} } = {}) {
+  constructor(scene, { onReady = () => {}, onError = () => {}, onProgress = () => {} } = {}) {
     this.scene = scene;
     this.onReady = onReady;
     this.onError = onError;
+    this.onProgress = onProgress;
     this.worldX = 0;
     this.worldY = 0;
+    this.direction = 0;
     this.mixer = null;
     this.actions = new Map();
     this.currentAction = null;
@@ -32,7 +34,7 @@ export default class CharacterRenderer3D {
       this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false, powerPreference: 'low-power', stencil: false });
     } catch (error) {
       console.error('Não foi possível iniciar o renderizador 3D.', error);
-      this.onError('Não foi possível iniciar o personagem 3D neste aparelho.');
+      this.onError('Este aparelho não conseguiu iniciar o renderizador 3D.');
       return;
     }
 
@@ -74,14 +76,21 @@ export default class CharacterRenderer3D {
     this.resize();
     this.onResize = () => this.resize();
     window.addEventListener('resize', this.onResize, { passive: true });
-    new GLTFLoader().load(
+
+    const loader = new GLTFLoader();
+    loader.load(
       MODEL_URL,
       (gltf) => this.onModelLoaded(gltf),
-      undefined,
+      (event) => {
+        if (this.disposed) return;
+        const loaded = Number(event.loaded) || 0;
+        const total = Number(event.total) || 0;
+        this.onProgress({ loaded, total, ratio: total > 0 ? Math.min(loaded / total, 1) : null });
+      },
       (error) => {
         if (this.disposed) return;
         console.error('Falha ao carregar o modelo obrigatório do jogador:', error);
-        this.onError('Falha ao carregar warrior.glb. Atualize a página e tente novamente.');
+        this.onError('Falha ao carregar warrior.glb. Verifique a conexão e tente atualizar a página.');
       }
     );
   }
@@ -109,6 +118,7 @@ export default class CharacterRenderer3D {
     }
 
     this.ready = true;
+    this.root.rotation.y = this.direction;
     this.setAnimation(this.moving ? ANIMATION.walk : ANIMATION.idle, !this.moving);
     this.onReady();
   }
@@ -171,6 +181,13 @@ export default class CharacterRenderer3D {
     this.moving = moving;
     if (!this.ready || this.lockedAction) return;
     this.setAnimation(moving ? ANIMATION.walk : ANIMATION.idle, !moving);
+  }
+
+  setDirection(angle) {
+    // Quantiza a direção em oito orientações e mantém a última ao parar.
+    const step = Math.PI / 4;
+    this.direction = Math.round(angle / step) * step;
+    if (this.root) this.root.rotation.y = this.direction;
   }
 
   resize() {
