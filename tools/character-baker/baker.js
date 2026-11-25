@@ -180,7 +180,7 @@ async function bakeClip(index) {
   const duration = currentClip.duration;
   const frameCount = Math.max(1, Math.ceil(duration * fps));
   const totalFrames = frameCount * directions;
-  const columns = Math.min(8, totalFrames);
+  const columns = Math.min(16, totalFrames);
   const rows = Math.ceil(totalFrames / columns);
   const atlasWidth = columns * frameSize;
   const atlasHeight = rows * frameSize;
