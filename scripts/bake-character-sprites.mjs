@@ -4,7 +4,7 @@ import { mkdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'public/assets/characters/sprites/skin_01');
 const models = [
   'assets/characters/skin_01/skin-padrão1.glb',
@@ -50,6 +50,7 @@ try {
 
   await page.goto(`http://127.0.0.1:4179${base}tools/character-baker/?automation=1`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => Boolean(window.__characterBaker), { timeout: 30000 });
+  await page.waitForFunction(() => document.getElementById('status')?.textContent.includes('Modelo carregado.'), { timeout: 120000 });
 
   const summary = [];
   for (const modelPath of models) {
@@ -60,7 +61,6 @@ try {
     await page.evaluate(async () => window.__characterBaker.bakeAll());
     await page.waitForFunction((count) => document.getElementById('status').textContent.includes('animações exportadas.'), clips.length, { timeout: 180000 });
     // Aguarda os downloads PNG/JSON deste modelo serem gravados.
-    await page.waitForFunction((expected) => window.__downloadCount >= expected, clips.length * 2, { timeout: 30000 }).catch(() => {});
     const expected = clips.length * 2;
     const deadline = Date.now() + 30000;
     while (downloads.length - before < expected && Date.now() < deadline) {
