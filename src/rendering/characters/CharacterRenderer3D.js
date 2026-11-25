@@ -368,13 +368,26 @@ export default class CharacterRenderer3D {
     this.mixer?.update(Math.min(Math.max(delta, 0), MAX_DELTA_MS) / 1000);
     if (!this.ready || !camera2d || !this.parent) return;
 
+    const width = this.parent.clientWidth;
     const height = this.parent.clientHeight;
-    const zoomX = camera2d.zoomX || camera2d.zoom;
-    const zoomY = camera2d.zoomY || camera2d.zoom;
-    const screenX = camera2d.x + (this.worldX - camera2d.scrollX) * zoomX;
-    const screenY = camera2d.y + (this.worldY - camera2d.scrollY) * zoomY;
+
+    // Usa o mesmo zoom uniforme efetivo da câmera Phaser. Não usa zoomX/zoomY
+    // separados: em alguns ciclos de resize/pinch eles podem ficar defasados
+    // em relação ao zoom que está sendo aplicado ao mundo 2D.
+    const zoom = camera2d.zoom;
+    const view = camera2d.worldView;
+    const viewX = view?.x ?? camera2d.scrollX;
+    const viewY = view?.y ?? camera2d.scrollY;
+
+    // Converte as coordenadas lógicas do jogo para pixels do canvas overlay.
+    // Isso também cobre diferenças entre o tamanho lógico Phaser e o CSS.
+    const scaleX = width / Math.max(1, camera2d.width);
+    const scaleY = height / Math.max(1, camera2d.height);
+    const screenX = (camera2d.x + (this.worldX - viewX) * zoom) * scaleX;
+    const screenY = (camera2d.y + (this.worldY - viewY) * zoom) * scaleY;
+
     this.root.position.set(screenX, height - screenY, 0);
-    this.root.scale.setScalar(zoomY);
+    this.root.scale.setScalar(zoom * scaleY);
     this.renderer.render(this.scene3d, this.camera);
   }
 
