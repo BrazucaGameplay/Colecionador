@@ -330,7 +330,9 @@ export default class Game extends Phaser.Scene {
       if (!this.navigation.isAreaWalkable(nextX, nextY, 12)) {
         this.monster.sprite.setVelocity(0, 0);
       }
-      this.depthManager?.apply(this.monster.sprite, this.monster.sprite.y, 'actor');
+      // O sprite do monstro usa origem central; sua âncora física/visual é a borda inferior.
+      const monsterFootY = this.monster.sprite.y + this.monster.sprite.displayHeight * (1 - this.monster.sprite.originY);
+      this.depthManager?.apply(this.monster.sprite, monsterFootY, 'actor');
     }
     // O renderer do personagem e os objetos do cenário usam a mesma escala de profundidade.
   }
