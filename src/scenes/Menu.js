@@ -81,9 +81,9 @@ export default class Menu extends Phaser.Scene {
     }).setOrigin(0.5));
 
     const saved = this.readSave();
-    const selected = Object.values(PLAYER_SKINS).find((skin) => skin.id === saved.skinId);
+    const selected = Object.values(PLAYER_SKINS).find((skin) => skin.id === (saved.skinId || DEFAULT_PLAYER_SKIN_ID));
     this.menuItems.push(this.add.text(width / 2, height * 0.47,
-      'Skin: ' + (selected?.name || PLAYER_SKINS[DEFAULT_PLAYER_SKIN_ID === 'crimson-flame-sovereign' ? 'crimsonFlameSovereign' : DEFAULT_PLAYER_SKIN_ID]?.name || 'Padrão'), {
+      'Skin: ' + (selected?.name || 'Padrão'), {
       fontFamily: 'Arial, sans-serif',
       fontSize: '13px',
       color: '#cbd5e1'
