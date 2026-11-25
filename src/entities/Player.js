@@ -1,66 +1,61 @@
-import Warrior3D from './Warrior3D.js';
+import CharacterRenderer3D from './CharacterRenderer3D.js';
 
 export default class Player {
   constructor(scene, x, y) {
     this.scene = scene;
     this.speed = 220;
-    this.currentAnimation = 'idle';
     this.sprite = scene.physics.add.sprite(x, y, 'player');
     this.sprite.setVisible(false);
     this.sprite.setCollideWorldBounds(true);
     this.sprite.setSize(24, 14);
 
-    // Nila stays visible only as a safe fallback if the GLB cannot load.
-    this.visual = scene.add.rigby(x, y, 'nila', 'idle', true);
-    this.visual.setScale(0.04);
-    this.visual.setOrigin(0.5, 1);
-    this.visual.setDepth(y + 20);
+    this.statusText = scene.add.text(scene.scale.width / 2, scene.scale.height / 2,
+      'Carregando personagem...', {
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '16px',
+        color: '#ffffff',
+        backgroundColor: '#0b0f1a',
+        padding: { x: 12, y: 8 }
+      }).setOrigin(0.5).setScrollFactor(0).setDepth(2000);
 
-    try {
-      this.warrior = new Warrior3D(scene, () => this.visual.setVisible(false));
-      this.warrior.setPosition(x, y);
-    } catch (error) {
-      this.warrior = null;
-      console.error('Renderização 3D indisponível neste dispositivo; usando personagem de segurança.', error);
-    }
-  }
-
-  setAnimation(name) {
-    if (this.currentAnimation === name) return;
-    this.currentAnimation = name;
-    this.warrior?.setMoving(name === 'walk');
-    if (this.visual.visible) this.visual.play(name, true, 0.12);
+    this.renderer = new CharacterRenderer3D(scene, {
+      onReady: () => this.statusText?.destroy(),
+      onError: (message) => this.statusText?.setText(message)
+    });
+    this.renderer.setPosition(x, y);
   }
 
   move(vx, vy) {
-    const len = Math.hypot(vx, vy);
-    if (len > 0.001) {
-      this.sprite.setVelocity((vx / len) * this.speed, (vy / len) * this.speed);
-      this.setAnimation('walk');
-      if (this.visual.visible) {
-        if (vx < 0) this.visual.setFlipX(true);
-        else if (vx > 0) this.visual.setFlipX(false);
-      }
+    const length = Math.hypot(vx, vy);
+    if (length > 0.001) {
+      this.sprite.setVelocity((vx / length) * this.speed, (vy / length) * this.speed);
+      this.renderer.setMoving(true);
     } else {
       this.sprite.setVelocity(0, 0);
-      this.setAnimation('idle');
+      this.renderer.setMoving(false);
     }
   }
 
   attack() {
-    this.warrior?.playSlash();
+    this.renderer.playSlash();
+  }
+
+  jump() {
+    this.renderer.playJump();
+  }
+
+  die() {
+    this.renderer.playDeath();
   }
 
   update(delta = 16.67, camera = this.scene.cameras.main) {
-    this.visual.setPosition(this.sprite.x, this.sprite.y);
-    this.visual.setDepth(this.sprite.y + 20);
-    this.warrior?.setPosition(this.sprite.x, this.sprite.y);
-    this.warrior?.update(delta, camera);
+    this.renderer.setPosition(this.sprite.x, this.sprite.y);
+    this.renderer.update(delta, camera);
   }
 
   destroy() {
-    this.warrior?.destroy();
-    this.visual?.destroy();
+    this.statusText?.destroy();
+    this.renderer?.destroy();
     this.sprite?.destroy();
   }
 }
