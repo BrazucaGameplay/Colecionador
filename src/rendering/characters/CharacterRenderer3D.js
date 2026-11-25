@@ -20,13 +20,15 @@ export default class CharacterRenderer3D {
     onReady = () => {},
     onError = () => {},
     onProgress = () => {},
-    onSkinChanged = () => {}
+    onSkinChanged = () => {},
+    onWeaponStatus = () => {}
   } = {}) {
     this.parent = parent;
     this.onReady = onReady;
     this.onError = onError;
     this.onProgress = onProgress;
     this.onSkinChanged = onSkinChanged;
+    this.onWeaponStatus = onWeaponStatus;
 
     this.worldX = 0;
     this.worldY = 0;
@@ -226,19 +228,46 @@ export default class CharacterRenderer3D {
     this.applyLocomotionAnimation();
   }
 
+  reportWeaponStatus(status, details = {}) {
+    this.onWeaponStatus({ status, details });
+    console.info('[CharacterWeapon]', status, details);
+  }
+
+  findRightHand() {
+    const exact = this.model?.getObjectByName('mixamorig:RightHand') ||
+      this.model?.getObjectByName('RightHand');
+    if (exact) return exact;
+
+    const candidates = [];
+    this.model?.traverse((object) => {
+      if (/right.?hand|hand.?right/i.test(object.name || '')) {
+        candidates.push({ name: object.name, type: object.type, isBone: Boolean(object.isBone) });
+      }
+    });
+    this.reportWeaponStatus('MÃO NÃO ENCONTRADA', { candidates });
+    return null;
+  }
+
   async attachWeaponToRightHand() {
     const generation = ++this.weaponLoadGeneration;
-    const hand = this.model?.getObjectByName('mixamorig:RightHand') ||
-      this.model?.getObjectByName('RightHand');
+    this.reportWeaponStatus('LOCALIZANDO MÃO DIREITA');
+    const hand = this.findRightHand();
     if (!hand) {
       console.warn('[CharacterWeapon] Osso da mão direita não encontrado.');
       return false;
     }
+    this.reportWeaponStatus('MÃO ENCONTRADA', { name: hand.name, type: hand.type, isBone: Boolean(hand.isBone) });
+    this.reportWeaponStatus('CARREGANDO ESPADA', { url: WEAPON_URL });
 
     const loader = new GLTFLoader();
     loader.setMeshoptDecoder(MeshoptDecoder);
     try {
       const gltf = await loader.loadAsync(WEAPON_URL);
+      this.reportWeaponStatus('ARQUIVO GLB INTERPRETADO', {
+        sceneName: gltf.scene?.name || '(sem nome)',
+        meshes: this.countWeaponMeshes(gltf.scene),
+        animations: gltf.animations?.length || 0
+      });
       if (this.disposed || generation !== this.weaponLoadGeneration || hand !== (this.model?.getObjectByName('mixamorig:RightHand') || this.model?.getObjectByName('RightHand'))) {
         this.disposeGltf(gltf);
         return false;
@@ -278,20 +307,43 @@ export default class CharacterRenderer3D {
       anchor.rotation.set(0, 0, 0);
       anchor.visible = true;
       hand.add(anchor);
+      this.model.updateMatrixWorld(true);
+      weapon.updateWorldMatrix(true, true);
+      const worldBounds = new THREE.Box3().setFromObject(weapon);
+      const worldSize = new THREE.Vector3();
+      const worldCenter = new THREE.Vector3();
+      worldBounds.getSize(worldSize);
+      worldBounds.getCenter(worldCenter);
 
       this.weapon = weapon;
       this.weaponAnchor = anchor;
-      console.info('[CharacterWeapon] espada anexada à mão direita', {
+      this.reportWeaponStatus('ESPADA ANEXADA', {
+        hand: hand.name,
+        visible: weapon.visible,
+        parent: weapon.parent?.name || weapon.parent?.type,
         characterScale,
         weaponScale,
-        worldLength: size.y * weaponScale * characterScale
+        localSize: { x: size.x, y: size.y, z: size.z },
+        worldSize: { x: worldSize.x, y: worldSize.y, z: worldSize.z },
+        worldCenter: { x: worldCenter.x, y: worldCenter.y, z: worldCenter.z }
       });
       return true;
     } catch (error) {
       console.error('[CharacterWeapon] Falha ao carregar a espada.', error);
+      this.reportWeaponStatus('ERRO AO CARREGAR ESPADA', {
+        name: error?.name || 'Error',
+        message: error?.message || String(error),
+        url: WEAPON_URL
+      });
       this.onError('Não foi possível carregar a espada de combate.');
       return false;
     }
+  }
+
+  countWeaponMeshes(root) {
+    let count = 0;
+    root?.traverse((object) => { if (object.isMesh) count += 1; });
+    return count;
   }
 
   setWeaponVisible(visible) {
