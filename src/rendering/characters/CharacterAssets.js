@@ -13,7 +13,7 @@ export const PLAYER_SKINS = Object.freeze({
     id: 'crimson-flame-sovereign',
     name: 'Crimson Flame Sovereign',
     modelUrl: assetUrl(
-      'assets/characters/warrior/Crimson_Flame_Sovereign_optimized.glb?v=20261125-1'
+      'assets/characters/crimson-flame-sovereign/character.glb?v=20261125-1'
     ),
     modelHeight: 76,
     animated: true,
@@ -32,7 +32,7 @@ export const PLAYER_SKINS = Object.freeze({
     id: 'crimson-veinblade',
     name: 'Crimson Veinblade',
     modelUrl: assetUrl(
-      'assets/characters/warrior/Crimson_Veinblade_optimized.glb?v=20261125-1'
+      'assets/characters/crimson-veinblade/character.glb?v=20261125-1'
     ),
     modelHeight: 76,
     animated: false,
