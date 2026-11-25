@@ -13,7 +13,7 @@ export const CHARACTER_ANIMATIONS = Object.freeze({
   idle: pack('idle', 'skin-padrao-2-idle', 'idle', 'repouso'),
   walking: pack('walking', 'skin-padrao-1-walking', 'walking', 'deslocamento a pé'),
   running: pack('running', 'skin-padrao-1-running', 'running', 'deslocamento rápido'),
-  combat: pack('combat', 'skin-padrao-1-combate_dd', 'combate_dd', 'ação de combate', { loop: false, priority: 70, interruptible: false, lockMovement: true }),
+  combat: pack('combat', 'skin-padrao-1-combate_dd', 'combate_dd', 'ação de combate', { loop: false, priority: 70, interruptible: true, lockMovement: true }),
   jump: pack('jump', 'skin-padrao-3-salto', 'salto', 'salto', { loop: false, priority: 40, interruptible: true }),
   dying: pack('dying', 'skin-padrao-2-dying_backwards', 'dying_backwards', 'morte', { loop: false, returnToLocomotion: false, priority: 100, interruptible: false, lockMovement: true, holdOnComplete: true }),
   handstand: pack('handstand', 'skin-padrao-2-one_arm_handstand', 'one_arm_handstand', 'ação especial', { loop: false, priority: 30, interruptible: true }),

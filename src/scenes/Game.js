@@ -313,7 +313,11 @@ export default class Game extends Phaser.Scene {
   }
 
   update(time, delta = 16.67) {
-    this.movement?.setPaused(this.characterRenderer?.blocksMovement ?? false);
+    if (!this.player?.alive) {
+      this.movement?.clearDestination();
+      if (this.characterRenderer?.activeAction !== 'dying') this.characterRenderer?.playAction('dying');
+    }
+    this.movement?.setPaused(!this.player?.alive || (this.characterRenderer?.blocksMovement ?? false));
     this.movement?.update(delta);
     this.playerBody?.sync();
 
