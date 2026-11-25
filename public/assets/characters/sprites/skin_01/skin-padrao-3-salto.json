@@ -17,7 +17,8 @@
   },
   "pivot": {
     "x": 0.5,
-    "y": 0.92
+    "y": 0.92,
+    "mode": "per-frame-opaque-bottom"
   },
   "frames": [
     {
@@ -30,7 +31,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -42,7 +43,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -54,7 +55,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -66,7 +67,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -78,7 +79,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -90,7 +91,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -102,7 +103,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -114,7 +115,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -126,7 +127,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -138,7 +139,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -150,7 +151,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -162,7 +163,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -174,7 +175,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -186,7 +187,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -198,7 +199,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -210,7 +211,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -222,7 +223,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -234,7 +235,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -246,7 +247,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -258,7 +259,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -270,7 +271,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -282,7 +283,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -294,7 +295,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -306,7 +307,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -318,7 +319,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -330,7 +331,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -342,7 +343,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -354,7 +355,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -366,7 +367,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -378,7 +379,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -390,7 +391,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -402,7 +403,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -414,7 +415,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -426,7 +427,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -438,7 +439,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -450,7 +451,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -462,7 +463,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -474,7 +475,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -486,7 +487,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -498,7 +499,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -510,7 +511,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -522,7 +523,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -534,7 +535,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -546,7 +547,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -558,7 +559,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -570,7 +571,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -582,7 +583,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -594,7 +595,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -606,7 +607,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -618,7 +619,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -630,7 +631,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -642,7 +643,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -654,7 +655,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -666,7 +667,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -678,7 +679,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -690,7 +691,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -702,7 +703,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -714,7 +715,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -726,7 +727,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -738,7 +739,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -750,7 +751,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -762,7 +763,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -774,7 +775,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -786,7 +787,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -798,7 +799,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -810,7 +811,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -822,7 +823,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -834,7 +835,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -846,7 +847,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -858,7 +859,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -870,7 +871,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -882,7 +883,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -894,7 +895,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -906,7 +907,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -918,7 +919,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -930,7 +931,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -942,7 +943,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -954,7 +955,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -966,7 +967,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -978,7 +979,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -990,7 +991,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1002,7 +1003,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1014,7 +1015,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1026,7 +1027,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1038,7 +1039,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1050,7 +1051,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1062,7 +1063,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1074,7 +1075,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1086,7 +1087,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1098,7 +1099,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1110,7 +1111,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1122,7 +1123,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1134,7 +1135,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1146,7 +1147,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1158,7 +1159,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1170,7 +1171,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1182,7 +1183,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1194,7 +1195,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1206,7 +1207,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1218,7 +1219,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1230,7 +1231,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1242,7 +1243,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1254,7 +1255,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1266,7 +1267,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1278,7 +1279,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1290,7 +1291,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1302,7 +1303,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1314,7 +1315,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1326,7 +1327,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1338,7 +1339,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1350,7 +1351,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1362,7 +1363,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1374,7 +1375,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1386,7 +1387,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1398,7 +1399,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1410,7 +1411,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1422,7 +1423,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1434,7 +1435,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1446,7 +1447,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1458,7 +1459,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1470,7 +1471,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1482,7 +1483,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1494,7 +1495,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1506,7 +1507,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1518,7 +1519,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1530,7 +1531,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1542,7 +1543,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1554,7 +1555,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1566,7 +1567,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1578,7 +1579,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1590,7 +1591,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1602,7 +1603,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1614,7 +1615,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1626,7 +1627,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1638,7 +1639,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1650,7 +1651,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1662,7 +1663,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1674,7 +1675,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1686,7 +1687,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1698,7 +1699,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1710,7 +1711,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1722,7 +1723,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1734,7 +1735,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1746,7 +1747,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1758,7 +1759,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1770,7 +1771,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1782,7 +1783,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1794,7 +1795,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1806,7 +1807,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1818,7 +1819,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1830,7 +1831,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1842,7 +1843,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1854,7 +1855,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1866,7 +1867,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1878,7 +1879,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1890,7 +1891,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1902,7 +1903,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1914,7 +1915,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1926,7 +1927,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1938,7 +1939,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1950,7 +1951,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1962,7 +1963,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1974,7 +1975,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1986,7 +1987,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -1998,7 +1999,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2010,7 +2011,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2022,7 +2023,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2034,7 +2035,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2046,7 +2047,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2058,7 +2059,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2070,7 +2071,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2082,7 +2083,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2094,7 +2095,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2106,7 +2107,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2118,7 +2119,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2130,7 +2131,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2142,7 +2143,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2154,7 +2155,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2166,7 +2167,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2178,7 +2179,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2190,7 +2191,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2202,7 +2203,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2214,7 +2215,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2226,7 +2227,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2238,7 +2239,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2250,7 +2251,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2262,7 +2263,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2274,7 +2275,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2286,7 +2287,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2298,7 +2299,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2310,7 +2311,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2322,7 +2323,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2334,7 +2335,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2346,7 +2347,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2358,7 +2359,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2370,7 +2371,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2382,7 +2383,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2394,7 +2395,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2406,7 +2407,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2418,7 +2419,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2430,7 +2431,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2442,7 +2443,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2454,7 +2455,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2466,7 +2467,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2478,7 +2479,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2490,7 +2491,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2502,7 +2503,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2514,7 +2515,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2526,7 +2527,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2538,7 +2539,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2550,7 +2551,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2562,7 +2563,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2574,7 +2575,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2586,7 +2587,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2598,7 +2599,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2610,7 +2611,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2622,7 +2623,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2634,7 +2635,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2646,7 +2647,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2658,7 +2659,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2670,7 +2671,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2682,7 +2683,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2694,7 +2695,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2706,7 +2707,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2718,7 +2719,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2730,7 +2731,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2742,7 +2743,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2754,7 +2755,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2766,7 +2767,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2778,7 +2779,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2790,7 +2791,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2802,7 +2803,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2814,7 +2815,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2826,7 +2827,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2838,7 +2839,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2850,7 +2851,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2862,7 +2863,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2874,7 +2875,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2886,7 +2887,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2898,7 +2899,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2910,7 +2911,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2922,7 +2923,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2934,7 +2935,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2946,7 +2947,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2958,7 +2959,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2970,7 +2971,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2982,7 +2983,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -2994,7 +2995,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3006,7 +3007,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3018,7 +3019,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3030,7 +3031,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3042,7 +3043,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3054,7 +3055,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3066,7 +3067,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3078,7 +3079,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3090,7 +3091,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3102,7 +3103,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3114,7 +3115,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3126,7 +3127,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3138,7 +3139,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3150,7 +3151,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3162,7 +3163,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3174,7 +3175,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3186,7 +3187,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3198,7 +3199,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3210,7 +3211,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3222,7 +3223,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3234,7 +3235,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3246,7 +3247,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3258,7 +3259,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3270,7 +3271,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3282,7 +3283,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3294,7 +3295,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3306,7 +3307,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3318,7 +3319,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3330,7 +3331,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3342,7 +3343,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3354,7 +3355,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3366,7 +3367,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3378,7 +3379,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3390,7 +3391,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3402,7 +3403,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3414,7 +3415,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3426,7 +3427,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3438,7 +3439,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3450,7 +3451,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3462,7 +3463,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Salto",
@@ -3474,7 +3475,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     }
   ]
 }
