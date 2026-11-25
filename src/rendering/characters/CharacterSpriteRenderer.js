@@ -7,17 +7,14 @@ const atlas = (id, file, clip, move = false) => ({
   path: `assets/characters/sprites/skin_01/${file}`
 });
 
-const SHARED_IDLE_ATLAS = atlas('shared', 'character-anterior-idle_03', 'idle_03');
-
 export const PLAYER_SPRITE_SKINS = Object.freeze({
   'skin-padrao-1': Object.freeze({
     name: 'Skin padrão 1',
     movement: 'running',
-    idle: 'idle_03',
+    idle: 'walking',
     atlases: [
       atlas('skin-padrao-1', 'skin-padrao-1-running', 'running', true),
       atlas('skin-padrao-1', 'skin-padrao-1-walking', 'walking'),
-      SHARED_IDLE_ATLAS
     ]
   }),
   'skin-padrao-2': Object.freeze({
@@ -41,7 +38,6 @@ export const PLAYER_SPRITE_SKINS = Object.freeze({
       atlas('skin-padrao-3', 'skin-padrao-3-running', 'running', true),
       atlas('skin-padrao-3', 'skin-padrao-3-walking', 'walking'),
       atlas('skin-padrao-3', 'skin-padrao-3-salto', 'salto'),
-      SHARED_IDLE_ATLAS,
     ]
   }),
   'skin-padrao-4': Object.freeze({
@@ -52,7 +48,6 @@ export const PLAYER_SPRITE_SKINS = Object.freeze({
       atlas('skin-padrao-4', 'skin-padrao-4-running', 'running', true),
       atlas('skin-padrao-4', 'skin-padrao-4-walking', 'walking'),
       atlas('skin-padrao-4', 'skin-padrao-4-d', 'd'),
-      SHARED_IDLE_ATLAS,
     ]
   })
 });
