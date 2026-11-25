@@ -13,7 +13,7 @@ export const PLAYER_SKINS = Object.freeze({
     id: 'crimson-flame-sovereign',
     name: 'Crimson Flame Sovereign',
     modelUrl: assetUrl(
-      'assets/characters/crimson-flame-sovereign/character.glb?v=20261125-1'
+      'assets/characters/skin_01/character.glb?v=20261125-2'
     ),
     modelHeight: 76,
     animated: true,
