@@ -201,7 +201,8 @@ export default class Game extends Phaser.Scene {
       const key = treeKeys[i % treeKeys.length];
       const tree = this.add.image(x, y, key)
         .setOrigin(0.5, 1)
-        .setDepth(y + 35);
+        .setDepth(y + 35)
+        .setData('depthOffset', 35);
 
       const source = this.textures.get(key).getSourceImage();
       const targetHeight = 112 + (i % 3) * 5;
@@ -233,11 +234,12 @@ export default class Game extends Phaser.Scene {
       const waterfall = this.add.image(x, y, key)
         .setOrigin(0.5, 0.5)
         .setRotation(angle + Math.PI / 2)
-        .setDepth(y - 90);
+        .setDepth(y - 90)
+        .setData('depthOffset', -90);
 
       const source = this.textures.get(key).getSourceImage();
       const tangentLength = Math.max(source.width, source.height);
-      const targetLength = 720;
+      const targetLength = 840;
       waterfall.setScale(targetLength / tangentLength);
       this.worldObjects.push(waterfall);
     }
@@ -256,7 +258,7 @@ export default class Game extends Phaser.Scene {
       const image = this.add.image(x, y, item.key).setOrigin(0.5, 0.82);
       const source = this.textures.get(item.key).getSourceImage();
       image.setScale(item.height / source.height);
-      image.setDepth(y - 120);
+      image.setDepth(y - 120).setData('depthOffset', -120);
       this.worldObjects.push(image);
     }
   }
@@ -314,7 +316,9 @@ export default class Game extends Phaser.Scene {
       this.monster.sprite.setDepth(this.monster.sprite.y + 20);
     }
     this.playerBody?.object.setDepth(this.player.y + 20);
-    for (const object of this.worldObjects) object.setDepth(object.y);
+    for (const object of this.worldObjects) {
+      object.setDepth(object.y + (object.getData('depthOffset') || 0));
+    }
   }
 
   shutdown() {
