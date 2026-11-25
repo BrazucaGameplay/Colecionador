@@ -4,9 +4,6 @@ import Boot from './scenes/Boot.js';
 import Preload from './scenes/Preload.js';
 import Menu from './scenes/Menu.js';
 import Game from './scenes/Game.js';
-import { rigbyPhaser } from './plugins/rigby2d-phaser-0.6.1.mjs';
-
-const { RigbyPlugin } = rigbyPhaser(Phaser);
 
 const config = {
   type: Phaser.AUTO,
@@ -19,11 +16,6 @@ const config = {
     autoCenter: Phaser.Scale.CENTER_BOTH,
     width: GAME_WIDTH,
     height: GAME_HEIGHT
-  },
-  plugins: {
-    scene: [
-      { key: 'RigbyPlugin', plugin: RigbyPlugin, mapping: 'rigby' }
-    ]
   },
   physics: {
     default: 'arcade',
