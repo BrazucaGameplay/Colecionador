@@ -17,9 +17,10 @@
   },
   "pivot": {
     "x": 0.5,
-    "y": 0.92,
+    "y": 0.84,
     "mode": "per-frame-opaque-bottom"
   },
+  "rootMotion": "normalized-to-ground; gameplay controls world movement",
   "frames": [
     {
       "filename": "One_Arm_Handstand",

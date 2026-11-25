@@ -17,9 +17,10 @@
   },
   "pivot": {
     "x": 0.5,
-    "y": 0.92,
+    "y": 0.84,
     "mode": "per-frame-opaque-bottom"
   },
+  "rootMotion": "normalized-to-ground; gameplay controls world movement",
   "frames": [
     {
       "filename": "Combate_dd",
@@ -319,7 +320,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 0.9296875
     },
     {
       "filename": "Combate_dd",
@@ -331,7 +332,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 0.8671875
     },
     {
       "filename": "Combate_dd",
@@ -343,7 +344,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.953125
     },
     {
       "filename": "Combate_dd",
@@ -391,7 +392,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Combate_dd",
@@ -2047,7 +2048,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 0.9296875
     },
     {
       "filename": "Combate_dd",
@@ -2059,7 +2060,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 0.8671875
     },
     {
       "filename": "Combate_dd",
@@ -2071,7 +2072,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.953125
     },
     {
       "filename": "Combate_dd",
@@ -2119,7 +2120,7 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 0.92
+      "pivotY": 1
     },
     {
       "filename": "Combate_dd",
