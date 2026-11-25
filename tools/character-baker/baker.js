@@ -24,6 +24,10 @@ scene.add(fill);
 
 const root = new THREE.Group();
 scene.add(root);
+// Keep fitting transforms outside the animated GLTF root. Some clips animate
+// the GLTF scene position and would otherwise overwrite the ground alignment.
+const fitGroup = new THREE.Group();
+root.add(fitGroup);
 let mixer = null;
 let gltfData = null;
 let model = null;
@@ -42,7 +46,7 @@ function disposeCurrent() {
   if (mixer && model) mixer.uncacheRoot(model);
   mixer = null;
   if (model) {
-    root.remove(model);
+    fitGroup.remove(model);
     model.traverse((o) => {
       if (!o.isMesh) return;
       o.geometry?.dispose();
@@ -59,6 +63,9 @@ function disposeCurrent() {
 }
 
 function fitModel(object) {
+  fitGroup.position.set(0, 0, 0);
+  fitGroup.scale.setScalar(1);
+  root.rotation.set(0, 0, 0);
   object.updateMatrixWorld(true);
   const bounds = new THREE.Box3().setFromObject(object);
   const size = new THREE.Vector3();
@@ -67,8 +74,9 @@ function fitModel(object) {
   bounds.getCenter(center);
   const height = Math.max(size.y, 0.0001);
   const scale = 1.8 / height;
-  object.scale.setScalar(scale);
-  object.position.set(-center.x * scale, -bounds.min.y * scale, -center.z * scale);
+  fitGroup.scale.setScalar(scale);
+  fitGroup.position.set(-center.x * scale, -bounds.min.y * scale, -center.z * scale);
+  fitGroup.updateMatrixWorld(true);
   object.updateMatrixWorld(true);
   const fitted = new THREE.Box3().setFromObject(object);
   frameHeightWorld = Math.max(fitted.max.y - fitted.min.y, 0.01);
@@ -104,7 +112,7 @@ async function loadModel() {
     const gltf = await new GLTFLoader().loadAsync(url);
     gltfData = gltf;
     model = gltf.scene;
-    root.add(model);
+    fitGroup.add(model);
     fitModel(model);
     clips = gltf.animations || [];
     if (!clips.length) throw new Error('Este GLB não contém animações.');
