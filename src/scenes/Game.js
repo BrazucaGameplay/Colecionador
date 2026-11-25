@@ -34,6 +34,7 @@ export default class Game extends Phaser.Scene {
     this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
     this.createGround();
     this.createIslandWalkableMask();
+    this.createIslandEdge();
     this.createTrees();
 
     const playerSpawn = this.navigation.findNearestWalkablePoint(centerX, centerY);
@@ -209,6 +210,54 @@ export default class Game extends Phaser.Scene {
       // Colisão pequena no tronco, não na copa.
       this.navigation.addObstacle(x, y - 12, 17, 13);
       this.worldObjects.push(tree);
+    }
+  }
+
+
+  /**
+   * Borda decorativa em camadas: cascatas no limite externo e relevo
+   * ligeiramente para dentro. A máscara circular continua sendo a regra
+   * de caminhada, portanto os elementos de borda não ampliam a área jogável.
+   */
+  createIslandEdge() {
+    const center = ISLAND_RADIUS;
+    const edgeRadius = ISLAND_RADIUS - 115;
+    const waterfallKeys = ['waterfall-edge-a', 'waterfall-edge-b'];
+    const segmentCount = 16;
+
+    for (let i = 0; i < segmentCount; i++) {
+      const angle = (Math.PI * 2 * i) / segmentCount;
+      const x = center + Math.cos(angle) * edgeRadius;
+      const y = center + Math.sin(angle) * edgeRadius;
+      const key = waterfallKeys[i % waterfallKeys.length];
+      const waterfall = this.add.image(x, y, key)
+        .setOrigin(0.5, 0.5)
+        .setRotation(angle + Math.PI / 2)
+        .setDepth(y - 90);
+
+      const source = this.textures.get(key).getSourceImage();
+      const tangentLength = Math.max(source.width, source.height);
+      const targetLength = 720;
+      waterfall.setScale(targetLength / tangentLength);
+      this.worldObjects.push(waterfall);
+    }
+
+    // Colinas e rochas quebram a repetição da água e dão volume ao horizonte.
+    const relief = [
+      { key: 'hill-a', angle: -2.55, radius: 1510, height: 520, depth: 0 },
+      { key: 'hill-b', angle: -0.75, radius: 1540, height: 480, depth: 0 },
+      { key: 'hill-c', angle: 0.95, radius: 1570, height: 500, depth: 0 },
+      { key: 'rock-cluster', angle: 2.65, radius: 1510, height: 300, depth: 0 }
+    ];
+
+    for (const item of relief) {
+      const x = center + Math.cos(item.angle) * item.radius;
+      const y = center + Math.sin(item.angle) * item.radius;
+      const image = this.add.image(x, y, item.key).setOrigin(0.5, 0.82);
+      const source = this.textures.get(item.key).getSourceImage();
+      image.setScale(item.height / source.height);
+      image.setDepth(y - 120);
+      this.worldObjects.push(image);
     }
   }
 
