@@ -16,14 +16,19 @@ export default class Player {
     this.visual.setOrigin(0.5, 1);
     this.visual.setDepth(y + 20);
 
-    this.warrior = new Warrior3D(scene, () => this.visual.setVisible(false));
-    this.warrior.setPosition(x, y);
+    try {
+      this.warrior = new Warrior3D(scene, () => this.visual.setVisible(false));
+      this.warrior.setPosition(x, y);
+    } catch (error) {
+      this.warrior = null;
+      console.error('Renderização 3D indisponível neste dispositivo; usando personagem de segurança.', error);
+    }
   }
 
   setAnimation(name) {
     if (this.currentAnimation === name) return;
     this.currentAnimation = name;
-    this.warrior.setMoving(name === 'walk');
+    this.warrior?.setMoving(name === 'walk');
     if (this.visual.visible) this.visual.play(name, true, 0.12);
   }
 
@@ -43,14 +48,14 @@ export default class Player {
   }
 
   attack() {
-    this.warrior.playSlash();
+    this.warrior?.playSlash();
   }
 
   update(delta = 16.67, camera = this.scene.cameras.main) {
     this.visual.setPosition(this.sprite.x, this.sprite.y);
     this.visual.setDepth(this.sprite.y + 20);
-    this.warrior.setPosition(this.sprite.x, this.sprite.y);
-    this.warrior.update(delta, camera);
+    this.warrior?.setPosition(this.sprite.x, this.sprite.y);
+    this.warrior?.update(delta, camera);
   }
 
   destroy() {
