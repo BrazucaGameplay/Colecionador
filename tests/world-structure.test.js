@@ -41,3 +41,28 @@ test('profundidade respeita o ponto de apoio e desempata personagem acima da est
   assert.ok(actorAbove < structure);
   assert.throws(() => depth.getDepth(Number.NaN, 'actor'));
 });
+
+
+import { CHARACTER_ANIMATIONS, DEFAULT_IDLE_ANIMATION, DEFAULT_MOVEMENT_ANIMATION } from '../src/rendering/characters/CharacterAnimationCatalog.js';
+
+test('o protagonista possui um catálogo único de animações independentes', () => {
+  assert.equal(DEFAULT_IDLE_ANIMATION, 'idle');
+  assert.equal(DEFAULT_MOVEMENT_ANIMATION, 'walking');
+  for (const id of ['idle', 'walking', 'running', 'combat', 'jump', 'dying', 'handstand', 'runningVariant', 'specialD']) {
+    assert.ok(CHARACTER_ANIMATIONS[id], 'Animação ausente: ' + id);
+  }
+  assert.equal(CHARACTER_ANIMATIONS.idle.loop, true);
+  assert.equal(CHARACTER_ANIMATIONS.walking.loop, true);
+  assert.equal(CHARACTER_ANIMATIONS.running.loop, true);
+  assert.equal(CHARACTER_ANIMATIONS.combat.loop, false);
+  assert.equal(CHARACTER_ANIMATIONS.jump.loop, false);
+  assert.equal(CHARACTER_ANIMATIONS.dying.returnToLocomotion, false);
+});
+
+test('cada pacote catalogado possui PNG e JSON correspondentes', async () => {
+  const { access } = await import('node:fs/promises');
+  for (const animation of Object.values(CHARACTER_ANIMATIONS)) {
+    await access(new URL(`../public/${animation.path}.png`, import.meta.url));
+    await access(new URL(`../public/${animation.path}.json`, import.meta.url));
+  }
+});

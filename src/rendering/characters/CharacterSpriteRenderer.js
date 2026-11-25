@@ -1,97 +1,34 @@
 import Phaser from 'phaser';
+import {
+  CHARACTER_ANIMATIONS,
+  DEFAULT_FAST_MOVEMENT_ANIMATION,
+  DEFAULT_IDLE_ANIMATION,
+  DEFAULT_MOVEMENT_ANIMATION
+} from './CharacterAnimationCatalog.js';
 
 const BASE = import.meta.env.BASE_URL;
-const atlas = (id, file, clip, move = false) => ({
-  id, clip, move,
-  key: `character-atlas-${id}-${clip}`,
-  path: `assets/characters/sprites/skin_01/${file}`
-});
-
-export const PLAYER_SPRITE_SKINS = Object.freeze({
-  'skin-padrao-1': Object.freeze({
-    name: 'Skin padrão 1',
-    movement: 'running',
-    idle: 'walking',
-    atlases: [
-      atlas('skin-padrao-1', 'skin-padrao-1-running', 'running', true),
-      atlas('skin-padrao-1', 'skin-padrao-1-walking', 'walking'),
-    ]
-  }),
-  'skin-padrao-2': Object.freeze({
-    name: 'Skin padrão 2',
-    movement: 'running',
-    idle: 'idle',
-    atlases: [
-      atlas('skin-padrao-2', 'skin-padrao-2-running', 'running', true),
-      atlas('skin-padrao-2', 'skin-padrao-2-walking', 'walking'),
-      atlas('skin-padrao-2', 'skin-padrao-2-idle', 'idle'),
-      atlas('skin-padrao-2', 'skin-padrao-2-run_03', 'run_03'),
-      atlas('skin-padrao-2', 'skin-padrao-2-dying_backwards', 'dying_backwards'),
-      atlas('skin-padrao-2', 'skin-padrao-2-one_arm_handstand', 'one_arm_handstand'),
-    ]
-  }),
-  'skin-padrao-3': Object.freeze({
-    name: 'Skin padrão 3',
-    movement: 'running',
-    idle: 'walking',
-    atlases: [
-      atlas('skin-padrao-3', 'skin-padrao-3-running', 'running', true),
-      atlas('skin-padrao-3', 'skin-padrao-3-walking', 'walking'),
-      atlas('skin-padrao-3', 'skin-padrao-3-salto', 'salto'),
-    ]
-  }),
-  'skin-padrao-4': Object.freeze({
-    name: 'Skin padrão 4',
-    movement: 'running',
-    idle: 'walking',
-    atlases: [
-      atlas('skin-padrao-4', 'skin-padrao-4-running', 'running', true),
-      atlas('skin-padrao-4', 'skin-padrao-4-walking', 'walking'),
-      atlas('skin-padrao-4', 'skin-padrao-4-d', 'd'),
-    ]
-  })
-});
-
-const ATTACK_ATLASES_BY_SKIN = Object.freeze({
-  'skin-padrao-1': atlas('skin-padrao-1', 'skin-padrao-1-combate_dd', 'combate_dd'),
-  'skin-padrao-4': atlas('skin-padrao-4', 'skin-padrao-4-d', 'd')
-});
-
-const ATTACK_ATLASES = Object.values(ATTACK_ATLASES_BY_SKIN);
-
-export const PLAYER_ATTACK_SPRITE_ATLASES = Object.freeze(ATTACK_ATLASES);
-export const DEFAULT_PLAYER_SPRITE_SKIN_ID = 'skin-padrao-1';
+const animationEntries = Object.entries(CHARACTER_ANIMATIONS);
 
 export function queuePlayerSpriteAssets(loader) {
-  const all = new Map([
-    ...Object.values(PLAYER_SPRITE_SKINS).flatMap((skin) => skin.atlases),
-    ...PLAYER_ATTACK_SPRITE_ATLASES
-  ].map((item) => [item.key, item])).values();
-  for (const item of all) {
+  for (const [, item] of animationEntries) {
     loader.json(item.key + '-meta', BASE + item.path + '.json');
     loader.image(item.key, BASE + item.path + '.png');
   }
 }
 
 export function registerPlayerSpriteAnimations(scene) {
-  const all = new Map([
-    ...Object.values(PLAYER_SPRITE_SKINS).flatMap((skin) => skin.atlases),
-    ...PLAYER_ATTACK_SPRITE_ATLASES
-  ].map((item) => [item.key, item])).values();
-  for (const item of all) {
+  for (const [, item] of animationEntries) {
     const metadata = scene.cache.json.get(item.key + '-meta');
     const texture = scene.textures.get(item.key);
     if (!metadata || !texture || !metadata.frames?.length) {
-      console.warn('[PlayerSprites] Atlas indisponível:', item.key);
+      console.warn('[CharacterAnimations] Pacote indisponível:', item.id);
       continue;
     }
     const byDirection = new Map();
     for (const record of metadata.frames) {
       const direction = Number(record.direction) || 0;
       const frameName = `d${direction}-f${record.frame}`;
-      if (!texture.has(frameName)) {
-        texture.add(frameName, 0, record.x, record.y, record.width, record.height);
-      }
+      if (!texture.has(frameName)) texture.add(frameName, 0, record.x, record.y, record.width, record.height);
       if (!byDirection.has(direction)) byDirection.set(direction, []);
       byDirection.get(direction).push({ frame: frameName, index: record.frame });
     }
@@ -103,7 +40,7 @@ export function registerPlayerSpriteAnimations(scene) {
           key,
           frames: frames.map(({ frame }) => ({ key: item.key, frame })),
           frameRate: metadata.fps || 12,
-          repeat: -1
+          repeat: item.loop ? -1 : 0
         });
       }
     }
@@ -111,80 +48,102 @@ export function registerPlayerSpriteAnimations(scene) {
 }
 
 export default class CharacterSpriteRenderer {
-  constructor(scene, { x, y, skinId = DEFAULT_PLAYER_SPRITE_SKIN_ID, scale = 0.62, depthManager = scene.worldDepthManager } = {}) {
+  constructor(scene, { x, y, scale = 0.62, depthManager = scene.worldDepthManager } = {}) {
     this.scene = scene;
     this.depthManager = depthManager;
-    this.skinId = PLAYER_SPRITE_SKINS[skinId] ? skinId : DEFAULT_PLAYER_SPRITE_SKIN_ID;
-    this.skin = PLAYER_SPRITE_SKINS[this.skinId];
     this.x = x;
     this.y = y;
     this.direction = 0;
     this.moving = false;
-    this.lockedAction = false;
-    this.attackIndex = 0;
+    this.movementMode = DEFAULT_MOVEMENT_ANIMATION;
+    this.currentAnimation = null;
+    this.currentAction = null;
+    this.actionLocked = false;
     this.destroyed = false;
     this.shadow = scene.add.ellipse(x, y - 2, 22, 9, 0x101522, 0.3);
     this.depthManager.apply(this.shadow, y, 'shadow');
-    const initialAtlas = this.findAtlas(this.skin.idle) || this.findAtlas(this.skin.movement);
-    const initialFrame = initialAtlas ? 'd0-f0' : undefined;
-    this.sprite = scene.add.sprite(x, y, initialAtlas?.key || '__MISSING', initialFrame)
+    const idle = CHARACTER_ANIMATIONS[DEFAULT_IDLE_ANIMATION];
+    this.sprite = scene.add.sprite(x, y, idle.key, 'd0-f0')
       .setOrigin(0.5, 0.92)
       .setScale(scale);
     this.depthManager.apply(this.sprite, y, 'actor');
-    this.applyLocomotion();
+    this.playLocomotion(true);
   }
 
-  findAtlas(clip) {
-    return this.skin.atlases.find((item) => item.clip === clip) || null;
-  }
-
-  animationKey(item, direction = this.direction) {
-    return item ? `${item.key}-d${direction}` : null;
+  animationKey(animation, direction = this.direction) {
+    return animation ? `${animation.key}-d${direction}` : null;
   }
 
   setDirection(x, y) {
-    if (Math.hypot(x, y) < 0.0001) return;
+    if (Math.hypot(x, y) < 0.0001 || this.actionLocked) return;
     const sector = Math.PI / 4;
     const angle = Math.atan2(x, y);
-    this.direction = ((Math.round(angle / sector) % 8) + 8) % 8;
-    if (!this.lockedAction) this.applyLocomotion(true);
+    const nextDirection = ((Math.round(angle / sector) % 8) + 8) % 8;
+    if (nextDirection === this.direction) return;
+    this.direction = nextDirection;
+    if (this.currentAction) this.playAction(this.currentAction);
+    else this.playLocomotion(true);
   }
 
   setMoving(moving) {
     const next = Boolean(moving);
     if (this.moving === next) return;
     this.moving = next;
-    if (!this.lockedAction) this.applyLocomotion();
+    if (!this.currentAction && !this.actionLocked) this.playLocomotion();
   }
 
-  applyLocomotion(force = false) {
-    if (this.destroyed || this.lockedAction) return;
-    const item = this.moving
-      ? this.findAtlas(this.skin.movement)
-      : this.findAtlas(this.skin.idle) || this.findAtlas(this.skin.movement);
-    const key = this.animationKey(item);
-    if (key && this.scene.anims.exists(key)) {
-      if (force || this.sprite.anims.currentAnim?.key !== key) this.sprite.play(key, true);
-    } else if (item) {
-      this.sprite.setTexture(item.key, `d${this.direction}-f0`);
+  setMovementMode(mode) {
+    if (mode !== DEFAULT_MOVEMENT_ANIMATION && mode !== DEFAULT_FAST_MOVEMENT_ANIMATION) {
+      throw new Error('Modo de movimento desconhecido: ' + mode);
     }
+    if (this.movementMode === mode) return;
+    this.movementMode = mode;
+    if (this.moving && !this.currentAction && !this.actionLocked) this.playLocomotion();
   }
 
-  playSlash() {
-    if (this.destroyed || this.lockedAction) return false;
-    const item = ATTACK_ATLASES_BY_SKIN[this.skinId];
-    if (!item) return false;
-    const key = this.animationKey(item);
-    if (!key || !this.scene.anims.exists(key)) return false;
-    this.lockedAction = true;
-    this.sprite.play({ key, repeat: 0 });
-    this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onAttackComplete, this);
+  playLocomotion(force = false) {
+    if (this.destroyed || this.currentAction || this.actionLocked) return;
+    const id = this.moving ? this.movementMode : DEFAULT_IDLE_ANIMATION;
+    const animation = CHARACTER_ANIMATIONS[id];
+    const key = this.animationKey(animation);
+    if (!key || !this.scene.anims.exists(key)) {
+      console.warn('[CharacterAnimations] Animação não registrada:', id);
+      return;
+    }
+    if (!force && this.currentAnimation === id) return;
+    this.currentAnimation = id;
+    this.sprite.play(key, true);
+  }
+
+  playAction(actionId) {
+    if (this.destroyed) return false;
+    const animation = CHARACTER_ANIMATIONS[actionId];
+    if (!animation || ['idle', 'walking', 'running', 'runningVariant'].includes(actionId)) {
+      console.warn('[CharacterAnimations] Ação desconhecida ou não acionável:', actionId);
+      return false;
+    }
+    const key = this.animationKey(animation);
+    if (!key || !this.scene.anims.exists(key)) {
+      console.warn('[CharacterAnimations] Pacote da ação indisponível:', actionId);
+      return false;
+    }
+    this.sprite.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
+    this.currentAction = actionId;
+    this.currentAnimation = actionId;
+    this.sprite.play({ key, repeat: animation.loop ? -1 : 0 });
+    if (!animation.loop) this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     return true;
   }
 
-  onAttackComplete() {
-    this.lockedAction = false;
-    this.applyLocomotion(true);
+  onActionComplete() {
+    const actionId = this.currentAction;
+    const animation = CHARACTER_ANIMATIONS[actionId];
+    this.currentAction = null;
+    if (animation?.returnToLocomotion) this.playLocomotion(true);
+    else {
+      this.actionLocked = true;
+      this.currentAnimation = actionId;
+    }
   }
 
   setTransform(x, y) {
@@ -201,6 +160,7 @@ export default class CharacterSpriteRenderer {
   destroy() {
     if (this.destroyed) return;
     this.destroyed = true;
+    this.sprite?.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     this.sprite?.destroy();
     this.shadow?.destroy();
   }

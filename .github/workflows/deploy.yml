@@ -70,15 +70,20 @@ jobs:
           for asset in \
             skin-padrao-1-running \
             skin-padrao-1-walking \
+            skin-padrao-1-combate_dd \
+            skin-padrao-2-dying_backwards \
+            skin-padrao-2-idle \
+            skin-padrao-2-one_arm_handstand \
+            skin-padrao-2-run_03 \
             skin-padrao-2-running \
             skin-padrao-2-walking \
-            skin-padrao-2-idle \
             skin-padrao-3-running \
+            skin-padrao-3-salto \
             skin-padrao-3-walking \
+            skin-padrao-4-d \
             skin-padrao-4-running \
-            skin-padrao-4-walking \
-            skin-padrao-1-combate_dd \
-            skin-padrao-4-d; do
+            skin-padrao-4-walking
+          ; do
             test -s "public/assets/characters/sprites/skin_01/${asset}.png"
             test -s "public/assets/characters/sprites/skin_01/${asset}.json"
             test -s "dist/assets/characters/sprites/skin_01/${asset}.png"

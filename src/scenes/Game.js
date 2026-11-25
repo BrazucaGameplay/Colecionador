@@ -295,7 +295,7 @@ export default class Game extends Phaser.Scene {
   hitMonster() {
     if (this._cooldown > this.time.now || this.monster.dead || !this.player.alive) return;
     this._cooldown = this.time.now + 500;
-    this.characterRenderer?.playSlash();
+    this.characterRenderer?.playAction('combat');
     this.monster.takeHit();
 
     if (this.monster.dead) {
