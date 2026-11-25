@@ -43,7 +43,7 @@ test('profundidade respeita o ponto de apoio e desempata personagem acima da est
 });
 
 
-import { CHARACTER_ANIMATIONS, DEFAULT_IDLE_ANIMATION, DEFAULT_MOVEMENT_ANIMATION } from '../src/rendering/characters/CharacterAnimationCatalog.js';
+import { CHARACTER_ANIMATIONS, COMBAT_ANIMATION_SEQUENCE, DEFAULT_CHARACTER_SCALE, DEFAULT_IDLE_ANIMATION, DEFAULT_MOVEMENT_ANIMATION } from '../src/rendering/characters/CharacterAnimationCatalog.js';
 
 test('o protagonista usa os dois pacotes de animação do Release', () => {
   assert.equal(DEFAULT_IDLE_ANIMATION, 'idle');
@@ -110,4 +110,22 @@ test('correção de câmera recentraliza poses deslocadas pelo root motion', () 
   assert.equal(high.x, 0);
   assert.ok(high.y > 0);
   assert.equal(high.y, 1.88671875);
+});
+
+
+test('a escala visual padrão do protagonista foi aumentada sem alterar os quadros', () => {
+  assert.equal(DEFAULT_CHARACTER_SCALE, 1.12);
+  assert.ok(DEFAULT_CHARACTER_SCALE > 0.95);
+});
+
+test('o ataque alterna ciclicamente entre os três movimentos de combate', () => {
+  assert.deepEqual(COMBAT_ANIMATION_SEQUENCE, ['combat', 'jump', 'combatSlash']);
+  assert.equal(CHARACTER_ANIMATIONS.combat.clip, 'Combate_dd');
+  assert.equal(CHARACTER_ANIMATIONS.jump.clip, 'Salto');
+  assert.equal(CHARACTER_ANIMATIONS.combatSlash.clip, 'Right_Hand_Sword_Slash');
+  assert.equal(CHARACTER_ANIMATIONS.combat.priority, 70);
+  assert.equal(CHARACTER_ANIMATIONS.jump.priority, 40);
+  assert.equal(CHARACTER_ANIMATIONS.combatSlash.priority, 70);
+  const sequence = Array.from({ length: 6 }, (_, index) => COMBAT_ANIMATION_SEQUENCE[index % COMBAT_ANIMATION_SEQUENCE.length]);
+  assert.deepEqual(sequence, ['combat', 'jump', 'combatSlash', 'combat', 'jump', 'combatSlash']);
 });

@@ -36,6 +36,16 @@ export const CHARACTER_ANIMATIONS = Object.freeze({
   })
 });
 
+// Ordem cíclica dos três movimentos usados pelo ataque automático.
+export const COMBAT_ANIMATION_SEQUENCE = Object.freeze([
+  'combat',
+  'jump',
+  'combatSlash'
+]);
+
+// Escala mundial do sprite: aumento de aproximadamente 18% sobre 0.95.
+export const DEFAULT_CHARACTER_SCALE = 1.12;
+
 export const DEFAULT_IDLE_ANIMATION = 'idle';
 export const DEFAULT_MOVEMENT_ANIMATION = 'walking';
 export const DEFAULT_FAST_MOVEMENT_ANIMATION = 'running';

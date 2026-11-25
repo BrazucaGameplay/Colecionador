@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import CharacterActionState from './CharacterActionState.js';
 import {
   CHARACTER_ANIMATIONS,
+  COMBAT_ANIMATION_SEQUENCE,
+  DEFAULT_CHARACTER_SCALE,
   DEFAULT_FAST_MOVEMENT_ANIMATION,
   DEFAULT_IDLE_ANIMATION,
   DEFAULT_MOVEMENT_ANIMATION
@@ -52,7 +54,7 @@ export function registerPlayerSpriteAnimations(scene) {
 }
 
 export default class CharacterSpriteRenderer {
-  constructor(scene, { x, y, scale = 0.95, depthManager = scene.worldDepthManager } = {}) {
+  constructor(scene, { x, y, scale = DEFAULT_CHARACTER_SCALE, depthManager = scene.worldDepthManager } = {}) {
     this.scene = scene;
     this.depthManager = depthManager;
     this.x = x;
@@ -139,7 +141,7 @@ export default class CharacterSpriteRenderer {
     if (this.destroyed) return false;
     // Alterna os dois golpes disponíveis quando o jogo solicita "combat".
     const resolvedId = actionId === 'combat'
-      ? (this.nextCombatVariant % 2 === 0 ? 'combat' : 'combatSlash')
+      ? COMBAT_ANIMATION_SEQUENCE[this.nextCombatVariant % COMBAT_ANIMATION_SEQUENCE.length]
       : actionId;
     const animation = CHARACTER_ANIMATIONS[resolvedId];
     if (!animation || ['idle', 'walking', 'running'].includes(resolvedId)) {

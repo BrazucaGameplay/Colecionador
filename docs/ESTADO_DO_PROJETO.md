@@ -411,3 +411,67 @@ CORRECOES APOS A PRIMEIRA AUDITORIA:
   catalogo/renderer de animacoes; a publicacao sera iniciada pelo evento
   workflow_run apos o bake concluir com sucesso.
 - Esta correcao recebe novo patch de versao.
+
+
+======================================================================
+12. ATUALIZACAO — ESCALA DO PROTAGONISTA E CICLO DE COMBATE (25/11/2026)
+======================================================================
+
+ALTERACOES IMPLEMENTADAS:
+- A escala mundial padrao do sprite do protagonista passou de 0.95 para
+  1.12 (aproximadamente 18% maior).
+- A escala e aplicada no sprite e a sombra acompanha proporcionalmente.
+- A origem/pivo por quadro continua sendo obtida dos metadados dos atlas;
+  portanto, o alinhamento dos pes e a ordenacao de profundidade permanecem
+  vinculados ao ponto real de apoio de cada quadro.
+- O comando logico "combat" agora alterna ciclicamente entre:
+  1. Combate_dd (skin-batalha-combate_dd)
+  2. Salto (skin-batalha-salto)
+  3. Right_Hand_Sword_Slash (skin-batalha-right_hand_sword_slash)
+- O ciclo reinicia apos a terceira animacao.
+- O indice so avanca quando a acao e aceita pelo estado de acoes.
+- Quando Salto e escolhido dentro do ciclo de combate, recebe prioridade
+  70 e bloqueio de movimento, igualando a prioridade operacional dos
+  golpes. O uso independente da acao "jump" preserva sua prioridade 40.
+- As tres animacoes continuam sendo reproduzidas como acoes nao repetidas;
+  ao concluir, o renderer retorna a locomocao.
+
+VERSIONAMENTO:
+- Versao anterior: 1.5.7
+- Nova versao: 1.6.0 (nova funcionalidade de alternancia de combate).
+
+RECAP DO ESTADO:
+- Produto: RPG 2D de acao anime, prioritariamente Android, com PWA/web e
+  preparacao Capacitor para futuro APK/Google Play.
+- Mundo: ilha circular jogavel e navegacao local implementadas. Catalogo
+  de ilhas, transicoes, pontes e portais seguem aprovados, mas pendentes.
+- Gameplay: toque define destino; arraste move camera; pinch altera zoom.
+  Combate simples por sobreposicao/ataque ao monstro, vida, respawn,
+  pontuacao e salvamento local implementados. Progressao, inventario,
+  quests e dungeons completas permanecem pendentes.
+- Personagem: Player logico separado do renderer Phaser; sprite 2D usa
+  atlas e metadados. Sete clips disponiveis: Idle, Running, Dead,
+  Flirty_Strut, Combate_dd, Salto e Right_Hand_Sword_Slash.
+- Waifus: conceito de colecao/progressao aprovado, sistema ainda nao
+  implementado.
+- Arquitetura: Phaser 4, Vite, JavaScript, sistemas separados para
+  movimentacao, input por toque, navegacao, colisao, profundidade e
+  apresentacao do personagem. Three.js e usado no Baker de GLB, nao no
+  renderer 2D em tempo de jogo.
+- Assets: sete pares PNG/JSON em
+  public/assets/characters/sprites/skin_01/. GLBs fonte ficam no Release.
+- Interface mobile: camera e controles por toque existentes; aumento da
+  escala do protagonista foi aplicado no renderer. Conferencia visual
+  fisica em Android ainda pendente.
+- Build/publicacao: GitHub Actions executa testes, build, verificacao de
+  sprites e deploy no GitHub Pages. A confirmacao desta atualizacao depende
+  do workflow do commit 1.6.0.
+- Riscos: escala 1.12 pode exigir ajuste fino conforme densidade/tamanho
+  da tela Android; a alternancia e acionada pelo atual evento de ataque
+  por contato com o monstro, nao por um botao de ataque dedicado.
+
+VALIDACAO PENDENTE DESTA ATUALIZACAO:
+- Executar testes e build no workflow associado ao commit 1.6.0.
+- Confirmar deploy correspondente ao commit final.
+- Testar proporcao, enquadramento e legibilidade das tres poses em aparelho
+  Android real.
