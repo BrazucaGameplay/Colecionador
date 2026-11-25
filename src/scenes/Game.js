@@ -11,6 +11,9 @@ import { SAVE_KEY } from '../config.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.28, max: 2.25, default: 1.2 });
 const GENERATED_GROUND_TEXTURE = 'island-01-ground-generated';
+// Teste de escala: ilha circular com 4096 px de diâmetro.
+const ISLAND_DIAMETER = 4096;
+const ISLAND_RADIUS = ISLAND_DIAMETER / 2;
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -23,15 +26,15 @@ export default class Game extends Phaser.Scene {
     const viewWidth = this.scale.width;
     const viewHeight = this.scale.height;
     const islandSource = this.textures.get('island-01').getSourceImage();
-    this.worldWidth = islandSource.width;
-    this.worldHeight = islandSource.height;
+    this.worldWidth = ISLAND_DIAMETER;
+    this.worldHeight = ISLAND_DIAMETER;
     const centerX = this.worldWidth / 2;
     const centerY = this.worldHeight / 2;
 
     this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
     this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
-    this.createGround(islandSource);
-    this.createIslandWalkableMask(islandSource);
+    this.createGround();
+    this.createIslandWalkableMask();
 
     const playerSpawn = this.navigation.findNearestWalkablePoint(centerX, centerY);
     if (!playerSpawn) {
@@ -120,7 +123,7 @@ export default class Game extends Phaser.Scene {
    * da arte-base da ilha. Assim o terreno mantém a silhueta e o tamanho atuais,
    * mas deixa de depender da ilustração antiga como superfície do chão.
    */
-  createGround(islandSource) {
+  createGround() {
     const tileSource = this.textures.get('island-ground-tile').getSourceImage();
     const canvas = document.createElement('canvas');
     canvas.width = this.worldWidth;
@@ -136,13 +139,14 @@ export default class Game extends Phaser.Scene {
       throw new Error('Não foi possível criar o padrão repetido de grama.');
     }
 
+    // Recorta a textura repetida em um círculo perfeito, sem esticar o tile.
+    context.save();
+    context.beginPath();
+    context.arc(ISLAND_RADIUS, ISLAND_RADIUS, ISLAND_RADIUS - 2, 0, Math.PI * 2);
+    context.clip();
     context.fillStyle = pattern;
     context.fillRect(0, 0, this.worldWidth, this.worldHeight);
-
-    // destination-in preserva somente os pixels opacos da silhueta original.
-    context.globalCompositeOperation = 'destination-in';
-    context.drawImage(islandSource, 0, 0, this.worldWidth, this.worldHeight);
-    context.globalCompositeOperation = 'source-over';
+    context.restore();
 
     if (this.textures.exists(GENERATED_GROUND_TEXTURE)) {
       this.textures.remove(GENERATED_GROUND_TEXTURE);
@@ -158,14 +162,8 @@ export default class Game extends Phaser.Scene {
     this.groundTiles.push(ground);
   }
 
-  createIslandWalkableMask(source) {
-    const canvas = document.createElement('canvas');
-    canvas.width = source.width;
-    canvas.height = source.height;
-    const context = canvas.getContext('2d', { willReadFrequently: true });
-    context.drawImage(source, 0, 0);
-    const pixels = context.getImageData(0, 0, source.width, source.height).data;
-    this.navigation.setAlphaMask(pixels, source.width, source.height, 150);
+  createIslandWalkableMask() {
+    this.navigation.setCircleMask(ISLAND_RADIUS, ISLAND_RADIUS, ISLAND_RADIUS - 28);
   }
 
   /** Troca apenas a aparência; Player, física e navegação permanecem intactos. */
