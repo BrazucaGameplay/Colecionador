@@ -43,10 +43,22 @@ export default class Game extends Phaser.Scene {
     // Logical player state exists independently of the GLB and all renderers.
     this.player = new Player({ x: playerSpawn.x, y: playerSpawn.y, speed: 220, maxHealth: 3 });
     this.playerBody = new PlayerBodyAdapter(this, this.player);
+    this.weaponStatusText = this.add.text(16, 68, 'Espada: aguardando personagem', {
+      fontSize: '11px',
+      color: '#fff2b2',
+      stroke: '#172719',
+      strokeThickness: 3,
+      wordWrap: { width: Math.max(180, viewWidth - 32) }
+    }).setScrollFactor(0).setDepth(1001);
     this.characterRenderer = new CharacterRenderer3D(this.game.canvas.parentElement, {
       skinId: DEFAULT_PLAYER_SKIN_ID,
       onError: (message) => console.warn('[CharacterRenderer]', message),
-      onSkinChanged: (skin) => console.info('[CharacterSkin] equipada:', skin.name)
+      onSkinChanged: (skin) => console.info('[CharacterSkin] equipada:', skin.name),
+      onWeaponStatus: ({ status, details }) => {
+        const detail = details?.message ? ` — ${details.message}` : '';
+        this.weaponStatusText?.setText(`Espada: ${status}${detail}`);
+        console.info('[WeaponDiagnostic]', status, details);
+      }
     });
 
     const monsterSpawn = this.navigation.findNearestWalkablePoint(centerX - 180, centerY - 105);
