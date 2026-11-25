@@ -286,6 +286,31 @@ export default class Game extends Phaser.Scene {
   }
 
 
+  readSavedProgress() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
+      return saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {};
+    } catch (error) {
+      console.warn('Save inválido; usando progresso inicial.', error);
+      return {};
+    }
+  }
+
+  persistProgress(patch = {}) {
+    this.savedProgress = {
+      ...(this.savedProgress || {}),
+      ...patch,
+      at: Date.now()
+    };
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(this.savedProgress));
+      return true;
+    } catch (error) {
+      console.warn('Não foi possível salvar o progresso neste dispositivo.', error);
+      return false;
+    }
+  }
+
   /** Troca apenas a aparência; Player, física, navegação e posição permanecem intactos. */
   async equipPlayerSkin(skinId) {
     const skin = Object.values(PLAYER_SKINS).find((entry) => entry.id === skinId);
