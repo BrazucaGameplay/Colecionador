@@ -24,6 +24,9 @@ export default class CharacterActionState {
       : (ACTION_PRIORITY[actionId] ?? ACTION_PRIORITY.special);
     if (!this.current) return true;
     if (this.current.id === actionId) return false;
+    // A morte precisa prevalecer inclusive sobre ações protegidas, como ataque.
+    // Caso contrário, um golpe não-interrompível pode impedir a transição de morte.
+    if (actionId === 'death' || actionId === 'dying') return true;
     return this.current.interruptible && priority > this.current.priority;
   }
 

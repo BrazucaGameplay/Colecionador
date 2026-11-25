@@ -23,6 +23,8 @@ jobs:
       (github.event_name == 'push' && github.actor != 'github-actions[bot]' &&
        !contains(join(github.event.head_commit.modified, ','), 'tools/character-baker/') &&
        !contains(join(github.event.head_commit.modified, ','), 'scripts/bake-character-sprites.mjs') &&
+       !contains(join(github.event.head_commit.modified, ','), 'src/rendering/characters/CharacterAnimationCatalog.js') &&
+       !contains(join(github.event.head_commit.modified, ','), 'src/rendering/characters/CharacterSpriteRenderer.js') &&
        !contains(join(github.event.head_commit.modified, ','), '.github/workflows/bake-characters.yml'))
     runs-on: ubuntu-latest
     permissions:

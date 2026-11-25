@@ -48,6 +48,9 @@ try {
 
   await page.goto(`http://127.0.0.1:4179${base}tools/character-baker/?automation=1`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => Boolean(window.__characterBaker), { timeout: 30000 });
+  // O módulo abre automaticamente o primeiro pacote; aguarda o carregamento inicial
+  // antes de solicitar o carregamento controlado pelo script.
+  await page.waitForFunction(() => document.getElementById('status')?.textContent.includes('Modelo carregado.'), { timeout: 120000 });
 
   const summary = [];
   for (const model of models) {

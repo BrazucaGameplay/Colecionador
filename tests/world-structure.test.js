@@ -45,15 +45,21 @@ test('profundidade respeita o ponto de apoio e desempata personagem acima da est
 
 import { CHARACTER_ANIMATIONS, DEFAULT_IDLE_ANIMATION, DEFAULT_MOVEMENT_ANIMATION } from '../src/rendering/characters/CharacterAnimationCatalog.js';
 
-test('o protagonista possui um catálogo único de animações independentes', () => {
+test('o protagonista usa os dois pacotes de animação do Release', () => {
   assert.equal(DEFAULT_IDLE_ANIMATION, 'idle');
   assert.equal(DEFAULT_MOVEMENT_ANIMATION, 'walking');
-  for (const id of ['idle', 'walking', 'running', 'combat', 'jump', 'dying', 'handstand', 'runningVariant', 'specialD']) {
+  for (const id of ['idle', 'walking', 'running', 'combat', 'combatSlash', 'jump', 'dying', 'flirtyStrut']) {
     assert.ok(CHARACTER_ANIMATIONS[id], 'Animação ausente: ' + id);
   }
+  assert.equal(CHARACTER_ANIMATIONS.walking, CHARACTER_ANIMATIONS.running);
+  assert.equal(CHARACTER_ANIMATIONS.idle.clip, 'Idle');
+  assert.equal(CHARACTER_ANIMATIONS.running.clip, 'Running');
+  assert.equal(CHARACTER_ANIMATIONS.dying.clip, 'Dead');
+  assert.equal(CHARACTER_ANIMATIONS.flirtyStrut.clip, 'Flirty_Strut');
+  assert.equal(CHARACTER_ANIMATIONS.combat.clip, 'Combate_dd');
+  assert.equal(CHARACTER_ANIMATIONS.combatSlash.clip, 'Right_Hand_Sword_Slash');
+  assert.equal(CHARACTER_ANIMATIONS.jump.clip, 'Salto');
   assert.equal(CHARACTER_ANIMATIONS.idle.loop, true);
-  assert.equal(CHARACTER_ANIMATIONS.walking.loop, true);
-  assert.equal(CHARACTER_ANIMATIONS.running.loop, true);
   assert.equal(CHARACTER_ANIMATIONS.combat.loop, false);
   assert.equal(CHARACTER_ANIMATIONS.jump.loop, false);
   assert.equal(CHARACTER_ANIMATIONS.dying.returnToLocomotion, false);

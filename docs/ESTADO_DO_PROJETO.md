@@ -396,3 +396,18 @@ CORRECAO DA EXECUCAO DO WORKFLOW:
   acao for aceita pelo estado de combate.
 - Esta correcao recebe novo patch de versao, conforme o processo
   obrigatorio do projeto. A nova execucao deve confirmar o bake.
+
+
+CORRECOES APOS A PRIMEIRA AUDITORIA:
+- O primeiro teste automatizado identificou que a morte nao interrompia
+  uma acao de combate protegida. CharacterActionState agora permite que
+  "death"/"dying" prevaleca sobre qualquer acao ativa.
+- Os testes de catalogo foram atualizados para os sete clips dos dois
+  novos pacotes e para o compartilhamento do atlas Running entre
+  walking/running.
+- O script de bake agora aguarda o carregamento automatico inicial do
+  Baker antes de selecionar os modelos, evitando concorrencia no loader.
+- O workflow Deploy passa a ignorar commits que alteram diretamente o
+  catalogo/renderer de animacoes; a publicacao sera iniciada pelo evento
+  workflow_run apos o bake concluir com sucesso.
+- Esta correcao recebe novo patch de versao.
