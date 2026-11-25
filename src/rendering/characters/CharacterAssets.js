@@ -33,17 +33,6 @@ export const PLAYER_SKINS = Object.freeze({
       death: 'Dead',
       jump: null
     })
-  }),
-
-  crimsonVeinblade: Object.freeze({
-    id: 'crimson-veinblade',
-    name: 'Crimson Veinblade',
-    modelUrl: assetUrl(
-      'assets/characters/crimson-veinblade/character.glb?v=20261125-1'
-    ),
-    modelHeight: 76,
-    animated: false,
-    animations: Object.freeze({})
   })
 });
 
