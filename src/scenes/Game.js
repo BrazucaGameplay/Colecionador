@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import Player from '../entities/Player.js';
 import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
 import CharacterRenderer3D from '../rendering/characters/CharacterRenderer3D.js';
-import { DEFAULT_PLAYER_SKIN_ID, PLAYER_SKINS, getPlayerSkin } from '../rendering/characters/CharacterAssets.js';
+import { DEFAULT_PLAYER_SKIN_ID } from '../rendering/characters/CharacterAssets.js';
 import Monster from '../entities/Monster.js';
 import WorldNavigation from '../world/WorldNavigation.js';
 import MovementSystem from '../systems/MovementSystem.js';
@@ -25,7 +25,7 @@ export default class Game extends Phaser.Scene {
   create() {
     this.savedProgress = this.readSavedProgress();
     this.score = Math.max(0, Number(this.savedProgress.score) || 0);
-    const initialSkinId = getPlayerSkin(this.savedProgress.skinId || DEFAULT_PLAYER_SKIN_ID).id;
+
 
     const viewWidth = this.scale.width;
     const viewHeight = this.scale.height;
@@ -57,7 +57,6 @@ export default class Game extends Phaser.Scene {
       wordWrap: { width: Math.max(180, viewWidth - 32) }
     }).setScrollFactor(0).setDepth(1001);
     this.characterRenderer = new CharacterRenderer3D(this.game.canvas.parentElement, {
-      skinId: initialSkinId,
       onError: (message) => console.warn('[CharacterRenderer]', message),
       onSkinChanged: (skin) => console.info('[CharacterSkin] equipada:', skin.name),
       onWeaponStatus: ({ status, details }) => {
@@ -309,18 +308,6 @@ export default class Game extends Phaser.Scene {
       console.warn('Não foi possível salvar o progresso neste dispositivo.', error);
       return false;
     }
-  }
-
-  /** Troca apenas a aparência; Player, física, navegação e posição permanecem intactos. */
-  async equipPlayerSkin(skinId) {
-    const skin = Object.values(PLAYER_SKINS).find((entry) => entry.id === skinId);
-    if (!skin || !this.characterRenderer) return false;
-
-    const equipped = await this.characterRenderer.setSkin(skin.id);
-    if (!equipped) return false;
-
-    this.persistProgress({ skinId: skin.id });
-    return true;
   }
 
   hitMonster() {
