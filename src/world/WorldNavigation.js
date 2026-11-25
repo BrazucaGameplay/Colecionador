@@ -90,10 +90,29 @@ export default class WorldNavigation {
     });
   }
 
-  findNearestWalkablePoint(x, y) {
-    const cell = this.nearestWalkable(Math.floor(x / CELL), Math.floor(y / CELL));
-    if (!cell) return null;
-    return { x: cell.col * CELL + CELL / 2, y: cell.row * CELL + CELL / 2 };
+  findNearestWalkablePoint(x, y, radius = 10) {
+    const originCol = Math.floor(x / CELL);
+    const originRow = Math.floor(y / CELL);
+
+    // A célula pode estar dentro da ilha enquanto o espaço ocupado pelo
+    // personagem cruza a borda. Validamos a área real antes de aceitar o spawn.
+    for (let ring = 0; ring < 40; ring++) {
+      for (let rowOffset = -ring; rowOffset <= ring; rowOffset++) {
+        for (let colOffset = -ring; colOffset <= ring; colOffset++) {
+          if (ring > 0 && Math.max(Math.abs(colOffset), Math.abs(rowOffset)) !== ring) continue;
+          const col = originCol + colOffset;
+          const row = originRow + rowOffset;
+          if (!this.isWalkable(col, row)) continue;
+
+          const point = {
+            x: col * CELL + CELL / 2,
+            y: row * CELL + CELL / 2
+          };
+          if (this.isAreaWalkable(point.x, point.y, radius)) return point;
+        }
+      }
+    }
+    return null;
   }
 
   addObstacle(x, y, radiusX, radiusY = radiusX) {
