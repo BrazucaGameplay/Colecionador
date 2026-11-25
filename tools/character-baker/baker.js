@@ -217,8 +217,9 @@ async function bakeClip(index) {
 
   const padding = Math.max(4, Math.round(frameSize * 0.0625));
   const targetContentHeight = Math.min(frameSize - padding * 2, frameSize * scalePercent);
-  const renderSize = Math.round(frameSize * 1.5);
-  const viewHeight = 4.0;
+  const renderSize = frameSize * 2;
+  // Enquadramento amplo para incluir poses estendidas de combate e salto.
+  const viewHeight = 6.0;
   const { top: viewTop, bottom: viewBottom } = getCenteredFrustum(viewHeight);
   const viewCenterY = 0;
   const oldSize = previewRenderer.getSize(new THREE.Vector2());
