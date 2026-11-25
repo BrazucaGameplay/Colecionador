@@ -9,7 +9,7 @@ import MovementSystem from '../systems/MovementSystem.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 
-const CAMERA_ZOOM = Object.freeze({ min: 0.28, max: 2.25, fitPadding: 0.94 });
+const CAMERA_ZOOM = Object.freeze({ min: 0.28, max: 2.25, default: 1.2 });
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -71,11 +71,13 @@ export default class Game extends Phaser.Scene {
     }).setScrollFactor(0).setDepth(1000);
 
     this.camera = this.cameras.main;
-    this.fitZoom = Math.min(
-      viewWidth / this.worldWidth,
-      viewHeight / this.worldHeight
-    ) * CAMERA_ZOOM.fitPadding;
-    this.camera.setZoom(Math.max(CAMERA_ZOOM.min, this.fitZoom));
+    // Zoom padrão próximo ao enquadramento de referência: o personagem fica
+    // legível no celular sem enquadrar a ilha inteira de uma vez.
+    const defaultZoom = Math.min(
+      CAMERA_ZOOM.default,
+      Math.max(CAMERA_ZOOM.min, viewWidth / 420)
+    );
+    this.camera.setZoom(defaultZoom);
 
     const viewportWorldWidth = this.camera.width / this.camera.zoom;
     const viewportWorldHeight = this.camera.height / this.camera.zoom;
@@ -87,7 +89,8 @@ export default class Game extends Phaser.Scene {
       this.worldWidth + panMarginX * 2,
       this.worldHeight + panMarginY * 2
     );
-    this.camera.centerOn(centerX, centerY);
+    // O primeiro enquadramento acompanha o ponto válido onde o jogador nasceu.
+    this.camera.centerOn(playerSpawn.x, playerSpawn.y);
 
     this.destinationMarker = this.add.circle(0, 0, 12, 0xfacc15, 0.18)
       .setStrokeStyle(2, 0xfacc15, 0.95)
