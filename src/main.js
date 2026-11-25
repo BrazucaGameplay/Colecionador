@@ -17,6 +17,9 @@ const config = {
     width: GAME_WIDTH,
     height: GAME_HEIGHT
   },
+  input: {
+    keyboard: false
+  },
   physics: {
     default: 'arcade',
     arcade: { gravity: { y: 0 }, debug: false }
