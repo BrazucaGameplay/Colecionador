@@ -14,6 +14,12 @@ export default class MovementSystem {
     this.navigation = navigation;
     this.route = [];
     this.destination = null;
+    this.paused = false;
+  }
+
+  setPaused(paused) {
+    this.paused = Boolean(paused);
+    if (this.paused) this.player?.setMoving(false);
   }
 
   setDestination(x, y) {
@@ -48,6 +54,10 @@ export default class MovementSystem {
   }
 
   update(delta = 16.67) {
+    if (this.paused) {
+      this.player?.setMoving(false);
+      return;
+    }
     if (!this.player?.alive || !this.route.length) {
       this.player?.setMoving(false);
       return;

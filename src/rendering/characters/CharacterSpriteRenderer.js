@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import CharacterActionState from './CharacterActionState.js';
 import {
   CHARACTER_ANIMATIONS,
   DEFAULT_FAST_MOVEMENT_ANIMATION,
@@ -60,8 +61,8 @@ export default class CharacterSpriteRenderer {
     this.moving = false;
     this.movementMode = DEFAULT_MOVEMENT_ANIMATION;
     this.currentAnimation = null;
-    this.currentAction = null;
-    this.actionLocked = false;
+    this.actionState = new CharacterActionState();
+    this.actionToken = null;
     this.destroyed = false;
     const scaleRatio = scale / 0.62;
     this.shadow = scene.add.ellipse(x, y - 2, 22 * scaleRatio, 9 * scaleRatio, 0x101522, 0.3);
@@ -80,21 +81,20 @@ export default class CharacterSpriteRenderer {
   }
 
   setDirection(x, y) {
-    if (Math.hypot(x, y) < 0.0001 || this.actionLocked || this.currentAction) return;
+    if (Math.hypot(x, y) < 0.0001 || this.actionState.activeAction) return;
     const sector = Math.PI / 4;
     const angle = Math.atan2(x, y);
     const nextDirection = ((Math.round(angle / sector) % 8) + 8) % 8;
     if (nextDirection === this.direction) return;
     this.direction = nextDirection;
-    if (this.currentAction) this.playAction(this.currentAction);
-    else this.playLocomotion(true);
+    if (!this.actionState.activeAction) this.playLocomotion(true);
   }
 
   setMoving(moving) {
     const next = Boolean(moving);
     if (this.moving === next) return;
     this.moving = next;
-    if (!this.currentAction && !this.actionLocked) this.playLocomotion();
+    if (!this.actionState.activeAction) this.playLocomotion();
   }
 
   setMovementMode(mode) {
@@ -103,11 +103,11 @@ export default class CharacterSpriteRenderer {
     }
     if (this.movementMode === mode) return;
     this.movementMode = mode;
-    if (this.moving && !this.currentAction && !this.actionLocked) this.playLocomotion();
+    if (this.moving && !this.actionState.activeAction) this.playLocomotion();
   }
 
   playLocomotion(force = false) {
-    if (this.destroyed || this.currentAction || this.actionLocked) return;
+    if (this.destroyed || this.actionState.activeAction) return;
     const id = this.moving ? this.movementMode : DEFAULT_IDLE_ANIMATION;
     const animation = CHARACTER_ANIMATIONS[id];
     const key = this.animationKey(animation);
@@ -120,8 +120,22 @@ export default class CharacterSpriteRenderer {
     this.sprite.play(key, true);
   }
 
-  playAction(actionId) {
-    if (this.destroyed || this.currentAction || this.actionLocked) return false;
+  get blocksMovement() {
+    return this.actionState.blocksMovement;
+  }
+
+  get activeAction() {
+    return this.actionState.activeAction;
+  }
+
+  canStartAction(actionId) {
+    const animation = CHARACTER_ANIMATIONS[actionId];
+    if (!animation || ['idle', 'walking', 'running', 'runningVariant'].includes(actionId)) return false;
+    return this.actionState.canStart(actionId, animation);
+  }
+
+  playAction(actionId, overrides = {}) {
+    if (this.destroyed) return false;
     const animation = CHARACTER_ANIMATIONS[actionId];
     if (!animation || ['idle', 'walking', 'running', 'runningVariant'].includes(actionId)) {
       console.warn('[CharacterAnimations] Ação desconhecida ou não acionável:', actionId);
@@ -132,8 +146,12 @@ export default class CharacterSpriteRenderer {
       console.warn('[CharacterAnimations] Pacote da ação indisponível:', actionId);
       return false;
     }
+
+    const started = this.actionState.start(actionId, { ...animation, ...overrides });
+    if (!started.accepted) return false;
+
     this.sprite.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
-    this.currentAction = actionId;
+    this.actionToken = started.action.token;
     this.currentAnimation = actionId;
     this.sprite.play({ key, repeat: animation.loop ? -1 : 0 });
     if (!animation.loop) this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
@@ -141,14 +159,24 @@ export default class CharacterSpriteRenderer {
   }
 
   onActionComplete() {
-    const actionId = this.currentAction;
-    const animation = CHARACTER_ANIMATIONS[actionId];
-    this.currentAction = null;
-    if (animation?.returnToLocomotion) this.playLocomotion(true);
-    else {
-      this.actionLocked = true;
-      this.currentAnimation = actionId;
+    const result = this.actionState.complete(this.actionToken);
+    if (!result.matched) return;
+    if (result.held) {
+      this.currentAnimation = this.actionState.activeAction;
+      return;
     }
+    this.actionToken = null;
+    this.currentAnimation = null;
+    this.playLocomotion(true);
+  }
+
+  cancelAction({ force = false } = {}) {
+    if (!this.actionState.cancel({ force })) return false;
+    this.sprite.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
+    this.actionToken = null;
+    this.currentAnimation = null;
+    this.playLocomotion(true);
+    return true;
   }
 
   setTransform(x, y) {

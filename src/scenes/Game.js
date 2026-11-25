@@ -294,8 +294,11 @@ export default class Game extends Phaser.Scene {
 
   hitMonster() {
     if (this._cooldown > this.time.now || this.monster.dead || !this.player.alive) return;
-    this._cooldown = this.time.now + 500;
+    // Só aplica outro golpe se a ação de combate puder começar. A falta de
+    // sprites/animação não bloqueia o dano lógico, pois renderização é opcional.
+    if (this.characterRenderer && !this.characterRenderer.canStartAction('combat')) return;
     this.characterRenderer?.playAction('combat');
+    this._cooldown = this.time.now + 500;
     this.monster.takeHit();
 
     if (this.monster.dead) {
@@ -310,6 +313,7 @@ export default class Game extends Phaser.Scene {
   }
 
   update(time, delta = 16.67) {
+    this.movement?.setPaused(this.characterRenderer?.blocksMovement ?? false);
     this.movement?.update(delta);
     this.playerBody?.sync();
 

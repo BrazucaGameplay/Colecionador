@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - name: Test world layout and depth ordering
+      - name: Test game systems and character action priorities
         run: npm test
       - name: Verify current character models
         run: |
