@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
 const MODEL_URL = `${import.meta.env.BASE_URL}assets/characters/player/warrior.glb?v=1.1.7`;
 const MODEL_HEIGHT_WORLD = 76;
@@ -78,6 +79,7 @@ export default class CharacterRenderer3D {
     window.addEventListener('resize', this.onResize, { passive: true });
 
     const loader = new GLTFLoader();
+    loader.setMeshoptDecoder(MeshoptDecoder);
     loader.load(
       MODEL_URL,
       (gltf) => this.onModelLoaded(gltf),
