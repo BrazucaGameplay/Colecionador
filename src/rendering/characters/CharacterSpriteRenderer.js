@@ -11,17 +11,19 @@ export const PLAYER_SPRITE_SKINS = Object.freeze({
   'skin-padrao-1': Object.freeze({
     name: 'Skin padrão 1',
     movement: 'running',
-    idle: 'walking',
+    idle: 'idle_03',
     atlases: [
       atlas('skin-padrao-1', 'skin-padrao-1-running', 'running', true),
       atlas('skin-padrao-1', 'skin-padrao-1-walking', 'walking'),
+      SHARED_IDLE_ATLAS
     ]
   }),
   'skin-padrao-2': Object.freeze({
     name: 'Skin padrão 2',
     movement: 'running',
-    idle: 'idle',
+    idle: 'idle_03',
     atlases: [
+      SHARED_IDLE_ATLAS,
       atlas('skin-padrao-2', 'skin-padrao-2-running', 'running', true),
       atlas('skin-padrao-2', 'skin-padrao-2-walking', 'walking'),
       atlas('skin-padrao-2', 'skin-padrao-2-idle', 'idle'),
@@ -33,24 +35,28 @@ export const PLAYER_SPRITE_SKINS = Object.freeze({
   'skin-padrao-3': Object.freeze({
     name: 'Skin padrão 3',
     movement: 'running',
-    idle: 'walking',
+    idle: 'idle_03',
     atlases: [
       atlas('skin-padrao-3', 'skin-padrao-3-running', 'running', true),
       atlas('skin-padrao-3', 'skin-padrao-3-walking', 'walking'),
       atlas('skin-padrao-3', 'skin-padrao-3-salto', 'salto'),
+      SHARED_IDLE_ATLAS,
     ]
   }),
   'skin-padrao-4': Object.freeze({
     name: 'Skin padrão 4',
     movement: 'running',
-    idle: 'walking',
+    idle: 'idle_03',
     atlases: [
       atlas('skin-padrao-4', 'skin-padrao-4-running', 'running', true),
       atlas('skin-padrao-4', 'skin-padrao-4-walking', 'walking'),
       atlas('skin-padrao-4', 'skin-padrao-4-d', 'd'),
+      SHARED_IDLE_ATLAS,
     ]
   })
 });
+
+const SHARED_IDLE_ATLAS = atlas('shared', 'character-anterior-idle_03', 'idle_03');
 
 const ATTACK_ATLASES = [
   atlas('shared', 'character-anterior-combate', 'combate'),
