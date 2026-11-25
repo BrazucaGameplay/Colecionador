@@ -41,5 +41,7 @@ jobs:
             echo "Spritesheets are already up to date."
           else
             git commit -m "chore: bake character animation spritesheets"
+            # Reconcile commits made on main while the browser bake was running.
+            git pull --rebase origin main
             git push
           fi
