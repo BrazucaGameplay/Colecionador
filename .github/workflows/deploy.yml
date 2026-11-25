@@ -2,6 +2,10 @@ name: Deploy
 "on":
   push:
     branches: [main]
+  workflow_run:
+    workflows: ["Bake character spritesheets"]
+    types: [completed]
+    branches: [main]
 
 permissions:
   contents: read
@@ -14,6 +18,12 @@ concurrency:
 
 jobs:
   build:
+    if: >-
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+      (github.event_name == 'push' && github.actor != 'github-actions[bot]' &&
+       !contains(join(github.event.head_commit.modified, ','), 'tools/character-baker/') &&
+       !contains(join(github.event.head_commit.modified, ','), 'scripts/bake-character-sprites.mjs') &&
+       !contains(join(github.event.head_commit.modified, ','), '.github/workflows/bake-characters.yml'))
     runs-on: ubuntu-latest
     permissions:
       contents: read

@@ -1,43 +1,33 @@
 /**
- * Utilitários puros para enquadramento e pivô de spritesheets.
- * O ponto de apoio é calculado a partir do último pixel visível de cada quadro.
+ * Enquadramento de spritesheets: mede os pixels efetivamente renderizados,
+ * aplica uma escala comum ao clip e alinha a base visível a um chão estável.
  */
 export function getGroundedFitY(baseFitY, poseMinY) {
-  if (!Number.isFinite(baseFitY) || !Number.isFinite(poseMinY)) {
-    throw new TypeError('As coordenadas do enquadramento precisam ser números finitos.');
-  }
+  if (!Number.isFinite(baseFitY) || !Number.isFinite(poseMinY)) throw new TypeError('As coordenadas do enquadramento precisam ser números finitos.');
   return baseFitY - poseMinY;
 }
 
-export function findOpaqueBottomRow(rgba, width, height, alphaThreshold = 24, minPixelsPerRow = 3) {
-  if (!rgba || !Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || rgba.length < width * height * 4) {
-    throw new TypeError('Buffer RGBA ou dimensões do quadro inválidos.');
+export function getOpaqueBounds(rgba, width, height, alphaThreshold = 24) {
+  if (!rgba || !Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || rgba.length < width * height * 4) throw new TypeError('Buffer RGBA ou dimensões do quadro inválidos.');
+  let minX = width, minY = height, maxX = -1, maxY = -1;
+  for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+    if (rgba[(y * width + x) * 4 + 3] <= alphaThreshold) continue;
+    minX = Math.min(minX, x); minY = Math.min(minY, y); maxX = Math.max(maxX, x); maxY = Math.max(maxY, y);
   }
-  for (let y = height - 1; y >= 0; y--) {
-    let opaquePixels = 0;
-    let longestRun = 0;
-    let currentRun = 0;
-    for (let x = 0; x < width; x++) {
-      if (rgba[(y * width + x) * 4 + 3] > alphaThreshold) {
-        opaquePixels++;
-        currentRun++;
-        longestRun = Math.max(longestRun, currentRun);
-      } else {
-        currentRun = 0;
-      }
-    }
-    // Ignora ruído isolado de antialiasing; mantém linhas com uma base visível.
-    if (opaquePixels >= minPixelsPerRow || longestRun >= 2) return y;
-  }
-  return -1;
+  if (maxX < minX || maxY < minY) return null;
+  return { minX, minY, maxX, maxY, width: maxX - minX + 1, height: maxY - minY + 1 };
 }
 
-export function getOpaqueBottomPivot(bottomOpaqueRow, height) {
-  if (!Number.isInteger(height) || height < 1 || !Number.isInteger(bottomOpaqueRow) || bottomOpaqueRow < -1 || bottomOpaqueRow >= height) {
-    throw new RangeError('Linha inferior opaca ou altura do quadro inválida.');
-  }
-  return bottomOpaqueRow >= 0
-    ? Math.min(1, (bottomOpaqueRow + 1) / height)
-    : 0.84;
+export function getFramePlacement(bounds, maxBounds, frameSize, padding = 8, targetContentHeight = frameSize - padding * 2) {
+  if (!bounds || !maxBounds || !Number.isInteger(frameSize) || frameSize < 1 ||
+      !Number.isFinite(bounds.width) || !Number.isFinite(bounds.height) ||
+      !Number.isFinite(maxBounds.width) || !Number.isFinite(maxBounds.height) ||
+      bounds.width <= 0 || bounds.height <= 0 || maxBounds.width < bounds.width || maxBounds.height < bounds.height ||
+      !Number.isFinite(padding) || padding < 0 || padding * 2 >= frameSize ||
+      !Number.isFinite(targetContentHeight) || targetContentHeight <= 0) throw new RangeError('Limites ou dimensões para normalização do quadro inválidos.');
+  const available = frameSize - padding * 2;
+  const targetHeight = Math.min(available, targetContentHeight);
+  const scale = Math.min(targetHeight / maxBounds.height, available / maxBounds.width);
+  const width = bounds.width * scale, height = bounds.height * scale;
+  return { x: (frameSize - width) / 2, y: frameSize - padding - height, width, height, scale, pivotY: (frameSize - padding) / frameSize };
 }
-

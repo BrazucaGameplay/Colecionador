@@ -68,7 +68,7 @@ test('cada pacote catalogado possui PNG e JSON correspondentes', async () => {
 });
 
 
-import { findOpaqueBottomRow, getGroundedFitY, getOpaqueBottomPivot } from '../tools/character-baker/frame-grounding.js';
+import { getFramePlacement, getGroundedFitY, getOpaqueBounds } from '../tools/character-baker/frame-grounding.js';
 
 test('enquadramento compensa deslocamento vertical de raiz sem alterar a posição do mundo', () => {
   assert.equal(getGroundedFitY(0.42, -0.35), 0.77);
@@ -76,16 +76,22 @@ test('enquadramento compensa deslocamento vertical de raiz sem alterar a posiç�
   assert.throws(() => getGroundedFitY(Number.NaN, 0));
 });
 
-test('pivô acompanha o último pixel visível e rejeita quadros cortados', () => {
-  const width = 4;
-  const height = 10;
+test('limites visíveis medem a área real do personagem', () => {
+  const width = 8, height = 10;
   const rgba = new Uint8ClampedArray(width * height * 4);
-  rgba[(6 * width + 1) * 4 + 3] = 255;
-  rgba[(6 * width + 2) * 4 + 3] = 255;
-  rgba[(6 * width + 3) * 4 + 3] = 255;
-  assert.equal(findOpaqueBottomRow(rgba, width, height), 6);
-  assert.equal(getOpaqueBottomPivot(6, height), 0.7);
-  assert.equal(getOpaqueBottomPivot(-1, height), 0.84);
-  assert.equal(getOpaqueBottomPivot(9, height), 1);
-  assert.throws(() => findOpaqueBottomRow(new Uint8ClampedArray(3), width, height));
+  for (let y = 2; y <= 6; y++) for (let x = 1; x <= 4; x++) rgba[(y * width + x) * 4 + 3] = 255;
+  assert.deepEqual(getOpaqueBounds(rgba, width, height), { minX: 1, minY: 2, maxX: 4, maxY: 6, width: 4, height: 5 });
+  assert.equal(getOpaqueBounds(new Uint8ClampedArray(width * height * 4), width, height), null);
+  assert.throws(() => getOpaqueBounds(new Uint8ClampedArray(3), width, height));
+});
+
+test('normalização mantém escala comum e linha de chão consistente', () => {
+  const bounds = { minX: 4, minY: 8, maxX: 23, maxY: 57, width: 20, height: 50 };
+  const maxBounds = { width: 24, height: 60 };
+  const placement = getFramePlacement(bounds, maxBounds, 128, 8, 112);
+  assert.equal(placement.scale, 112 / 60);
+  assert.equal(placement.pivotY, 120 / 128);
+  assert.equal(placement.y + placement.height, 120);
+  assert.equal(placement.x + placement.width / 2, 64);
+  assert.throws(() => getFramePlacement(bounds, maxBounds, 128, 64, 112));
 });

@@ -51,7 +51,7 @@ export function registerPlayerSpriteAnimations(scene) {
 }
 
 export default class CharacterSpriteRenderer {
-  constructor(scene, { x, y, scale = 0.62, depthManager = scene.worldDepthManager } = {}) {
+  constructor(scene, { x, y, scale = 0.95, depthManager = scene.worldDepthManager } = {}) {
     this.scene = scene;
     this.depthManager = depthManager;
     this.x = x;
@@ -63,11 +63,13 @@ export default class CharacterSpriteRenderer {
     this.currentAction = null;
     this.actionLocked = false;
     this.destroyed = false;
-    this.shadow = scene.add.ellipse(x, y - 2, 22, 9, 0x101522, 0.3);
+    const scaleRatio = scale / 0.62;
+    this.shadow = scene.add.ellipse(x, y - 2, 22 * scaleRatio, 9 * scaleRatio, 0x101522, 0.3);
     this.depthManager.apply(this.shadow, y, 'shadow');
     const idle = CHARACTER_ANIMATIONS[DEFAULT_IDLE_ANIMATION];
+    const initialPivot = scene.playerFramePivots?.get(`${idle.key}:d0-f0`) ?? 0.9375;
     this.sprite = scene.add.sprite(x, y, idle.key, 'd0-f0')
-      .setOrigin(0.5, 0.92)
+      .setOrigin(0.5, initialPivot)
       .setScale(scale);
     this.depthManager.apply(this.sprite, y, 'actor');
     this.playLocomotion(true);
