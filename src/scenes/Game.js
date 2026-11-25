@@ -263,7 +263,6 @@ export default class Game extends Phaser.Scene {
       [2860, 820, 0.32], [3440, 2220, 0.36],
       [2100, 3650, 0.28]
     ];
-    const rockSource = this.textures.get('rock-cluster').getSourceImage();
     for (const [x, y, scale] of rockPositions) {
       if (!this.navigation.isAreaWalkable(x, y, 46)) continue;
       const rock = this.add.image(x, y, 'rock-cluster')
