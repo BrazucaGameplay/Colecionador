@@ -75,7 +75,7 @@ export default class CharacterSpriteRenderer {
   }
 
   setDirection(x, y) {
-    if (Math.hypot(x, y) < 0.0001 || this.actionLocked) return;
+    if (Math.hypot(x, y) < 0.0001 || this.actionLocked || this.currentAction) return;
     const sector = Math.PI / 4;
     const angle = Math.atan2(x, y);
     const nextDirection = ((Math.round(angle / sector) % 8) + 8) % 8;
@@ -116,7 +116,7 @@ export default class CharacterSpriteRenderer {
   }
 
   playAction(actionId) {
-    if (this.destroyed) return false;
+    if (this.destroyed || this.currentAction || this.actionLocked) return false;
     const animation = CHARACTER_ANIMATIONS[actionId];
     if (!animation || ['idle', 'walking', 'running', 'runningVariant'].includes(actionId)) {
       console.warn('[CharacterAnimations] Ação desconhecida ou não acionável:', actionId);
