@@ -16,20 +16,34 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - name: Stage player model from verified release asset
+      - name: Download and verify original player model
         env:
           MODEL_URL: https://github.com/BrazucaGameplay/Colecionador/releases/download/1.1.4/warrior.glb
           EXPECTED_SHA256: 78c2615adbe2cb2b1f18c2bd3c4b6936022a45c5fbd561354cd6c55827c0974d
         run: |
           mkdir -p public/assets/characters/player
-          curl --fail --location --retry 3 --retry-delay 2 "$MODEL_URL" --output public/assets/characters/player/warrior.glb
-          echo "$EXPECTED_SHA256  public/assets/characters/player/warrior.glb" | sha256sum --check
-          test "$(stat -c%s public/assets/characters/player/warrior.glb)" -eq 32744112
+          curl --fail --location --retry 3 --retry-delay 2 "$MODEL_URL" --output /tmp/warrior-original.glb
+          echo "$EXPECTED_SHA256  /tmp/warrior-original.glb" | sha256sum --check
+          test "$(stat -c%s /tmp/warrior-original.glb)" -eq 32744112
+      - name: Optimize model for web delivery
+        run: |
+          npx --yes @gltf-transform/cli@4.5.1 optimize /tmp/warrior-original.glb public/assets/characters/player/warrior.glb --compress meshopt --texture-compress webp --simplify false --palette false --instance false
+          if [ ! -s public/assets/characters/player/warrior.glb ]; then
+            echo "Optimization did not produce a valid output file."
+            exit 1
+          fi
+          if [ "$(stat -c%s public/assets/characters/player/warrior.glb)" -ge "$(stat -c%s /tmp/warrior-original.glb)" ]; then
+            echo "Optimized file is not smaller; retaining verified original model."
+            cp /tmp/warrior-original.glb public/assets/characters/player/warrior.glb
+          fi
+          echo "Original model: $(stat -c%s /tmp/warrior-original.glb) bytes"
+          echo "Web model: $(stat -c%s public/assets/characters/player/warrior.glb) bytes"
       - run: npm run build
-      - name: Verify deployed model is present in build output
+      - name: Verify model is present in build output
         run: |
           test -s dist/assets/characters/player/warrior.glb
-          test "$(stat -c%s dist/assets/characters/player/warrior.glb)" -eq 32744112
+          cmp public/assets/characters/player/warrior.glb dist/assets/characters/player/warrior.glb
+          echo "Verified model in build: $(stat -c%s dist/assets/characters/player/warrior.glb) bytes"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
