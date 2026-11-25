@@ -246,7 +246,6 @@ export default class Game extends Phaser.Scene {
 
     // Colinas e rochas quebram a repetição da água e dão volume ao horizonte.
     const relief = [
-      { key: 'hill-a', angle: -2.55, radius: 1510, height: 520, depth: 0 },
       { key: 'hill-b', angle: -0.75, radius: 1540, height: 480, depth: 0 },
       { key: 'hill-c', angle: 0.95, radius: 1570, height: 500, depth: 0 },
       { key: 'rock-cluster', angle: 2.65, radius: 1510, height: 300, depth: 0 }
