@@ -1,8 +1,7 @@
 import Phaser from 'phaser';
 import Player from '../entities/Player.js';
 import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
-import CharacterRenderer3D from '../rendering/characters/CharacterRenderer3D.js';
-import { DEFAULT_PLAYER_SKIN_ID } from '../rendering/characters/CharacterAssets.js';
+import CharacterSpriteRenderer from '../rendering/characters/CharacterSpriteRenderer.js';
 import Monster from '../entities/Monster.js';
 import WorldNavigation from '../world/WorldNavigation.js';
 import MovementSystem from '../systems/MovementSystem.js';
@@ -49,21 +48,9 @@ export default class Game extends Phaser.Scene {
     // Logical player state exists independently of the GLB and all renderers.
     this.player = new Player({ x: playerSpawn.x, y: playerSpawn.y, speed: 220, maxHealth: 3 });
     this.playerBody = new PlayerBodyAdapter(this, this.player);
-    this.weaponStatusText = this.add.text(16, 68, 'Espada: aguardando personagem', {
-      fontSize: '11px',
-      color: '#fff2b2',
-      stroke: '#172719',
-      strokeThickness: 3,
-      wordWrap: { width: Math.max(180, viewWidth - 32) }
-    }).setScrollFactor(0).setDepth(1001);
-    this.characterRenderer = new CharacterRenderer3D(this.game.canvas.parentElement, {
-      onError: (message) => console.warn('[CharacterRenderer]', message),
-      onSkinChanged: (skin) => console.info('[CharacterSkin] equipada:', skin.name),
-      onWeaponStatus: ({ status, details }) => {
-        const detail = details?.message ? ` — ${details.message}` : '';
-        this.weaponStatusText?.setText(`Espada: ${status}${detail}`);
-        console.info('[WeaponDiagnostic]', status, details);
-      }
+    this.characterRenderer = new CharacterSpriteRenderer(this, {
+      x: playerSpawn.x,
+      y: playerSpawn.y
     });
 
     const monsterSpawn = this.navigation.findNearestWalkablePoint(centerX - 180, centerY - 105);
