@@ -17,8 +17,15 @@
   },
   "pivot": {
     "x": 0.5,
-    "y": 0.84,
-    "mode": "per-frame-opaque-bottom"
+    "y": 0.9375,
+    "mode": "per-frame-visible-bounds-grounded"
+  },
+  "normalization": {
+    "renderSize": 256,
+    "viewHeight": 6,
+    "padding": 8,
+    "targetContentHeight": 112,
+    "commonScale": 0.9572649572649573
   },
   "rootMotion": "normalized-to-ground; gameplay controls world movement",
   "frames": [
@@ -32,7 +39,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 113,
+        "y": 54,
+        "width": 73,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -44,7 +57,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 118,
+        "y": 56,
+        "width": 69,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -56,7 +75,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 118,
+        "y": 54,
+        "width": 69,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -68,7 +93,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 118,
+        "y": 54,
+        "width": 70,
+        "height": 74
+      }
     },
     {
       "filename": "Run_03",
@@ -80,7 +111,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 118,
+        "y": 54,
+        "width": 82,
+        "height": 70
+      }
     },
     {
       "filename": "Run_03",
@@ -92,7 +129,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 117,
+        "y": 55,
+        "width": 70,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -104,7 +147,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 56,
+        "width": 73,
+        "height": 83
+      }
     },
     {
       "filename": "Run_03",
@@ -116,7 +165,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 94,
+        "y": 54,
+        "width": 91,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -128,7 +183,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 54,
+        "width": 96,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -140,7 +201,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 95,
+        "y": 54,
+        "width": 91,
+        "height": 71
+      }
     },
     {
       "filename": "Run_03",
@@ -152,7 +219,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 121,
+        "y": 54,
+        "width": 49,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -164,7 +237,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 56,
+        "width": 75,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -176,7 +255,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 109,
+        "y": 54,
+        "width": 108,
+        "height": 75
+      }
     },
     {
       "filename": "Run_03",
@@ -188,7 +273,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 108,
+        "y": 54,
+        "width": 116,
+        "height": 74
+      }
     },
     {
       "filename": "Run_03",
@@ -200,7 +291,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 54,
+        "width": 117,
+        "height": 70
+      }
     },
     {
       "filename": "Run_03",
@@ -212,7 +309,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 55,
+        "width": 95,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -224,7 +327,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 56,
+        "width": 54,
+        "height": 83
+      }
     },
     {
       "filename": "Run_03",
@@ -236,7 +345,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 54,
+        "width": 87,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -248,7 +363,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 90,
+        "y": 54,
+        "width": 86,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -260,7 +381,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 54,
+        "width": 61,
+        "height": 71
+      }
     },
     {
       "filename": "Run_03",
@@ -272,7 +399,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 101,
+        "y": 54,
+        "width": 67,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -284,7 +417,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 111,
+        "y": 56,
+        "width": 95,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -296,7 +435,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 107,
+        "y": 54,
+        "width": 101,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -308,7 +453,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 105,
+        "y": 54,
+        "width": 99,
+        "height": 74
+      }
     },
     {
       "filename": "Run_03",
@@ -320,7 +471,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 99,
+        "y": 54,
+        "width": 93,
+        "height": 70
+      }
     },
     {
       "filename": "Run_03",
@@ -332,7 +489,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 104,
+        "y": 55,
+        "width": 77,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -344,7 +507,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 113,
+        "y": 56,
+        "width": 41,
+        "height": 83
+      }
     },
     {
       "filename": "Run_03",
@@ -356,7 +525,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 104,
+        "y": 54,
+        "width": 56,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -368,7 +543,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 103,
+        "y": 54,
+        "width": 57,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -380,7 +561,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 101,
+        "y": 54,
+        "width": 57,
+        "height": 71
+      }
     },
     {
       "filename": "Run_03",
@@ -392,7 +579,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 78,
+        "y": 54,
+        "width": 89,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -404,7 +597,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 83,
+        "y": 56,
+        "width": 89,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -416,7 +615,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 87,
+        "y": 54,
+        "width": 67,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -428,7 +633,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 88,
+        "y": 54,
+        "width": 55,
+        "height": 74
+      }
     },
     {
       "filename": "Run_03",
@@ -440,7 +651,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 87,
+        "y": 54,
+        "width": 50,
+        "height": 70
+      }
     },
     {
       "filename": "Run_03",
@@ -452,7 +669,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 85,
+        "y": 55,
+        "width": 51,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -464,7 +687,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 82,
+        "y": 56,
+        "width": 65,
+        "height": 83
+      }
     },
     {
       "filename": "Run_03",
@@ -476,7 +705,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 76,
+        "y": 54,
+        "width": 65,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -488,7 +723,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 75,
+        "y": 54,
+        "width": 69,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -500,7 +741,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 76,
+        "y": 54,
+        "width": 82,
+        "height": 71
+      }
     },
     {
       "filename": "Run_03",
@@ -512,7 +759,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 69,
+        "y": 54,
+        "width": 74,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -524,7 +777,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 69,
+        "y": 56,
+        "width": 69,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -536,7 +795,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 69,
+        "y": 54,
+        "width": 69,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -548,7 +813,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 67,
+        "y": 54,
+        "width": 71,
+        "height": 74
+      }
     },
     {
       "filename": "Run_03",
@@ -560,7 +831,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 55,
+        "y": 54,
+        "width": 83,
+        "height": 70
+      }
     },
     {
       "filename": "Run_03",
@@ -572,7 +849,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 68,
+        "y": 55,
+        "width": 71,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -584,7 +867,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 71,
+        "y": 56,
+        "width": 73,
+        "height": 83
+      }
     },
     {
       "filename": "Run_03",
@@ -596,7 +885,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 71,
+        "y": 54,
+        "width": 91,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -608,7 +903,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 54,
+        "width": 96,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -620,7 +921,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 70,
+        "y": 54,
+        "width": 90,
+        "height": 71
+      }
     },
     {
       "filename": "Run_03",
@@ -632,7 +939,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 86,
+        "y": 54,
+        "width": 49,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -644,7 +957,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 62,
+        "y": 56,
+        "width": 75,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -656,7 +975,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 39,
+        "y": 54,
+        "width": 108,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -668,7 +993,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 32,
+        "y": 54,
+        "width": 116,
+        "height": 74
+      }
     },
     {
       "filename": "Run_03",
@@ -680,7 +1011,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 32,
+        "y": 54,
+        "width": 116,
+        "height": 70
+      }
     },
     {
       "filename": "Run_03",
@@ -692,7 +1029,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 49,
+        "y": 55,
+        "width": 95,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -704,7 +1047,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 82,
+        "y": 56,
+        "width": 54,
+        "height": 82
+      }
     },
     {
       "filename": "Run_03",
@@ -716,7 +1065,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 80,
+        "y": 54,
+        "width": 87,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -728,7 +1083,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 80,
+        "y": 54,
+        "width": 86,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -740,7 +1101,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 83,
+        "y": 54,
+        "width": 61,
+        "height": 71
+      }
     },
     {
       "filename": "Run_03",
@@ -752,7 +1119,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 88,
+        "y": 54,
+        "width": 67,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -764,7 +1137,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 51,
+        "y": 56,
+        "width": 94,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -776,7 +1155,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 47,
+        "y": 54,
+        "width": 102,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -788,7 +1173,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 52,
+        "y": 54,
+        "width": 99,
+        "height": 74
+      }
     },
     {
       "filename": "Run_03",
@@ -800,7 +1191,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 64,
+        "y": 54,
+        "width": 93,
+        "height": 70
+      }
     },
     {
       "filename": "Run_03",
@@ -812,7 +1209,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 75,
+        "y": 55,
+        "width": 77,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -824,7 +1227,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 56,
+        "width": 41,
+        "height": 83
+      }
     },
     {
       "filename": "Run_03",
@@ -836,7 +1245,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 54,
+        "width": 56,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -848,7 +1263,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 96,
+        "y": 54,
+        "width": 57,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -860,7 +1281,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 54,
+        "width": 57,
+        "height": 71
+      }
     },
     {
       "filename": "Run_03",
@@ -872,7 +1299,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 89,
+        "y": 54,
+        "width": 89,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -884,7 +1317,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 84,
+        "y": 56,
+        "width": 89,
+        "height": 73
+      }
     },
     {
       "filename": "Run_03",
@@ -896,7 +1335,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 102,
+        "y": 54,
+        "width": 67,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -908,7 +1353,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 113,
+        "y": 54,
+        "width": 55,
+        "height": 74
+      }
     },
     {
       "filename": "Run_03",
@@ -920,7 +1371,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 119,
+        "y": 54,
+        "width": 50,
+        "height": 70
+      }
     },
     {
       "filename": "Run_03",
@@ -932,7 +1389,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 120,
+        "y": 55,
+        "width": 51,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -944,7 +1407,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 109,
+        "y": 56,
+        "width": 65,
+        "height": 83
+      }
     },
     {
       "filename": "Run_03",
@@ -956,7 +1425,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 115,
+        "y": 54,
+        "width": 64,
+        "height": 76
+      }
     },
     {
       "filename": "Run_03",
@@ -968,7 +1443,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 112,
+        "y": 54,
+        "width": 69,
+        "height": 72
+      }
     },
     {
       "filename": "Run_03",
@@ -980,7 +1461,13 @@
       "height": 128,
       "duration": 0.08333333333333333,
       "pivotX": 0.5,
-      "pivotY": 1
+      "pivotY": 0.9375,
+      "sourceBounds": {
+        "x": 98,
+        "y": 54,
+        "width": 82,
+        "height": 71
+      }
     }
   ]
 }
