@@ -47,7 +47,7 @@ jobs:
             skin-padrao-3-walking \
             skin-padrao-4-running \
             skin-padrao-4-walking \
-            skin-padrao-1-combate-dd \
+            skin-padrao-1-combate_dd \
             skin-padrao-4-d; do
             test -s "public/assets/characters/sprites/skin_01/${asset}.png"
             test -s "public/assets/characters/sprites/skin_01/${asset}.json"
