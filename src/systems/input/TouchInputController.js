@@ -5,7 +5,7 @@ const DEFAULT_TAP_THRESHOLD = 12;
 /**
  * Owns screen touch gestures only. A short single-finger tap is emitted as a
  * world-navigation request; a drag pans the camera and two fingers pinch-zoom.
- * It never reads keyboard state and never moves the player directly.
+ * It never reads other input devices and never moves the player directly.
  */
 export default class TouchInputController {
   constructor(scene, { camera, onTap, tapThreshold = DEFAULT_TAP_THRESHOLD } = {}) {
