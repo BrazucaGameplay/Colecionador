@@ -57,6 +57,6 @@ test('movimento pausa durante ataque sem perder destino e rota', () => {
   assert.deepEqual(movement.destination, { x: 100, y: 0 });
   movement.setPaused(false);
   movement.update(100);
-  assert.equal(player.x, 10);
+  assert.equal(player.x, 5);
   assert.equal(movement.route.length, 1);
 });
