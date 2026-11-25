@@ -35,6 +35,27 @@ jobs:
           test -s dist/assets/characters/skin_01/character.glb
           test -s dist/assets/weapons/Colossal_Sword_optimized.glb
           echo "Build assets verified."
+      - name: Verify player sprite atlases
+        run: |
+          for asset in \
+            skin-padrao-1-running \
+            skin-padrao-1-walking \
+            skin-padrao-2-running \
+            skin-padrao-2-walking \
+            skin-padrao-2-idle \
+            skin-padrao-3-running \
+            skin-padrao-3-walking \
+            skin-padrao-4-running \
+            skin-padrao-4-walking \
+            character-anterior-idle_03 \
+            character-anterior-combate \
+            character-anterior-combate_dd; do
+            test -s "public/assets/characters/sprites/skin_01/${asset}.png"
+            test -s "public/assets/characters/sprites/skin_01/${asset}.json"
+            test -s "dist/assets/characters/sprites/skin_01/${asset}.png"
+            test -s "dist/assets/characters/sprites/skin_01/${asset}.json"
+          done
+          echo "Player sprite atlases verified."
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
