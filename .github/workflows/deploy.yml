@@ -44,8 +44,8 @@ jobs:
       - name: Verify model is present in build output
         run: |
           test -s dist/assets/characters/warrior/warrior.glb
-          cmp public/assets/characters/warrior/warrior.glb dist/assets/characters/player/warrior.glb
-          echo "Verified model in build: $(stat -c%s dist/assets/characters/player/warrior.glb) bytes"
+          cmp public/assets/characters/warrior/warrior.glb dist/assets/characters/warrior/warrior.glb
+          echo "Verified model in build: $(stat -c%s dist/assets/characters/warrior/warrior.glb) bytes"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
