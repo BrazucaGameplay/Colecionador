@@ -25,6 +25,11 @@ for (const definition of Object.values(MONSTER_DEFINITIONS)) {
     if (!Number.isFinite(metadata.fps) || metadata.fps <= 0) {
       throw new Error('FPS inválido: ' + jsonPath);
     }
+    const atlasWidth = Number(metadata.atlas?.width);
+    const atlasHeight = Number(metadata.atlas?.height);
+    if (!(atlasWidth > 0) || !(atlasHeight > 0)) {
+      throw new Error('Dimensões do atlas ausentes: ' + jsonPath);
+    }
 
     const seen = new Set();
     for (const frame of metadata.frames) {
@@ -42,6 +47,7 @@ for (const definition of Object.values(MONSTER_DEFINITIONS)) {
           !Number.isInteger(index) || index < 0 ||
           ![x, y, width, height, pivotX, pivotY].every(Number.isFinite) ||
           x < 0 || y < 0 || width <= 0 || height <= 0 ||
+          x + width > atlasWidth || y + height > atlasHeight ||
           pivotX < 0 || pivotX > 1 || pivotY <= 0 || pivotY > 0.96) {
         throw new Error('Quadro/pivô inválido em ' + jsonPath + ': ' + key);
       }

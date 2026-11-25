@@ -112,9 +112,11 @@ test('Spawner respeita população máxima e agenda respawn após morte', () => 
   alive.shift();
   spawner.notifyDeath('test-zone', 10);
   spawner.update(109);
-  assert.equal(created.length, 1);
-  spawner.update(110);
+  assert.equal(alive.length, 1);
   assert.equal(created.length, 2);
+  spawner.update(110);
+  assert.equal(alive.length, 2);
+  assert.equal(created.length, 3);
 });
 
 test('Spawner não cria monstro sobre área bloqueada e agenda nova tentativa', () => {

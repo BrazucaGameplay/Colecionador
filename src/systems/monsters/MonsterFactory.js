@@ -8,10 +8,12 @@ export default class MonsterFactory {
     this.scene = scene;
     this.navigation = navigation;
     this.depthManager = depthManager;
+    this.sequence = 0;
   }
 
   create(definition, point, zone) {
-    const id = definition.id + '-' + zone.id + '-' + Math.random().toString(36).slice(2, 9);
+    this.sequence += 1;
+    const id = definition.id + '-' + zone.id + '-' + this.sequence;
     const entity = new Monster({
       id,
       speciesId: definition.id,
@@ -35,5 +37,6 @@ export default class MonsterFactory {
     this.scene = null;
     this.navigation = null;
     this.depthManager = null;
+    this.sequence = 0;
   }
 }

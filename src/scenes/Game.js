@@ -332,11 +332,11 @@ export default class Game extends Phaser.Scene {
   shutdown() {
     this.touchInput?.destroy();
     this.movement?.destroy();
+    this.monsterManager?.destroy();
     this.playerBody?.destroy();
     this.characterRenderer?.destroy();
     this.worldObjectManager?.destroy();
     this.collisionManager?.destroy();
-    this.monsterManager?.destroy();
     this.worldObjects.length = 0;
     this.groundTiles.length = 0;
     this.touchInput = null;

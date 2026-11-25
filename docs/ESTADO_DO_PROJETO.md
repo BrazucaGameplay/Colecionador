@@ -563,3 +563,33 @@ VALIDAÇÃO:
 - Não declarar sprites de monstros carregados, gameplay visual validado
   ou teste Android concluído enquanto os atlas não forem enviados e
   verificados em dispositivo.
+
+
+======================================================================
+14. CORREÇÃO DE VALIDAÇÃO E CICLO DE VIDA — 25/11/2026
+======================================================================
+
+VERSIONAMENTO:
+- Versão anterior: 1.7.0
+- Nova versão: 1.7.1.
+- Motivo: correção do teste de população/respawn, refinamento do ciclo
+  de destruição e validação dos limites dos quadros de atlas.
+
+CORREÇÕES:
+- O teste do Spawner foi corrigido para distinguir a lista histórica de
+  criações da população atualmente viva. A lógica de respawn não precisava
+  de alteração; a expectativa do teste estava incorreta.
+- MonsterManager agora é destruído antes do corpo do jogador, removendo
+  primeiro os colliders de sobreposição que dependem dele.
+- MonsterFactory passou a gerar IDs sequenciais por instância, eliminando
+  dependência de aleatoriedade para identidade de entidades.
+- A validação dos atlas verifica também se os retângulos de cada quadro
+  permanecem dentro das dimensões declaradas do atlas.
+- Corrigida a formatação dos exemplos de caminho e código nos guias.
+
+VALIDAÇÃO:
+- A primeira execução do workflow do commit 7ddb0f8 identificou um único
+  teste com expectativa incorreta (21 aprovados, 1 reprovado).
+- A falha foi localizada no teste de respawn, não no código do Spawner.
+- A versão 1.7.1 deve ser validada pelo novo workflow associado ao commit
+  corretivo; não considerar o commit 1.7.0 pronto para publicação.
