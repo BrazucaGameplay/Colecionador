@@ -35,7 +35,7 @@ export default class Preload extends Phaser.Scene {
       label.setText('Falha ao carregar recursos do jogo.');
     });
     for (const [key, url] of WORLD_ASSETS) {
-      this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-world-edge-01');
+      this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-world-layout-02');
     }
   }
 
