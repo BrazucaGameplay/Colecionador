@@ -51,7 +51,26 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment_attempt_1.outputs.page_url || steps.deployment_attempt_2.outputs.page_url || steps.deployment_attempt_3.outputs.page_url }}
     steps:
-      - id: deployment
+      # GitHub Pages can sporadically return HTTP 500 after a successful build.
+      # Retry the same uploaded artifact before marking the deployment as failed.
+      - id: deployment_attempt_1
+        name: Deploy to GitHub Pages (attempt 1)
         uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - id: deployment_attempt_2
+        name: Deploy to GitHub Pages (retry 1)
+        if: steps.deployment_attempt_1.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - id: deployment_attempt_3
+        name: Deploy to GitHub Pages (retry 2)
+        if: steps.deployment_attempt_1.outcome == 'failure' && steps.deployment_attempt_2.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+      - name: Fail if all deployment attempts failed
+        if: steps.deployment_attempt_1.outcome == 'failure' && steps.deployment_attempt_2.outcome == 'failure' && steps.deployment_attempt_3.outcome == 'failure'
+        run: |
+          echo "GitHub Pages failed after three deployment attempts."
+          exit 1
