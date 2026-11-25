@@ -1,4 +1,49 @@
-// The GLB remains attached to GitHub Release 1.1.4 until the owner uploads
-// the supplied file into public/assets/characters/warrior/warrior.glb.
-export const PLAYER_MODEL_URL =
-  `${import.meta.env.BASE_URL}assets/characters/warrior/warrior.glb?v=1.1.4`;
+/**
+ * Catálogo de skins do protagonista.
+ *
+ * Os modelos são apenas apresentação: nenhum deles contém estado de jogo,
+ * colisão, input ou movimentação.
+ *
+ * Os GLBs foram mantidos nos caminhos em que já foram enviados ao repositório.
+ */
+const assetUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
+
+export const PLAYER_SKINS = Object.freeze({
+  crimsonFlameSovereign: Object.freeze({
+    id: 'crimson-flame-sovereign',
+    name: 'Crimson Flame Sovereign',
+    modelUrl: assetUrl(
+      'assets/characters/warrior/Crimson_Flame_Sovereign_optimized.glb?v=20261125-1'
+    ),
+    modelHeight: 76,
+    animated: true,
+    animations: Object.freeze({
+      idle: 'Idle_03',
+      walk: 'Running',
+      run: 'Run_03',
+      attack: 'Combate',
+      attackAlternate: 'Combate_dd',
+      death: 'Dead',
+      jump: null
+    })
+  }),
+
+  crimsonVeinblade: Object.freeze({
+    id: 'crimson-veinblade',
+    name: 'Crimson Veinblade',
+    modelUrl: assetUrl(
+      'assets/characters/warrior/Crimson_Veinblade_optimized.glb?v=20261125-1'
+    ),
+    modelHeight: 76,
+    animated: false,
+    animations: Object.freeze({})
+  })
+});
+
+export const DEFAULT_PLAYER_SKIN_ID = 'crimson-flame-sovereign';
+
+export function getPlayerSkin(skinId = DEFAULT_PLAYER_SKIN_ID) {
+  return PLAYER_SKINS[skinId] ??
+    Object.values(PLAYER_SKINS).find((skin) => skin.id === skinId) ??
+    PLAYER_SKINS[DEFAULT_PLAYER_SKIN_ID];
+}
