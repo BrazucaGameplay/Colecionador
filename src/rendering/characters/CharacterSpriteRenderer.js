@@ -25,9 +25,12 @@ export function registerPlayerSpriteAnimations(scene) {
       continue;
     }
     const byDirection = new Map();
+    scene.playerFramePivots ||= new Map();
     for (const record of metadata.frames) {
       const direction = Number(record.direction) || 0;
       const frameName = `d${direction}-f${record.frame}`;
+      const pivotY = Number(record.pivotY ?? metadata.pivot?.y);
+      if (Number.isFinite(pivotY)) scene.playerFramePivots.set(`${item.key}:${frameName}`, Math.max(0, Math.min(1, pivotY)));
       if (!texture.has(frameName)) texture.add(frameName, 0, record.x, record.y, record.width, record.height);
       if (!byDirection.has(direction)) byDirection.set(direction, []);
       byDirection.get(direction).push({ frame: frameName, index: record.frame });
@@ -155,7 +158,16 @@ export default class CharacterSpriteRenderer {
     this.depthManager.apply(this.sprite, y, 'actor');
   }
 
-  update() {}
+  update() {
+    if (this.destroyed || !this.sprite) return;
+    const textureKey = this.sprite.texture?.key;
+    const frameName = this.sprite.frame?.name;
+    const pivotY = this.scene.playerFramePivots?.get(`${textureKey}:${frameName}`);
+    if (Number.isFinite(pivotY) && Math.abs(this.sprite.originY - pivotY) > 0.0001) {
+      // Alinha o último pixel visível da pose à coordenada real do chão.
+      this.sprite.setOrigin(0.5, pivotY);
+    }
+  }
 
   destroy() {
     if (this.destroyed) return;

@@ -214,10 +214,25 @@ async function bakeClip(index) {
     for (let f = 0; f < frameCount; f++) {
       const time = Math.min(f / fps, Math.max(0, duration - 0.0001));
       const tile = makeFrame(time, yaw, frameSize);
+      // O pivot segue o pixel opaco mais baixo de cada pose, não um valor fixo.
+      const tileContext = tile.getContext('2d', { willReadFrequently: true });
+      const pixels = tileContext.getImageData(0, 0, frameSize, frameSize).data;
+      let bottomOpaqueRow = -1;
+      for (let py = frameSize - 1; py >= 0 && bottomOpaqueRow < 0; py--) {
+        for (let px = 0; px < frameSize; px++) {
+          if (pixels[(py * frameSize + px) * 4 + 3] > 16) {
+            bottomOpaqueRow = py;
+            break;
+          }
+        }
+      }
+      const framePivotY = bottomOpaqueRow >= 0
+        ? Math.min(1, (bottomOpaqueRow + 1) / frameSize)
+        : 0.92;
       const x = (frameIndex % columns) * frameSize;
       const y = Math.floor(frameIndex / columns) * frameSize;
       ctx.drawImage(tile, x, y);
-      frames.push({ filename: currentClip.name, frame: f, direction: d, x, y, width: frameSize, height: frameSize, duration: 1 / fps, pivotX: 0.5, pivotY: 0.92 });
+      frames.push({ filename: currentClip.name, frame: f, direction: d, x, y, width: frameSize, height: frameSize, duration: 1 / fps, pivotX: 0.5, pivotY: framePivotY });
       frameIndex++;
       if (frameIndex % 8 === 0) {
         status('Exportando ' + currentClip.name + ': ' + frameIndex + '/' + totalFrames + ' quadros…');
@@ -240,7 +255,7 @@ async function bakeClip(index) {
     frameCount,
     directionCount: directions,
     atlas: { width: atlasWidth, height: atlasHeight, columns, rows },
-    pivot: { x: 0.5, y: 0.92 },
+    pivot: { x: 0.5, y: 0.92, mode: 'per-frame-opaque-bottom' },
     frames
   };
   downloadBlob(new Blob([JSON.stringify(metadata, null, 2)], { type: 'application/json' }), prefix + '-' + animationName + '.json');
