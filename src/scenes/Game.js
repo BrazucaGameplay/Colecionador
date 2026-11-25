@@ -2,7 +2,8 @@ import Phaser from 'phaser';
 import Player from '../entities/Player.js';
 import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
 import CharacterSpriteRenderer from '../rendering/characters/CharacterSpriteRenderer.js';
-import Monster from '../entities/Monster.js';
+import MonsterManager from '../systems/monsters/MonsterManager.js';
+import { ISLAND_01_MONSTER_SPAWNS } from '../world/spawn-layout/island-01.js';
 import WorldNavigation from '../world/WorldNavigation.js';
 import WorldDepthManager from '../world/WorldDepthManager.js';
 import WorldCollisionManager from '../world/WorldCollisionManager.js';
@@ -64,15 +65,6 @@ export default class Game extends Phaser.Scene {
       depthManager: this.depthManager
     });
 
-    const monsterSpawn = this.navigation.findNearestWalkablePoint(centerX - 180, centerY - 105);
-    const enemySpawn = monsterSpawn || { x: playerSpawn.x + 90, y: playerSpawn.y };
-    this.monster = new Monster(this, enemySpawn.x, enemySpawn.y);
-    this.physics.add.overlap(
-      this.playerBody.object,
-      this.monster.sprite,
-      () => this.hitMonster()
-    );
-
     this.hpText = this.add.text(16, 16, 'HP ' + this.player.health, {
       fontSize: '20px',
       color: '#fff',
@@ -86,6 +78,19 @@ export default class Game extends Phaser.Scene {
       stroke: '#172719',
       strokeThickness: 4
     }).setScrollFactor(0).setDepth(1000);
+
+    this.monsterManager = new MonsterManager(this, {
+      navigation: this.navigation,
+      playerBody: this.playerBody,
+      depthManager: this.depthManager,
+      spawnZones: ISLAND_01_MONSTER_SPAWNS,
+      onContact: (monsterId) => this.hitMonster(monsterId),
+      onKill: () => {
+        this.score += 1;
+        this.scoreText.setText('Monstros: ' + this.score);
+        this.persistProgress({ score: this.score });
+      }
+    });
 
     this.camera = this.cameras.main;
     // Zoom padrão próximo ao enquadramento de referência: o personagem fica
@@ -292,24 +297,14 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  hitMonster() {
-    if (this._cooldown > this.time.now || this.monster.dead || !this.player.alive) return;
-    // Só aplica outro golpe se a ação de combate puder começar. A falta de
-    // sprites/animação não bloqueia o dano lógico, pois renderização é opcional.
+  hitMonster(monsterId) {
+    if (this._cooldown > this.time.now || !this.player.alive) return;
+    if (!this.monsterManager?.isAlive(monsterId)) return;
     if (this.characterRenderer && !this.characterRenderer.canStartAction('combat')) return;
-    this.characterRenderer?.playAction('combat');
-    this._cooldown = this.time.now + 500;
-    this.monster.takeHit();
+    if (!this.characterRenderer?.playAction('combat')) return;
 
-    if (this.monster.dead) {
-      this.score += 1;
-      this.scoreText.setText('Monstros: ' + this.score);
-      this.persistProgress({ score: this.score });
-      this.time.delayedCall(600, () => {
-        if (!this.monster || !this.monster.scene) return;
-        this.monster.respawn();
-      });
-    }
+    this._cooldown = this.time.now + 500;
+    this.monsterManager.damage(monsterId, 1, this.time.now);
   }
 
   update(time, delta = 16.67) {
@@ -330,18 +325,7 @@ export default class Game extends Phaser.Scene {
 
     if (!this.movement?.destination) this.destinationMarker?.setVisible(false);
 
-    this.monster?.update(this.time.now);
-    if (this.monster && !this.monster.dead) {
-      const seconds = Math.min(Math.max(delta, 0), 50) / 1000;
-      const nextX = this.monster.sprite.x + this.monster.sprite.body.velocity.x * seconds;
-      const nextY = this.monster.sprite.y + this.monster.sprite.body.velocity.y * seconds;
-      if (!this.navigation.isAreaWalkable(nextX, nextY, 12)) {
-        this.monster.sprite.setVelocity(0, 0);
-      }
-      // O sprite do monstro usa origem central; sua âncora física/visual é a borda inferior.
-      const monsterFootY = this.monster.sprite.y + this.monster.sprite.displayHeight * (1 - this.monster.sprite.originY);
-      this.depthManager?.apply(this.monster.sprite, monsterFootY, 'actor');
-    }
+    this.monsterManager?.update(this.time.now, delta);
     // O renderer do personagem e os objetos do cenário usam a mesma escala de profundidade.
   }
 
@@ -352,7 +336,7 @@ export default class Game extends Phaser.Scene {
     this.characterRenderer?.destroy();
     this.worldObjectManager?.destroy();
     this.collisionManager?.destroy();
-    this.monster?.destroy();
+    this.monsterManager?.destroy();
     this.worldObjects.length = 0;
     this.groundTiles.length = 0;
     this.touchInput = null;
@@ -363,6 +347,6 @@ export default class Game extends Phaser.Scene {
     this.collisionManager = null;
     this.depthManager = null;
     this.player = null;
-    this.monster = null;
+    this.monsterManager = null;
   }
 }

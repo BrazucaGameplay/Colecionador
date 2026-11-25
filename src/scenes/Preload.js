@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { queuePlayerSpriteAssets, registerPlayerSpriteAnimations } from '../rendering/characters/CharacterSpriteRenderer.js';
+import { queueMonsterAssets, registerMonsterAnimations } from '../rendering/monsters/MonsterAssetLoader.js';
 
 const WORLD_ASSETS = [
   // Silhueta original da ilha: define o tamanho do mundo e a área caminhável.
@@ -37,6 +38,7 @@ export default class Preload extends Phaser.Scene {
       this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-front-waterfall-03');
     }
     queuePlayerSpriteAssets(this.load);
+    queueMonsterAssets(this.load);
   }
 
   create() {
@@ -46,15 +48,8 @@ export default class Preload extends Phaser.Scene {
     graphics.generateTexture('player', 2, 2);
     graphics.destroy();
 
-    const monsterGraphics = this.make.graphics({ add: false });
-    monsterGraphics.fillStyle(0xef4444, 1);
-    monsterGraphics.fillCircle(16, 16, 14);
-    monsterGraphics.fillStyle(0x000000, 1);
-    monsterGraphics.fillCircle(11, 12, 3);
-    monsterGraphics.fillCircle(21, 12, 3);
-    monsterGraphics.generateTexture('monster', 32, 32);
-    monsterGraphics.destroy();
     registerPlayerSpriteAnimations(this);
+    registerMonsterAnimations(this);
     this.scene.start('Menu');
   }
 }

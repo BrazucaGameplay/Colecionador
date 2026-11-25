@@ -475,3 +475,91 @@ VALIDACAO PENDENTE DESTA ATUALIZACAO:
 - Confirmar deploy correspondente ao commit final.
 - Testar proporcao, enquadramento e legibilidade das tres poses em aparelho
   Android real.
+
+
+======================================================================
+13. ATUALIZAÇÃO — SISTEMA MODULAR DE MONSTROS E PREPARAÇÃO DE SPRITES (25/11/2026)
+======================================================================
+
+VERSIONAMENTO:
+- Versão anterior: 1.6.1
+- Nova versão: 1.7.0.
+- Motivo: nova funcionalidade compatível, com gerenciamento de entidades,
+  surgimento por zonas, fábrica, comportamento e carregamento de animações.
+
+IMPLEMENTADO NO CÓDIGO:
+- Monster.js agora contém somente estado lógico, vida, dano, direção,
+  movimentação e restauração; não depende de Phaser nem de arte.
+- MonsterBodyAdapter cria corpo Arcade invisível, independente do sprite.
+- MonsterRenderer apresenta atlas PNG/JSON e aplica pivôs por quadro,
+  escala, sombra e profundidade compartilhada.
+- MonsterAssetLoader carrega e registra pacotes de animação no mesmo
+  contrato de metadados usado pelos sprites do protagonista.
+- MonsterFactory monta entidade, corpo, renderer e comportamento.
+- MonsterBehaviorController implementa patrulha curta limitada à zona
+  e validada por WorldNavigation.
+- MonsterSpawner distribui população por zonas, respeita limite máximo,
+  distância do jogador, área caminhável, ocupação e temporizador de respawn.
+- MonsterManager centraliza entidades, sobreposição com o corpo do jogador,
+  dano, morte, remoção e atualização.
+- Game.js não mantém mais referência direta a um único monstro.
+- Preload.js remove a textura circular vermelha provisória e registra
+  os carregadores de atlas de monstros.
+- A ilha inicial possui quatro zonas configuradas para a espécie slime,
+  com até dois monstros por zona quando os sprites estiverem habilitados.
+
+PREPARAÇÃO DOS SPRITES:
+- Diretório criado: public/assets/monsters/slime/.
+- Contrato documentado em public/assets/monsters/README.md e
+  docs/GUIA_DE_SPRITES_DE_MONSTROS.md.
+- Cada animação usa par PNG + JSON com frames direcionais, pivô por quadro,
+  fps e nomes de quadros d{direction}-f{frame}.
+- Pacotes previstos para a primeira espécie: idle, walking, attack e death.
+- A definição do slime permanece com visual.enabled=false porque ainda
+  não há atlas de monstro no repositório. Assim não são feitas requisições
+  a arquivos inexistentes nem exibidos sprites provisórios.
+- Ao enviar os atlas finais, ativar visual.enabled e preencher os metadados
+  correspondentes em src/data/monsters/index.js.
+
+RECAP DO ESTADO INTEGRAL:
+- Produto/plataforma: RPG 2D de ação com estética anime, Android como
+  prioridade e distribuição web/PWA; Capacitor mantém preparação técnica
+  para APK/Google Play. APK e publicação na loja não estão concluídos.
+- Mundo/conteúdo: uma ilha circular jogável está implementada. As quatro
+  zonas de surgimento da ilha 01 estão configuradas. Catálogo e transição
+  entre ilhas continuam planejados, não implementados.
+- Gameplay: tap-to-move, arraste da câmera, pinch zoom, vida do jogador,
+  contato/ataque automático, pontuação e salvamento local existem.
+  O sistema de monstros suporta múltiplas entidades, dano, morte e respawn,
+  mas nenhuma espécie aparece até existir atlas final habilitado.
+  Drops, experiência efetiva, dano de contato contra jogador e combate
+  avançado dos monstros não estão implementados.
+- Personagens: Player lógico, corpo invisível e renderer 2D separados.
+  Sete pacotes/ações do protagonista são catalogados conforme o código.
+  Sistema de waifus ainda não está implementado nesta branch.
+- Arquitetura: Phaser 4.2.1, Vite 5, JavaScript ES modules, Arcade Physics,
+  WorldNavigation/A*, WorldDepthManager, WorldObjectManager, input por toque
+  e sistemas modulares de monstros. Three.js permanece declarado, sem
+  integração de renderização de jogo confirmada nesta etapa.
+- Assets: sprites do protagonista em PNG/JSON sob
+  public/assets/characters/sprites/skin_01/. Assets de ilha, vegetação
+  e rochas nos diretórios de mundo. Nenhum sprite de monstro foi encontrado
+  em public/assets/monsters; a pasta de slime contém apenas marcador e guia.
+- Interface/mobile: orientação, escala e interação permanecem as da cena
+  atual; nenhum teste visual em Android foi realizado nesta atualização.
+- Build/publicação: Vite, scripts npm, Capacitor e workflows GitHub Actions
+  permanecem configurados. O workflow Deploy ganhou validação opcional dos
+  atlas de monstros habilitados. O resultado do workflow deste commit ainda
+  precisa ser confirmado.
+- Pendências/riscos: inserir atlas PNG/JSON finais; ativar a espécie;
+  definir balanceamento, drops, experiência e IA de combate; executar build,
+  testes, deploy e validação visual/física em aparelho Android.
+
+VALIDAÇÃO:
+- Testes automatizados do sistema de monstros adicionados em
+  tests/monster-system.test.js.
+- A validação de sprites de monstros foi adicionada ao workflow, mas
+  precisa ser executada pelo GitHub Actions no commit desta atualização.
+- Não declarar sprites de monstros carregados, gameplay visual validado
+  ou teste Android concluído enquanto os atlas não forem enviados e
+  verificados em dispositivo.
