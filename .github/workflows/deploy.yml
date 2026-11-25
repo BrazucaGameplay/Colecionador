@@ -3,7 +3,6 @@ name: Deploy
   push:
     branches: [main]
 
-# Prevent overlapping GitHub Pages deployments.
 concurrency:
   group: github-pages
   cancel-in-progress: false
@@ -17,7 +16,20 @@ jobs:
         with:
           node-version: 20
       - run: npm install
+      - name: Stage player model from verified release asset
+        env:
+          MODEL_URL: https://github.com/BrazucaGameplay/Colecionador/releases/download/1.1.4/warrior.glb
+          EXPECTED_SHA256: 78c2615adbe2cb2b1f18c2bd3c4b6936022a45c5fbd561354cd6c55827c0974d
+        run: |
+          mkdir -p public/assets/characters/player
+          curl --fail --location --retry 3 --retry-delay 2 "$MODEL_URL" --output public/assets/characters/player/warrior.glb
+          echo "$EXPECTED_SHA256  public/assets/characters/player/warrior.glb" | sha256sum --check
+          test "$(stat -c%s public/assets/characters/player/warrior.glb)" -eq 32744112
       - run: npm run build
+      - name: Verify deployed model is present in build output
+        run: |
+          test -s dist/assets/characters/player/warrior.glb
+          test "$(stat -c%s dist/assets/characters/player/warrior.glb)" -eq 32744112
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
