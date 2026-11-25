@@ -232,7 +232,7 @@ Usar primeiro os recursos nativos do Phaser quando forem adequados:
 - Tilemaps para mapas baseados em tiles quando apropriado.
 - Groups para organizar e gerenciar conjuntos de entidades.
 - Tweens e Timelines para efeitos e transicoes.
-- Sistema de input do Phaser para teclado, ponteiro e toque.
+- Sistema de input do Phaser para ponteiro e toque.
 - Recursos graficos do Phaser 4 para efeitos visuais, apos validar
   compatibilidade e desempenho nos dispositivos-alvo.
 
@@ -321,8 +321,8 @@ ETAPA 3 - PERSONAGEM
 - Movimento.
 - Animacoes por direcao.
 - Colisoes.
-- Controles Android.
-- Joystick e botoes.
+- Controles exclusivamente por toque no Android.
+- Toque para definir destino, arraste para camera e pinch para zoom; sem joystick.
 - Integracao com o nucleo do mundo.
 
 ETAPA 4 - COMBATE
