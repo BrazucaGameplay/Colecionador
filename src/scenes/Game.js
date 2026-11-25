@@ -34,6 +34,7 @@ export default class Game extends Phaser.Scene {
     this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
     this.createGround();
     this.createIslandWalkableMask();
+    this.createTrees();
 
     const playerSpawn = this.navigation.findNearestWalkablePoint(centerX, centerY);
     if (!playerSpawn) {
@@ -174,6 +175,41 @@ export default class Game extends Phaser.Scene {
 
   createIslandWalkableMask() {
     this.navigation.setCircleMask(ISLAND_RADIUS, ISLAND_RADIUS, ISLAND_RADIUS - 28);
+  }
+
+
+  /**
+   * Árvores distribuídas pela ilha. A altura visual fica cerca de 1,5x
+   * a altura-base do protagonista (76 unidades), com centro inicial livre.
+   */
+  createTrees() {
+    const treeKeys = ['tree-large', 'tree-flowering'];
+    const totalTrees = 34;
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+    for (let i = 0; i < totalTrees; i++) {
+      const angle = i * goldenAngle;
+      const radius = i < 10
+        ? 300 + (i % 5) * 48
+        : 650 + ((i - 10) / (totalTrees - 10)) * 1120;
+      const x = ISLAND_RADIUS + Math.cos(angle) * radius;
+      const y = ISLAND_RADIUS + Math.sin(angle) * radius;
+
+      if (!this.navigation.isAreaWalkable(x, y, 54)) continue;
+
+      const key = treeKeys[i % treeKeys.length];
+      const tree = this.add.image(x, y, key)
+        .setOrigin(0.5, 1)
+        .setDepth(y + 35);
+
+      const source = this.textures.get(key).getSourceImage();
+      const targetHeight = 112 + (i % 3) * 5;
+      tree.setScale(targetHeight / source.height);
+
+      // Colisão pequena no tronco, não na copa.
+      this.navigation.addObstacle(x, y - 12, 17, 13);
+      this.worldObjects.push(tree);
+    }
   }
 
   /** Troca apenas a aparência; Player, física e navegação permanecem intactos. */
