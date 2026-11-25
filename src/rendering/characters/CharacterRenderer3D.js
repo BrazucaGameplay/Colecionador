@@ -1,11 +1,9 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { DEFAULT_PLAYER_SKIN_ID, getPlayerSkin } from './CharacterAssets.js';
 
 const MAX_DELTA_MS = 50;
 const CROSS_FADE_SECONDS = 0.16;
-const WEAPON_URL = `${import.meta.env.BASE_URL}assets/weapons/Colossal_Sword_optimized.glb?v=20261125-4`;
 
 /**
  * Renderização visual do personagem.
@@ -47,7 +45,6 @@ export default class CharacterRenderer3D {
     this.weapon = null;
     this.weaponAnchor = null;
     this.weaponShouldBeVisible = false;
-    this.weaponLoadGeneration = 0;
 
     if (!parent) {
       this.onError('Não foi encontrado o elemento de exibição do personagem.');
@@ -207,9 +204,9 @@ export default class CharacterRenderer3D {
     this.model = nextModel;
     this.root.add(nextModel);
     this.skin = skin;
-    // A arma é um GLB independente: anexamos ao osso sem alterar o arquivo do personagem.
+    // A espada já faz parte do GLB desta skin e acompanha o osso da mão.
     this.setWeaponVisible(false);
-    this.attachWeaponToRightHand();
+    this.attachEmbeddedWeapon();
     this.actions.clear();
     this.currentActionName = null;
     this.lockedAction = false;
@@ -250,87 +247,94 @@ export default class CharacterRenderer3D {
     return null;
   }
 
-  async attachWeaponToRightHand() {
-    const generation = ++this.weaponLoadGeneration;
-    const hand = this.findRightHand();
-
-    if (!hand) {
-      this.weapon = null;
-      this.reportWeaponStatus('MÃO DIREITA NÃO ENCONTRADA');
-      return false;
-    }
-
-    this.reportWeaponStatus('CARREGANDO ESPADA', { hand: hand.name, url: WEAPON_URL });
-    const loader = new GLTFLoader();
-    loader.setMeshoptDecoder(MeshoptDecoder);
-
-    try {
-      const gltf = await loader.loadAsync(WEAPON_URL);
-      if (
-        this.disposed ||
-        generation !== this.weaponLoadGeneration ||
-        hand !== this.findRightHand()
-      ) {
-        this.disposeGltf(gltf);
-        return false;
-      }
-
-      const weapon = gltf.scene;
-      const bounds = new THREE.Box3().setFromObject(weapon);
-      const size = new THREE.Vector3();
-      const center = new THREE.Vector3();
-      bounds.getSize(size);
-      bounds.getCenter(center);
-
-      // O comprimento do GLB está no eixo Y. A ponta (extremo +Y)
-      // deve ficar junto à mão; o cabo fica para fora. Por isso usamos
-      // maxY como origem de pegada e giramos 180° em torno do eixo local Z.
-      const characterScale = Math.max(Math.abs(this.model.scale.x), 0.0001);
-      const targetWorldLength = 48;
-      const weaponScale = targetWorldLength / (Math.max(size.y, 0.0001) * characterScale);
-      weapon.scale.setScalar(weaponScale);
-      // Primeiro invertemos o eixo longitudinal. Depois compensamos a
-      // translação já no referencial girado: o extremo +Y (ponta, conforme
-      // a orientação do asset) fica exatamente na origem da pegada.
-      weapon.rotation.set(0, 0, Math.PI);
-      weapon.position.set(
-        center.x * weaponScale,
-        bounds.max.y * weaponScale,
-        -center.z * weaponScale
-      );
-
-      const anchor = new THREE.Group();
-      anchor.name = 'RightHandWeaponAnchor';
-      anchor.add(weapon);
-      anchor.visible = false;
-      hand.add(anchor);
-
-      this.weapon = weapon;
-      this.weaponAnchor = anchor;
-      this.setWeaponVisible(this.weaponShouldBeVisible);
-      this.reportWeaponStatus('ESPADA ANEXADA À MÃO DIREITA', {
-        hand: hand.name,
-        gripEnd: 'maxY',
-        rotationZ: '180deg',
-        length: targetWorldLength
-      });
-      return true;
-    } catch (error) {
-      if (generation !== this.weaponLoadGeneration || this.disposed) return false;
+  attachEmbeddedWeapon() {
+    const config = this.skin?.weapon;
+    if (!config) {
       this.weapon = null;
       this.weaponAnchor = null;
-      this.reportWeaponStatus('ERRO AO CARREGAR ESPADA', {
-        message: error?.message || String(error),
-        url: WEAPON_URL
+      this.reportWeaponStatus('SKIN SEM ARMA');
+      return false;
+    }
+
+    const hand = this.model?.getObjectByName(config.handBoneName);
+    const weapon = this.model?.getObjectByName(config.nodeName);
+
+    if (!hand || !weapon) {
+      this.weapon = null;
+      this.weaponAnchor = null;
+      this.reportWeaponStatus('ARMA OU OSSO NÃO ENCONTRADO', {
+        expectedHand: config.handBoneName,
+        foundHand: Boolean(hand),
+        expectedWeapon: config.nodeName,
+        foundWeapon: Boolean(weapon)
       });
       return false;
     }
-  }
 
-  countWeaponMeshes(root) {
-    let count = 0;
-    root?.traverse((object) => { if (object.isMesh) count += 1; });
-    return count;
+    // O nó da espada já vem como filho do osso RightHand no GLB.
+    // Não carregamos uma segunda cópia externa.
+    if (weapon.parent !== hand) {
+      this.reportWeaponStatus('HIERARQUIA DE ARMA INVÁLIDA', {
+        expectedParent: hand.name,
+        actualParent: weapon.parent?.name || weapon.parent?.type
+      });
+      return false;
+    }
+
+    // Inspeção do GLB: o cabo/pomo está no extremo +Y; a guarda fica
+    // aproximadamente em +0.45 e a lâmina segue em direção a -Y.
+    // Portanto, o extremo +Y é o ponto de pegada e NÃO deve haver giro
+    // de 180 graus. O GLB anterior deixava o nó em y=+0.78, prendendo
+    // a lâmina à mão. Reposicionamos o extremo do cabo na origem do osso.
+    const gripAxis = config.gripAxis || 'y';
+    if (!weapon.isMesh || !weapon.geometry) {
+      this.reportWeaponStatus('GEOMETRIA DA ARMA INVÁLIDA', {
+        node: weapon.name,
+        type: weapon.type
+      });
+      return false;
+    }
+
+    weapon.geometry.computeBoundingBox();
+    const bounds = weapon.geometry.boundingBox;
+    if (!bounds || bounds.isEmpty()) {
+      this.reportWeaponStatus('LIMITES DA ARMA INVÁLIDOS');
+      return false;
+    }
+
+    weapon.rotation.set(
+      ...(config.rotation || [0, 0, 0])
+    );
+    weapon.position.set(0, 0, 0);
+    weapon.scale.set(1, 1, 1);
+
+    if (gripAxis === 'y') {
+      weapon.position.y = -bounds.max.y;
+    } else if (gripAxis === '-y') {
+      weapon.position.y = -bounds.min.y;
+    } else {
+      this.reportWeaponStatus('EIXO DE PEGADA NÃO SUPORTADO', { gripAxis });
+      return false;
+    }
+
+    this.weapon = weapon;
+    this.weaponAnchor = weapon;
+    this.setWeaponVisible(false);
+    this.reportWeaponStatus('ESPADA EMBUTIDA CORRIGIDA', {
+      hand: hand.name,
+      weapon: weapon.name,
+      gripAxis,
+      localBounds: {
+        minY: bounds.min.y,
+        maxY: bounds.max.y
+      },
+      position: {
+        x: weapon.position.x,
+        y: weapon.position.y,
+        z: weapon.position.z
+      }
+    });
+    return true;
   }
 
   setWeaponVisible(visible) {
@@ -346,9 +350,7 @@ export default class CharacterRenderer3D {
     }
     this.mixer = null;
     if (this.model) {
-      this.weaponLoadGeneration += 1;
-      if (this.weaponAnchor?.parent) this.weaponAnchor.parent.remove(this.weaponAnchor);
-      if (this.weapon) this.disposeObject(this.weapon);
+      // A arma é geometria filha do próprio GLB; descartar junto com o modelo.
       this.weapon = null;
       this.weaponAnchor = null;
       this.root.remove(this.model);
@@ -437,7 +439,6 @@ export default class CharacterRenderer3D {
     if (!name || !this.actions.has(name)) return false;
 
     this.lockedAction = true;
-    if (animationKey === 'attack' || animationKey === 'attackAlternate') this.setWeaponVisible(true);
     const started = this.setAnimation(name, { loop: false, timeScale: speed });
     if (!started) {
       this.lockedAction = false;
