@@ -24,17 +24,27 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - name: Verify current character and weapon assets
+      - name: Verify current character models
         run: |
-          test -s public/assets/characters/skin_01/character.glb
-          test -s public/assets/weapons/Colossal_Sword_optimized.glb
-          echo "Character and weapon assets verified."
+          for model in \
+            'skin-padrão1.glb' \
+            'skin_padrão2.glb' \
+            'skin_padrão3.glb' \
+            'skin_padrão4.glb'; do
+            test -s "public/assets/characters/skin_01/$model"
+          done
+          echo "Current character models verified."
       - run: npm run build
-      - name: Verify assets in build output
+      - name: Verify current models in build output
         run: |
-          test -s dist/assets/characters/skin_01/character.glb
-          test -s dist/assets/weapons/Colossal_Sword_optimized.glb
-          echo "Build assets verified."
+          for model in \
+            'skin-padrão1.glb' \
+            'skin_padrão2.glb' \
+            'skin_padrão3.glb' \
+            'skin_padrão4.glb'; do
+            test -s "dist/assets/characters/skin_01/$model"
+          done
+          echo "Build character models verified."
       - name: Verify player sprite atlases
         run: |
           for asset in \
