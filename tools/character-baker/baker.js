@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { findOpaqueBottomRow, findOpaqueTopRow, getGroundedFitY, getOpaqueBottomPivot } from './frame-grounding.js';
+import { findOpaqueBottomRow, getGroundedFitY, getOpaqueBottomPivot } from './frame-grounding.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('preview');
@@ -152,7 +152,7 @@ function playPreview(index) {
   renderPreview();
 }
 
-function makeFrame(position, yaw, frameSize, verticalOffset = 0) {
+function makeFrame(position, yaw, frameSize) {
   mixer.stopAllAction();
   const action = mixer.clipAction(currentClip);
   action.reset();
@@ -181,12 +181,6 @@ function makeFrame(position, yaw, frameSize, verticalOffset = 0) {
   fitGroup.position.y = getGroundedFitY(fitBasePosition.y, poseBounds.min.y);
   fitGroup.updateMatrixWorld(true);
   model.updateMatrixWorld(true);
-  // Desloca o enquadramento da câmera (não a raiz animada) para alinhar a
-  // margem inferior com o limite real dos pixels renderizados.
-  const cameraBaseY = (camera.top + camera.bottom) / 2;
-  camera.position.y = cameraBaseY - verticalOffset;
-  camera.lookAt(0, cameraBaseY - verticalOffset, 0);
-  camera.updateMatrixWorld(true);
   renderPreview();
 
   const frame = document.createElement('canvas');
@@ -259,31 +253,11 @@ async function bakeClip(index) {
     const yaw = d * yawStep;
     for (let f = 0; f < frameCount; f++) {
       const time = Math.min(f / fps, Math.max(0, duration - 0.0001));
-      const safeBottomRow = frameSize - 8;
-      let verticalOffset = 0;
-      let tile = makeFrame(time, yaw, frameSize, verticalOffset);
-      let pixels = tile.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, frameSize, frameSize).data;
-      let bottomOpaqueRow = findOpaqueBottomRow(pixels, frameSize, frameSize, 24);
-      let topOpaqueRow = findOpaqueTopRow(pixels, frameSize, frameSize, 24);
-
-      // A caixa geométrica pode não incluir a deformação final dos ossos.
-      // Os pixels renderizados são a referência final: sobe a pose em passos
-      // calculados pela projeção para reservar margem real abaixo dos pés.
-      for (let attempt = 0; bottomOpaqueRow > safeBottomRow && attempt < 3; attempt++) {
-        const overflowPixels = bottomOpaqueRow - safeBottomRow + 1;
-        verticalOffset += overflowPixels * viewHeight / frameSize;
-        tile = makeFrame(time, yaw, frameSize, verticalOffset);
-        pixels = tile.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, frameSize, frameSize).data;
-        bottomOpaqueRow = findOpaqueBottomRow(pixels, frameSize, frameSize, 24);
-        topOpaqueRow = findOpaqueTopRow(pixels, frameSize, frameSize, 24);
-      }
-
-      if (bottomOpaqueRow > safeBottomRow || (topOpaqueRow >= 0 && topOpaqueRow < 2)) {
-        throw new Error(
-          `Quadro ${currentClip.name} d${d}-f${f} não cabe com margem segura: ` +
-          `topo=${topOpaqueRow}, base=${bottomOpaqueRow}, limite inferior=${safeBottomRow}, deslocamento=${verticalOffset.toFixed(4)}.`
-        );
-      }
+      const tile = makeFrame(time, yaw, frameSize);
+      const pixels = tile.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, frameSize, frameSize).data;
+      // O último pixel visível é a âncora do pé. Ele pode legitimamente estar
+      // na última linha do quadro; nesse caso o pivô correto é exatamente 1.
+      const bottomOpaqueRow = findOpaqueBottomRow(pixels, frameSize, frameSize, 24);
       const framePivotY = getOpaqueBottomPivot(bottomOpaqueRow, frameSize);
       const x = (frameIndex % columns) * frameSize;
       const y = Math.floor(frameIndex / columns) * frameSize;

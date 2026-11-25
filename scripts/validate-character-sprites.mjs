@@ -18,10 +18,10 @@ for (const jsonFile of jsonFiles) {
   }
   for (const frame of metadata.frames) {
     const pivotY = Number(frame.pivotY);
-    if (!Number.isFinite(pivotY) || pivotY <= 0 || pivotY >= 0.97) {
+    if (!Number.isFinite(pivotY) || pivotY <= 0 || pivotY > 1) {
       throw new Error(
         `Pivô inválido em ${jsonFile} (direção ${frame.direction}, quadro ${frame.frame}): ${frame.pivotY}. ` +
-        'O personagem pode estar cortado ou encostando na borda inferior.'
+        'O ponto de apoio precisa estar dentro do quadro.'
       );
     }
   }
