@@ -68,13 +68,7 @@ test('cada pacote catalogado possui PNG e JSON correspondentes', async () => {
 });
 
 
-import { getFramePlacement, getGroundedFitY, getOpaqueBounds } from '../tools/character-baker/frame-grounding.js';
-
-test('enquadramento compensa deslocamento vertical de raiz sem alterar a posição do mundo', () => {
-  assert.equal(getGroundedFitY(0.42, -0.35), 0.77);
-  assert.equal(getGroundedFitY(0.42, 0.35), 0.07);
-  assert.throws(() => getGroundedFitY(Number.NaN, 0));
-});
+import { getFramePlacement, getOpaqueBounds } from '../tools/character-baker/frame-grounding.js';
 
 test('limites visíveis medem a área real do personagem', () => {
   const width = 8, height = 10;

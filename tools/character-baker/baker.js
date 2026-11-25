@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { getFramePlacement, getGroundedFitY, getOpaqueBounds } from './frame-grounding.js';
+import { getFramePlacement, getOpaqueBounds } from './frame-grounding.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('preview');
@@ -160,25 +160,14 @@ function makeFrame(position, yaw, frameSize) {
   action.clampWhenFinished = true;
   action.play();
   mixer.setTime(position);
-  // O deslocamento de raiz dos GLBs não deve mover o sprite dentro do quadro:
-  // o mundo controla a posição do protagonista, e cada pose é apoiada no chão.
+  // A posição do GLB permanece na origem de ajuste. O atlas mede os pixels
+  // efetivamente renderizados e alinha a base visível, sem confiar no Box3
+  // estático de uma malha esquelética.
   model.position.copy(modelBaseTransform.position);
   model.quaternion.copy(modelBaseTransform.quaternion);
   model.scale.copy(modelBaseTransform.scale);
   fitGroup.position.copy(fitBasePosition);
   root.rotation.y = yaw;
-  fitGroup.updateMatrixWorld(true);
-  model.updateMatrixWorld(true);
-  // Box3 usa os bounds estáticos da geometria se não atualizarmos o SkinnedMesh.
-  // Recalcula a caixa com os ossos já avaliados para capturar os pés na pose atual.
-  model.traverse((node) => {
-    if (!node.isSkinnedMesh) return;
-    node.skeleton?.update();
-    node.computeBoundingBox();
-  });
-  const poseBounds = new THREE.Box3().setFromObject(model);
-  if (!Number.isFinite(poseBounds.min.y)) throw new Error('Não foi possível calcular o ponto de apoio da pose.');
-  fitGroup.position.y = getGroundedFitY(fitBasePosition.y, poseBounds.min.y);
   fitGroup.updateMatrixWorld(true);
   model.updateMatrixWorld(true);
   renderPreview();
@@ -230,8 +219,9 @@ async function bakeClip(index) {
   const targetContentHeight = Math.min(frameSize - padding * 2, frameSize * scalePercent);
   const renderSize = Math.round(frameSize * 1.5);
   const viewHeight = 4.0;
-  const viewBottom = -viewHeight * 0.16;
+  const viewBottom = -viewHeight * 0.30;
   const viewTop = viewBottom + viewHeight;
+  const viewCenterY = 0.8;
   const oldSize = previewRenderer.getSize(new THREE.Vector2());
   const oldCamera = {
     left: camera.left, right: camera.right, top: camera.top, bottom: camera.bottom,
@@ -244,8 +234,8 @@ async function bakeClip(index) {
     camera.right = viewHeight / 2;
     camera.top = viewTop;
     camera.bottom = viewBottom;
-    camera.position.set(0, (viewTop + viewBottom) / 2, 5.5);
-    camera.lookAt(0, (viewTop + viewBottom) / 2, 0);
+    camera.position.set(0, viewCenterY, 5.5);
+    camera.lookAt(0, viewCenterY, 0);
     camera.updateProjectionMatrix();
     camera.updateMatrixWorld(true);
 

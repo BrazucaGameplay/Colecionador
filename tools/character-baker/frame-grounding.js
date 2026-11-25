@@ -2,11 +2,6 @@
  * Enquadramento de spritesheets: mede os pixels efetivamente renderizados,
  * aplica uma escala comum ao clip e alinha a base visível a um chão estável.
  */
-export function getGroundedFitY(baseFitY, poseMinY) {
-  if (!Number.isFinite(baseFitY) || !Number.isFinite(poseMinY)) throw new TypeError('As coordenadas do enquadramento precisam ser números finitos.');
-  return baseFitY - poseMinY;
-}
-
 export function getOpaqueBounds(rgba, width, height, alphaThreshold = 24) {
   if (!rgba || !Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || rgba.length < width * height * 4) throw new TypeError('Buffer RGBA ou dimensões do quadro inválidos.');
   let minX = width, minY = height, maxX = -1, maxY = -1;
