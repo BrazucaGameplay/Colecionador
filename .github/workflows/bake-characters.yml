@@ -8,6 +8,7 @@ name: Bake character spritesheets
       - "scripts/bake-character-sprites.mjs"
       - "package.json"
       - "package-lock.json"
+      - ".github/workflows/bake-characters.yml"
   workflow_dispatch:
 
 permissions:
