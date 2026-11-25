@@ -36,9 +36,9 @@ export default class Game extends Phaser.Scene {
 
     this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
     this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
+    this.createCloudBoundary();
     this.createGround();
     this.createIslandWalkableMask();
-    this.createIslandEdge();
     this.createTrees();
 
     const playerSpawn = this.navigation.findNearestWalkablePoint(centerX, centerY);
@@ -223,38 +223,68 @@ export default class Game extends Phaser.Scene {
    * ligeiramente para dentro. A máscara circular continua sendo a regra
    * de caminhada, portanto os elementos de borda não ampliam a área jogável.
    */
-  createIslandEdge() {
-    // Uma única cascata na borda frontal (parte inferior da tela).
-    // O topo do asset se sobrepõe ao gramado; a queda aponta para fora.
-    const waterfall = this.add.image(ISLAND_RADIUS, ISLAND_DIAMETER - 210, 'waterfall-edge-b')
-      .setOrigin(0.5, 0.5)
-      .setRotation(0)
-      .setScale(0.82)
-      .setDepth(ISLAND_DIAMETER - 360)
-      .setData('depthOffset', -180);
-    this.worldObjects.push(waterfall);
-  }
+  /**
+   * Nuvens formam uma faixa contínua fora do contorno circular.
+   * A camada fica atrás do terreno: a grama recorta naturalmente a parte
+   * interna das nuvens, sem cobrir a área caminhável nem exigir PNG externo.
+   */
+  createCloudBoundary() {
+    const key = 'generated-cloud-bank';
+    const width = 512;
+    const height = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('Não foi possível criar a textura das nuvens.');
 
-  readSavedProgress() {
-    try {
-      const value = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
-      return value && typeof value === 'object' ? value : {};
-    } catch (error) {
-      console.warn('Save inválido; usando progresso inicial.', error);
-      return {};
+    const puffs = [
+      [65, 164, 74, 54], [130, 128, 90, 82], [218, 150, 104, 78],
+      [310, 132, 92, 88], [398, 164, 86, 62], [462, 184, 58, 44],
+      [172, 198, 116, 42], [300, 202, 126, 40]
+    ];
+    for (const [x, y, rx, ry] of puffs) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(1, ry / rx);
+      const gradient = ctx.createRadialGradient(0, -rx * 0.18, rx * 0.08, 0, 0, rx);
+      gradient.addColorStop(0, 'rgba(255,255,255,0.98)');
+      gradient.addColorStop(0.48, 'rgba(235,246,255,0.96)');
+      gradient.addColorStop(0.78, 'rgba(190,216,240,0.88)');
+      gradient.addColorStop(1, 'rgba(150,190,225,0)');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(0, 0, rx, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Sombra azul suave na base para dar volume sem parecer fumaça escura.
+    const base = ctx.createLinearGradient(0, 170, 0, 256);
+    base.addColorStop(0, 'rgba(190,218,244,0)');
+    base.addColorStop(1, 'rgba(125,169,210,0.58)');
+    ctx.fillStyle = base;
+    ctx.fillRect(0, 170, width, 86);
+
+    if (this.textures.exists(key)) this.textures.remove(key);
+    this.textures.addCanvas(key, canvas);
+
+    const count = 48;
+    const ringRadius = ISLAND_RADIUS + 155;
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 * i) / count;
+      const variation = 0.88 + ((i * 17) % 9) * 0.035;
+      const x = ISLAND_RADIUS + Math.cos(angle) * ringRadius;
+      const y = ISLAND_RADIUS + Math.sin(angle) * ringRadius;
+      const cloud = this.add.image(x, y, key)
+        .setOrigin(0.5, 0.5)
+        .setRotation(angle + Math.PI / 2)
+        .setScale(variation)
+        .setDepth(-1100);
+      cloud.setAlpha(0.94);
     }
   }
 
-  persistProgress(patch = {}) {
-    this.savedProgress = { ...(this.savedProgress || {}), ...patch, at: Date.now() };
-    try {
-      localStorage.setItem(SAVE_KEY, JSON.stringify(this.savedProgress));
-      return true;
-    } catch (error) {
-      console.warn('Não foi possível salvar o progresso neste dispositivo.', error);
-      return false;
-    }
-  }
 
   /** Troca apenas a aparência; Player, física, navegação e posição permanecem intactos. */
   async equipPlayerSkin(skinId) {
