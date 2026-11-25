@@ -339,7 +339,8 @@ export default class CharacterRenderer3D {
 
   setDirection(x, y) {
     if (Math.hypot(x, y) < 0.0001) return;
-    const angle = Math.atan2(x, -y);
+    // O eixo vertical do GLB está invertido em relação ao mapa: norte/sul precisam trocar.
+    const angle = Math.atan2(x, y);
     const sector = Math.PI / 4;
     this.direction = Math.round(angle / sector) * sector;
     if (this.root) this.root.rotation.y = this.direction;
