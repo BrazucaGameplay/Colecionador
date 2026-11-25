@@ -74,11 +74,9 @@ export default class Game extends Phaser.Scene {
     this.camera = this.cameras.main;
     // Zoom padrão próximo ao enquadramento de referência: o personagem fica
     // legível no celular sem enquadrar a ilha inteira de uma vez.
-    const defaultZoom = Math.min(
-      CAMERA_ZOOM.default,
-      Math.max(CAMERA_ZOOM.min, viewWidth / 420)
-    );
-    this.camera.setZoom(defaultZoom);
+    // Zoom fixo de referência: mantém o enquadramento próximo ao screenshot
+    // enviado pelo usuário em telas mobile, sem reduzir automaticamente em telas estreitas.
+    this.camera.setZoom(CAMERA_ZOOM.default);
 
     const viewportWorldWidth = this.camera.width / this.camera.zoom;
     const viewportWorldHeight = this.camera.height / this.camera.zoom;
