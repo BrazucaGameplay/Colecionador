@@ -6,7 +6,7 @@ import MovementSystem from '../src/systems/MovementSystem.js';
 
 test('corrida e locomoção não substituem uma ação de combate protegida', () => {
   const state = new CharacterActionState();
-  const attack = state.start('combat', { priority: ACTION_PRIORITY.combat, interruptible: false, lockMovement: true });
+  const attack = state.start('combat', { priority: ACTION_PRIORITY.combat, interruptible: true, lockMovement: true });
   assert.equal(attack.accepted, true);
   assert.equal(state.canStart('running', { priority: ACTION_PRIORITY.locomotion }), false);
   assert.equal(state.start('running', { priority: ACTION_PRIORITY.locomotion }).accepted, false);
