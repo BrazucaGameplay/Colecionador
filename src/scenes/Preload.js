@@ -5,9 +5,15 @@ const WORLD_ASSETS = [
   ['island-01', 'assets/world/Islands/island-01.png'],
   // Textura de terreno em alta resolução, repetida por código para preencher a silhueta.
   ['island-ground-tile', 'assets/world/Islands/island-01/ground/terreno-01.png'],
-  // Árvores em camada independente do terreno.
+  // Vegetação e elementos de relevo enviados para a ilha.
   ['tree-large', 'assets/world/vegetation/arvore_1.png'],
-  ['tree-flowering', 'assets/world/vegetation/arvore_2.png']
+  ['tree-flowering', 'assets/world/vegetation/arvore_2.png'],
+  ['waterfall-edge-a', 'assets/world/rock/cascata_1.png'],
+  ['waterfall-edge-b', 'assets/world/rock/cascata3.png'],
+  ['hill-a', 'assets/world/rock/colina.png'],
+  ['hill-b', 'assets/world/rock/colina2.png'],
+  ['hill-c', 'assets/world/rock/colina_3.png'],
+  ['rock-cluster', 'assets/world/rock/file_0000000086fc820e95353e02c57fdd6f.png']
 ];
 
 export default class Preload extends Phaser.Scene {
@@ -30,7 +36,7 @@ export default class Preload extends Phaser.Scene {
       label.setText('Falha ao carregar recursos do jogo.');
     });
     for (const [key, url] of WORLD_ASSETS) {
-      this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-trees-01');
+      this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-world-edge-01');
     }
   }
 
