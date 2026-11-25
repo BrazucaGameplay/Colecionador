@@ -333,7 +333,7 @@ REGRAS DE ARQUITETURA:
 ESTRUTURA IMPLEMENTADA:
 - src/entities/Player.js
 - src/entities/PlayerBodyAdapter.js
-- src/entities/CharacterRenderer3D.js
+- src/rendering/characters/CharacterRenderer3D.js
 - src/rendering/characters/CharacterAssets.js
 - src/systems/MovementSystem.js
 - src/systems/input/TouchInputController.js

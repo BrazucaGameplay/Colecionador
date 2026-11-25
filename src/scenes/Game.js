@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import Player from '../entities/Player.js';
 import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
-import CharacterRenderer3D from '../entities/CharacterRenderer3D.js';
+import CharacterRenderer3D from '../rendering/characters/CharacterRenderer3D.js';
 import { PLAYER_MODEL_URL } from '../rendering/characters/CharacterAssets.js';
 import Monster from '../entities/Monster.js';
 import WorldNavigation from '../world/WorldNavigation.js';
