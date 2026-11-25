@@ -188,6 +188,7 @@ export default class Game extends Phaser.Scene {
   hitMonster() {
     if (this._cooldown > this.time.now) return;
     this._cooldown = this.time.now + 500;
+    this.player.attack();
     this.monster.takeHit();
     if (this.monster.dead) {
       this.score++;
@@ -244,7 +245,7 @@ export default class Game extends Phaser.Scene {
       vy /= length;
     }
     this.player.move(vx, vy);
-    this.player.update();
+    this.player.update(delta, this.camera);
     this.monster.update(this.time.now);
     const monsterNextX = this.monster.sprite.x + this.monster.sprite.body.velocity.x * step;
     const monsterNextY = this.monster.sprite.y + this.monster.sprite.body.velocity.y * step;
@@ -257,6 +258,7 @@ export default class Game extends Phaser.Scene {
   }
 
   shutdown() {
+    this.player?.destroy();
     this.input.off('pointerdown', this.onPointerDown, this);
     this.input.off('pointermove', this.onPointerMove, this);
     this.input.off('pointerup', this.onPointerUp, this);
