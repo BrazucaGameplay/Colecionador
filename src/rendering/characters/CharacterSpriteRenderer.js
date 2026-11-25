@@ -57,10 +57,12 @@ export const PLAYER_SPRITE_SKINS = Object.freeze({
   })
 });
 
-const ATTACK_ATLASES = [
-  atlas('shared', 'character-anterior-combate', 'combate'),
-  atlas('shared', 'character-anterior-combate_dd', 'combate_dd')
-];
+const ATTACK_ATLASES_BY_SKIN = Object.freeze({
+  'skin-padrao-1': atlas('skin-padrao-1', 'skin-padrao-1-combate-dd', 'combate_dd'),
+  'skin-padrao-4': atlas('skin-padrao-4', 'skin-padrao-4-d', 'd')
+});
+
+const ATTACK_ATLASES = Object.values(ATTACK_ATLASES_BY_SKIN);
 
 export const PLAYER_ATTACK_SPRITE_ATLASES = Object.freeze(ATTACK_ATLASES);
 export const DEFAULT_PLAYER_SPRITE_SKIN_ID = 'skin-padrao-1';
@@ -173,10 +175,10 @@ export default class CharacterSpriteRenderer {
 
   playSlash() {
     if (this.destroyed || this.lockedAction) return false;
-    const item = PLAYER_ATTACK_SPRITE_ATLASES[this.attackIndex % PLAYER_ATTACK_SPRITE_ATLASES.length];
+    const item = ATTACK_ATLASES_BY_SKIN[this.skinId];
+    if (!item) return false;
     const key = this.animationKey(item);
     if (!key || !this.scene.anims.exists(key)) return false;
-    this.attackIndex++;
     this.lockedAction = true;
     this.sprite.play({ key, repeat: 0 });
     this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onAttackComplete, this);
