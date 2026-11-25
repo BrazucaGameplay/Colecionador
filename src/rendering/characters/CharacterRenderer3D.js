@@ -383,8 +383,20 @@ export default class CharacterRenderer3D {
     if (gltf?.scene) this.disposeObject(gltf.scene);
   }
 
+  isAttackAnimation(name) {
+    const animations = this.skin?.animations || {};
+    return Boolean(name) && (
+      name === animations.attack ||
+      name === animations.attackAlternate
+    );
+  }
+
   setAnimation(name, { loop = true, timeScale = 1 } = {}) {
     if (!this.ready || !this.mixer || !name || !this.actions.has(name)) return false;
+
+    // A espada só acompanha as duas animações de ataque. Qualquer troca
+    // para idle, corrida, caminhada ou morte a oculta imediatamente.
+    this.setWeaponVisible(this.isAttackAnimation(name));
 
     const next = this.actions.get(name);
     if (this.currentActionName === name && next.isRunning()) return true;
@@ -495,6 +507,12 @@ export default class CharacterRenderer3D {
     if (this.disposed || !this.renderer) return;
     this.mixer?.update(Math.min(Math.max(delta, 0), MAX_DELTA_MS) / 1000);
     if (!this.ready || !camera2d || !this.parent) return;
+
+    // Proteção adicional: se não houver uma ação de ataque ativa como ação
+    // atual, a espada permanece invisível mesmo que um callback se perca.
+    if (!this.isAttackAnimation(this.currentActionName)) {
+      this.setWeaponVisible(false);
+    }
 
     const width = this.parent.clientWidth;
     const height = this.parent.clientHeight;
