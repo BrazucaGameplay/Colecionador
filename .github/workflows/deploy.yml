@@ -24,6 +24,24 @@ jobs:
         with:
           node-version: 20
       - run: npm install
+      - name: Verify version in built application
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+
+          const { version } = JSON.parse(readFileSync('package.json', 'utf8'));
+          const html = readFileSync('dist/index.html', 'utf8');
+          const expected = `COLECIONADOR · v${version}`;
+
+          if (!html.includes(expected)) {
+            throw new Error(`Version mismatch: expected "${expected}" in dist/index.html`);
+          }
+          if (html.includes('__APP_VERSION__')) {
+            throw new Error('Unresolved application version placeholder in dist/index.html');
+          }
+
+          console.log(`Built application version verified: ${version}`);
+          NODE
       - name: Verify current character models
         run: |
           for model in \
