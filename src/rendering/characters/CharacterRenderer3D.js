@@ -5,6 +5,7 @@ import { DEFAULT_PLAYER_SKIN_ID, getPlayerSkin } from './CharacterAssets.js';
 
 const MAX_DELTA_MS = 50;
 const CROSS_FADE_SECONDS = 0.16;
+const WEAPON_URL = `${import.meta.env.BASE_URL}assets/weapons/Colossal_Sword_optimized.glb?v=20261125-1`;
 
 /**
  * Renderização visual do personagem.
@@ -41,6 +42,9 @@ export default class CharacterRenderer3D {
     this.actions = new Map();
     this.currentActionName = null;
     this.loadGeneration = 0;
+    this.weapon = null;
+    this.weaponAnchor = null;
+    this.weaponLoadGeneration = 0;
 
     if (!parent) {
       this.onError('Não foi encontrado o elemento de exibição do personagem.');
@@ -200,6 +204,7 @@ export default class CharacterRenderer3D {
     this.model = nextModel;
     this.root.add(nextModel);
     this.skin = skin;
+    this.attachWeaponToRightHand();
     this.actions.clear();
     this.currentActionName = null;
     this.lockedAction = false;
@@ -220,6 +225,64 @@ export default class CharacterRenderer3D {
     this.applyLocomotionAnimation();
   }
 
+  async attachWeaponToRightHand() {
+    const generation = ++this.weaponLoadGeneration;
+    const hand = this.model?.getObjectByName('mixamorig:RightHand') ||
+      this.model?.getObjectByName('RightHand');
+    if (!hand) {
+      console.warn('[CharacterWeapon] Osso da mão direita não encontrado.');
+      return false;
+    }
+
+    const loader = new GLTFLoader();
+    loader.setMeshoptDecoder(MeshoptDecoder);
+    try {
+      const gltf = await loader.loadAsync(WEAPON_URL);
+      if (this.disposed || generation !== this.weaponLoadGeneration || hand !== (this.model?.getObjectByName('mixamorig:RightHand') || this.model?.getObjectByName('RightHand'))) {
+        this.disposeGltf(gltf);
+        return false;
+      }
+
+      if (this.weapon) {
+        this.weaponAnchor?.remove(this.weapon);
+        this.disposeObject(this.weapon);
+      }
+
+      const weapon = gltf.scene;
+      const bounds = new THREE.Box3().setFromObject(weapon);
+      const size = new THREE.Vector3();
+      const center = new THREE.Vector3();
+      bounds.getSize(size);
+      bounds.getCenter(center);
+
+      // O GLB da espada tem seu comprimento no eixo Y. Centralizamos a malha
+      // e posicionamos o cabo próximo à origem do osso da mão.
+      weapon.position.set(-center.x, -bounds.min.y, -center.z);
+      weapon.scale.setScalar(22);
+      weapon.rotation.set(0, 0, 0);
+
+      const anchor = new THREE.Group();
+      anchor.name = 'RightHandWeaponAnchor';
+      anchor.add(weapon);
+      anchor.position.set(0, 0, 0);
+      anchor.rotation.set(0, 0, 0);
+      anchor.visible = false;
+      hand.add(anchor);
+
+      this.weapon = weapon;
+      this.weaponAnchor = anchor;
+      return true;
+    } catch (error) {
+      console.error('[CharacterWeapon] Falha ao carregar a espada.', error);
+      this.onError('Não foi possível carregar a espada de combate.');
+      return false;
+    }
+  }
+
+  setWeaponVisible(visible) {
+    if (this.weaponAnchor) this.weaponAnchor.visible = Boolean(visible);
+  }
+
   clearCurrentModel() {
     if (this.mixer) {
       this.mixer.removeEventListener('finished', this.onActionFinished);
@@ -228,6 +291,11 @@ export default class CharacterRenderer3D {
     }
     this.mixer = null;
     if (this.model) {
+      this.weaponLoadGeneration += 1;
+      if (this.weaponAnchor?.parent) this.weaponAnchor.parent.remove(this.weaponAnchor);
+      if (this.weapon) this.disposeObject(this.weapon);
+      this.weapon = null;
+      this.weaponAnchor = null;
       this.root.remove(this.model);
       this.disposeObject(this.model);
     }
@@ -302,7 +370,13 @@ export default class CharacterRenderer3D {
     if (!name || !this.actions.has(name)) return false;
 
     this.lockedAction = true;
-    return this.setAnimation(name, { loop: false, timeScale: speed });
+    if (animationKey === 'attack' || animationKey === 'attackAlternate') this.setWeaponVisible(true);
+    const started = this.setAnimation(name, { loop: false, timeScale: speed });
+    if (!started) {
+      this.lockedAction = false;
+      this.setWeaponVisible(false);
+    }
+    return started;
   }
 
   onActionFinished = (event) => {
@@ -310,6 +384,7 @@ export default class CharacterRenderer3D {
     if (!this.currentActionName || this.actions.get(this.currentActionName) !== event.action) return;
     this.lockedAction = false;
     this.currentActionName = null;
+    this.setWeaponVisible(false);
     this.applyLocomotionAnimation();
   };
 
@@ -329,6 +404,7 @@ export default class CharacterRenderer3D {
     if (!this.skin.animations?.death) return false;
     this.dead = true;
     this.lockedAction = true;
+    this.setWeaponVisible(false);
     return this.setAnimation(this.skin.animations.death, { loop: false });
   }
 
