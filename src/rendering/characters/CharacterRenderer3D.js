@@ -280,6 +280,12 @@ export default class CharacterRenderer3D {
 
     this.weapon = weapon;
     this.weaponAnchor = weapon;
+
+    // O GLB da espada foi modelado com a ponta no lado que ficava voltado
+    // para a mão. Gira 180° no eixo local Z para deixar o cabo na pegada
+    // e a lâmina apontada para fora, sem alterar o osso nem as animações.
+    this.weapon.rotation.set(0, 0, Math.PI);
+
     this.setWeaponVisible(false);
     this.reportWeaponStatus('ESPADA EMBUTIDA E ANEXADA', {
       hand: hand.name,
