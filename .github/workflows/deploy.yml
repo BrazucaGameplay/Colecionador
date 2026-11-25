@@ -26,14 +26,14 @@ jobs:
       - run: npm install
       - name: Verify current character and weapon assets
         run: |
-          test -s public/assets/characters/crimson-flame-sovereign/character.glb
+          test -s public/assets/characters/skin_01/character.glb
           test -s public/assets/characters/crimson-veinblade/character.glb
           test -s public/assets/weapons/Colossal_Sword_optimized.glb
           echo "Character and weapon assets verified."
       - run: npm run build
       - name: Verify assets in build output
         run: |
-          test -s dist/assets/characters/crimson-flame-sovereign/character.glb
+          test -s dist/assets/characters/skin_01/character.glb
           test -s dist/assets/characters/crimson-veinblade/character.glb
           test -s dist/assets/weapons/Colossal_Sword_optimized.glb
           echo "Build assets verified."
