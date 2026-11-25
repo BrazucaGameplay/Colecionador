@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { getCenteredFrustum, getFramePlacement, getOpaqueBounds } from './frame-grounding.js';
+import { getCameraCenterCorrection, getCenteredFrustum, getFramePlacement, getOpaqueBounds } from './frame-grounding.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('preview');
@@ -152,7 +152,7 @@ function playPreview(index) {
   renderPreview();
 }
 
-function makeFrame(position, yaw, frameSize) {
+function makeFrame(position, yaw, frameSize, cameraCenter = { x: 0, y: 0 }) {
   mixer.stopAllAction();
   const action = mixer.clipAction(currentClip);
   action.reset();
@@ -170,6 +170,9 @@ function makeFrame(position, yaw, frameSize) {
   root.rotation.y = yaw;
   fitGroup.updateMatrixWorld(true);
   model.updateMatrixWorld(true);
+  camera.position.set(cameraCenter.x, cameraCenter.y, 5.5);
+  camera.lookAt(cameraCenter.x, cameraCenter.y, 0);
+  camera.updateMatrixWorld(true);
   renderPreview();
 
   const frame = document.createElement('canvas');
@@ -250,17 +253,33 @@ async function bakeClip(index) {
       const yaw = d * yawStep;
       for (let f = 0; f < frameCount; f++) {
         const time = Math.min(f / fps, Math.max(0, duration - 0.0001));
-        const tile = makeFrame(time, yaw, renderSize);
-        const pixels = tile.getContext('2d', { willReadFrequently: true })
+        let cameraCenter = { x: 0, y: 0 };
+        let tile = makeFrame(time, yaw, renderSize, cameraCenter);
+        let pixels = tile.getContext('2d', { willReadFrequently: true })
           .getImageData(0, 0, renderSize, renderSize).data;
-        const bounds = getOpaqueBounds(pixels, renderSize, renderSize, 24);
+        let bounds = getOpaqueBounds(pixels, renderSize, renderSize, 24);
         if (!bounds) throw new Error('Quadro vazio em ' + currentClip.name + ' d' + d + '-f' + f + '.');
+
+        // Alguns clips têm root motion horizontal/vertical. Centraliza a câmera
+        // pelo bbox de pixels e renderiza de novo antes de aceitar o quadro.
+        for (let attempt = 0; attempt < 4 && (
+          bounds.minX < edgeSafety || bounds.minY < edgeSafety ||
+          bounds.maxX >= renderSize - edgeSafety || bounds.maxY >= renderSize - edgeSafety
+        ); attempt++) {
+          const correction = getCameraCenterCorrection(bounds, renderSize, viewHeight);
+          cameraCenter.x += correction.x;
+          cameraCenter.y += correction.y;
+          tile = makeFrame(time, yaw, renderSize, cameraCenter);
+          pixels = tile.getContext('2d', { willReadFrequently: true })
+            .getImageData(0, 0, renderSize, renderSize).data;
+          bounds = getOpaqueBounds(pixels, renderSize, renderSize, 24);
+          if (!bounds) throw new Error('Quadro vazio após recentralizar ' + currentClip.name + ' d' + d + '-f' + f + '.');
+        }
         if (bounds.minX < edgeSafety || bounds.minY < edgeSafety ||
             bounds.maxX >= renderSize - edgeSafety || bounds.maxY >= renderSize - edgeSafety) {
           throw new Error(
-            'Quadro renderizado toca a borda em ' + currentClip.name + ' d' + d + '-f' + f +
-            ': x=' + bounds.minX + '..' + bounds.maxX + ', y=' + bounds.minY + '..' + bounds.maxY +
-            '. Bake interrompido para não salvar personagem cortado.'
+            'Quadro continua fora da margem após recentralizar ' + currentClip.name + ' d' + d + '-f' + f +
+            ': x=' + bounds.minX + '..' + bounds.maxX + ', y=' + bounds.minY + '..' + bounds.maxY + '.'
           );
         }
         maxBounds.width = Math.max(maxBounds.width, bounds.width);

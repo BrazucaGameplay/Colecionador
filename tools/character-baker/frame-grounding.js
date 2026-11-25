@@ -31,3 +31,17 @@ export function getCenteredFrustum(viewHeight) {
   if (!Number.isFinite(viewHeight) || viewHeight <= 0) throw new RangeError('A altura do enquadramento precisa ser positiva.');
   return { top: viewHeight / 2, bottom: -viewHeight / 2 };
 }
+
+export function getCameraCenterCorrection(bounds, frameSize, viewHeight) {
+  if (!bounds || !Number.isFinite(bounds.minX) || !Number.isFinite(bounds.maxX) ||
+      !Number.isFinite(bounds.minY) || !Number.isFinite(bounds.maxY) ||
+      !Number.isInteger(frameSize) || frameSize < 1 || !Number.isFinite(viewHeight) || viewHeight <= 0) {
+    throw new RangeError('Limites ou parâmetros de centralização da câmera inválidos.');
+  }
+  const centerX = (bounds.minX + bounds.maxX) / 2;
+  const centerY = (bounds.minY + bounds.maxY) / 2;
+  return {
+    x: (centerX - frameSize / 2) * viewHeight / frameSize,
+    y: (frameSize / 2 - centerY) * viewHeight / frameSize
+  };
+}
