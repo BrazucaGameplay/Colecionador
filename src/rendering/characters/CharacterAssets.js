@@ -17,6 +17,12 @@ export const PLAYER_SKINS = Object.freeze({
     ),
     modelHeight: 76,
     animated: true,
+    weapon: Object.freeze({
+      nodeName: 'ColossalSword_AttachedToRightHand',
+      handBoneName: 'mixamorig:RightHand',
+      gripAxis: 'y',
+      rotation: Object.freeze([0, 0, 0])
+    }),
     animations: Object.freeze({
       idle: 'Idle_03',
       walk: 'Running',
