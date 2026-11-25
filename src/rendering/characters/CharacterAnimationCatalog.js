@@ -1,24 +1,39 @@
 /**
- * Catálogo único de animações do protagonista.
- * Os pacotes são arquivos exportados em separado do mesmo personagem,
- * não representam skins ou personagens diferentes.
+ * Catálogo de animações do protagonista.
+ * Os dois GLBs do Release compartilham personagem e esqueleto; cada um
+ * fornece um conjunto de clips para a mesma Skin 01.
  */
-const pack = (id, file, clip, usage, { loop = true, returnToLocomotion = true, priority = 30, interruptible = true, lockMovement = false, holdOnComplete = !returnToLocomotion } = {}) => Object.freeze({
+const pack = (id, file, clip, usage, {
+  loop = true, returnToLocomotion = true, priority = 30,
+  interruptible = true, lockMovement = false, holdOnComplete = !returnToLocomotion
+} = {}) => Object.freeze({
   id, file, clip, usage, loop, returnToLocomotion, priority, interruptible, lockMovement, holdOnComplete,
   key: `character-animation-${id}`,
   path: `assets/characters/sprites/skin_01/${file}`
 });
 
+const running = pack('running', 'skin-basicas-running', 'Running', 'deslocamento');
+
 export const CHARACTER_ANIMATIONS = Object.freeze({
-  idle: pack('idle', 'skin-padrao-2-idle', 'idle', 'repouso'),
-  walking: pack('walking', 'skin-padrao-1-walking', 'walking', 'deslocamento a pé'),
-  running: pack('running', 'skin-padrao-1-running', 'running', 'deslocamento rápido'),
-  combat: pack('combat', 'skin-padrao-1-combate_dd', 'combate_dd', 'ação de combate', { loop: false, priority: 70, interruptible: true, lockMovement: true }),
-  jump: pack('jump', 'skin-padrao-3-salto', 'salto', 'salto', { loop: false, priority: 40, interruptible: true }),
-  dying: pack('dying', 'skin-padrao-2-dying_backwards', 'dying_backwards', 'morte', { loop: false, returnToLocomotion: false, priority: 100, interruptible: false, lockMovement: true, holdOnComplete: true }),
-  handstand: pack('handstand', 'skin-padrao-2-one_arm_handstand', 'one_arm_handstand', 'ação especial', { loop: false, priority: 30, interruptible: true }),
-  runningVariant: pack('runningVariant', 'skin-padrao-2-run_03', 'run_03', 'variação de corrida'),
-  specialD: pack('specialD', 'skin-padrao-4-d', 'd', 'ação especial', { loop: false, priority: 30, interruptible: true })
+  idle: pack('idle', 'skin-basicas-idle', 'Idle', 'repouso'),
+  walking: running,
+  running,
+  dying: pack('dying', 'skin-basicas-dead', 'Dead', 'morte', {
+    loop: false, returnToLocomotion: false, priority: 100,
+    interruptible: false, lockMovement: true, holdOnComplete: true
+  }),
+  flirtyStrut: pack('flirtyStrut', 'skin-basicas-flirty_strut', 'Flirty_Strut', 'passo especial', {
+    loop: false, priority: 30, interruptible: true
+  }),
+  combat: pack('combat', 'skin-batalha-combate_dd', 'Combate_dd', 'ataque de combate', {
+    loop: false, priority: 70, interruptible: true, lockMovement: true
+  }),
+  combatSlash: pack('combatSlash', 'skin-batalha-right_hand_sword_slash', 'Right_Hand_Sword_Slash', 'corte de espada', {
+    loop: false, priority: 70, interruptible: true, lockMovement: true
+  }),
+  jump: pack('jump', 'skin-batalha-salto', 'Salto', 'salto', {
+    loop: false, priority: 40, interruptible: true
+  })
 });
 
 export const DEFAULT_IDLE_ANIMATION = 'idle';

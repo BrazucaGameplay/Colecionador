@@ -3,10 +3,10 @@ name: Bake character spritesheets
   push:
     branches: [main]
     paths:
-      - "public/assets/characters/skin_01/*.glb"
       - "tools/character-baker/**"
       - "scripts/bake-character-sprites.mjs"
-      - "package-lock.json"
+      - "scripts/validate-character-sprites.mjs"
+      - "package.json"
       - ".github/workflows/bake-characters.yml"
   workflow_dispatch:
 
@@ -20,16 +20,28 @@ concurrency:
 jobs:
   bake:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
       - run: npm install
+      - name: Download pinned GLB sources from Release
+        run: |
+          mkdir -p public/assets/characters/skin_01/animation-sources
+          curl --fail --location --retry 3 \
+            "https://github.com/BrazucaGameplay/Colecionador/releases/download/skin-01-animation-sources-v1/animacoes_basicas.glb" \
+            --output public/assets/characters/skin_01/animation-sources/animacoes_basicas.glb
+          curl --fail --location --retry 3 \
+            "https://github.com/BrazucaGameplay/Colecionador/releases/download/skin-01-animation-sources-v1/animacoes_batalha.glb" \
+            --output public/assets/characters/skin_01/animation-sources/animacoes_batalha.glb
+          echo "5b87f00ff4ce79018a8466b53ce7aeb66116b8aca69631028407b4d1ba5ce5a9  public/assets/characters/skin_01/animation-sources/animacoes_basicas.glb" | sha256sum --check
+          echo "f0b3da7edb299d117e9caf41b866696afc7dd7a253fc267ca4477a0ea3b6e355  public/assets/characters/skin_01/animation-sources/animacoes_batalha.glb" | sha256sum --check
       - name: Install Chromium for headless WebGL
         run: npx playwright install chromium --with-deps
-      - name: Render every animation from the four GLBs
+      - name: Render every animation from the two GLBs
         run: node scripts/bake-character-sprites.mjs
       - name: Validate generated sprite anchors
         run: node scripts/validate-character-sprites.mjs public/assets/characters/sprites/skin_01
@@ -52,8 +64,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Spritesheets are already up to date."
           else
-            git commit -m "chore: bake character animation spritesheets"
-            # Reconcile commits made on main while the browser bake was running.
+            git commit -m "chore: bake protagonist animation packs from release sources"
             git pull --rebase origin main
             git push
           fi

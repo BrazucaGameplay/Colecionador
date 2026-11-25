@@ -353,3 +353,35 @@ ESTADO DE VALIDACAO:
 - O GLB permanece no Release e ainda nao esta na pasta local de assets.
 - O personagem logico continua funcional enquanto o arquivo nao for enviado
   para o caminho local indicado.
+
+
+======================================================================
+11. ATUALIZACAO — FONTES DE ANIMACAO DA SKIN 01 (25/11/2026)
+======================================================================
+
+FONTES PUBLICADAS E CONFERIDAS:
+- Release: skin-01-animation-sources-v1
+- animacoes_basicas.glb: Running, Dead, Flirty_Strut e Idle.
+  SHA-256: 5b87f00ff4ce79018a8466b53ce7aeb66116b8aca69631028407b4d1ba5ce5a9
+- animacoes_batalha.glb: Combate_dd, Salto e Right_Hand_Sword_Slash.
+  SHA-256: f0b3da7edb299d117e9caf41b866696afc7dd7a253fc267ca4477a0ea3b6e355
+
+INTEGRACAO:
+- Os dois GLBs permanecem no GitHub Release e sao fontes do processo de bake.
+- O workflow baixa os arquivos por URL fixa e confere SHA-256.
+- Os GLBs ficam temporariamente em public/assets/characters/skin_01/
+  animation-sources/ durante o bake e sao removidos ao concluir.
+- O Baker apresenta os dois pacotes e exporta cada clip em PNG + JSON.
+- O script confere os nomes esperados dos sete clips e exige sete pares.
+- O catalogo do renderer 2D usa Idle, Running, Dead, Flirty_Strut,
+  Combate_dd, Salto e Right_Hand_Sword_Slash.
+- Walking e Running compartilham o atlas Running, evitando duplicacao.
+- A solicitacao logica "combat" alterna entre Combate_dd e
+  Right_Hand_Sword_Slash.
+
+VALIDACAO:
+- Os hashes foram conferidos contra os arquivos-fonte locais e os
+  metadados dos dois assets publicados no Release.
+- A geracao dos atlas depende da execucao do workflow apos este commit.
+- O deploy depende do bake e da execucao subsequente do workflow Deploy.
+- Teste visual e de desempenho no Android permanecem pendentes.

@@ -8,17 +8,17 @@ import {
 } from './CharacterAnimationCatalog.js';
 
 const BASE = import.meta.env.BASE_URL;
-const animationEntries = Object.entries(CHARACTER_ANIMATIONS);
+const animationEntries = [...new Map(Object.values(CHARACTER_ANIMATIONS).map((item) => [item.key, item])).values()];
 
 export function queuePlayerSpriteAssets(loader) {
-  for (const [, item] of animationEntries) {
+  for (const item of animationEntries) {
     loader.json(item.key + '-meta', BASE + item.path + '.json');
     loader.image(item.key, BASE + item.path + '.png');
   }
 }
 
 export function registerPlayerSpriteAnimations(scene) {
-  for (const [, item] of animationEntries) {
+  for (const item of animationEntries) {
     const metadata = scene.cache.json.get(item.key + '-meta');
     const texture = scene.textures.get(item.key);
     if (!metadata || !texture || !metadata.frames?.length) {
@@ -63,6 +63,7 @@ export default class CharacterSpriteRenderer {
     this.currentAnimation = null;
     this.actionState = new CharacterActionState();
     this.actionToken = null;
+    this.nextCombatVariant = 0;
     this.destroyed = false;
     const scaleRatio = scale / 0.62;
     this.shadow = scene.add.ellipse(x, y - 2, 22 * scaleRatio, 9 * scaleRatio, 0x101522, 0.3);
@@ -136,23 +137,25 @@ export default class CharacterSpriteRenderer {
 
   playAction(actionId, overrides = {}) {
     if (this.destroyed) return false;
-    const animation = CHARACTER_ANIMATIONS[actionId];
-    if (!animation || ['idle', 'walking', 'running', 'runningVariant'].includes(actionId)) {
-      console.warn('[CharacterAnimations] Ação desconhecida ou não acionável:', actionId);
+    // Alterna os dois golpes disponíveis quando o jogo solicita "combat".
+    const resolvedId = actionId === 'combat'
+      ? (this.nextCombatVariant++ % 2 === 0 ? 'combat' : 'combatSlash')
+      : actionId;
+    const animation = CHARACTER_ANIMATIONS[resolvedId];
+    if (!animation || ['idle', 'walking', 'running'].includes(resolvedId)) {
+      console.warn('[CharacterAnimations] Ação desconhecida ou não acionável:', resolvedId);
       return false;
     }
     const key = this.animationKey(animation);
     if (!key || !this.scene.anims.exists(key)) {
-      console.warn('[CharacterAnimations] Pacote da ação indisponível:', actionId);
+      console.warn('[CharacterAnimations] Pacote da ação indisponível:', resolvedId);
       return false;
     }
-
-    const started = this.actionState.start(actionId, { ...animation, ...overrides });
+    const started = this.actionState.start(resolvedId, { ...animation, ...overrides });
     if (!started.accepted) return false;
-
     this.sprite.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     this.actionToken = started.action.token;
-    this.currentAnimation = actionId;
+    this.currentAnimation = resolvedId;
     this.sprite.play({ key, repeat: animation.loop ? -1 : 0 });
     if (!animation.loop) this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     return true;
