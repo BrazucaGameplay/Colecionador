@@ -44,6 +44,7 @@ export default class CharacterRenderer3D {
     this.loadGeneration = 0;
     this.weapon = null;
     this.weaponAnchor = null;
+    this.weaponShouldBeVisible = false;
     this.weaponLoadGeneration = 0;
 
     if (!parent) {
@@ -266,7 +267,7 @@ export default class CharacterRenderer3D {
       anchor.add(weapon);
       anchor.position.set(0, 0, 0);
       anchor.rotation.set(0, 0, 0);
-      anchor.visible = false;
+      anchor.visible = this.weaponShouldBeVisible;
       hand.add(anchor);
 
       this.weapon = weapon;
@@ -280,7 +281,8 @@ export default class CharacterRenderer3D {
   }
 
   setWeaponVisible(visible) {
-    if (this.weaponAnchor) this.weaponAnchor.visible = Boolean(visible);
+    this.weaponShouldBeVisible = Boolean(visible);
+    if (this.weaponAnchor) this.weaponAnchor.visible = this.weaponShouldBeVisible;
   }
 
   clearCurrentModel() {
