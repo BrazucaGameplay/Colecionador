@@ -221,58 +221,15 @@ export default class Game extends Phaser.Scene {
    * de caminhada, portanto os elementos de borda não ampliam a área jogável.
    */
   createIslandEdge() {
-    const center = ISLAND_RADIUS;
-
-    // Cascata lateral esquerda: o asset já foi desenhado com o terreno à direita.
-    // Mantemos a orientação original; girá-lo fazia a água atravessar o mapa.
-    const leftWaterfall = this.add.image(250, 1760, 'waterfall-edge-a')
+    // Uma única cascata na borda frontal (parte inferior da tela).
+    // O topo do asset se sobrepõe ao gramado; a queda aponta para fora.
+    const waterfall = this.add.image(ISLAND_RADIUS, ISLAND_DIAMETER - 210, 'waterfall-edge-b')
       .setOrigin(0.5, 0.5)
-      .setScale(0.72)
-      .setDepth(1760 - 180)
+      .setRotation(0)
+      .setScale(0.82)
+      .setDepth(ISLAND_DIAMETER - 360)
       .setData('depthOffset', -180);
-    this.worldObjects.push(leftWaterfall);
-
-    // Cascata de borda superior: posicionada como um trecho focal, não repetida
-    // em volta do círculo. A sobreposição com o terreno fica voltada para dentro.
-    const upperWaterfall = this.add.image(center + 880, 300, 'waterfall-edge-b')
-      .setOrigin(0.5, 0.5)
-      .setScale(0.68)
-      .setDepth(300 - 180)
-      .setData('depthOffset', -180);
-    this.worldObjects.push(upperWaterfall);
-
-    // Colinas ocupam setores distintos do horizonte e ficam atrás da área de jogo.
-    // As posições são fixas e escolhidas para não disputar o centro de nascimento.
-    const relief = [
-      { key: 'hill-b', x: 1040, y: 930, height: 760, originX: 0.5, originY: 0.86 },
-      { key: 'hill-c', x: 3100, y: 2920, height: 790, originX: 0.5, originY: 0.86 }
-    ];
-
-    for (const item of relief) {
-      const image = this.add.image(item.x, item.y, item.key)
-        .setOrigin(item.originX, item.originY);
-      const source = this.textures.get(item.key).getSourceImage();
-      image.setScale(item.height / source.height);
-      image.setDepth(item.y - 160).setData('depthOffset', -160);
-      this.worldObjects.push(image);
-    }
-
-    // Rochas menores funcionam como transição entre o terreno e as formações.
-    const rockPositions = [
-      [690, 1450, 0.34], [1240, 3160, 0.30],
-      [2860, 820, 0.32], [3440, 2220, 0.36],
-      [2100, 3650, 0.28]
-    ];
-    for (const [x, y, scale] of rockPositions) {
-      if (!this.navigation.isAreaWalkable(x, y, 46)) continue;
-      const rock = this.add.image(x, y, 'rock-cluster')
-        .setOrigin(0.5, 0.82)
-        .setScale(scale)
-        .setDepth(y + 8)
-        .setData('depthOffset', 8);
-      this.navigation.addObstacle(x, y - 10, 22, 16);
-      this.worldObjects.push(rock);
-    }
+    this.worldObjects.push(waterfall);
   }
 
   /** Troca apenas a aparência; Player, física e navegação permanecem intactos. */
