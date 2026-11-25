@@ -33,7 +33,7 @@ export const PLAYER_SPRITE_SKINS = Object.freeze({
   'skin-padrao-3': Object.freeze({
     name: 'Skin padrão 3',
     movement: 'running',
-    idle: 'idle_03',
+    idle: 'walking',
     atlases: [
       atlas('skin-padrao-3', 'skin-padrao-3-running', 'running', true),
       atlas('skin-padrao-3', 'skin-padrao-3-walking', 'walking'),
@@ -43,7 +43,7 @@ export const PLAYER_SPRITE_SKINS = Object.freeze({
   'skin-padrao-4': Object.freeze({
     name: 'Skin padrão 4',
     movement: 'running',
-    idle: 'idle_03',
+    idle: 'walking',
     atlases: [
       atlas('skin-padrao-4', 'skin-padrao-4-running', 'running', true),
       atlas('skin-padrao-4', 'skin-padrao-4-walking', 'walking'),
