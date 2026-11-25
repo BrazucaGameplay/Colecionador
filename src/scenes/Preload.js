@@ -10,8 +10,6 @@ const WORLD_ASSETS = [
   ['tree-flowering', 'assets/world/vegetation/arvore_2.png'],
   ['waterfall-edge-a', 'assets/world/rock/cascata_1.png'],
   ['waterfall-edge-b', 'assets/world/rock/cascata3.png'],
-  ['hill-b', 'assets/world/rock/colina2.png'],
-  ['hill-c', 'assets/world/rock/colina_3.png'],
   ['rock-cluster', 'assets/world/rock/file_0000000086fc820e95353e02c57fdd6f.png']
 ];
 
@@ -35,7 +33,7 @@ export default class Preload extends Phaser.Scene {
       label.setText('Falha ao carregar recursos do jogo.');
     });
     for (const [key, url] of WORLD_ASSETS) {
-      this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-world-layout-02');
+      this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-front-waterfall-03');
     }
   }
 
