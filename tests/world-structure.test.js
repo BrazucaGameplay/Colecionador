@@ -68,7 +68,7 @@ test('cada pacote catalogado possui PNG e JSON correspondentes', async () => {
 });
 
 
-import { getFramePlacement, getOpaqueBounds } from '../tools/character-baker/frame-grounding.js';
+import { getCenteredFrustum, getFramePlacement, getOpaqueBounds } from '../tools/character-baker/frame-grounding.js';
 
 test('limites visíveis medem a área real do personagem', () => {
   const width = 8, height = 10;
@@ -88,4 +88,10 @@ test('normalização mantém escala comum e linha de chão consistente', () => {
   assert.equal(placement.y + placement.height, 120);
   assert.equal(placement.x + placement.width / 2, 64);
   assert.throws(() => getFramePlacement(bounds, maxBounds, 128, 64, 112));
+});
+
+test('frustum ortográfico fica centrado no espaço local da câmera', () => {
+  assert.deepEqual(getCenteredFrustum(4), { top: 2, bottom: -2 });
+  assert.deepEqual(getCenteredFrustum(2.5), { top: 1.25, bottom: -1.25 });
+  assert.throws(() => getCenteredFrustum(0));
 });

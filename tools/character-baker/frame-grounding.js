@@ -26,3 +26,8 @@ export function getFramePlacement(bounds, maxBounds, frameSize, padding = 8, tar
   const width = bounds.width * scale, height = bounds.height * scale;
   return { x: (frameSize - width) / 2, y: frameSize - padding - height, width, height, scale, pivotY: (frameSize - padding) / frameSize };
 }
+
+export function getCenteredFrustum(viewHeight) {
+  if (!Number.isFinite(viewHeight) || viewHeight <= 0) throw new RangeError('A altura do enquadramento precisa ser positiva.');
+  return { top: viewHeight / 2, bottom: -viewHeight / 2 };
+}

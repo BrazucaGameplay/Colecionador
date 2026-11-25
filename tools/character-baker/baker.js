@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { getFramePlacement, getOpaqueBounds } from './frame-grounding.js';
+import { getCenteredFrustum, getFramePlacement, getOpaqueBounds } from './frame-grounding.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('preview');
@@ -219,9 +219,8 @@ async function bakeClip(index) {
   const targetContentHeight = Math.min(frameSize - padding * 2, frameSize * scalePercent);
   const renderSize = Math.round(frameSize * 1.5);
   const viewHeight = 4.0;
-  const viewBottom = -viewHeight * 0.30;
-  const viewTop = viewBottom + viewHeight;
-  const viewCenterY = 0.8;
+  const { top: viewTop, bottom: viewBottom } = getCenteredFrustum(viewHeight);
+  const viewCenterY = 0;
   const oldSize = previewRenderer.getSize(new THREE.Vector2());
   const oldCamera = {
     left: camera.left, right: camera.right, top: camera.top, bottom: camera.bottom,
