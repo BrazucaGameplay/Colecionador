@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import Player from '../entities/Player.js';
 import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
 import CharacterRenderer3D from '../rendering/characters/CharacterRenderer3D.js';
-import { PLAYER_MODEL_URL } from '../rendering/characters/CharacterAssets.js';
+import { DEFAULT_PLAYER_SKIN_ID } from '../rendering/characters/CharacterAssets.js';
 import Monster from '../entities/Monster.js';
 import WorldNavigation from '../world/WorldNavigation.js';
 import MovementSystem from '../systems/MovementSystem.js';
@@ -41,8 +41,9 @@ export default class Game extends Phaser.Scene {
     this.player = new Player({ x: playerSpawn.x, y: playerSpawn.y, speed: 220, maxHealth: 3 });
     this.playerBody = new PlayerBodyAdapter(this, this.player);
     this.characterRenderer = new CharacterRenderer3D(this.game.canvas.parentElement, {
-      modelUrl: PLAYER_MODEL_URL,
-      onError: (message) => console.warn('[CharacterRenderer]', message)
+      skinId: DEFAULT_PLAYER_SKIN_ID,
+      onError: (message) => console.warn('[CharacterRenderer]', message),
+      onSkinChanged: (skin) => console.info('[CharacterSkin] equipada:', skin.name)
     });
 
     const monsterSpawn = this.navigation.findNearestWalkablePoint(centerX - 180, centerY - 105);
@@ -129,6 +130,11 @@ export default class Game extends Phaser.Scene {
     context.drawImage(source, 0, 0);
     const pixels = context.getImageData(0, 0, source.width, source.height).data;
     this.navigation.setAlphaMask(pixels, source.width, source.height, 150);
+  }
+
+  /** Troca apenas a aparência; Player, física e navegação permanecem intactos. */
+  equipPlayerSkin(skinId) {
+    return this.characterRenderer?.setSkin(skinId) ?? Promise.resolve(false);
   }
 
   hitMonster() {
