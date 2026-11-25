@@ -249,7 +249,27 @@ async function bakeClip(index) {
   return totalFrames;
 }
 
-// API usada pelo GitHub Actions para gerar os arquivos sem intervenção manual.\nwindow.__characterBaker = {\n  async loadModel(path) {\n    $('model').value = path;\n    await loadModel();\n    if (!model || !clips.length) throw new Error('Não foi possível carregar animações de ' + path);\n    return clips.map((clip, index) => ({ index, name: clip.name, duration: clip.duration }));\n  },\n  async bakeAll() {\n    if (!model || !clips.length) throw new Error('Nenhum modelo carregado.');\n    selected = new Set(clips.map((_, index) => index));\n    const jobs = [...selected];\n    for (let i = 0; i < jobs.length; i++) {\n      await bakeClip(jobs[i]);\n      status('Concluído: ' + (i + 1) + '/' + jobs.length + ' animações exportadas.');\n    }\n    return jobs.length;\n  }\n};\n\n$('load').addEventListener('click', loadModel);
+// API usada pelo GitHub Actions para gerar os arquivos sem intervenção manual.
+window.__characterBaker = {
+  async loadModel(path) {
+    $('model').value = path;
+    await loadModel();
+    if (!model || !clips.length) throw new Error('Não foi possível carregar animações de ' + path);
+    return clips.map((clip, index) => ({ index, name: clip.name, duration: clip.duration }));
+  },
+  async bakeAll() {
+    if (!model || !clips.length) throw new Error('Nenhum modelo carregado.');
+    selected = new Set(clips.map((_, index) => index));
+    const jobs = [...selected];
+    for (let i = 0; i < jobs.length; i++) {
+      await bakeClip(jobs[i]);
+      status('Concluído: ' + (i + 1) + '/' + jobs.length + ' animações exportadas.');
+    }
+    return jobs.length;
+  }
+};
+
+$('load').addEventListener('click', loadModel);
 $('all').addEventListener('click', () => {
   selected = new Set(clips.map((_, i) => i));
   buildClipList();
