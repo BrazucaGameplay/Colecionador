@@ -109,7 +109,7 @@ export default class CharacterRenderer3D {
     }
 
     this.ready = true;
-    this.setAnimation(ANIMATION.idle, true);
+    this.setAnimation(this.moving ? ANIMATION.walk : ANIMATION.idle, !this.moving);
     this.onReady();
   }
 
