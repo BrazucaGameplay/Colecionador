@@ -1,6 +1,4 @@
 import Phaser from 'phaser';
-import { PLAYER_SKINS, DEFAULT_PLAYER_SKIN_ID } from '../rendering/characters/CharacterAssets.js';
-import { SAVE_KEY } from '../config.js';
 
 export default class Menu extends Phaser.Scene {
   constructor() {
@@ -10,30 +8,6 @@ export default class Menu extends Phaser.Scene {
 
   create() {
     this.showMainMenu();
-  }
-
-  readSave() {
-    try {
-      const value = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
-      return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
-    } catch {
-      return {};
-    }
-  }
-
-  saveSkin(skinId) {
-    const current = this.readSave();
-    try {
-      localStorage.setItem(SAVE_KEY, JSON.stringify({
-        ...current,
-        skinId,
-        at: Date.now()
-      }));
-      return true;
-    } catch (error) {
-      console.warn('Não foi possível salvar a skin selecionada.', error);
-      return false;
-    }
   }
 
   clearMenu() {
@@ -80,49 +54,7 @@ export default class Menu extends Phaser.Scene {
       color: '#94a3b8'
     }).setOrigin(0.5));
 
-    const saved = this.readSave();
-    const selected = Object.values(PLAYER_SKINS).find((skin) => skin.id === (saved.skinId || DEFAULT_PLAYER_SKIN_ID));
-    this.menuItems.push(this.add.text(width / 2, height * 0.47,
-      'Skin: ' + (selected?.name || 'Padrão'), {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '13px',
-      color: '#cbd5e1'
-    }).setOrigin(0.5));
-
-    this.addMenuButton(width / 2, height * 0.60, 'JOGAR', () => this.scene.start('Game'));
-    this.addMenuButton(width / 2, height * 0.72, 'ESCOLHER SKIN', () => this.showSkinSelector(), { width: 240 });
+    this.addMenuButton(width / 2, height * 0.62, 'JOGAR', () => this.scene.start('Game'));
   }
 
-  showSkinSelector() {
-    this.clearMenu();
-    const { width, height } = this.scale;
-    this.menuItems.push(this.add.rectangle(0, 0, width, height, 0x0b0f1a).setOrigin(0));
-    this.menuItems.push(this.add.text(width / 2, height * 0.16, 'SKINS DO PERSONAGEM', {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '23px',
-      fontStyle: 'bold',
-      color: '#f8fafc'
-    }).setOrigin(0.5));
-
-    const saved = this.readSave();
-    const currentId = saved.skinId || DEFAULT_PLAYER_SKIN_ID;
-    const skins = Object.values(PLAYER_SKINS);
-    let y = height * 0.31;
-
-    for (const skin of skins) {
-      const isReady = skin.animated && Boolean(skin.animations?.idle) && Boolean(skin.animations?.walk);
-      const isSelected = skin.id === currentId;
-      const label = [
-        skin.name,
-        isSelected ? 'EQUIPADA' : (isReady ? 'DISPONÍVEL' : 'EM PREPARAÇÃO — sem animações')
-      ].join('\n');
-      this.addMenuButton(width / 2, y, label, () => {
-        if (!this.saveSkin(skin.id)) return;
-        this.showSkinSelector();
-      }, { disabled: !isReady, width: Math.min(300, width - 36) });
-      y += 78;
-    }
-
-    this.addMenuButton(width / 2, Math.min(height * 0.86, y + 8), 'VOLTAR', () => this.showMainMenu(), { width: 180 });
-  }
 }
