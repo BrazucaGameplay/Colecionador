@@ -32,3 +32,15 @@ export function getOpaqueBottomPivot(bottomOpaqueRow, height) {
     ? Math.min(0.96, (bottomOpaqueRow + 1) / height)
     : 0.84;
 }
+
+export function findOpaqueTopRow(rgba, width, height, alphaThreshold = 24) {
+  if (!rgba || !Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || rgba.length < width * height * 4) {
+    throw new TypeError('Buffer RGBA ou dimensões do quadro inválidos.');
+  }
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      if (rgba[(y * width + x) * 4 + 3] > alphaThreshold) return y;
+    }
+  }
+  return -1;
+}

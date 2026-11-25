@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { findOpaqueBottomRow, getGroundedFitY, getOpaqueBottomPivot } from './frame-grounding.js';
+import { findOpaqueBottomRow, findOpaqueTopRow, getGroundedFitY, getOpaqueBottomPivot } from './frame-grounding.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('preview');
@@ -152,7 +152,7 @@ function playPreview(index) {
   renderPreview();
 }
 
-function makeFrame(position, yaw, frameSize) {
+function makeFrame(position, yaw, frameSize, verticalOffset = 0) {
   mixer.stopAllAction();
   const action = mixer.clipAction(currentClip);
   action.reset();
@@ -178,7 +178,7 @@ function makeFrame(position, yaw, frameSize) {
   });
   const poseBounds = new THREE.Box3().setFromObject(model);
   if (!Number.isFinite(poseBounds.min.y)) throw new Error('Não foi possível calcular o ponto de apoio da pose.');
-  fitGroup.position.y = getGroundedFitY(fitBasePosition.y, poseBounds.min.y);
+  fitGroup.position.y = getGroundedFitY(fitBasePosition.y, poseBounds.min.y) + verticalOffset;
   fitGroup.updateMatrixWorld(true);
   model.updateMatrixWorld(true);
   renderPreview();
@@ -253,28 +253,32 @@ async function bakeClip(index) {
     const yaw = d * yawStep;
     for (let f = 0; f < frameCount; f++) {
       const time = Math.min(f / fps, Math.max(0, duration - 0.0001));
-      const tile = makeFrame(time, yaw, frameSize);
-      // O pivot segue o pixel opaco mais baixo de cada pose, não um valor fixo.
-      const tileContext = tile.getContext('2d', { willReadFrequently: true });
-      const pixels = tileContext.getImageData(0, 0, frameSize, frameSize).data;
-      const bottomOpaqueRow = findOpaqueBottomRow(pixels, frameSize, frameSize, 24);
-      let framePivotY;
-      try {
-        framePivotY = getOpaqueBottomPivot(bottomOpaqueRow, frameSize);
-      } catch (error) {
-        const alphaAt = (x, y) => pixels[(y * frameSize + x) * 4 + 3];
-        let opaquePixels = 0;
-        for (let i = 3; i < pixels.length; i += 4) if (pixels[i] > 24) opaquePixels++;
-        const alphaDiagnostics = [
-          `corners=${alphaAt(0, 0)},${alphaAt(frameSize - 1, 0)},${alphaAt(0, frameSize - 1)},${alphaAt(frameSize - 1, frameSize - 1)}`,
-          `bottomCenter=${alphaAt(Math.floor(frameSize / 2), frameSize - 1)}`,
-          `opaquePixels=${opaquePixels}/${frameSize * frameSize}`
-        ].join('; ');
+      const safeBottomRow = frameSize - 8;
+      let verticalOffset = 0;
+      let tile = makeFrame(time, yaw, frameSize, verticalOffset);
+      let pixels = tile.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, frameSize, frameSize).data;
+      let bottomOpaqueRow = findOpaqueBottomRow(pixels, frameSize, frameSize, 24);
+      let topOpaqueRow = findOpaqueTopRow(pixels, frameSize, frameSize, 24);
+
+      // A caixa geométrica pode não incluir a deformação final dos ossos.
+      // Os pixels renderizados são a referência final: sobe a pose em passos
+      // calculados pela projeção para reservar margem real abaixo dos pés.
+      for (let attempt = 0; bottomOpaqueRow > safeBottomRow && attempt < 3; attempt++) {
+        const overflowPixels = bottomOpaqueRow - safeBottomRow + 1;
+        verticalOffset += overflowPixels * viewHeight / frameSize;
+        tile = makeFrame(time, yaw, frameSize, verticalOffset);
+        pixels = tile.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, frameSize, frameSize).data;
+        bottomOpaqueRow = findOpaqueBottomRow(pixels, frameSize, frameSize, 24);
+        topOpaqueRow = findOpaqueTopRow(pixels, frameSize, frameSize, 24);
+      }
+
+      if (bottomOpaqueRow > safeBottomRow || (topOpaqueRow >= 0 && topOpaqueRow < 2)) {
         throw new Error(
-          `Quadro ${currentClip.name} d${d}-f${f}: ${error.message} ` +
-          `(pose minY=${new THREE.Box3().setFromObject(model).min.y.toFixed(4)}; ${alphaDiagnostics}).`
+          `Quadro ${currentClip.name} d${d}-f${f} não cabe com margem segura: ` +
+          `topo=${topOpaqueRow}, base=${bottomOpaqueRow}, limite inferior=${safeBottomRow}.`
         );
       }
+      const framePivotY = getOpaqueBottomPivot(bottomOpaqueRow, frameSize);
       const x = (frameIndex % columns) * frameSize;
       const y = Math.floor(frameIndex / columns) * frameSize;
       ctx.drawImage(tile, x, y);

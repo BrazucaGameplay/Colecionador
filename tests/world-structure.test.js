@@ -68,7 +68,7 @@ test('cada pacote catalogado possui PNG e JSON correspondentes', async () => {
 });
 
 
-import { findOpaqueBottomRow, getGroundedFitY, getOpaqueBottomPivot } from '../tools/character-baker/frame-grounding.js';
+import { findOpaqueBottomRow, findOpaqueTopRow, getGroundedFitY, getOpaqueBottomPivot } from '../tools/character-baker/frame-grounding.js';
 
 test('enquadramento compensa deslocamento vertical de raiz sem alterar a posição do mundo', () => {
   assert.equal(getGroundedFitY(0.42, -0.35), 0.77);
@@ -82,6 +82,7 @@ test('pivô acompanha o último pixel visível e rejeita quadros cortados', () =
   const rgba = new Uint8ClampedArray(width * height * 4);
   rgba[(6 * width + 1) * 4 + 3] = 255;
   assert.equal(findOpaqueBottomRow(rgba, width, height), 6);
+  assert.equal(findOpaqueTopRow(rgba, width, height), 6);
   assert.equal(getOpaqueBottomPivot(6, height), 0.7);
   assert.equal(getOpaqueBottomPivot(-1, height), 0.84);
   assert.throws(() => getOpaqueBottomPivot(9, height), /borda inferior/);
