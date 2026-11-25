@@ -4,6 +4,8 @@ export default class Monster {
     this.spawn = { x, y };
     this.maxHp = 2;
     this.hp = this.maxHp;
+    // Monstro de teste: permanece vivo para permitir testes contínuos de combate.
+    this.immortal = true;
     this.dead = false;
     this.nextMoveAt = 0;
     this.sprite = scene.physics.add.sprite(x, y, 'monster');
@@ -12,7 +14,8 @@ export default class Monster {
 
   takeHit() {
     if (this.dead) return;
-    this.hp -= 1;
+
+    // Mantém o feedback visual do impacto sem aplicar dano ao monstro de teste.
     this.scene.tweens.add({
       targets: this.sprite,
       scale: 1.4,
@@ -20,6 +23,9 @@ export default class Monster {
       yoyo: true
     });
 
+    if (this.immortal) return;
+
+    this.hp -= 1;
     if (this.hp <= 0) {
       this.dead = true;
       this.sprite.setVelocity(0, 0).setVisible(false);
