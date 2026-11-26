@@ -1,64 +1,87 @@
-# Guia de sprites de monstros — Colecionador
+# Guia de produção de sprites de monstros — Colecionador
 
-## Localização
+## Objetivo
 
-Os recursos de cada espécie ficam em uma pasta própria:
+Este guia define o formato de entrega para os monstros do jogo. A primeira espécie preparada é o **Slime**. O código já possui carregador, renderer, animações e validação; faltam somente os atlas finais.
 
-`public/assets/monsters/slime/`
+## Arquivos do Slime
 
-A definição da espécie está em `src/data/monsters/index.js`. Não colocar
-sprites de monstros dentro da pasta do protagonista ou dos assets do mundo.
+Coloque os oito arquivos diretamente em `public/assets/monsters/slime/`:
 
-## Pacotes da primeira espécie
+| Animação | PNG | JSON | Loop |
+|---|---|---|---|
+| Repouso | `slime-idle.png` | `slime-idle.json` | Sim |
+| Caminhada | `slime-walk.png` | `slime-walk.json` | Sim |
+| Ataque | `slime-attack.png` | `slime-attack.json` | Não |
+| Morte | `slime-death.png` | `slime-death.json` | Não |
 
-| Estado | PNG | JSON |
-|---|---|---|
-| Repouso | `slime-idle.png` | `slime-idle.json` |
-| Movimento | `slime-walk.png` | `slime-walk.json` |
-| Ataque | `slime-attack.png` | `slime-attack.json` |
-| Morte | `slime-death.png` | `slime-death.json` |
+Não renomeie os arquivos. O catálogo do jogo já aponta para esses nomes.
 
-Os nomes e caminhos são relativos a `public/assets/monsters/slime/`.
-Cada pacote é carregado separadamente, como ocorre com os atlas do protagonista.
+## Especificação de arte e spritesheet
 
-## Contrato JSON
+- PNG RGBA com fundo totalmente transparente.
+- Sem chão desenhado, sombra projetada, moldura, texto ou efeitos fora da silhueta do slime. A sombra de contato é criada pelo jogo.
+- Uma célula por quadro; todas as células da mesma espécie devem ter a mesma largura e altura.
+- Tamanho recomendado por célula: **128 × 128 px**. O gerador aceita outras dimensões, desde que sejam idênticas em todos os quadros.
+- Organize o spritesheet em **8 linhas**, uma por direção, e quadros em colunas.
+- Ordem das direções, exatamente como o código espera:
+  - linha 0: sul (de frente para baixo da tela)
+  - linha 1: sudeste
+  - linha 2: leste
+  - linha 3: nordeste
+  - linha 4: norte (costas)
+  - linha 5: noroeste
+  - linha 6: oeste
+  - linha 7: sudoeste
+- Todas as direções devem ter a mesma quantidade de quadros. Não deixe células vazias no meio da sequência.
+- Mantenha o centro de massa e o contato com o chão consistentes. O ponto de apoio deve ficar próximo ao centro inferior da célula.
+- O slime deve permanecer inteiro dentro da célula, inclusive nos quadros de ataque e morte.
 
-Usar o schema `colecionador.sprite-atlas.v1`, seguindo os metadados
-já presentes em `public/assets/characters/sprites/skin_01/`.
+### Quantidade de quadros sugerida
 
-Campos necessários:
-- `fps`: quadros por segundo.
-- `frameSize`: largura e altura de cada quadro.
-- `frameCount`: total de quadros.
-- `directionCount`: quantidade de direções.
-- `atlas`: dimensões e organização do atlas.
-- `pivot`: pivô de referência.
-- `frames`: lista com `frame`, `direction`, `x`, `y`, `width`,
-  `height`, `pivotX` e `pivotY`.
+Esta é uma recomendação de produção, não uma limitação do motor:
 
-O renderer gera nomes internos `d{direction}-f{frame}`. Os quadros devem
-estar ordenados por direção e índice; a direção 0 precisa existir.
-O pivô deve apontar para o contato real do monstro com o chão, e pode variar
-por quadro para impedir que o personagem flutue durante a animação.
+| Animação | Quadros por direção | FPS inicial |
+|---|---:|---:|
+| Idle | 8 | 8 |
+| Walk | 8 | 10 |
+| Attack | 6 | 12 |
+| Death | 8 | 10 |
 
-## Como integrar quando os sprites estiverem prontos
+Ajuste a quantidade se a animação precisar; informe a quantidade real ao gerar o JSON.
 
-1. Enviar os pares PNG/JSON para a pasta da espécie.
-2. Conferir os nomes e caminhos em `src/data/monsters/index.js`.
-3. Definir `visual.enabled: true`.
-4. Ajustar os quadros de idle, walking, attack e death conforme os nomes
-   efetivamente presentes no JSON.
-5. Executar `npm test` e `npm run build`.
-6. Confirmar no Android escala, pivô, leitura das animações e profundidade.
+## Gerar o JSON automaticamente
 
-O workflow valida automaticamente os pares e os pivôs dos atlas habilitados.
-Enquanto `visual.enabled` for false, o jogo não requisita arquivos ausentes
-nem cria círculos ou outras imagens temporárias.
+Depois de exportar cada PNG no formato de 8 linhas por direção, use o gerador do repositório. Exemplo, executado na raiz do projeto:
 
-## Regras visuais
+```bash
+node scripts/create-monster-atlas.mjs public/assets/monsters/slime/slime-idle.png public/assets/monsters/slime/slime-idle.json 128 128 8 8
+node scripts/create-monster-atlas.mjs public/assets/monsters/slime/slime-walk.png public/assets/monsters/slime/slime-walk.json 128 128 8 10
+node scripts/create-monster-atlas.mjs public/assets/monsters/slime/slime-attack.png public/assets/monsters/slime/slime-attack.json 128 128 6 12
+node scripts/create-monster-atlas.mjs public/assets/monsters/slime/slime-death.png public/assets/monsters/slime/slime-death.json 128 128 8 10
+```
 
-- Preferir PNG com transparência.
-- Manter proporção consistente entre os quadros de uma mesma espécie.
-- Não inserir nome, moldura ou texto no spritesheet.
-- Não usar carta ilustrada 2:3 como spritesheet de gameplay.
-- Manter o ponto de apoio coerente com a perspectiva e com o chão da ilha.
+Formato dos argumentos: `PNG JSON largura-da-celula altura-da-celula quadros-por-direcao FPS [pivotX] [pivotY]`.
+
+O PNG deve ter exatamente `largura × quadros` por `altura × 8` pixels. O gerador confere as dimensões e escreve o JSON no schema `colecionador.sprite-atlas.v1`. O pivô padrão é `x=0.5`, `y=0.9375`; se o ponto de apoio visual exigir ajuste, informe os dois valores opcionais ou ajuste os pivôs individuais no JSON.
+
+## Integração já existente
+
+- Definição: `src/data/monsters/index.js`.
+- Carregamento dos PNG/JSON: `src/rendering/monsters/MonsterAssetLoader.js`.
+- Animação e pivô: `src/rendering/monsters/MonsterRenderer.js`.
+- Validação automática: `scripts/validate-monster-sprites.mjs`.
+- O slime continua com `visual.enabled: false` até os quatro pares estarem prontos. Isso impede requisições a arquivos ausentes e evita arte provisória.
+
+## Checklist de entrega
+
+1. [ ] Os quatro PNGs estão em `public/assets/monsters/slime/`.
+2. [ ] Os quatro JSONs foram gerados e correspondem aos PNGs.
+3. [ ] Cada atlas contém as oito direções, na ordem definida acima.
+4. [ ] O pivô acompanha o contato do slime com o chão sem fazê-lo saltar visualmente.
+5. [ ] Executar `node scripts/validate-monster-sprites.mjs public/assets/monsters`.
+6. [ ] Só então habilitar `visual.enabled: true` em `src/data/monsters/index.js`.
+7. [ ] Executar `npm test` e `npm run build`.
+8. [ ] Conferir tamanho, leitura das animações e profundidade no navegador e em Android real.
+
+**Importante:** não use cartas ilustradas 2:3 como spritesheets de gameplay. Elas são assets diferentes e não são compatíveis com este renderer.
