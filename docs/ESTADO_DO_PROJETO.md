@@ -1842,3 +1842,22 @@ Versão do jogo: 2.4.57
   estruturas e assets permanecem inalterados.
 - A publicação depende da conclusão bem-sucedida de testes, build,
   verificação da versão no artefato, upload e deploy pelo GitHub Actions.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — CORREÇÃO DA EXPECTATIVA DE ZOOM MÁXIMO
+======================================================================
+
+Versão do jogo: 2.4.58
+
+- A execução 45891568103 da versão 2.4.57 falhou em um teste: a asserção
+  final de zoom máximo ainda esperava 0.8x, embora o controlador estivesse
+  corretamente limitando o zoom a 0.6x.
+- A primeira atualização do teste alterou apenas a asserção anterior,
+  deixando essa ocorrência residual sem atualização.
+- Corrigida a asserção restante para 0.6x.
+- A falha ocorreu em testes; build e deploy foram ignorados. A versão
+  2.4.57 não foi publicada.
+- Valores de câmera permanecem: mínimo 0.2x, inicial 0.4x e máximo 0.6x.
+- A nova versão só será considerada publicada após todos os testes,
+  build, verificações, upload do artefato e deploy passarem.
