@@ -831,3 +831,20 @@ VALIDAÇÃO:
   recebem fallback 1/s, consistente com o valor padrão do sistema.
 - Versão anterior: 2.1.2. Nova versão: 2.1.3.
 - package.json e package-lock.json sincronizados em 2.1.3.
+
+
+======================================================================
+21. HUD INDEPENDENTE E CONTROLE DE CÂMERA — 25/11/2026
+======================================================================
+- HUD/status agora vive em uma Phaser Layer dedicada, renderizada por uma
+  segunda câmera com viewport da tela, zoom 1 e scroll independente.
+- A câmera do mundo ignora a camada de interface; a câmera da HUD ignora
+  os objetos do mundo. Isso mantém texto, barras, botão e janela nítidos,
+  sem acompanhar zoom ou arraste do mapa.
+- A câmera principal inicia seguindo o corpo lógico do jogador.
+- Arrastar o mapa interrompe temporariamente o follow, permitindo exploração.
+- Ao selecionar um destino válido, a câmera volta a seguir o jogador com
+  interpolação suave; o toque continua convertido com getWorldPoint.
+- Zoom por pinça continua aplicado somente à câmera do mundo.
+- Versão anterior: 2.1.3. Nova versão: 2.1.4.
+- package.json e package-lock.json sincronizados em 2.1.4.
