@@ -1433,3 +1433,23 @@ VALIDACAO:
 - Teste automatizado verifica o discard e garante que alpha zero nao seja
   usado como mecanismo de recorte.
 - A validacao final depende de observar a renderizacao real no Android.
+
+
+======================================================================
+25. OCEANO TEXTURIZADO COM TILE ESTATICO (26/11/2026)
+======================================================================
+
+- Substituida a cor solida por um TileSprite usando o asset SVG
+  ocean-pattern.svg, com tile de 256 x 256.
+- O tile tem gradiente azul profundo, linhas de onda suaves e pequenas
+  variacoes de brilho, sem filtros SVG e sem imagens incorporadas.
+- O asset e carregado uma vez no Preload e rasterizado pelo renderer
+  como uma unica textura pequena; o TileSprite repete essa textura.
+- O oceano continua sendo um unico Game Object, abaixo da ilha, sem
+  animação, tweens, atualizacao por frame ou geração procedural.
+- Custo estimado de textura: 256 x 256 x 4 bytes = 262.144 bytes
+  (aproximadamente 256 KiB, sem contar overhead do renderer).
+- Custo de CPU em runtime: zero por frame. O custo de desenho e um
+  TileSprite estatico; o fragment fill acompanha apenas a area visivel
+  do oceano, nao os 49.152 x 49.152 pixels geometricos inteiros.
+- Versao: 2.4.2.
