@@ -1,8 +1,8 @@
 import * as Phaser from 'phaser';
 import{STAT_UPGRADES}from'../entities/Player.js';
 export default class PlayerStatusUI{
- constructor(scene,player,progression,{onChange=()=>{}}={}){this.scene=scene;this.player=player;this.progression=progression;this.onChange=onChange;this.objects=[];this.panel=[];this.rows=[];this.open=false;this.create();scene.scale.on('resize',this.layout,this);}
- fixed(o,d=1200){return o.setScrollFactor(0).setDepth(d);}keep(o){this.objects.push(o);return o;}
+ constructor(scene,player,progression,{onChange=()=>{}}={}){this.scene=scene;this.player=player;this.progression=progression;this.onChange=onChange;this.objects=[];this.panel=[];this.rows=[];this.open=false;this.uiLayer=scene.add.layer().setDepth(2000);this.create();scene.scale.on('resize',this.layout,this);}
+ fixed(o,d=1200){o.setScrollFactor(0).setDepth(d);this.uiLayer.add(o);return o;}keep(o){this.objects.push(o);return o;}
  create(){const s=this.scene;this.keep(this.fixed(s.add.rectangle(16,16,252,112,0x0b1220,.84).setOrigin(0)));
  this.level=this.keep(this.fixed(s.add.text(26,21,'',{fontSize:'14px',color:'#fff',fontStyle:'bold'})));this.hpText=this.keep(this.fixed(s.add.text(26,43,'',{fontSize:'11px',color:'#fee2e2'})));this.enText=this.keep(this.fixed(s.add.text(26,66,'',{fontSize:'11px',color:'#bfdbfe'})));this.xpText=this.keep(this.fixed(s.add.text(26,89,'',{fontSize:'11px',color:'#fde68a'})));
  const bar=(y,bg,fg)=>{this.keep(this.fixed(s.add.rectangle(94,y,158,7,bg).setOrigin(0,.5)));return this.keep(this.fixed(s.add.rectangle(94,y,158,7,fg).setOrigin(0,.5)));};this.hpBar=bar(49,0x451a1a,0xef4444);this.enBar=bar(72,0x172554,0x3b82f6);this.xpBar=bar(95,0x422006,0xf59e0b);
@@ -15,5 +15,5 @@ export default class PlayerStatusUI{
  const keys=Object.keys(STAT_UPGRADES),rh=Math.min(42,(h-112)/keys.length);keys.forEach((k,i)=>{const cy=y+88+i*rh+rh/2;add(s.add.text(x+18,cy,STAT_UPGRADES[k].label,{fontSize:w<390?'11px':'13px',color:'#e2e8f0'}).setOrigin(0,.5));const val=add(s.add.text(x+w-86,cy,'',{fontSize:'12px',color:'#fff',fontStyle:'bold'}).setOrigin(1,.5)),plus=add(s.add.rectangle(x+w-32,cy,30,28,0x166534).setStrokeStyle(1,0x86efac)),pt=add(s.add.text(x+w-32,cy,'+',{fontSize:'19px',color:'#fff'}).setOrigin(.5));plus.setInteractive().on('pointerdown',(p,lx,ly,e)=>{e?.stopPropagation();if(this.player.allocateStat(k))this.onChange();this.refreshPanel();});this.rows.push({k,val,plus,pt});if(i<keys.length-1)add(s.add.rectangle(x+14,cy+rh/2,w-28,1,0x334155).setOrigin(0));});add(s.add.text(x+18,y+h-27,'3 pontos por nível • nível novo restaura vida e energia',{fontSize:w<390?'9px':'11px',color:'#94a3b8'}));this.refreshPanel();}
  refreshPanel(){if(!this.open||!this.summary)return;const p=this.player;this.summary.setText('Nível '+p.level+' • '+p.experience+' EXP • '+p.statPoints+' pontos disponíveis');for(const r of this.rows){r.val.setText(STAT_UPGRADES[r.k].format(p.stats[r.k]));r.plus.setFillStyle(p.statPoints?0x166534:0x334155);r.pt.setAlpha(p.statPoints?1:.45);}}
  close(){for(const o of this.panel)o.destroy();this.panel=[];this.rows=[];this.summary=null;this.open=false;}
- destroy(){this.scene.scale.off('resize',this.layout,this);this.close();for(const o of this.objects)o.destroy();this.objects=[];this.scene=null;this.player=null;this.progression=null;}
+ destroy(){this.scene.scale.off('resize',this.layout,this);this.close();for(const o of this.objects)o.destroy();this.objects=[];this.uiLayer?.destroy();this.uiLayer=null;this.scene=null;this.player=null;this.progression=null;}
 }
