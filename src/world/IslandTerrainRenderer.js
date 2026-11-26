@@ -22,6 +22,7 @@ varying vec2 outTexCoord;
 float ellipseMask(vec2 p,vec2 c,vec2 r){vec2 d=(p-c)/r;return 1.0-smoothstep(.7744,1.2544,dot(d,d));}
 float boundaryRadius(float a){return 1992.0+32.0*sin(a*3.0+.4)+16.0*sin(a*5.0-.9)+8.0*sin(a*8.0+.7);}
 vec2 mirroredRepeat(vec2 p){vec2 c=mod(p,2.0);return 1.0-abs(c-1.0);}
+float mirroredRepeat1D(float p){float c=mod(p,2.0);return 1.0-abs(c-1.0);}
 void main(){
  vec2 centered=(outTexCoord-vec2(.5))*2.0;
  float radius=length(centered);
@@ -34,9 +35,9 @@ void main(){
  // inverte o eixo V; por isso, a costa usa V=.58 na espuma e cresce
  // para fora da ilha: terra amostra grama, mar amostra oceano.
  // A largura da imagem tambem precisa manter escala fisica: a circunferencia
- // equivale a cerca de 36 larguras de 360 unidades. Repetimos em espelho
- // 36 vezes para evitar esticar a arte e manter a emenda angular continua.
- float shoreU=mirroredRepeat((angle+3.141592654)*5.729577951);
+ // equivale a cerca de 35 larguras de 360 unidades. Repetimos em espelho
+ // 35 vezes para evitar esticar a arte e manter a emenda angular continua.
+ float shoreU=mirroredRepeat1D((angle+3.141592654)*5.570423008);
  float shoreV=.58+(radiusWorld-coastRadius)/360.0;
  vec4 shore=vec4(0.0);
  bool shoreInRange=shoreV>=0.0&&shoreV<=1.0;
