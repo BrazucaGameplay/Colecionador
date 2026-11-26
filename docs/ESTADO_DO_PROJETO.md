@@ -974,3 +974,93 @@ CORREÇÃO DA ÁREA DE NASCIMENTO — 26/11/2026:
   173 no tamanho-base. O arredondamento é feito sobre a quantidade real.
 - Testes de contagem e área inicial atualizados. Versão 2.2.1.
 - Aguardar nova execução CI/deploy.
+
+
+======================================================================
+14. ATUALIZAÇÃO — ATIVAÇÃO DE MONSTROS POR DISTÂNCIA (26/11/2026)
+======================================================================
+
+VERSIONAMENTO:
+- Versão anterior: 2.2.1.
+- Nova versão: 2.2.2.
+- Motivo: otimização compatível da simulação de monstros por distância.
+
+ESCALA E REGRA:
+- O alcance de ataque do jogador permanece em 150 unidades do mundo,
+  equivalente a 2 metros na escala adotada.
+- A escala compartilhada está definida em src/config.js:
+  75 unidades do mundo por metro.
+- O limite de ativação dos monstros é 50 metros = 3.750 unidades.
+- A distância é calculada ao quadrado, sem raiz quadrada no loop de IA.
+- A distância de 50 m é inclusiva: exatamente no limite o monstro continua
+  ativo; acima do limite entra em estado suspenso.
+
+IMPLEMENTADO:
+- MonsterManager verifica a distância do jogador para cada monstro vivo.
+- Acima de 50 m, a IA deixa de decidir e executar movimentos.
+- A velocidade lógica é zerada e o estado moving passa a false.
+- O corpo Arcade invisível é desativado para retirar a entidade da simulação
+  física enquanto estiver distante.
+- O renderer deixa de atualizar transformação, profundidade e estado de
+  animação a cada frame para monstros suspensos.
+- O sprite permanece no mundo, visível e na última posição conhecida.
+- Ao retornar ao raio de 50 m, o corpo é sincronizado uma vez, a física é
+  reativada e a simulação normal é retomada.
+- Vida, posição, espécie, zona de surgimento e regras de respawn são mantidas.
+- O alcance padrão do CombatSystem e a conversão de escala compartilham a
+  constante PLAYER_ATTACK_RANGE_WORLD_UNITS para evitar divergência.
+
+ARQUIVOS ALTERADOS:
+- package.json
+- src/config.js
+- src/systems/CombatSystem.js
+- src/systems/monsters/MonsterManager.js
+- tests/monster-system.test.js
+- docs/ESTADO_DO_PROJETO.md
+
+RECAP INTEGRAL DO ESTADO:
+- Produto/plataforma: RPG 2D de ação com estética anime; Android prioritário,
+  distribuição web/PWA e preparação técnica com Capacitor. APK e publicação
+  na Google Play ainda não estão concluídos.
+- Mundo/conteúdo: ilha circular única de 4096 x 4096 unidades, terreno
+  ilustrado e navegação local por máscara/grade. Ilhas adicionais, pontes,
+  portais e transições continuam planejados, não implementados.
+- Gameplay: movimento por toque (tap-to-move), arraste de câmera e pinch
+  zoom; combate automático por proximidade, vida, pontuação, progressão
+  parcial e salvamento local. Monstros são geridos por população/zona,
+  recebem dano, morrem e reaparecem. IA de patrulha e suspensão por distância
+  existem; drops, combate avançado dos monstros, quests, inventário completo
+  e dungeons permanecem pendentes.
+- Personagem/waifus: protagonista lógico separado do renderer e sprites
+  direcionais com atlas e metadados. Sistema de coleção/progressão de waifus
+  permanece planejado, não implementado nesta branch.
+- Arquitetura: Phaser 4.2.1, Vite, JavaScript ES modules, Arcade Physics,
+  WorldNavigation, sistemas separados de movimento, combate, input,
+  monstros, profundidade e objetos. Three.js permanece dependência de
+  ferramenta/bake; não há integração 3D ativa no loop de jogo confirmada.
+- Assets: ilha, terreno, vegetação, objetos e sprites do protagonista em
+  seus diretórios públicos. A espécie slime possui definição de animações;
+  a presença e habilitação de atlas finais deve ser conferida no estado
+  atual dos assets antes de declarar renderização validada.
+- Interface/mobile: câmera, HUD e controles por toque estão implementados.
+  Teste visual e de desempenho em aparelho Android real ainda não foi feito.
+- Build/publicação: scripts npm incluem test e build; GitHub Actions
+  executa validações e publicação Pages. A execução do workflow para
+  o commit desta atualização ainda precisa ser confirmada.
+- Pendências/riscos: a ilha tem 4096 unidades de diâmetro e o limite de
+  suspensão equivale a 3750 unidades. Como o jogador inicia no centro,
+  nenhum monstro da ilha circular pode ficar a mais de 50 m nesse ponto
+  inicial; o benefício aparece sobretudo quando o jogador explora áreas
+  periféricas e há monstros na extremidade oposta. A suspensão economiza
+  IA, sincronização de física e atualizações do renderer, mas não remove
+  os sprites do mundo nem garante redução de draw calls para sprites que
+  ainda estejam dentro da câmera.
+
+VALIDAÇÃO:
+- Foram adicionados testes para a conversão 2 m = 150 unidades e
+  50 m = 3750 unidades, incluindo o limite exato e a primeira posição
+  fora do limite.
+- Os testes e o build devem ser confirmados pelo workflow associado ao
+  commit final; não há validação visual ou Android declarada nesta etapa.
+
+FIM DA ATUALIZAÇÃO 14
