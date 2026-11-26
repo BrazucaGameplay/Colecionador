@@ -1151,6 +1151,8 @@ ATRIBUTOS:
   movementSpeed (1); attackSpeed (1) equivale a um ataque por segundo.
 - healthRegen e energyRegen (1/s) são processados no estado lógico; vida
   não regenera durante a janela de combate e energia regenera continuamente.
+- Em idle, regeneração é atualizada na cadência de classificação (100 ms);
+  acima de 30 m, o modo visual suspende toda simulação conforme a regra.
 - Os atributos permanecem independentes dos atributos e progressão do Player.
 
 COMBATE INIMIGO:
