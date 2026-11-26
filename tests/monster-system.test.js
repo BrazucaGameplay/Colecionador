@@ -233,3 +233,26 @@ test('dano recebido pelo jogador considera penetração sem alterar os status do
   assert.equal(player.health, 99);
   assert.equal(player.stats.defense, 2);
 });
+
+
+test('CombatSystem envia ataque base para a entidade resolver defesa uma única vez', () => {
+  const player = {
+    x: 0, y: 0, alive: true, stats: { attack: 5, attackSpeed: 1, penetration: 1 },
+    setFacing() {}, setMoving() {}, markCombat() {},
+    getAttackDamage: () => 999
+  };
+  const movement = {
+    hasManualDestination: false,
+    stopAutomaticMovement() {},
+    setAutomaticDestination() {}
+  };
+  const target = { id: 'defender', x: 10, y: 0, alive: true, defense: 3 };
+  let received;
+  const combat = new CombatSystem({
+    player, movement, getTargets: () => [target],
+    onAttack: (_target, amount, _now, penetration) => { received = { amount, penetration }; }
+  });
+  combat.update(0);
+  assert.deepEqual(received, { amount: 5, penetration: 1 });
+  combat.destroy();
+});
