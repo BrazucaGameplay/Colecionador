@@ -39,7 +39,7 @@ test('shader recorta a ilha no próprio fragmento, sem GeometryMask ou canvas', 
   assert.match(shader, /uniform sampler2D uSmooth/);
   assert.match(shader, /uniform sampler2D uGrass/);
   assert.match(shader, /uniform sampler2D uRelief/);
-  assert.match(shader, /if \(radiusSquared >= 1\.0\) \{\s*discard;/);
+  assert.match(shader, /if \(radius > 1\.0\) discard;/);
   assert.match(shader, /gl_FragColor = vec4\(terrainColor, 1\.0\)/);
   assert.doesNotMatch(shader, /islandAlpha|smoothstep\(0\.998/);
   assert.match(shader, /mirroredRepeat/);
