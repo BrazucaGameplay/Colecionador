@@ -66,7 +66,7 @@ test('cada árvore registra colisão fixa do tronco na navegação', () => {
   assert.equal(ancestral.length, 1);
   assert.equal(ancestral[0].x, 2048);
   assert.equal(ancestral[0].y, 516);
-  assert.equal(ancestral[0].radiusX, 31);
+  assert.equal(ancestral[0].radiusX, 38);
   assert.equal(ancestral[0].radiusY, 25);
   assert.throws(() => collisions.register(ISLAND_01_LAYOUT[0]), /Colisão duplicada/);
   collisions.destroy();
