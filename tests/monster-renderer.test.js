@@ -19,13 +19,13 @@ test('escala inválida não gera tamanho infinito ou negativo', () => {
   assert.equal(fitMonsterFrameScale(10, 10, 0, 20), 1);
 });
 
-
 test('culling considera a caixa do monstro e a margem do viewport', () => {
   const view = { x: 100, y: 200, right: 500, bottom: 600 };
   assert.equal(isMonsterInView(120, 220, 40, 40, view), true);
   assert.equal(isMonsterInView(70, 220, 40, 40, view), false);
   assert.equal(isMonsterInView(70, 220, 40, 40, view, 50), true);
-  assert.equal(isMonsterInView(520, 620, 40, 40, view), false);
+  // A caixa em x=520/y=620 ainda toca o canto do viewport; 1px além fica fora.
+  assert.equal(isMonsterInView(521, 621, 40, 40, view), false);
 });
 
 test('culling mantém o objeto visível quando o viewport ainda não está disponível', () => {
