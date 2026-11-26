@@ -1,34 +1,43 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { composeTerrainPattern, createTerrainLayers } from '../src/world/TerrainComposer.js';
+import { materialScore } from '../src/world/TerrainComposer.js';
 
-test('composição usa três fontes e cria um único padrão repetível de 512px', () => {
+test('campo de distribuição é periódico nos dois eixos', () => {
+  for (const [x, y] of [[0, 0], [1, 73], [127, 511], [255, 256], [511, 19]]) {
+    assert.ok(Math.abs(materialScore(x, y) - materialScore(x + 512, y)) < 1e-10);
+    assert.ok(Math.abs(materialScore(x, y) - materialScore(x, y + 512)) < 1e-10);
+  }
+});
+
+test('o compositor prepara materiais seamless e escreve um único padrão 512px', () => {
   const source = readFileSync(new URL('../src/world/TerrainComposer.js', import.meta.url), 'utf8');
   assert.match(source, /PATTERN_SIZE = 512/);
-  assert.match(source, /smoothKey/);
-  assert.match(source, /grassKey/);
-  assert.match(source, /reliefKey/);
-  assert.doesNotMatch(source, /buildTerrainRegions|syncTerrainLayersToCamera|fillRect\(cell/);
+  assert.match(source, /readSeamlessPixels/);
+  assert.match(source, /getImageData/);
+  assert.match(source, /putImageData/);
+  assert.match(source, /scene\.textures\.addCanvas/);
+  assert.doesNotMatch(source, /createAlphaMask|drawMaskedMaterial/);
 });
 
-test('a ilha usa um único TileSprite com recorte circular', () => {
+test('a ilha usa máscara circular isolada da Display List', () => {
   const source = readFileSync(new URL('../src/world/TerrainComposer.js', import.meta.url), 'utf8');
+  assert.match(source, /scene\.make\.graphics\(\{ x: 0, y: 0, add: false \}\)/);
   assert.match(source, /fillCircle\(center, center, center - 2\)/);
-  assert.match(source, /add\.tileSprite\(0, 0, diameter, diameter, pattern\.textureKey\)/);
+  assert.match(source, /createGeometryMask\(\)/);
   assert.match(source, /setMask\(circleMask\)/);
-  assert.match(source, /tiles: \[terrain\]/);
+  assert.match(source, /add\.tileSprite\(0, 0, diameter, diameter, pattern\.textureKey\)/);
 });
 
-test('a cena não reposiciona camadas do terreno por quadro nem cria nuvens em lote', () => {
+test('o oceano ultrapassa a ilha e cobre o limite de câmera no zoom mínimo', () => {
   const source = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
+  assert.match(source, /const oceanSize = ISLAND_DIAMETER \* 4/);
+  assert.match(source, /setDepth\(-1200\)/);
   assert.match(source, /createTerrainLayers/);
-  assert.match(source, /createOceanBackground/);
   assert.doesNotMatch(source, /syncTerrainLayersToCamera|createCloudBoundary|generated-cloud-sea/);
-  assert.doesNotMatch(source, /for \(let i = 0; i < count; i\+\+\)/);
 });
 
-test('Preload continua carregando as três texturas finais, sem imagem única antiga', () => {
+test('Preload continua carregando as três texturas finais', () => {
   const source = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
   for (const key of ['terrain-smooth', 'terrain-grass', 'terrain-relief']) assert.ok(source.includes(key));
   assert.doesNotMatch(source, /terreno-01\.png|island-01\.png/);
