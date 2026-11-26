@@ -9,7 +9,7 @@ import WorldNavigation from '../world/WorldNavigation.js';
 import WorldDepthManager from '../world/WorldDepthManager.js';
 import WorldCollisionManager from '../world/WorldCollisionManager.js';
 import WorldObjectManager from '../world/WorldObjectManager.js';
-import { createTerrainLayers } from '../world/TerrainComposer.js';
+import { createTerrainLayers, syncTerrainLayersToCamera } from '../world/TerrainComposer.js';
 import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
 import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
@@ -334,6 +334,7 @@ export default class Game extends Phaser.Scene {
 
     this.monsterManager?.update(this.time.now, delta);
     this.monsterCombat?.update(this.time.now);
+    if (this.camera && this.groundTiles.length) syncTerrainLayersToCamera(this.groundTiles, this.camera);
     // O renderer do personagem e os objetos do cenário usam a mesma escala de profundidade.
   }
 

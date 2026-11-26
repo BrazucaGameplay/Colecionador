@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildTerrainRegions } from '../src/world/TerrainComposer.js';
+import { buildTerrainRegions, syncTerrainLayersToCamera } from '../src/world/TerrainComposer.js';
 
 test('terreno distribui células em proporções de 70/20/10 sem sobreposição', () => {
   const result = buildTerrainRegions({ diameter: 4096, cellSize: 64 });
@@ -42,4 +42,19 @@ test('preload carrega somente as três texturas novas de terreno', () => {
   const source = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
   for (const key of ['terrain-smooth', 'terrain-grass', 'terrain-relief']) assert.ok(source.includes(key));
   assert.doesNotMatch(source, /terreno-01\.png|island-01\.png/);
+});
+
+test('TileSprites acompanham somente o viewport, mantendo a textura ancorada no mundo', () => {
+  const calls = [];
+  const tile = {
+    setSize: (...args) => { calls.push(['size', ...args]); return tile; },
+    setPosition: (...args) => { calls.push(['position', ...args]); return tile; },
+    setTilePosition: (...args) => { calls.push(['tile', ...args]); return tile; }
+  };
+  syncTerrainLayersToCamera([tile], { width: 960, height: 540, zoom: 1.2, scrollX: 500, scrollY: 700 });
+  assert.deepEqual(calls, [
+    ['size', 800, 450],
+    ['position', 900, 925],
+    ['tile', 500, 700]
+  ]);
 });
