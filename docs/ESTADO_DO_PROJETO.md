@@ -1135,7 +1135,7 @@ FIM DA ATUALIZACAO 15
 
 VERSÃO:
 - Versão anterior: 2.2.3.
-- Nova versão: 2.2.4.
+- Nova versão: 2.2.5.
 - package.json e package-lock.json sincronizados.
 
 ATRIBUTOS:
