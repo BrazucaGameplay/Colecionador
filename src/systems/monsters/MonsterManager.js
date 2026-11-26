@@ -69,10 +69,11 @@ export default class MonsterManager {
   isAlive(id) { return Boolean(this.entries.get(id)?.entity.alive); }
 
   setEntryMode(entry, mode, now) {
+    // Reagenda sempre, inclusive quando a faixa nao mudou.
+    entry.nextRangeCheckAt = now + this.rangeCheckIntervalMs;
     if (entry.mode === mode) return;
     const previousMode = entry.mode;
     entry.mode = mode;
-    entry.nextRangeCheckAt = now + this.rangeCheckIntervalMs;
 
     if (mode === 'idle' || mode === 'visual') {
       entry.behavior.stop(entry.entity);
