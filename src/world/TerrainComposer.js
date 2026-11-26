@@ -1,160 +1,134 @@
 /**
- * Composição determinística do terreno por TileSprites.
- * A distribuição é calculada em células e convertida em máscaras geométricas;
- * não existe renderização intermediária em canvas com o tamanho do mapa.
+ * Terreno leve: três materiais são compostos uma única vez num padrão
+ * pequeno e repetível. O mundo usa um único TileSprite e uma máscara circular.
+ * Não há canvas do tamanho do mapa, múltiplas camadas ou trabalho por frame.
  */
-const DEFAULT_CELL_SIZE = 64;
+const PATTERN_SIZE = 512;
 
-function hashCell(x, y) {
-  let value = Math.imul(x + 374761393, 668265263) ^ Math.imul(y + 1274126177, 2246822519);
-  value = Math.imul(value ^ (value >>> 13), 1274126177);
-  return ((value ^ (value >>> 16)) >>> 0) / 4294967295;
+function materialScore(x, y) {
+  const broad = Math.sin(x * 0.026) * 0.34
+    + Math.cos(y * 0.031) * 0.29
+    + Math.sin((x + y) * 0.018) * 0.23
+    + Math.cos((x - y) * 0.021) * 0.14;
+  const grain = Math.sin(x * 0.173 + y * 0.117) * 0.035
+    + Math.cos(x * 0.091 - y * 0.203) * 0.025;
+  return broad + grain;
 }
 
-function terrainScore(x, y) {
-  const broad = Math.sin(x * 0.0019) * 0.8
-    + Math.cos(y * 0.0023) * 0.75
-    + Math.sin((x + y) * 0.0013) * 0.55
-    + Math.cos((x - y) * 0.0017) * 0.35;
-  return broad + (hashCell(x, y) - 0.5) * 0.9;
-}
-
-/**
- * Cada célula elegível pertence a apenas uma classe. A ordenação por campo
- * espacial de baixa frequência produz manchas distribuídas, não quadrantes.
- * A contagem é quantizada pela resolução da grade (64 unidades por célula).
- */
-export function buildTerrainRegions({ diameter = 4096, cellSize = DEFAULT_CELL_SIZE } = {}) {
-  if (!Number.isInteger(diameter) || diameter <= 0 || !Number.isInteger(cellSize) || cellSize <= 0) {
-    throw new RangeError('Diâmetro e tamanho de célula devem ser inteiros positivos.');
+function createAlphaMask(scores, thresholdLow, thresholdHigh) {
+  const canvas = document.createElement('canvas');
+  canvas.width = PATTERN_SIZE;
+  canvas.height = PATTERN_SIZE;
+  const context = canvas.getContext('2d', { willReadFrequently: false });
+  const pixels = context.createImageData(PATTERN_SIZE, PATTERN_SIZE);
+  for (let i = 0; i < scores.length; i++) {
+    const score = scores[i];
+    pixels.data[i * 4 + 3] = score >= thresholdLow && score < thresholdHigh ? 255 : 0;
   }
-  const radius = diameter / 2;
-  const center = radius;
-  const eligible = [];
-  const columns = Math.ceil(diameter / cellSize);
-  const rows = Math.ceil(diameter / cellSize);
+  context.putImageData(pixels, 0, 0);
+  return canvas;
+}
 
-  for (let row = 0; row < rows; row++) {
-    for (let column = 0; column < columns; column++) {
-      const x = column * cellSize;
-      const y = row * cellSize;
-      const width = Math.min(cellSize, diameter - x);
-      const height = Math.min(cellSize, diameter - y);
-      const cx = x + width / 2;
-      const cy = y + height / 2;
-      const halfDiagonal = Math.hypot(width, height) / 2;
-      // Só células totalmente internas são usadas nos overlays; a máscara
-      // circular externa continua definindo o recorte visual exato da ilha.
-      if (Math.hypot(cx - center, cy - center) + halfDiagonal > radius - 2) continue;
-      eligible.push({ x, y, width, height, score: terrainScore(cx, cy) });
+function quantileThreshold(histogram, targetCount) {
+  let count = 0;
+  for (let i = 0; i < histogram.length; i++) {
+    count += histogram[i];
+    if (count >= targetCount) return i;
+  }
+  return histogram.length - 1;
+}
+
+function drawMaskedMaterial(outputContext, source, maskCanvas) {
+  const layer = document.createElement('canvas');
+  layer.width = PATTERN_SIZE;
+  layer.height = PATTERN_SIZE;
+  const context = layer.getContext('2d');
+  context.drawImage(source, 0, 0, PATTERN_SIZE, PATTERN_SIZE);
+  context.globalCompositeOperation = 'destination-in';
+  context.drawImage(maskCanvas, 0, 0);
+  outputContext.drawImage(layer, 0, 0);
+  layer.width = 1;
+  layer.height = 1;
+}
+
+export function composeTerrainPattern(scene, {
+  smoothKey = 'terrain-smooth',
+  grassKey = 'terrain-grass',
+  reliefKey = 'terrain-relief',
+  outputKey = 'terrain-composite'
+} = {}) {
+  const sources = [smoothKey, grassKey, reliefKey].map(key => {
+    const source = scene.textures.get(key)?.getSourceImage?.();
+    if (!source?.width || !source?.height) throw new Error('Textura de terreno indisponível: ' + key);
+    return source;
+  });
+
+  const count = PATTERN_SIZE * PATTERN_SIZE;
+  const scores = new Float32Array(count);
+  let min = Infinity;
+  let max = -Infinity;
+  for (let y = 0; y < PATTERN_SIZE; y++) {
+    for (let x = 0; x < PATTERN_SIZE; x++) {
+      const score = materialScore(x, y);
+      const index = y * PATTERN_SIZE + x;
+      scores[index] = score;
+      if (score < min) min = score;
+      if (score > max) max = score;
     }
   }
 
-  // Divide a ilha em 4 x 4 setores e calcula as proporções dentro de
-  // cada setor. Isso impede que o campo de ruído concentre os overlays
-  // numa única região do mapa.
-  const sectors = new Map();
-  for (const cell of eligible) {
-    const sectorX = Math.min(3, Math.floor((cell.x + cell.width / 2) / (diameter / 4)));
-    const sectorY = Math.min(3, Math.floor((cell.y + cell.height / 2) / (diameter / 4)));
-    const key = sectorY * 4 + sectorX;
-    if (!sectors.has(key)) sectors.set(key, []);
-    sectors.get(key).push(cell);
+  const histogram = new Uint32Array(256);
+  for (let i = 0; i < count; i++) {
+    const bin = Math.max(0, Math.min(255, Math.floor((scores[i] - min) / (max - min) * 255)));
+    scores[i] = bin;
+    histogram[bin]++;
   }
+  const grassThreshold = quantileThreshold(histogram, Math.round(count * 0.20));
+  const reliefThreshold = quantileThreshold(histogram, Math.round(count * 0.30));
 
-  const grassCells = [];
-  const reliefCells = [];
-  const sectorDistribution = {};
-  let smoothCount = 0;
-  for (const [key, sectorCells] of sectors) {
-    sectorCells.sort((a, b) => a.score - b.score);
-    const grassCount = Math.round(sectorCells.length * 0.20);
-    const reliefCount = Math.round(sectorCells.length * 0.10);
-    grassCells.push(...sectorCells.slice(0, grassCount));
-    reliefCells.push(...sectorCells.slice(grassCount, grassCount + reliefCount));
-    const smoothSectorCount = sectorCells.length - grassCount - reliefCount;
-    smoothCount += smoothSectorCount;
-    sectorDistribution[key] = Object.freeze({
-      eligible: sectorCells.length,
-      smooth: smoothSectorCount / sectorCells.length,
-      grass: grassCount / sectorCells.length,
-      relief: reliefCount / sectorCells.length
-    });
-  }
+  const canvas = document.createElement('canvas');
+  canvas.width = PATTERN_SIZE;
+  canvas.height = PATTERN_SIZE;
+  const context = canvas.getContext('2d');
+  context.drawImage(sources[0], 0, 0, PATTERN_SIZE, PATTERN_SIZE);
 
+  const grassMask = createAlphaMask(scores, 0, grassThreshold + 1);
+  const reliefMask = createAlphaMask(scores, grassThreshold + 1, reliefThreshold + 1);
+  drawMaskedMaterial(context, sources[1], grassMask);
+  drawMaskedMaterial(context, sources[2], reliefMask);
+
+  if (scene.textures.exists(outputKey)) scene.textures.remove(outputKey);
+  scene.textures.addCanvas(outputKey, canvas);
   return Object.freeze({
-    columns,
-    rows,
-    eligibleCells: eligible.length,
-    smoothCount,
-    grassCells: Object.freeze(grassCells.map(({ x, y, width, height }) => Object.freeze({ x, y, width, height }))),
-    reliefCells: Object.freeze(reliefCells.map(({ x, y, width, height }) => Object.freeze({ x, y, width, height }))),
-    distribution: Object.freeze({
-      smooth: smoothCount / eligible.length,
-      grass: grassCells.length / eligible.length,
-      relief: reliefCells.length / eligible.length
-    }),
-    sectorDistribution: Object.freeze(sectorDistribution)
+    textureKey: outputKey,
+    patternSize: PATTERN_SIZE,
+    distribution: Object.freeze({ smooth: 0.70, grass: 0.20, relief: 0.10 })
   });
-}
-
-export function syncTerrainLayersToCamera(tiles, camera) {
-  const zoom = Math.max(0.0001, camera.zoom || 1);
-  const width = camera.width / zoom;
-  const height = camera.height / zoom;
-  const x = camera.scrollX;
-  const y = camera.scrollY;
-  for (const tile of tiles) {
-    tile.setSize(width, height);
-    tile.setPosition(x + width / 2, y + height / 2);
-    tile.setTilePosition(x, y);
-  }
 }
 
 export function createTerrainLayers(scene, {
   diameter = 4096,
-  cellSize = DEFAULT_CELL_SIZE,
   smoothKey = 'terrain-smooth',
   grassKey = 'terrain-grass',
   reliefKey = 'terrain-relief'
 } = {}) {
-  const regions = buildTerrainRegions({ diameter, cellSize });
+  const pattern = composeTerrainPattern(scene, { smoothKey, grassKey, reliefKey });
   const center = diameter / 2;
-  const tiles = [];
-  const masks = [];
-
   const circleGraphics = scene.add.graphics();
   circleGraphics.fillStyle(0xffffff, 1);
   circleGraphics.fillCircle(center, center, center - 2);
   const circleMask = circleGraphics.createGeometryMask();
   circleGraphics.setVisible(false);
-  masks.push(circleGraphics);
 
-  const smooth = scene.add.tileSprite(center, center, scene.scale.width, scene.scale.height, smoothKey)
-    .setOrigin(0.5)
+  const terrain = scene.add.tileSprite(0, 0, diameter, diameter, pattern.textureKey)
+    .setOrigin(0, 0)
     .setDepth(-1000)
     .setMask(circleMask);
-  tiles.push(smooth);
 
-  const createRegionLayer = (key, cells, depth) => {
-    const graphics = scene.add.graphics();
-    graphics.fillStyle(0xffffff, 1);
-    for (const cell of cells) {
-      graphics.fillRect(cell.x, cell.y, cell.width + 0.5, cell.height + 0.5);
-    }
-    const mask = graphics.createGeometryMask();
-    graphics.setVisible(false);
-    masks.push(graphics);
-
-    const tile = scene.add.tileSprite(center, center, scene.scale.width, scene.scale.height, key)
-      .setOrigin(0.5)
-      .setDepth(depth)
-      .setMask(mask);
-    tiles.push(tile);
+  return {
+    tiles: [terrain],
+    masks: [circleGraphics],
+    distribution: pattern.distribution,
+    patternSize: pattern.patternSize
   };
-
-  createRegionLayer(grassKey, regions.grassCells, -999);
-  createRegionLayer(reliefKey, regions.reliefCells, -998);
-
-  return { tiles, masks, distribution: regions.distribution, cellCount: regions.eligibleCells };
 }
