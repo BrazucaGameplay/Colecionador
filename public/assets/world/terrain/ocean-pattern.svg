@@ -1,31 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
   <defs>
-    <linearGradient id="water" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#28566f"/>
-      <stop offset="0.52" stop-color="#326b83"/>
-      <stop offset="1" stop-color="#244e69"/>
-    </linearGradient>
-    <linearGradient id="wave" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#a5d7d5" stop-opacity=".18"/>
-      <stop offset="1" stop-color="#7bb8c4" stop-opacity="0"/>
-    </linearGradient>
+    <radialGradient id="water" cx="50%" cy="50%" r="72%">
+      <stop offset="0" stop-color="#356f86"/>
+      <stop offset="0.72" stop-color="#2d6079"/>
+      <stop offset="1" stop-color="#28566f"/>
+    </radialGradient>
   </defs>
   <rect width="256" height="256" fill="url(#water)"/>
-  <g fill="none" stroke-linecap="round">
-    <g stroke="#9bcbd0" stroke-opacity=".18" stroke-width="2">
-      <path d="M-24 28 C0 16 24 16 48 28 S96 40 120 28 S168 16 192 28 S240 40 264 28"/>
-      <path d="M-24 92 C0 80 24 80 48 92 S96 104 120 92 S168 80 192 92 S240 104 264 92"/>
-      <path d="M-24 156 C0 144 24 144 48 156 S96 168 120 156 S168 144 192 156 S240 168 264 156"/>
-      <path d="M-24 220 C0 208 24 208 48 220 S96 232 120 220 S168 208 192 220 S240 232 264 220"/>
-    </g>
-    <g stroke="#b5dfe0" stroke-opacity=".10" stroke-width="1">
-      <path d="M-12 60 Q20 48 52 60 T116 60 T180 60 T244 60 T308 60"/>
-      <path d="M-12 124 Q20 112 52 124 T116 124 T180 124 T244 124 T308 124"/>
-      <path d="M-12 188 Q20 176 52 188 T116 188 T180 188 T244 188 T308 188"/>
-      <path d="M-12 252 Q20 240 52 252 T116 252 T180 252 T244 252 T308 252"/>
-    </g>
+  <g fill="none" stroke="#a8d8dc" stroke-opacity=".17" stroke-width="2" stroke-linecap="round">
+    <path d="M0 32 C21 14 43 14 64 32 S107 50 128 32 S171 14 192 32 S235 50 256 32"/>
+    <path d="M0 96 C21 78 43 78 64 96 S107 114 128 96 S171 78 192 96 S235 114 256 96"/>
+    <path d="M0 160 C21 142 43 142 64 160 S107 178 128 160 S171 142 192 160 S235 178 256 160"/>
+    <path d="M0 224 C21 206 43 206 64 224 S107 242 128 224 S171 206 192 224 S235 242 256 224"/>
   </g>
-  <g fill="#b6dfe0" fill-opacity=".14">
+  <g fill="none" stroke="#c0e4e4" stroke-opacity=".09" stroke-width="1.2" stroke-linecap="round">
+    <path d="M22 65 Q38 58 54 65 M150 65 Q166 58 182 65"/>
+    <path d="M76 129 Q92 122 108 129 M204 129 Q220 122 236 129"/>
+    <path d="M18 193 Q34 186 50 193 M146 193 Q162 186 178 193"/>
+  </g>
+  <g fill="#c3e4e3" fill-opacity=".12">
     <ellipse cx="24" cy="48" rx="9" ry="2.5"/>
     <ellipse cx="150" cy="76" rx="12" ry="2.5"/>
     <ellipse cx="78" cy="144" rx="10" ry="2"/>
