@@ -23,12 +23,30 @@ float ellipseMask(vec2 p,vec2 c,vec2 r){vec2 d=(p-c)/r;return 1.0-smoothstep(.77
 float boundaryRadius(float a){return 1992.0+32.0*sin(a*3.0+.4)+16.0*sin(a*5.0-.9)+8.0*sin(a*8.0+.7);}
 vec2 mirroredRepeat(vec2 p){vec2 c=mod(p,2.0);return 1.0-abs(c-1.0);}
 float mirroredRepeat1D(float p){float c=mod(p,2.0);return 1.0-abs(c-1.0);}
+float hash21(vec2 p){
+ p=fract(p*vec2(123.34,456.21));
+ p+=dot(p,p+45.32);
+ return fract(p.x*p.y);
+}
+float valueNoise(vec2 p){
+ vec2 i=floor(p),f=fract(p);
+ f=f*f*(3.0-2.0*f);
+ return mix(mix(hash21(i),hash21(i+vec2(1.0,0.0)),f.x),
+            mix(hash21(i+vec2(0.0,1.0)),hash21(i+vec2(1.0,1.0)),f.x),f.y);
+}
 void main(){
  vec2 centered=(outTexCoord-vec2(.5))*2.0;
  float radius=length(centered);
  float radiusWorld=radius*2560.0;
  float angle=atan(centered.y,centered.x);
  float coastRadius=boundaryRadius(angle);
+ // Ruido fixo em coordenadas do mundo: cria pequenas variacoes naturais
+ // na faixa costeira sem animar, mover ou modificar os assets originais.
+ vec2 worldPosition=centered*2560.0;
+ float broadNoise=(valueNoise(worldPosition*0.0035)-0.5)*48.0;
+ float fineNoise=(valueNoise(worldPosition*0.011)-0.5)*18.0;
+ float coastNoise=broadNoise+fineNoise;
+ float shoreDistance=radiusWorld-coastRadius+coastNoise;
  const float CORE_RADIUS=1660.0;
 
  // A imagem fonte tem oceano no topo e grama na base. O upload WebGL
@@ -38,7 +56,7 @@ void main(){
  // equivale a cerca de 35 larguras de 360 unidades. Repetimos em espelho
  // 35 vezes para evitar esticar a arte e manter a emenda angular continua.
  float shoreU=mirroredRepeat1D((angle+3.141592654)*5.570423008);
- float shoreV=.58+(radiusWorld-coastRadius)/360.0;
+ float shoreV=.58+shoreDistance/360.0;
  vec4 shore=vec4(0.0);
  bool shoreInRange=shoreV>=0.0&&shoreV<=1.0;
  if(shoreInRange)shore=texture2D(uShoreline,vec2(shoreU,shoreV));
@@ -57,7 +75,13 @@ void main(){
    if(grassMask>.001)landColor=mix(landColor,texture2D(uGrass,tileUV).rgb,grassMask);
    if(reliefMask>.001)landColor=mix(landColor,texture2D(uRelief,tileUV).rgb,reliefMask);
   }
-  if(shoreInRange)landColor=mix(landColor,shore.rgb,shore.a);
+  // Mistura progressiva dentro da ilha: o alpha original continua a
+  // preservar espuma e detalhes, enquanto a mascara suaviza a emenda.
+  if(shoreInRange){
+   float transitionBlend=smoothstep(-118.0,8.0,shoreDistance);
+   float shorelineAlpha=shore.a*transitionBlend;
+   landColor=mix(landColor,shore.rgb,shorelineAlpha);
+  }
   gl_FragColor=vec4(landColor,1.0);
   return;
  }
