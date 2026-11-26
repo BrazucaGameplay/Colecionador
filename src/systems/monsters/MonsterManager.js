@@ -122,16 +122,14 @@ export default class MonsterManager {
       // Entidades paradas verificam mudança de faixa a cada 100 ms, não a cada frame.
       if (now >= entry.nextRangeCheckAt) {
         this.setEntryMode(entry, getMonsterBehaviorMode(player, entry.entity), now);
-        // Em idle, recursos avançam no mesmo passo de 100 ms da classificação.
-        if (entry.mode === 'idle') entry.entity.update(this.rangeCheckIntervalMs, now);
       }
 
       if (entry.mode === 'visual') continue;
 
       if (entry.mode === 'idle') {
-        // Mantém apenas o repouso visual; sem IA, física ou sincronização.
-        entry.renderer.update(now);
-        entry.renderer.play('idle', now);
+        // Repouso real: sprite fica congelado no frame atual de idle.
+        // Sem regeneração, IA, física, sincronização, update do renderer
+        // ou troca/reaplicação de animação enquanto permanecer nesta faixa.
         continue;
       }
 
