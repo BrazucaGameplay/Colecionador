@@ -194,7 +194,9 @@ test('monstros recebem cópia independente do mesmo esquema de status do jogador
   });
   assert.equal(monster.maxHealth, 1);
   assert.equal(monster.health, 1);
-  assert.notEqual(monster.stats, Player.prototype.stats);
+  const player = new Player({ x: 0, y: 0 });
+  assert.notEqual(monster.stats, player.stats);
+  assert.equal(player.stats.attack, 5);
 });
 
 test('MonsterCombatSystem ataca a 2 m, respeita cooldown de 1 ataque/s e usa penetração', () => {
