@@ -1127,3 +1127,58 @@ VALIDACAO:
   ainda precisam ser executados e observados antes de marcar como VALIDADO.
 
 FIM DA ATUALIZACAO 15
+
+
+======================================================================
+16. ATUALIZAÇÃO — COMBATE OFENSIVO INDEPENDENTE DOS MONSTROS (26/11/2026)
+======================================================================
+
+VERSÃO:
+- Versão anterior: 2.2.3.
+- Nova versão: 2.2.4.
+- package.json e package-lock.json sincronizados.
+
+ATRIBUTOS:
+- Cada monstro possui seu próprio objeto stats, sem compartilhar estado
+  ou instância com o jogador.
+- O esquema replica os nove atributos de Player:
+  attack, defense, penetration, attackSpeed, movementSpeed, maxHealth,
+  maxEnergy, healthRegen e energyRegen.
+- Todos os valores-base dos monstros são 1.
+- A vida máxima do monstro deriva de stats.maxHealth (1); velocidade de
+  movimento usa o valor de definição multiplicado por movementSpeed (1).
+- Os atributos permanecem independentes dos atributos e progressão do Player.
+
+COMBATE INIMIGO:
+- Criado MonsterCombatSystem separado do CombatSystem do jogador.
+- Monstros só atacam na faixa combat, até 2 m (150 unidades).
+- Cooldown usa attackSpeed: 1 ataque por segundo.
+- Dano-base usa attack; defesa do jogador reduz o dano e penetration
+  reduz a defesa efetiva, usando o contrato de Player.takeDamage.
+- Cada monstro mantém seu próprio cooldown; não existe cooldown global.
+- O ataque visual usa a animação attack já definida para o slime.
+- O combate inimigo é atualizado depois da classificação/movimentação
+  dos monstros no frame, evitando atacar com posição desatualizada.
+- Ao morrer o jogador, o sistema deixa de aplicar ataques.
+
+ARQUITETURA:
+- MonsterCombatSystem não depende de Phaser e recebe atacantes por uma
+  função de consulta; o MonsterManager expõe somente entradas em modo combat.
+- Game coordena ciclo de vida e update; shutdown destrói o sistema.
+- Player.takeDamage recebeu parâmetro opcional de penetração, mantendo
+  compatibilidade com chamadas existentes de dois argumentos.
+- Não há compartilhamento de atributos, progressão ou cooldown entre
+  jogador e monstros.
+
+TESTES ADICIONADOS:
+- Esquema de atributos dos monstros e valores-base 1.
+- Ataque no limite de 2 m.
+- Cooldown de 1 ataque por segundo.
+- Ausência de dano fora do alcance.
+- Cálculo de defesa e penetração ao receber dano.
+
+VALIDAÇÃO:
+- Testes foram adicionados ao repositório, mas ainda não executados
+  localmente nesta sessão.
+- Build, workflow GitHub Actions, deploy e validação visual no Android
+  ainda precisam ser confirmados.
