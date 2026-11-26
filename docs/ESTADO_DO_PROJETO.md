@@ -1308,3 +1308,43 @@ TESTES:
 - Nenhum canvas é criado com dimensões do mundo e nenhuma camada de terreno é reposicionada no update.
 - A proporção visual do padrão é configurada para 70% liso, 20% grama e 10% relevo; a proporção exata em pixels pode variar pelo quantil do histograma.
 - A validação visual em Android continua obrigatória após o deploy.
+
+
+======================================================================
+21. CORREÇÃO — CONTORNO CIRCULAR E OCEANO CONTÍNUO (26/11/2026)
+======================================================================
+
+DIAGNÓSTICO:
+- O oceano anterior era um retângulo de 4096 x 4096, do mesmo tamanho
+  da ilha. Assim, não preenchia a área externa ao mundo visível durante
+  arrastes e zoom afastado.
+- A máscara circular era criada a partir de um Graphics adicionado à
+  Display List e depois ocultado. A geometria da máscara foi isolada da
+  Display List para evitar interferência de renderização/ordenação.
+
+CORREÇÕES:
+- A máscara agora usa scene.make.graphics({ add: false }), com círculo
+  centrado em (2048, 2048) e raio 2046, aplicado ao único TileSprite.
+- O oceano é um retângulo estático de 16384 x 16384, centrado na ilha.
+  Essa área cobre o alcance de câmera configurado até o zoom mínimo 0.28.
+- O campo de distribuição do terreno usa harmônicos inteiros com período
+  exato de 512 pixels nos eixos X e Y.
+- As três texturas de material recebem mistura toroidal das bordas antes
+  da composição, para reduzir emendas na repetição do TileSprite.
+- O padrão é composto uma única vez na inicialização; não há trabalho
+  de composição por frame.
+- A distribuição efetiva por material é calculada e retornada em vez de
+  declarar proporções fixas que podem divergir por quantização.
+
+TESTES:
+- Periodicidade matemática nos dois eixos.
+- Uso de fontes com preparação seamless e um padrão 512 x 512.
+- Máscara circular criada fora da Display List.
+- Oceano com dimensões maiores que a ilha.
+- Preload das três texturas oficiais.
+
+LIMITAÇÃO DE VALIDAÇÃO:
+- Os testes automatizados verificam o campo periódico e a estrutura do
+  código, mas não substituem captura/renderização real do Phaser.
+- A forma circular e o oceano ainda precisam de conferência visual no
+  navegador Android após o deploy.
