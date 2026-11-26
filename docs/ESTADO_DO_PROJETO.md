@@ -2022,3 +2022,9 @@ CORREÇÃO DA AUDITORIA — 26/11/2026 — VERSÃO 2.4.76
 - Removida a última referência de teste ao diretório tools/character-baker.
 - Incrementada a versão para 2.4.76; nova execução completa de CI/deploy
   necessária para confirmar a publicação.
+
+
+AJUSTE FINAL DE REFERÊNCIA LEGADA — 26/11/2026 — VERSÃO 2.4.77
+- Removido de Game.js o último comentário de runtime que ainda citava GLB.
+- O estado lógico do jogador permanece desacoplado do renderer visual.
+- Nenhuma lógica de jogo foi alterada; versão incrementada conforme o processo.

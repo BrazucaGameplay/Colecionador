@@ -73,7 +73,7 @@ export default class Game extends Phaser.Scene {
       throw new Error('Não foi encontrado um ponto caminhável para iniciar o jogador.');
     }
 
-    // Logical player state exists independently of the GLB and all renderers.
+    // Logical player state remains independent of its visual renderer.
     this.player = new Player({ x: playerSpawn.x, y: playerSpawn.y, speed: 220, saveData: this.savedProgress.player });
     this.progression = new ProgressionSystem({ statPointsPerLevel: 3, onLevelUp: ({ level }) => this.showLevelUpNotice(level) });
     this.playerBody = new PlayerBodyAdapter(this, this.player);
