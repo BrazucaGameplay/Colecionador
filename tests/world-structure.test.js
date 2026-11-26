@@ -17,9 +17,9 @@ test('layout da floresta usa dois tipos de árvores, coordenadas fixas e uma anc
     assert.ok(item.targetHeight > 0);
     assert.ok(item.collision?.radiusX > 0 && item.collision?.radiusY > 0, 'Colisão de tronco ausente: ' + item.id);
   }
-  assert.equal(ISLAND_01_LAYOUT.length, 218);
+  assert.equal(ISLAND_01_LAYOUT.length, 217);
   assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-ancestral').length, 1);
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 109);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 108);
   assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-pine').length, 108);
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('rock-')));
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('bush-')));
@@ -67,9 +67,9 @@ test('nenhuma árvore fica a mais de 10 metros da árvore vizinha mais próxima'
 
 test('tamanhos ampliados seguem a distribuição 10% +80%, 10% +90% e 80% base', () => {
   const trees = ISLAND_01_LAYOUT.filter(item => item.assetKey !== 'tree-ancestral');
-  assert.equal(trees.length, 217);
+  assert.equal(trees.length, 216);
   assert.equal(trees.filter(item => item.sizeTier === 'plus-80').length, 22);
-  assert.equal(trees.filter(item => item.sizeTier === 'plus-90').length, 22);
+  assert.equal(trees.filter(item => item.sizeTier === 'plus-90').length, 21);
   assert.equal(trees.filter(item => item.sizeTier === 'base').length, 173);
   for (const tree of trees) {
     const factor = tree.sizeTier === 'plus-80' ? 1.8 : tree.sizeTier === 'plus-90' ? 1.9 : 1;
