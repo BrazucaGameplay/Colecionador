@@ -100,7 +100,7 @@ export default class Game extends Phaser.Scene {
       this.worldHeight + panMarginY * 2
     );
     // O primeiro enquadramento acompanha o ponto válido onde o jogador nasceu.
-    this.camera.centerOn(playerSpawn.x, playerSpawn.y);
+    this.camera.startFollow(this.playerBody.object, false, 0.12, 0.12);
 
     this.destinationMarker = this.add.circle(0, 0, 12, 0xfacc15, 0.18)
       .setStrokeStyle(2, 0xfacc15, 0.95)
@@ -120,6 +120,7 @@ export default class Game extends Phaser.Scene {
     this.statusUI = new PlayerStatusUI(this, this.player, this.progression, {
       onChange: () => this.persistProgress({ score: this.score, player: this.player.toSaveData() })
     });
+    this.createHudCamera();
     this.touchInput = new TouchInputController(this, {
       camera: this.camera,
       isUiPointer: (x, y) => this.statusUI?.isUiPointer(x, y) || false,
@@ -129,6 +130,8 @@ export default class Game extends Phaser.Scene {
         if (accepted) {
           const destination = this.movement.destination;
           this.destinationMarker.setPosition(destination.x, destination.y).setVisible(true);
+          // Selecionar um destino encerra a exploração manual e devolve o foco ao jogador.
+          this.camera.startFollow(this.playerBody.object, false, 0.12, 0.12);
         } else {
           this.destinationMarker.setVisible(false);
         }
@@ -137,6 +140,21 @@ export default class Game extends Phaser.Scene {
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this._cooldown = 0;
+  }
+
+  createHudCamera() {
+    // A HUD é renderizada por uma segunda câmera sem zoom nem scroll do mundo.
+    this.uiCamera = this.cameras.add(0, 0, this.scale.width, this.scale.height, false);
+    this.camera.ignore(this.statusUI.uiLayer);
+    this.uiCamera.ignore(this.children.list.filter(child => child !== this.statusUI.uiLayer));
+    this.scale.on('resize', this.resizeHudCamera, this);
+  }
+
+  resizeHudCamera(gameSize) {
+    if (!this.uiCamera) return;
+    const width = gameSize?.width || this.scale.width;
+    const height = gameSize?.height || this.scale.height;
+    this.uiCamera.setViewport(0, 0, width, height);
   }
 
   /**
@@ -333,7 +351,10 @@ export default class Game extends Phaser.Scene {
 
   shutdown() {
     if (this.player) this.persistProgress({ score: this.score, player: this.player.toSaveData() });
+    this.scale.off('resize', this.resizeHudCamera, this);
     this.statusUI?.destroy();
+    if (this.uiCamera) this.cameras.remove(this.uiCamera);
+    this.uiCamera = null;
     this.touchInput?.destroy();
     this.combat?.destroy();
     this.movement?.destroy();
