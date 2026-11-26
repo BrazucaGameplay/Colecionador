@@ -162,6 +162,7 @@ export default class Game extends Phaser.Scene {
   getMinimumCameraZoom() {
     if (!this.camera || !this.worldWidth || !this.worldHeight) return 0.08;
     return Math.min(
+      CAMERA_ZOOM.max,
       this.camera.width / this.worldWidth,
       this.camera.height / this.worldHeight
     );
