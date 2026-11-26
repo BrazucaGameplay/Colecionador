@@ -279,5 +279,5 @@ test('Monster usa energia e regeneração de vida sem regenerar durante combate'
   assert.equal(monster.energy, 1.1);
   monster.update(100, 5100);
   assert.equal(monster.health, 1.1);
-  assert.equal(monster.energy, 1.2);
+  assert.ok(Math.abs(monster.energy - 1.2) < 1e-9);
 });
