@@ -17,10 +17,16 @@ export default class Monster {
     this.x = x;
     this.y = y;
     // Mesmo contrato de atributos do Player, mas com estado próprio e valores-base 1.
+    const configuredStats = definition.stats && typeof definition.stats === 'object' ? definition.stats : {};
     this.stats = Object.freeze({
       attack: 1, defense: 1, penetration: 1, attackSpeed: 1,
       movementSpeed: 1, maxHealth: 1, maxEnergy: 1,
-      healthRegen: 1, energyRegen: 1
+      healthRegen: 1, energyRegen: 1,
+      ...Object.fromEntries(Object.keys({
+        attack: 1, defense: 1, penetration: 1, attackSpeed: 1,
+        movementSpeed: 1, maxHealth: 1, maxEnergy: 1,
+        healthRegen: 1, energyRegen: 1
+      }).map(key => [key, Number.isFinite(Number(configuredStats[key])) ? Math.max(0, Number(configuredStats[key])) : 1]))
     });
     this.maxHealth = this.stats.maxHealth;
     this.health = this.maxHealth;
