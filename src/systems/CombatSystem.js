@@ -1,10 +1,12 @@
+import { PLAYER_ATTACK_RANGE_WORLD_UNITS } from '../config.js';
+
 export default class CombatSystem {
-  constructor({ player, movement, getTargets, onAttack = () => {}, attackRange = 150, detectionRange = 500, retargetIntervalMs = 250 } = {}) {
+  constructor({ player, movement, getTargets, onAttack = () => {}, attackRange = PLAYER_ATTACK_RANGE_WORLD_UNITS, detectionRange = 500, retargetIntervalMs = 250 } = {}) {
     if (!player || !movement || typeof getTargets !== 'function') throw new TypeError('CombatSystem exige jogador, movimento e consulta de alvos.');
     this.player = player; this.movement = movement; this.getTargets = getTargets; this.onAttack = onAttack;
     this.attackRange = Math.max(0, attackRange); this.detectionRange = Math.max(this.attackRange, detectionRange);
     this.retargetIntervalMs = Math.max(50, retargetIntervalMs);
-this.nextAttackAt = 0; this.nextRetargetAt = 0; this.nextPathAt = 0; this.pathRefreshIntervalMs = 250; this.targetId = null; this.destroyed = false;
+    this.nextAttackAt = 0; this.nextRetargetAt = 0; this.nextPathAt = 0; this.pathRefreshIntervalMs = 250; this.targetId = null; this.destroyed = false;
   }
   selectTarget() {
     let selected = null, selectedDistance = this.detectionRange;
