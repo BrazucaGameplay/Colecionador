@@ -47,15 +47,20 @@ test('Monster restaura vida e estado sem alterar sua definição', () => {
   assert.deepEqual(monster.facing, { x: 0, y: 1 });
 });
 
-test('catálogo de monstros não depende de sprites provisórios', () => {
+test('slime usa os quatro WebP finais já existentes no repositório', () => {
   const slime = MONSTER_DEFINITIONS.slime;
   assert.ok(slime);
-  assert.equal(slime.visual.enabled, false);
+  assert.equal(slime.visual.enabled, true);
   assert.deepEqual(Object.keys(slime.visual.animations), ['idle', 'walking', 'attack', 'death']);
-  for (const pack of Object.values(slime.visual.animations)) {
-    assert.ok(pack.path.startsWith('assets/monsters/slime/'));
-    assert.ok(pack.key.startsWith('monster-slime-'));
-  }
+  assert.deepEqual(
+    Object.values(slime.visual.animations).map(pack => pack.path),
+    [
+      'assets/monsters/slime/parado_01.webp',
+      'assets/monsters/slime/slime_movimento_frame_02_webp.webp',
+      'assets/monsters/slime/slime_ataque_frame_02(1).webp',
+      'assets/monsters/slime/slime_morte_frame_02.webp'
+    ]
+  );
   assert.deepEqual(slime.drops, []);
 });
 
