@@ -122,6 +122,8 @@ export default class MonsterManager {
       // Entidades paradas verificam mudança de faixa a cada 100 ms, não a cada frame.
       if (now >= entry.nextRangeCheckAt) {
         this.setEntryMode(entry, getMonsterBehaviorMode(player, entry.entity), now);
+        // Em idle, recursos avançam no mesmo passo de 100 ms da classificação.
+        if (entry.mode === 'idle') entry.entity.update(this.rangeCheckIntervalMs, now);
       }
 
       if (entry.mode === 'visual') continue;
