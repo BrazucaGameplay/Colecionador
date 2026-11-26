@@ -9,7 +9,7 @@ import WorldNavigation from '../world/WorldNavigation.js';
 import WorldDepthManager from '../world/WorldDepthManager.js';
 import WorldCollisionManager from '../world/WorldCollisionManager.js';
 import WorldObjectManager from '../world/WorldObjectManager.js';
-import { createTerrainLayers } from '../world/TerrainComposer.js';
+import { createIslandTerrain } from '../world/IslandTerrainRenderer.js';
 import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
 import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
@@ -28,8 +28,8 @@ export default class Game extends Phaser.Scene {
   constructor() {
     super('Game');
     this.worldObjects = [];
-    this.groundTiles = [];
-    this.groundMasks = [];
+    this.groundObject = null;
+    this.terrain = null;
   }
 
   create() {
@@ -176,20 +176,17 @@ export default class Game extends Phaser.Scene {
   }
 
   /**
-   * Monta o terreno diretamente com TileSprites e máscaras geométricas.
-   * Nenhuma textura/canvas do tamanho total da ilha é gerada.
+   * Renderiza a ilha com um único Shader Game Object no WebGL.
+   * Os três materiais são escolhidos por regiões fixas, não por RNG.
    */
   createGround() {
-    const terrain = createTerrainLayers(this, {
+    this.terrain = createIslandTerrain(this, {
       diameter: this.worldWidth,
       smoothKey: 'terrain-smooth',
       grassKey: 'terrain-grass',
       reliefKey: 'terrain-relief'
     });
-    this.groundTiles = terrain.tiles;
-    this.groundMasks = terrain.masks;
-    this.terrainDistribution = terrain.distribution;
-    this.terrainPatternSize = terrain.patternSize;
+    this.groundObject = this.terrain.object;
   }
 
   createIslandWalkableMask() {
@@ -286,10 +283,9 @@ export default class Game extends Phaser.Scene {
     this.worldObjectManager?.destroy();
     this.collisionManager?.destroy();
     this.worldObjects.length = 0;
-    for (const object of this.groundTiles) object.destroy();
-    for (const mask of this.groundMasks) mask.destroy();
-    this.groundTiles.length = 0;
-    this.groundMasks.length = 0;
+    this.groundObject?.destroy();
+    this.groundObject = null;
+    this.terrain = null;
     this.oceanBackground?.destroy();
     this.oceanBackground = null;
     this.touchInput = null;

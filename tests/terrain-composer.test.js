@@ -1,47 +1,59 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { materialScore } from '../src/world/TerrainComposer.js';
+import {
+  TERRAIN_REGIONS,
+  buildIslandTerrainShader,
+  getTerrainMaterialAt
+} from '../src/world/IslandTerrainRenderer.js';
 
-test('campo de distribuição é periódico nos dois eixos', () => {
-  for (const [x, y] of [[0, 0], [1, 73], [127, 511], [255, 256], [511, 19]]) {
-    assert.ok(Math.abs(materialScore(x, y) - materialScore(x + 512, y)) < 1e-10);
-    assert.ok(Math.abs(materialScore(x, y) - materialScore(x, y + 512)) < 1e-10);
+test('o desenho do terreno é fixo e não usa distribuição aleatória', () => {
+  assert.equal(TERRAIN_REGIONS.length, 9);
+  assert.ok(TERRAIN_REGIONS.every(region => ['grass', 'relief'].includes(region.material)));
+  const source = readFileSync(new URL('../src/world/IslandTerrainRenderer.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /Math\.random|randomBetween|RandomDataGenerator/);
+});
+
+test('as regiões de material cobrem proporções estáveis da ilha', () => {
+  const counts = { smooth: 0, grass: 0, relief: 0 };
+  const samples = 300;
+  for (let y = 0; y < samples; y++) {
+    for (let x = 0; x < samples; x++) {
+      const u = (x + 0.5) / samples;
+      const v = (y + 0.5) / samples;
+      const material = getTerrainMaterialAt(u, v);
+      if (material !== 'ocean') counts[material]++;
+    }
   }
+  const land = counts.smooth + counts.grass + counts.relief;
+  const grass = counts.grass / land;
+  const relief = counts.relief / land;
+  assert.ok(grass > 0.20 && grass < 0.27, 'grama deve ocupar cerca de 23% da ilha');
+  assert.ok(relief > 0.09 && relief < 0.14, 'relevo deve ocupar cerca de 12% da ilha');
+  assert.equal(getTerrainMaterialAt(0, 0), 'ocean');
+  assert.equal(getTerrainMaterialAt(0.5, 0.5), 'grass');
 });
 
-test('o compositor prepara materiais seamless e escreve um único padrão 512px', () => {
-  const source = readFileSync(new URL('../src/world/TerrainComposer.js', import.meta.url), 'utf8');
-  assert.match(source, /PATTERN_SIZE = 512/);
-  assert.match(source, /readSeamlessPixels/);
-  assert.match(source, /getImageData/);
-  assert.match(source, /putImageData/);
-  assert.match(source, /scene\.textures\.addCanvas/);
-  assert.doesNotMatch(source, /createAlphaMask|drawMaskedMaterial/);
+test('shader recorta a ilha no próprio fragmento, sem GeometryMask ou canvas', () => {
+  const shader = buildIslandTerrainShader();
+  assert.match(shader, /uniform sampler2D uSmooth/);
+  assert.match(shader, /uniform sampler2D uGrass/);
+  assert.match(shader, /uniform sampler2D uRelief/);
+  assert.match(shader, /smoothstep\(0\.998, 1\.0, radius\)/);
+  assert.match(shader, /mirroredRepeat/);
+  const source = readFileSync(new URL('../src/world/IslandTerrainRenderer.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /createGeometryMask|createCanvas|createAlphaMask|TileSprite/);
 });
 
-test('a ilha usa máscara circular isolada da Display List', () => {
-  const source = readFileSync(new URL('../src/world/TerrainComposer.js', import.meta.url), 'utf8');
-  assert.match(source, /scene\.make\.graphics\(\{ x: 0, y: 0, add: false \}\)/);
-  assert.match(source, /fillCircle\(center, center, center - 2\)/);
-  assert.match(source, /createGeometryMask\(\)/);
-  assert.match(source, /setMask\(circleMask\)/);
-  assert.match(source, /add\.tileSprite\(0, 0, diameter, diameter, pattern\.textureKey\)/);
-});
-
-test('o oceano ultrapassa a ilha e cobre o limite de câmera no zoom mínimo', () => {
+test('Game usa somente o renderizador único de terreno e o oceano fica abaixo', () => {
   const source = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
-  const touch = readFileSync(new URL('../src/systems/input/TouchInputController.js', import.meta.url), 'utf8');
-  assert.match(source, /min: 0\.08, max: 2\.25/);
-  assert.match(source, /const oceanSize = ISLAND_DIAMETER \* 12/);
+  assert.match(source, /createIslandTerrain/);
+  assert.match(source, /this\.groundObject = this\.terrain\.object/);
   assert.match(source, /setDepth\(-1200\)/);
-  assert.match(touch, /Math\.max\(0\.08/);
-  assert.match(source, /createTerrainLayers/);
-  assert.doesNotMatch(source, /syncTerrainLayersToCamera|createCloudBoundary|generated-cloud-sea/);
+  assert.doesNotMatch(source, /groundTiles|groundMasks|TerrainComposer/);
 });
 
-test('Preload continua carregando as três texturas finais', () => {
+test('Preload carrega os três assets materiais usados diretamente pelo shader', () => {
   const source = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
   for (const key of ['terrain-smooth', 'terrain-grass', 'terrain-relief']) assert.ok(source.includes(key));
-  assert.doesNotMatch(source, /terreno-01\.png|island-01\.png/);
 });

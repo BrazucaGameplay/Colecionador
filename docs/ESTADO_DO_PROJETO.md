@@ -1351,3 +1351,51 @@ LIMITAÇÃO DE VALIDAÇÃO:
   código, mas não substituem captura/renderização real do Phaser.
 - A forma circular e o oceano ainda precisam de conferência visual no
   navegador Android após o deploy.
+
+
+======================================================================
+22. REESTRUTURACAO DO TERRENO — SHADER DETERMINISTICO (26/11/2026)
+======================================================================
+
+DIAGNOSTICO CONFIRMADO:
+- O jogo usa Phaser 4.2.1 com Phaser.AUTO, selecionando WebGL nos
+  navegadores Android compatíveis.
+- No Phaser 4.2.1, GeometryMask funciona somente no renderer Canvas.
+  No WebGL, setMask(GeometryMask) nao aplica o recorte. A ilha era
+  desenhada como o quadrado do TileSprite; a borda reta da captura e
+  a borda real desse quadrado, nao o contorno da ilha.
+- A mascara de navegacao circular nao controla a renderizacao; ela so
+  impede o jogador de caminhar fora da ilha.
+
+ARQUITETURA SUBSTITUTA:
+- Removido TerrainComposer.js, incluindo composicao de canvas, textura
+  intermediaria 512x512, mascara geometrica e TileSprite de 4096x4096.
+- Criado IslandTerrainRenderer.js.
+- WebGL desenha a ilha com um unico Shader Game Object de 4096x4096.
+- O fragment shader calcula o recorte circular diretamente em GPU.
+  Nenhuma GeometryMask e usada no caminho WebGL.
+- Os tres assets oficiais (terreno liso, moita e relevo) sao amostrados
+  diretamente como tres texturas; nao ha canvas, copia de pixels ou
+  textura intermediaria.
+- A repeticao das texturas e espelhada para evitar emendas abruptas.
+- As regioes de grama e relevo sao 9 elipses fixas, declaradas no codigo.
+  Nao ha RNG, distribuicao por score, histograma ou posicionamento aleatorio.
+- Cobertura esperada na mascara deterministica: aproximadamente 65% liso,
+  23% grama e 12% relevo, calculada por amostragem nos testes.
+- Custo de CPU da composicao: zero por frame; nao ha composicao na inicializacao.
+- Custo de renderizacao: um Game Object e um draw call, com tres amostras
+  de textura por pixel visivel. A GPU processa somente a area projetada
+  pela camera; o fragmento fora do circulo recebe alpha zero.
+- Fallback Canvas: circulo verde simples, sem mascara e sem quadrado,
+  para manter a silhueta correta em navegadores sem WebGL.
+
+VALIDACAO:
+- Testes verificam ausencia de RNG, cobertura das regioes, amostras das
+  tres texturas, recorte circular no shader e integracao em Game.
+- A compilacao GLSL e a renderizacao real precisam ser verificadas no
+  navegador Android; testes Node nao executam o shader na GPU.
+- O asset 01_ilha_principal.png (3.48 MB) permanece preservado e nao foi
+  ativado automaticamente: sua adequacao como mapa-base precisa de
+  inspecao visual para nao substituir os materiais finais por uma imagem
+  que pode nao corresponder ao layout atual.
+- Versao: 2.4.0.
