@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import Monster from '../src/entities/Monster.js';
 import MonsterSpawner from '../src/systems/monsters/MonsterSpawner.js';
-import { PLAYER_ATTACK_RANGE_METERS, PLAYER_ATTACK_RANGE_WORLD_UNITS, WORLD_UNITS_PER_METER, MONSTER_PURSUIT_DISTANCE_METERS, MONSTER_IDLE_DISTANCE_METERS, MONSTER_PURSUIT_DISTANCE_WORLD_UNITS, MONSTER_IDLE_DISTANCE_WORLD_UNITS } from '../src/config.js';
+import { PLAYER_ATTACK_RANGE_METERS, PLAYER_ATTACK_RANGE_WORLD_UNITS, WORLD_UNITS_PER_METER, MONSTER_PURSUIT_DISTANCE_METERS, MONSTER_IDLE_DISTANCE_METERS, MONSTER_PURSUIT_DISTANCE_WORLD_UNITS, MONSTER_IDLE_DISTANCE_WORLD_UNITS, MONSTER_ACTIVATION_DISTANCE_METERS, MONSTER_ACTIVATION_DISTANCE_WORLD_UNITS } from '../src/config.js';
 import { getMonsterBehaviorMode } from '../src/systems/monsters/MonsterManager.js';
 import MonsterBehaviorController from '../src/systems/monsters/MonsterBehaviorController.js';
 import CombatSystem from '../src/systems/CombatSystem.js';
@@ -108,7 +108,7 @@ test('Spawner não cria monstro sobre área bloqueada e agenda nova tentativa', 
   spawner.update(0); spawner.update(49); assert.equal(attempts, 0); spawner.update(50); assert.equal(attempts, 0);
 });
 
-test('escala fixa: ataque 2 m, perseguição 10 m e ociosidade até 30 m', () => {
+test('escala fixa: ataque 2 m, perseguição 10 m, ociosidade 30 m e ativação 50 m', () => {
   assert.equal(WORLD_UNITS_PER_METER, 75);
   assert.equal(PLAYER_ATTACK_RANGE_METERS, 2);
   assert.equal(PLAYER_ATTACK_RANGE_WORLD_UNITS, 150);
@@ -116,9 +116,11 @@ test('escala fixa: ataque 2 m, perseguição 10 m e ociosidade até 30 m', () =>
   assert.equal(MONSTER_IDLE_DISTANCE_METERS, 30);
   assert.equal(MONSTER_PURSUIT_DISTANCE_WORLD_UNITS, 750);
   assert.equal(MONSTER_IDLE_DISTANCE_WORLD_UNITS, 2250);
+  assert.equal(MONSTER_ACTIVATION_DISTANCE_METERS, 50);
+  assert.equal(MONSTER_ACTIVATION_DISTANCE_WORLD_UNITS, 3750);
 });
 
-test('faixas de distância aplicam combate, perseguição, ociosidade e visual-only nos limites exatos', () => {
+test('faixas de distância ativam monstros até 50 m e os adormecem além desse limite', () => {
   const player = { x: 100, y: 200 };
   const modeAt = distance => getMonsterBehaviorMode(player, { x: player.x + distance, y: player.y });
   assert.equal(modeAt(0), 'combat');
@@ -128,6 +130,8 @@ test('faixas de distância aplicam combate, perseguição, ociosidade e visual-o
   assert.equal(modeAt(750.01), 'idle');
   assert.equal(modeAt(2250), 'idle');
   assert.equal(modeAt(2250.01), 'visual');
+  assert.equal(modeAt(3750), 'visual');
+  assert.equal(modeAt(3750.01), 'dormant');
 });
 
 test('perseguição move o monstro na direção do jogador e respeita navegação', () => {
