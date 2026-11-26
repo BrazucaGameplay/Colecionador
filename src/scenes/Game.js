@@ -202,27 +202,88 @@ export default class Game extends Phaser.Scene {
    * da página ao arrastar ou afastar a câmera.
    */
   createOceanBackground() {
-    const oceanSize = ISLAND_DIAMETER * 12;
-    // Tile 2x2 espelhado: as bordas coincidem e eliminam emendas na repetição.
+    // O TileSprite acompanha somente a area visivel da camera. O Phaser recomenda
+    // nao dimensiona-lo para milhares de pixels: a textura deve rolar via tilePosition.
     const source = this.textures.get('ocean-pattern').getSourceImage();
-    const tileWidth = source.width;
-    const tileHeight = source.height;
+    const width = source.width;
+    const height = source.height;
     const seamlessKey = 'ocean-pattern-seamless';
     if (!this.textures.exists(seamlessKey)) {
-      const seamless = this.textures.createCanvas(seamlessKey, tileWidth * 2, tileHeight * 2);
-      const context = seamless.getContext();
-      context.drawImage(source, 0, 0, tileWidth, tileHeight);
-      context.save(); context.translate(tileWidth * 2, 0); context.scale(-1, 1);
-      context.drawImage(source, 0, 0, tileWidth, tileHeight); context.restore();
-      context.save(); context.translate(0, tileHeight * 2); context.scale(1, -1);
-      context.drawImage(source, 0, 0, tileWidth, tileHeight); context.restore();
-      context.save(); context.translate(tileWidth * 2, tileHeight * 2); context.scale(-1, -1);
-      context.drawImage(source, 0, 0, tileWidth, tileHeight); context.restore();
-      seamless.refresh();
+      const texture = this.textures.createCanvas(seamlessKey, width, height);
+      const context = texture.getContext();
+      context.drawImage(source, 0, 0, width, height);
+
+      // Desloca o centro da imagem para as bordas. Assim, as bordas originais
+      // (que nao sao tileaveis) ficam no centro e podem ser fundidas sem espelhar
+      // a direcao das ondas. As bordas externas passam a ser vizinhas na imagem-fonte.
+      const image = context.getImageData(0, 0, width, height);
+      const shifted = new Uint8ClampedArray(image.data.length);
+      const halfX = Math.floor(width / 2);
+      const halfY = Math.floor(height / 2);
+      for (let y = 0; y < height; y++) {
+        const sourceY = (y + halfY) % height;
+        for (let x = 0; x < width; x++) {
+          const sourceX = (x + halfX) % width;
+          const from = (sourceY * width + sourceX) * 4;
+          const to = (y * width + x) * 4;
+          shifted[to] = image.data[from];
+          shifted[to + 1] = image.data[from + 1];
+          shifted[to + 2] = image.data[from + 2];
+          shifted[to + 3] = image.data[from + 3];
+        }
+      }
+
+      // Suaviza apenas a cruz central, onde estavam as bordas originais da fonte.
+      // O restante da imagem conserva os detalhes e a direcao natural das ondas.
+      const blended = new Uint8ClampedArray(shifted);
+      const band = Math.max(12, Math.round(Math.min(width, height) * 0.045));
+      const midX = Math.floor(width / 2);
+      const midY = Math.floor(height / 2);
+      const mixPixel = (target, a, b, amount) => {
+        for (let channel = 0; channel < 4; channel++) {
+          blended[target + channel] = shifted[a + channel] * (1 - amount) + shifted[b + channel] * amount;
+        }
+      };
+      for (let y = 0; y < height; y++) {
+        const row = y * width * 4;
+        for (let x = midX - band; x < midX + band; x++) {
+          const amount = (x - (midX - band)) / (band * 2);
+          const target = row + x * 4;
+          mixPixel(target, row + (midX - band) * 4, row + (midX + band - 1) * 4, amount);
+        }
+      }
+      const verticalBlend = new Uint8ClampedArray(blended);
+      for (let y = midY - band; y < midY + band; y++) {
+        const amount = (y - (midY - band)) / (band * 2);
+        const top = (midY - band) * width * 4;
+        const bottom = (midY + band - 1) * width * 4;
+        const row = y * width * 4;
+        for (let x = 0; x < width; x++) {
+          const target = row + x * 4;
+          const a = top + x * 4;
+          const b = bottom + x * 4;
+          for (let channel = 0; channel < 4; channel++) {
+            verticalBlend[target + channel] = blended[a + channel] * (1 - amount) + blended[b + channel] * amount;
+          }
+        }
+      }
+      context.putImageData(new ImageData(verticalBlend, width, height), 0, 0);
+      texture.refresh();
     }
+
+    const view = this.cameras.main.worldView;
     this.oceanBackground = this.add.tileSprite(
-      ISLAND_RADIUS, ISLAND_RADIUS, oceanSize, oceanSize, seamlessKey
+      view.centerX, view.centerY, view.width, view.height, seamlessKey
     ).setOrigin(0.5).setDepth(-1200);
+    this.oceanBackground.setTilePosition(view.x, view.y);
+  }
+
+  syncOceanBackground() {
+    if (!this.oceanBackground || !this.camera) return;
+    const view = this.camera.worldView;
+    this.oceanBackground.setPosition(view.centerX, view.centerY);
+    this.oceanBackground.setSize(view.width, view.height);
+    this.oceanBackground.setTilePosition(view.x, view.y);
   }
 
   readSavedProgress() {
@@ -257,6 +318,7 @@ export default class Game extends Phaser.Scene {
       if (this.characterRenderer?.activeAction !== 'dying') this.characterRenderer?.playAction('dying');
     }
     this.movement?.setPaused(!this.player?.alive);
+    this.syncOceanBackground();
     this.combat?.update(this.time.now);
     this.movement?.update(delta);
     this.player?.update(delta, this.time.now);
