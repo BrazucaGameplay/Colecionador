@@ -5,7 +5,7 @@ import { ISLAND_01_LAYOUT } from '../src/world/map-layout/island-01.js';
 
 test('layout da ilha possui IDs únicos e assets válidos', () => {
   const ids = new Set();
-  const validAssets = new Set(['tree-large', 'tree-flowering', 'rock-cluster']);
+  const validAssets = new Set(['tree-large', 'tree-flowering']);
   for (const item of ISLAND_01_LAYOUT) {
     assert.ok(item.id && !ids.has(item.id), 'ID ausente ou duplicado: ' + item.id);
     ids.add(item.id);
@@ -18,7 +18,8 @@ test('layout da ilha possui IDs únicos e assets válidos', () => {
       assert.ok(item.collision.radiusY > 0);
     }
   }
-  assert.equal(ISLAND_01_LAYOUT.length, 36);
+  assert.equal(ISLAND_01_LAYOUT.length, 32);
+  assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('rock-')));
 });
 
 test('estruturas principais deixam a área inicial livre', () => {
@@ -128,4 +129,12 @@ test('o ataque alterna ciclicamente entre os três movimentos de combate', () =>
   assert.equal(CHARACTER_ANIMATIONS.combatSlash.priority, 70);
   const sequence = Array.from({ length: 6 }, (_, index) => COMBAT_ANIMATION_SEQUENCE[index % COMBAT_ANIMATION_SEQUENCE.length]);
   assert.deepEqual(sequence, ['combat', 'jump', 'combatSlash', 'combat', 'jump', 'combatSlash']);
+});
+
+
+test('ações de combate compensam a escala menor dos atlas sem alterar a escala base', () => {
+  const source = require('node:fs').readFileSync(new URL('../src/rendering/characters/CharacterSpriteRenderer.js', import.meta.url), 'utf8');
+  assert.match(source, /this\.actionScaleMultiplier = 1\.35/);
+  assert.match(source, /setScale\(this\.baseScale \* this\.actionScaleMultiplier\)/);
+  assert.match(source, /setScale\(this\.baseScale\)/);
 });

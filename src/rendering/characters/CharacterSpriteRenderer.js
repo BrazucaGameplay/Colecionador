@@ -66,6 +66,8 @@ export default class CharacterSpriteRenderer {
     this.actionState = new CharacterActionState();
     this.actionToken = null;
     this.nextCombatVariant = 0;
+    this.baseScale = scale;
+    this.actionScaleMultiplier = 1.35;
     this.destroyed = false;
     const scaleRatio = scale / 0.62;
     this.shadow = scene.add.ellipse(x, y - 2, 22 * scaleRatio, 9 * scaleRatio, 0x101522, 0.3);
@@ -120,6 +122,7 @@ export default class CharacterSpriteRenderer {
     }
     if (!force && this.currentAnimation === id) return;
     this.currentAnimation = id;
+    this.sprite.setScale(this.baseScale);
     this.sprite.play(key, true);
   }
 
@@ -158,6 +161,7 @@ export default class CharacterSpriteRenderer {
     this.sprite.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     this.actionToken = started.action.token;
     this.currentAnimation = resolvedId;
+    this.sprite.setScale(this.baseScale * this.actionScaleMultiplier);
     this.sprite.play({ key, repeat: animation.loop ? -1 : 0 });
     if (!animation.loop) this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     return true;

@@ -48,9 +48,4 @@ export const ISLAND_01_LAYOUT = Object.freeze([
   { id: 'tree-se-07', assetKey: 'tree-large', x: 2630, y: 2890, targetHeight: 118, collision: { offsetY: -12, radiusX: 17, radiusY: 13 } },
   { id: 'tree-se-08', assetKey: 'tree-flowering', x: 2850, y: 2940, targetHeight: 124, collision: { offsetY: -12, radiusX: 17, radiusY: 13 } },
 
-  // Formações rochosas nos intervalos externos entre os bosques
-  { id: 'rock-west-01', assetKey: 'rock-cluster', x: 1050, y: 1980, targetHeight: 82, collision: { offsetY: -8, radiusX: 30, radiusY: 20 } },
-  { id: 'rock-east-01', assetKey: 'rock-cluster', x: 3040, y: 1980, targetHeight: 82, collision: { offsetY: -8, radiusX: 30, radiusY: 20 } },
-  { id: 'rock-north-01', assetKey: 'rock-cluster', x: 1980, y: 1050, targetHeight: 76, collision: { offsetY: -8, radiusX: 30, radiusY: 20 } },
-  { id: 'rock-south-01', assetKey: 'rock-cluster', x: 1980, y: 3040, targetHeight: 88, collision: { offsetY: -8, radiusX: 30, radiusY: 20 } }
 ].map((item) => Object.freeze(item)));

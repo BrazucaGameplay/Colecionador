@@ -7,8 +7,7 @@ const WORLD_ASSETS = [
   ['tree-large', 'assets/world/vegetation/arvore_1.png'],
   ['tree-flowering', 'assets/world/vegetation/arvore_2.png'],
   ['waterfall-edge-a', 'assets/world/rock/cascata_1.png'],
-  ['waterfall-edge-b', 'assets/world/rock/cascata3.png'],
-  ['rock-cluster', 'assets/world/rock/pedra_10.webp']
+  ['waterfall-edge-b', 'assets/world/rock/cascata3.png']
 ];
 export default class Preload extends Phaser.Scene {
   constructor() { super('Preload'); }
