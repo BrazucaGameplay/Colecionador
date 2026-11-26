@@ -18,6 +18,7 @@ import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.28, max: 2.25, default: 1.2 });
+const CAMERA_FOLLOW_LERP = 0.06;
 const GENERATED_GROUND_TEXTURE = 'island-01-ground-generated';
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 const ISLAND_DIAMETER = 4096;
@@ -101,7 +102,8 @@ export default class Game extends Phaser.Scene {
       this.worldHeight + panMarginY * 2
     );
     // O primeiro enquadramento acompanha o ponto válido onde o jogador nasceu.
-    this.camera.startFollow(this.playerBody.object, false, 0.12, 0.12);
+    this.camera.startFollow(this.playerBody.object, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
+    this.cameraFollowActive = true;
 
     this.destinationMarker = this.add.circle(0, 0, 12, 0xfacc15, 0.18)
       .setStrokeStyle(2, 0xfacc15, 0.95)
@@ -129,14 +131,22 @@ export default class Game extends Phaser.Scene {
     this.touchInput = new TouchInputController(this, {
       camera: this.camera,
       isUiPointer: (x, y) => this.statusUI?.isUiPointer(x, y) || false,
+      onPan: () => {
+        // O controlador já interrompeu o follow ao iniciar o arraste.
+        this.cameraFollowActive = false;
+      },
       onTap: (screenX, screenY) => {
         const target = this.camera.getWorldPoint(screenX, screenY);
         const accepted = this.movement.setDestination(target.x, target.y);
         if (accepted) {
           const destination = this.movement.destination;
           this.destinationMarker.setPosition(destination.x, destination.y).setVisible(true);
-          // Selecionar um destino encerra a exploração manual e devolve o foco ao jogador.
-          this.camera.startFollow(this.playerBody.object, false, 0.12, 0.12);
+          // Só reativa o follow após exploração manual. Não reinicia o
+          // interpolador em toques sucessivos enquanto a câmera já acompanha.
+          if (!this.cameraFollowActive) {
+            this.camera.startFollow(this.playerBody.object, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
+            this.cameraFollowActive = true;
+          }
         } else {
           this.destinationMarker.setVisible(false);
         }
