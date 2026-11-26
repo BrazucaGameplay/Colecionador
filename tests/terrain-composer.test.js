@@ -25,8 +25,8 @@ test('shader compoe a textura costeira com alpha sobre terreno continuo',()=>{
  assert.ok(s.includes('float boundaryRadius(float a)'));
  assert.ok(s.includes('if(radiusWorld<=coastRadius)'));
  assert.ok(s.includes('vec4 shore=vec4(0.0)'));
- assert.ok(s.includes('float transitionBlend=smoothstep(-190.0,72.0,shoreDistance)'));
- assert.ok(s.includes('float shorelineAlpha=mix(sourceAlpha*transitionBlend,sourceAlpha,contactBand*0.72)'));
+ assert.ok(s.includes('float shorelineMask=1.0-smoothstep(-105.0,18.0,shoreDistance)'));
+ assert.ok(s.includes('float shorelineAlpha=shore.a*shorelineMask'));
  assert.ok(s.includes('landColor=mix(landColor,shore.rgb,shorelineAlpha)'));
  assert.ok(s.includes('if(shoreInRange&&shore.a>.003)'));
  assert.ok(s.includes('const float CORE_RADIUS=1660.0'));
