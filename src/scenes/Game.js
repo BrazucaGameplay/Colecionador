@@ -3,6 +3,7 @@ import Player from '../entities/Player.js';
 import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
 import CharacterSpriteRenderer from '../rendering/characters/CharacterSpriteRenderer.js';
 import MonsterManager from '../systems/monsters/MonsterManager.js';
+import MonsterCombatSystem from '../systems/monsters/MonsterCombatSystem.js';
 import { ISLAND_01_MONSTER_SPAWNS } from '../world/spawn-layout/island-01.js';
 import WorldNavigation from '../world/WorldNavigation.js';
 import WorldDepthManager from '../world/WorldDepthManager.js';
@@ -116,6 +117,10 @@ export default class Game extends Phaser.Scene {
         this.characterRenderer?.playAction('combat', { durationMs: attackIntervalMs });
         this.monsterManager?.damage(target.id, damage, now, penetration);
       }
+    });
+    this.monsterCombat = new MonsterCombatSystem({
+      player: this.player,
+      getAttackers: () => this.monsterManager?.getCombatEntries() || []
     });
     this.statusUI = new PlayerStatusUI(this, this.player, this.progression, {
       onChange: () => this.persistProgress({ score: this.score, player: this.player.toSaveData() })
@@ -343,6 +348,7 @@ export default class Game extends Phaser.Scene {
     if (!this.movement?.destination) this.destinationMarker?.setVisible(false);
 
     this.monsterManager?.update(this.time.now, delta);
+    this.monsterCombat?.update(this.time.now);
     // O renderer do personagem e os objetos do cenário usam a mesma escala de profundidade.
   }
 
@@ -359,6 +365,7 @@ export default class Game extends Phaser.Scene {
     this.uiCamera = null;
     this.touchInput?.destroy();
     this.combat?.destroy();
+    this.monsterCombat?.destroy();
     this.movement?.destroy();
     this.monsterManager?.destroy();
     this.playerBody?.destroy();
