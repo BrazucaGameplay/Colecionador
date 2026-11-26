@@ -124,6 +124,42 @@ jobs:
             test -s "dist/assets/characters/sprites/skin_01/${asset}.json"
           done
           echo "Player sprite atlases verified."
+      - name: Create deployed code integrity manifest
+        run: |
+          node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto';
+          import { readdir, readFile, writeFile } from 'node:fs/promises';
+          import { join, relative, extname } from 'node:path';
+
+          const root = 'dist';
+          const files = [];
+          async function walk(directory) {
+            for (const item of await readdir(directory, { withFileTypes: true })) {
+              const path = join(directory, item.name);
+              if (item.isDirectory()) {
+                await walk(path);
+                continue;
+              }
+              const rel = relative(root, path).split('\\\\').join('/');
+              if (rel !== 'index.html' && !/\\.(?:m?js|css)$/i.test(extname(rel))) continue;
+              const bytes = await readFile(path);
+              files.push({
+                path: rel,
+                sha256: createHash('sha256').update(bytes).digest('hex'),
+                bytes: bytes.length
+              });
+            }
+          }
+          await walk(root);
+          if (!files.some(file => file.path === 'index.html') || !files.some(file => /\\.js$/i.test(file.path))) {
+            throw new Error('Build manifest is missing index.html or JavaScript bundles.');
+          }
+          await writeFile(join(root, 'build-manifest.json'), JSON.stringify({
+            version: JSON.parse(await readFile('package.json', 'utf8')).version,
+            files
+          }, null, 2) + '\\n');
+          console.log(`Created integrity manifest for ${files.length} deployed code files.`);
+          NODE
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
@@ -146,22 +182,64 @@ jobs:
           ref: ${{ github.sha }}
       - id: deployment
         uses: actions/deploy-pages@v5.0.1
-      - name: Verify published application version
+      - name: Verify published version and deployed code integrity
         env:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           APP_VERSION="$(node --input-type=module -e "import { readFileSync } from 'node:fs'; console.log(JSON.parse(readFileSync('package.json', 'utf8')).version)")"
-          EXPECTED="COLECIONADOR · v${APP_VERSION}"
-          echo "Checking ${PAGE_URL} for ${EXPECTED}"
+          echo "Checking published application at ${PAGE_URL} for version ${APP_VERSION}"
           for attempt in $(seq 1 18); do
-            if curl --fail --silent --show-error "${PAGE_URL}?verify=${GITHUB_SHA}" --output /tmp/published-index.html 2>/dev/null; then
-              if grep --fixed-strings --quiet "${EXPECTED}" /tmp/published-index.html && ! grep --fixed-strings --quiet '__APP_VERSION__' /tmp/published-index.html; then
-                echo "Published version verified: ${APP_VERSION}"
-                exit 0
-              fi
+            if PAGE_URL="${PAGE_URL}" APP_VERSION="${APP_VERSION}" GITHUB_SHA="${GITHUB_SHA}" node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto';
+
+          const base = process.env.PAGE_URL;
+          const expectedVersion = process.env.APP_VERSION;
+          const cacheBust = process.env.GITHUB_SHA;
+          const fetchText = async path => {
+            const url = new URL(path, base);
+            url.searchParams.set('verify', cacheBust);
+            const response = await fetch(url, { cache: 'no-store' });
+            if (!response.ok) throw new Error(`HTTP ${response.status} for ${path}`);
+            return Buffer.from(await response.arrayBuffer());
+          };
+
+          try {
+            const manifestBytes = await fetchText('build-manifest.json');
+            const manifest = JSON.parse(manifestBytes.toString('utf8'));
+            if (manifest.version !== expectedVersion) {
+              throw new Error(`Manifest version mismatch: ${manifest.version} != ${expectedVersion}`);
+            }
+            const html = (await fetchText('index.html')).toString('utf8');
+            const expectedLabel = `COLECIONADOR · v${expectedVersion}`;
+            if (!html.includes(expectedLabel) || html.includes('__APP_VERSION__')) {
+              throw new Error('Published HTML does not contain the expected application version.');
+            }
+            const scripts = [...html.matchAll(/<script[^>]+src=["']([^"']+)["']/g)].map(match => match[1]);
+            if (!scripts.length) throw new Error('Published HTML has no JavaScript entry point.');
+            const manifestPaths = new Set(manifest.files.map(file => file.path));
+            if (!manifestPaths.has('index.html')) throw new Error('Integrity manifest does not cover index.html.');
+            for (const file of manifest.files) {
+              const bytes = file.path === 'index.html' ? Buffer.from(html) : await fetchText(file.path);
+              const actual = createHash('sha256').update(bytes).digest('hex');
+              if (actual !== file.sha256 || bytes.length !== file.bytes) {
+                throw new Error(`Published file differs from build output: ${file.path}`);
+              }
+            }
+            for (const script of scripts) {
+              const normalized = script.replace(/^\\//, '').replace(/^Colecionador\\//, '');
+              if (!manifestPaths.has(normalized)) throw new Error(`Published script is absent from integrity manifest: ${script}`);
+            }
+            console.log(`Published version ${expectedVersion} verified; ${manifest.files.length} HTML/JS/CSS files match the exact build.`);
+          } catch (error) {
+            console.error(error.message);
+            process.exit(1);
+          }
+          NODE
+            then
+              exit 0
             fi
-            echo "Publication not updated yet (attempt ${attempt}/18); waiting 10 seconds..."
+            echo "Published files not fully updated yet (attempt ${attempt}/18); waiting 10 seconds..."
             sleep 10
           done
-          echo "Published page did not expose expected version ${APP_VERSION}."
+          echo "Published application failed version or code-integrity verification."
           exit 1
