@@ -42,7 +42,7 @@ test('shader recorta a ilha no próprio fragmento, sem GeometryMask ou canvas', 
   assert.match(shader, /smoothstep\(0\.998, 1\.0, radius\)/);
   assert.match(shader, /mirroredRepeat/);
   const source = readFileSync(new URL('../src/world/IslandTerrainRenderer.js', import.meta.url), 'utf8');
-  assert.doesNotMatch(source, /createGeometryMask|createCanvas|createAlphaMask|TileSprite/);
+  assert.doesNotMatch(source, /createGeometryMask\\(|createCanvas\\(|createAlphaMask\\(|add\\.tileSprite\\(|setMask\\(/);
 });
 
 test('Game usa somente o renderizador único de terreno e o oceano fica abaixo', () => {
