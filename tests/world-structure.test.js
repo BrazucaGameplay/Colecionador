@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import WorldDepthManager from '../src/world/WorldDepthManager.js';
 import WorldCollisionManager from '../src/world/WorldCollisionManager.js';
-import { ISLAND_01_LAYOUT } from '../src/world/map-layout/island-01.js';
+import { ISLAND_01_LAYOUT, TREE_SPACING } from '../src/world/map-layout/island-01.js';
 
 test('layout da floresta usa dois tipos de árvores, coordenadas fixas e uma ancestral', () => {
   const ids = new Set();
@@ -17,10 +17,10 @@ test('layout da floresta usa dois tipos de árvores, coordenadas fixas e uma anc
     assert.ok(item.targetHeight > 0);
     assert.ok(item.collision?.radiusX > 0 && item.collision?.radiusY > 0, 'Colisão de tronco ausente: ' + item.id);
   }
-  assert.equal(ISLAND_01_LAYOUT.length, 33);
+  assert.equal(ISLAND_01_LAYOUT.length, 218);
   assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-ancestral').length, 1);
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 16);
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-pine').length, 16);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 109);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-pine').length, 108);
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('rock-')));
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('bush-')));
 });
@@ -31,6 +31,7 @@ test('as árvores formam exatamente três bosques compactos em regiões distinta
     group, ISLAND_01_LAYOUT.filter(item => item.group === group).length
   ]));
   assert.deepEqual(counts, { 'grove-west': 11, 'grove-east': 11, 'grove-south': 10 });
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.id.startsWith('tree-solo-')).length, 185);
   const centers = Object.entries(counts).map(([group]) => {
     const trees = ISLAND_01_LAYOUT.filter(item => item.group === group);
     return {
@@ -43,6 +44,37 @@ test('as árvores formam exatamente três bosques compactos em regiões distinta
     for (let j = i + 1; j < centers.length; j++) {
       assert.ok(Math.hypot(centers[i].x - centers[j].x, centers[i].y - centers[j].y) > 900);
     }
+  }
+});
+
+
+
+test('nenhuma árvore fica a mais de 10 metros da árvore vizinha mais próxima', () => {
+  const trees = ISLAND_01_LAYOUT;
+  let maximumNearestNeighbor = 0;
+  for (let i = 0; i < trees.length; i++) {
+    let nearest = Infinity;
+    for (let j = 0; j < trees.length; j++) {
+      if (i === j) continue;
+      nearest = Math.min(nearest, Math.hypot(trees[i].x - trees[j].x, trees[i].y - trees[j].y));
+    }
+    maximumNearestNeighbor = Math.max(maximumNearestNeighbor, nearest);
+  }
+  assert.equal(TREE_SPACING.maxNeighborWorldUnits, 300);
+  assert.ok(maximumNearestNeighbor <= TREE_SPACING.maxNeighborWorldUnits,
+    'Maior distância até a árvore vizinha: ' + maximumNearestNeighbor);
+});
+
+test('tamanhos ampliados seguem a distribuição 10% +80%, 10% +90% e 80% base', () => {
+  const trees = ISLAND_01_LAYOUT.filter(item => item.assetKey !== 'tree-ancestral');
+  assert.equal(trees.length, 217);
+  assert.equal(trees.filter(item => item.sizeTier === 'plus-80').length, 22);
+  assert.equal(trees.filter(item => item.sizeTier === 'plus-90').length, 22);
+  assert.equal(trees.filter(item => item.sizeTier === 'base').length, 173);
+  for (const tree of trees) {
+    const factor = tree.sizeTier === 'plus-80' ? 1.8 : tree.sizeTier === 'plus-90' ? 1.9 : 1;
+    const baseRadius = tree.assetKey === 'tree-forest-broad' ? 31 : 29;
+    assert.equal(tree.collision.radiusX, Math.round(baseRadius * factor));
   }
 });
 
