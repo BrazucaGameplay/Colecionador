@@ -792,3 +792,14 @@ VALIDAÇÃO:
 - Testes automatizados não executados conforme solicitação.
 - Nenhum teste visual em dispositivo foi realizado.
 - Build/deploy dependem do workflow associado ao commit 2.1.0.
+
+
+======================================================================
+18. SINCRONIZAÇÃO DO LOCKFILE — 25/11/2026
+======================================================================
+- Correção de consistência identificada na auditoria pós-commit: package.json
+  estava em 2.1.0 e package-lock.json ainda registrava 2.0.7 no pacote raiz.
+- Ambos foram alinhados em 2.1.1. Nenhuma dependência foi alterada.
+- Versão anterior: 2.1.0. Nova versão: 2.1.1 (correção de metadados).
+- A execução do workflow para 2.1.0 não valida este commit corretivo;
+  confirmar a execução de deploy correspondente a 2.1.1.
