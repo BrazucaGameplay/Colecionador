@@ -285,3 +285,11 @@ test('Monster usa energia e regeneração de vida sem regenerar durante combate'
   assert.equal(monster.health, 1.1);
   assert.ok(Math.abs(monster.energy - 1.2) < 1e-9);
 });
+
+
+test('Monster mantém cooldown do ataque como estado próprio', () => {
+  const monster = new Monster({ id: 'cooldown-owner', speciesId: 'test-monster', x: 0, y: 0, definition, spawnZoneId: 'test-zone' });
+  assert.equal(monster.nextMonsterAttackAt, 0);
+  monster.nextMonsterAttackAt = 1000;
+  assert.equal(monster.nextMonsterAttackAt, 1000);
+});

@@ -34,6 +34,7 @@ export default class Monster {
     this.maxEnergy = this.stats.maxEnergy;
     this.energy = this.maxEnergy;
     this.inCombatUntil = 0;
+    this.nextMonsterAttackAt = 0;
     this.speed = Math.max(0, Number(definition.speed) || 0) * this.stats.movementSpeed;
     this.defense = this.stats.defense;
     this.moving = false;

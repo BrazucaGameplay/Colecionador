@@ -416,7 +416,7 @@ export default class Game extends Phaser.Scene {
 
     this.monsterManager?.update(this.time.now, delta);
     this.monsterCombat?.update(this.time.now);
-    this.performanceMonitor?.update(delta, performance.now() - updateStartedAt);
+    this.performanceMonitor?.update(delta, performance.now() - updateStartedAt, this.monsterManager?.metrics);
     // O renderer do personagem e os objetos do cenário usam a mesma escala de profundidade.
   }
 
