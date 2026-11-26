@@ -108,19 +108,19 @@ test('Spawner não cria monstro sobre área bloqueada e agenda nova tentativa', 
   spawner.update(0); spawner.update(49); assert.equal(attempts, 0); spawner.update(50); assert.equal(attempts, 0);
 });
 
-test('escala fixa: ataque 2 m, perseguição 10 m, ociosidade 30 m e ativação 50 m', () => {
+test('escala fixa: ataque 2 m, perseguição 10 m e ativação/ociosidade 20 m', () => {
   assert.equal(WORLD_UNITS_PER_METER, 75);
   assert.equal(PLAYER_ATTACK_RANGE_METERS, 2);
   assert.equal(PLAYER_ATTACK_RANGE_WORLD_UNITS, 150);
   assert.equal(MONSTER_PURSUIT_DISTANCE_METERS, 10);
-  assert.equal(MONSTER_IDLE_DISTANCE_METERS, 30);
+  assert.equal(MONSTER_IDLE_DISTANCE_METERS, 20);
   assert.equal(MONSTER_PURSUIT_DISTANCE_WORLD_UNITS, 750);
-  assert.equal(MONSTER_IDLE_DISTANCE_WORLD_UNITS, 2250);
-  assert.equal(MONSTER_ACTIVATION_DISTANCE_METERS, 50);
-  assert.equal(MONSTER_ACTIVATION_DISTANCE_WORLD_UNITS, 3750);
+  assert.equal(MONSTER_IDLE_DISTANCE_WORLD_UNITS, 1500);
+  assert.equal(MONSTER_ACTIVATION_DISTANCE_METERS, 20);
+  assert.equal(MONSTER_ACTIVATION_DISTANCE_WORLD_UNITS, 1500);
 });
 
-test('faixas de distância ativam monstros até 50 m e os adormecem além desse limite', () => {
+test('faixas de distância ativam monstros até 20 m e os adormecem além desse limite', () => {
   const player = { x: 100, y: 200 };
   const modeAt = distance => getMonsterBehaviorMode(player, { x: player.x + distance, y: player.y });
   assert.equal(modeAt(0), 'combat');
@@ -128,10 +128,8 @@ test('faixas de distância ativam monstros até 50 m e os adormecem além desse 
   assert.equal(modeAt(150.01), 'pursuit');
   assert.equal(modeAt(750), 'pursuit');
   assert.equal(modeAt(750.01), 'idle');
-  assert.equal(modeAt(2250), 'idle');
-  assert.equal(modeAt(2250.01), 'visual');
-  assert.equal(modeAt(3750), 'visual');
-  assert.equal(modeAt(3750.01), 'dormant');
+  assert.equal(modeAt(1500), 'idle');
+  assert.equal(modeAt(1500.01), 'dormant');
 });
 
 test('perseguição move o monstro na direção do jogador e respeita navegação', () => {
