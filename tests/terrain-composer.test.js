@@ -32,10 +32,10 @@ test('a ilha usa máscara circular isolada da Display List', () => {
 test('o oceano ultrapassa a ilha e cobre o limite de câmera no zoom mínimo', () => {
   const source = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
   const touch = readFileSync(new URL('../src/systems/input/TouchInputController.js', import.meta.url), 'utf8');
-  assert.match(source, /min: 0\\.08, max: 2\\.25/);
-  assert.match(source, /const oceanSize = ISLAND_DIAMETER \\* 12/);
-  assert.match(source, /setDepth\\(-1200\\)/);
-  assert.match(touch, /Math\\.max\\(0\\.08/);
+  assert.match(source, /min: 0\.08, max: 2\.25/);
+  assert.match(source, /const oceanSize = ISLAND_DIAMETER \* 12/);
+  assert.match(source, /setDepth\(-1200\)/);
+  assert.match(touch, /Math\.max\(0\.08/);
   assert.match(source, /createTerrainLayers/);
   assert.doesNotMatch(source, /syncTerrainLayersToCamera|createCloudBoundary|generated-cloud-sea/);
 });
