@@ -201,13 +201,13 @@ export default class Game extends Phaser.Scene {
    */
   createOceanBackground() {
     const oceanSize = ISLAND_DIAMETER * 12;
-    this.oceanBackground = this.add.rectangle(
+    this.oceanBackground = this.add.tileSprite(
       ISLAND_RADIUS,
       ISLAND_RADIUS,
       oceanSize,
       oceanSize,
-      0x315b78
-    ).setDepth(-1200);
+      'ocean-pattern'
+    ).setOrigin(0.5).setDepth(-1200);
   }
 
   readSavedProgress() {
