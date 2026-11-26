@@ -1412,3 +1412,24 @@ VALIDACAO:
   de vegetacao, rochas, monstros e personagens, que nao sao mapas antigos.
 - Nenhum caminho de runtime foi removido porque nao havia referencia ativa
   para o PNG legado; a limpeza elimina o arquivo e a documentacao obsoleta.
+
+
+======================================================================
+24. CORRECAO DO RECORTE DO SHADER — DISCARD (26/11/2026)
+======================================================================
+
+- O shader anterior produzia alpha zero fora do circulo. Na renderizacao
+  Android observada, a area externa continuava exibindo o material, logo
+  o caminho de alpha blending nao estava entregando o recorte esperado.
+- Substituido por descarte de fragmento: quando dot(centered, centered)
+  >= 1.0, o fragment shader executa discard e nao escreve pixel algum.
+- Dentro do circulo, o shader escreve alpha 1.0; o oceano solido que ja
+  esta atras do terreno aparece naturalmente na area descartada.
+- Nao foram adicionadas mascaras, canvases, texturas ou objetos de cena.
+- Custo adicional: uma multiplicacao escalar/dot por fragmento e um
+  branch de descarte na borda. Sem CPU por frame, sem memoria adicional.
+- Atualizada a chave de cache dos assets para terrain-discard-01 e versao
+  do jogo para 2.4.1.
+- Teste automatizado verifica o discard e garante que alpha zero nao seja
+  usado como mecanismo de recorte.
+- A validacao final depende de observar a renderizacao real no Android.
