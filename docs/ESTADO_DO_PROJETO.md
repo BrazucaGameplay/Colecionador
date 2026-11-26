@@ -914,3 +914,23 @@ COLISÃO:
 VALIDAÇÃO:
 - Código enviado para main. Aguardando GitHub Actions para confirmar
   testes, build e deploy. Nenhum teste manual ou visual Android foi feito.
+
+
+======================================================================
+25. REVISÃO DO POSICIONAMENTO DA FLORESTA — 26/11/2026
+======================================================================
+
+- Versão 2.1.8.
+- Layout revisado em relação ao terreno circular de 4096 x 4096.
+- As 32 árvores comuns foram redistribuídas em exatamente três bosques:
+  oeste/noroeste (11), leste/nordeste (11) e sul/centro (10).
+- Cada árvore continua com coordenadas X/Y e escala individuais e fixas.
+- Colisões de tronco ampliadas para 31x28 (copa larga) e 29x27 (pinheiro),
+  acrescidas do raio do jogador na verificação de navegação. A concentração
+  e sobreposição das áreas bloqueadas fecha a passagem pelo interior dos
+  bosques; a rota deve contorná-los.
+- A árvore ancestral foi movida do canto noroeste para o ponto norte da ilha,
+  no eixo central X=2048, Y=540 (posição de 12 horas / topo), afastada da
+  borda externa e da faixa de nuvens.
+- Testes atualizados para validar o ponto norte e os três grupos.
+- Aguardando CI e deploy; nenhuma validação visual Android foi executada.
