@@ -8,7 +8,7 @@ export const ISLAND_01_MONSTER_SPAWNS = Object.freeze([
     speciesId: 'slime',
     x: 2048,
     y: 2048,
-    radius: 1840,
+    radius: 2010,
     maxAlive: 50,
     minPlayerDistance: 0,
     collisionRadius: 12,
