@@ -10,6 +10,7 @@ import WorldCollisionManager from '../world/WorldCollisionManager.js';
 import WorldObjectManager from '../world/WorldObjectManager.js';
 import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
 import MovementSystem from '../systems/MovementSystem.js';
+import CombatSystem from '../systems/CombatSystem.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 
@@ -84,7 +85,6 @@ export default class Game extends Phaser.Scene {
       playerBody: this.playerBody,
       depthManager: this.depthManager,
       spawnZones: ISLAND_01_MONSTER_SPAWNS,
-      onContact: (monsterId) => this.hitMonster(monsterId),
       onKill: () => {
         this.score += 1;
         this.scoreText.setText('Monstros: ' + this.score);
@@ -118,6 +118,15 @@ export default class Game extends Phaser.Scene {
       .setVisible(false);
 
     this.movement = new MovementSystem(this.player, this.navigation);
+    this.combat = new CombatSystem({
+      player: this.player,
+      movement: this.movement,
+      getTargets: () => this.monsterManager?.getAliveEntities() || [],
+      onAttack: (target, damage, now) => {
+        this.characterRenderer?.playAction('combat');
+        this.monsterManager?.damage(target.id, damage, now);
+      }
+    });
     this.touchInput = new TouchInputController(this, {
       camera: this.camera,
       onTap: (screenX, screenY) => {
@@ -297,22 +306,14 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  hitMonster(monsterId) {
-    if (this._cooldown > this.time.now || !this.player.alive) return;
-    if (!this.monsterManager?.isAlive(monsterId)) return;
-    if (this.characterRenderer && !this.characterRenderer.canStartAction('combat')) return;
-    if (!this.characterRenderer?.playAction('combat')) return;
-
-    this._cooldown = this.time.now + 500;
-    this.monsterManager.damage(monsterId, 1, this.time.now);
-  }
 
   update(time, delta = 16.67) {
     if (!this.player?.alive) {
       this.movement?.clearDestination();
       if (this.characterRenderer?.activeAction !== 'dying') this.characterRenderer?.playAction('dying');
     }
-    this.movement?.setPaused(!this.player?.alive || (this.characterRenderer?.blocksMovement ?? false));
+    this.movement?.setPaused(!this.player?.alive);
+    this.combat?.update(this.time.now);
     this.movement?.update(delta);
     this.playerBody?.sync();
 
@@ -331,6 +332,7 @@ export default class Game extends Phaser.Scene {
 
   shutdown() {
     this.touchInput?.destroy();
+    this.combat?.destroy();
     this.movement?.destroy();
     this.monsterManager?.destroy();
     this.playerBody?.destroy();

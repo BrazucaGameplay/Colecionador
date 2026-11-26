@@ -1,0 +1,41 @@
+export default class CombatSystem {
+  constructor({ player, movement, getTargets, onAttack = () => {}, attackRange = 150, detectionRange = 500, attackCooldownMs = 500, retargetIntervalMs = 250, damage = 1 } = {}) {
+    if (!player || !movement || typeof getTargets !== 'function') throw new TypeError('CombatSystem exige jogador, movimento e consulta de alvos.');
+    this.player = player; this.movement = movement; this.getTargets = getTargets; this.onAttack = onAttack;
+    this.attackRange = Math.max(0, attackRange); this.detectionRange = Math.max(this.attackRange, detectionRange);
+    this.attackCooldownMs = Math.max(0, attackCooldownMs); this.retargetIntervalMs = Math.max(50, retargetIntervalMs);
+    this.damage = Math.max(0, damage); this.nextAttackAt = 0; this.nextRetargetAt = 0; this.targetId = null; this.destroyed = false;
+  }
+  selectTarget() {
+    let selected = null, selectedDistance = this.detectionRange;
+    for (const target of this.getTargets() || []) {
+      if (!target?.alive) continue;
+      const distance = Math.hypot(target.x - this.player.x, target.y - this.player.y);
+      if (distance <= selectedDistance) { selected = target; selectedDistance = distance; }
+    }
+    return selected;
+  }
+  update(now) {
+    if (this.destroyed || !this.player.alive) { this.movement.stopAutomaticMovement(); return; }
+    if (this.movement.hasManualDestination) { this.targetId = null; this.movement.stopAutomaticMovement(); return; }
+    const targets = this.getTargets() || [];
+    let target = targets.find(item => item?.id === this.targetId && item.alive);
+    if (!target || now >= this.nextRetargetAt) {
+      target = this.selectTarget(); this.targetId = target?.id ?? null; this.nextRetargetAt = now + this.retargetIntervalMs;
+    }
+    if (!target) { this.movement.stopAutomaticMovement(); this.player.setMoving(false); return; }
+    const dx = target.x - this.player.x, dy = target.y - this.player.y;
+    const distance = Math.hypot(dx, dy); this.player.setFacing(dx, dy);
+    if (distance > this.attackRange) {
+      if (now >= this.nextRetargetAt - this.retargetIntervalMs) this.movement.setAutomaticDestination(target.x, target.y);
+      return;
+    }
+    this.movement.stopAutomaticMovement(); this.player.setMoving(false);
+    if (now < this.nextAttackAt) return;
+    this.nextAttackAt = now + this.attackCooldownMs; this.onAttack(target, this.damage, now);
+  }
+  destroy() {
+    this.destroyed = true; this.movement?.stopAutomaticMovement(); this.player = null; this.movement = null;
+    this.getTargets = null; this.onAttack = null; this.targetId = null;
+  }
+}
