@@ -24,9 +24,14 @@ export async function readWalkableGrid(id, expectedLength) {
   if (!db) return null;
   try {
     const record = await new Promise((resolve, reject) => {
-      const request = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME).get(id);
-      request.onsuccess = () => resolve(request.result || null);
+      const transaction = db.transaction(STORE_NAME, 'readonly');
+      const request = transaction.objectStore(STORE_NAME).get(id);
+      let result = null;
+      request.onsuccess = () => { result = request.result || null; };
       request.onerror = () => reject(request.error);
+      transaction.oncomplete = () => resolve(result);
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error || new Error('Leitura do cache abortada.'));
     });
     if (!record || record.algorithmVersion !== WALKABLE_GRID_ALGORITHM_VERSION) return null;
     const bytes = record.grid instanceof Uint8Array
@@ -47,11 +52,13 @@ export async function writeWalkableGrid(id, grid) {
   try {
     const copy = new Uint8Array(grid).buffer;
     await new Promise((resolve, reject) => {
-      const request = db.transaction(STORE_NAME, 'readwrite').objectStore(STORE_NAME).put({
+      const transaction = db.transaction(STORE_NAME, 'readwrite');
+      transaction.objectStore(STORE_NAME).put({
         id, algorithmVersion: WALKABLE_GRID_ALGORITHM_VERSION, grid: copy, savedAt: Date.now()
       });
-      request.onsuccess = () => resolve();
-      request.onerror = () => reject(request.error);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error || new Error('Gravação do cache abortada.'));
     });
     return true;
   } catch (error) {
