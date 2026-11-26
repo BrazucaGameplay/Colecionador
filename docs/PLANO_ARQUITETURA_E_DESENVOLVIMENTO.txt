@@ -473,18 +473,18 @@ CONTRATOS:
   camera; nao movimenta nem conhece a entidade Player.
 - MovementSystem: recebe destinos, consulta WorldNavigation e atualiza
   apenas o estado logico do Player.
-- CharacterRenderer3D: carrega o GLB e apresenta a transformacao recebida;
-  nao importa Player, MovementSystem, TouchInputController ou fisica.
-
-O GLB nao e dependencia para inicializar ou movimentar Player. O caminho
-de destino para o arquivo, depois do upload pelo responsavel, e:
-public/assets/characters/warrior/warrior.glb
-
-A versao anexada ao Release 1.1.4 declara os clipes Running, Walking,
-Basic_Jump, Dead e Right_Hand_Sword_Slash. Como nao ha clipe Idle separado,
-Walking e utilizado como pose parada ate existir uma animacao Idle aprovada.
+- CharacterSpriteRenderer: apresenta o protagonista por spritesheets
+  PNG/JSON e recebe apenas direcao, estado de movimento e acoes.
+- O caminho de renderizacao 3D por GLB foi abandonado e removido do runtime.
+  Os modelos GLB de personagem e arma nao fazem parte dos assets do jogo.
+- Three.js permanece apenas como dependencia de desenvolvimento da ferramenta
+  offline que gera spritesheets 2D a partir de pacotes-fonte arquivados.
 
 A sequencia de toque curto para destino, arraste para camera e pinch para
 zoom e implementada em TouchInputController. MovementSystem permanece
 independente da camada de tela e usa o pathfinding de oito vizinhos do
 WorldNavigation. O estado logico do jogador permanece funcional sem GLB.
+
+
+ATUALIZACAO DE DIRECAO — 26/11/2026
+O renderer de personagem ativo e exclusivamente 2D (CharacterSpriteRenderer). Os modelos GLB de personagem e arma foram removidos. Nao reintroduzir CharacterRenderer3D ou dependencias GLB no runtime sem nova decisao explicita.

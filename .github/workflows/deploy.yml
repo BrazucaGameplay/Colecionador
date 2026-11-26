@@ -61,16 +61,6 @@ jobs:
         run: npm audit --audit-level=low
       - name: Test game systems and character action priorities
         run: npm test
-      - name: Verify current character models
-        run: |
-          for model in \
-            'skin-padrão1.glb' \
-            'skin_padrão2.glb' \
-            'skin_padrão3.glb' \
-            'skin_padrão4.glb'; do
-            test -s "public/assets/characters/skin_01/$model"
-          done
-          echo "Current character models verified."
       - run: npm run build
       - name: Verify version in built application
         run: |
@@ -90,16 +80,6 @@ jobs:
 
           console.log(`Built application version verified: ${version}`);
           NODE
-      - name: Verify current models in build output
-        run: |
-          for model in \
-            'skin-padrão1.glb' \
-            'skin_padrão2.glb' \
-            'skin_padrão3.glb' \
-            'skin_padrão4.glb'; do
-            test -s "dist/assets/characters/skin_01/$model"
-          done
-          echo "Build character models verified."
       - name: Validate sprite foot anchors in source and build
         run: |
           node scripts/validate-character-sprites.mjs public/assets/characters/sprites/skin_01

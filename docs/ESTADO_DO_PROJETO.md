@@ -623,9 +623,8 @@ ALTERAÇÕES DE CÓDIGO:
   mantém somente base, plugin transformIndexHtml, servidor e opções
   simples de build; não foi identificada configuração Rollup/esbuild
   personalizada que exija migração manual.
-- CharacterRenderer3D e character-baker continuam usando os addons
-  oficiais do Three.js (GLTFLoader e MeshoptDecoder); compatibilidade
-  funcional depende dos testes de build e do workflow de bake.
+- O character-baker usa GLTFLoader do Three.js somente como ferramenta
+  offline para gerar spritesheets 2D; nao existe renderizador 3D no runtime.
 - A configuração do Capacitor permanece em capacitor.config.ts.
 
 LOCKFILE E SEGURANÇA:
@@ -663,16 +662,15 @@ RECAP INTEGRAL DO JOGO:
   permanece com visual desabilitado enquanto não houver atlas final.
   Waifus, inventário, quests, progressão completa e dungeons completas
   ainda não estão implementados.
-- Personagem: renderer 2D por spritesheets PNG/JSON e renderer 3D de
-  personagem GLB isolado; os contratos de estado lógico e apresentação
-  permanecem separados. Os pacotes de animação existentes continuam
-  catalogados no repositório.
+- Personagem: renderer 2D por spritesheets PNG/JSON. O renderer 3D GLB foi
+  abandonado e removido; os pacotes de animação 2D permanecem ativos.
 - Arquitetura: Phaser 4, JavaScript ES modules, Vite 8, Capacitor 8,
-  Three.js para renderização GLB/geração de sprites, Arcade Physics,
+  Three.js somente como dependência de desenvolvimento do baker offline de
+  spritesheets, Arcade Physics,
   sistemas de movimento, input por toque, navegação, profundidade,
   objetos de mundo e monstros.
-- Assets: PNG/JSON de animação do protagonista, GLBs de personagens,
-  espada, ilha, terreno, árvores e rochas nos caminhos existentes.
+- Assets: PNG/JSON de animação do protagonista, ilha, terreno, árvores e
+  rochas. Modelos GLB de personagens e arma removidos do diretório público.
   Não foram encontrados sprites finais de monstros na pasta slime.
 - Interface/mobile: controles exclusivamente por toque, sem joystick;
   tap-to-move, arraste de câmera e pinch zoom. Não foi realizado teste
@@ -1891,9 +1889,8 @@ Versão do jogo: 2.4.59
 - Mantidos WorldObjectManager, WorldDepthManager, WorldCollisionManager,
   WorldNavigation e o layout validado de árvores; esses módulos participam
   diretamente do fluxo atual do jogo.
-- Mantidos módulos de renderização 3D e utilitários ainda não ativados na cena
-  principal, pois sua remoção exigiria confirmar a decisão de produto e o uso
-  futuro; não foram tratados como código comprovadamente obsoleto.
+- A decisão de produto confirmou o abandono do renderizador 3D GLB; os módulos
+  CharacterRenderer3D.js e CharacterAssets.js foram removidos.
 - A limpeza não altera o layout, as coordenadas, os assets nem as regras de
   colisão das estruturas.
 
@@ -1901,3 +1898,12 @@ Versão do jogo: 2.4.59
 ### 26/11/2026 — Remoção de filtro de árvores substituído pela validação de build
 - Removidos `src/world/filter-trees-to-island-land.js` e `tests/tree-land-boundary.test.js`: o filtro em runtime não tinha consumidores no jogo e duplicava a validação de limites agora executada pelo script `scripts/validate-tree-layout.mjs` antes do dev/build.
 - A validação ativa continua obrigatória: IDs, coordenadas e limites são verificados no build e o manifesto resultante controla quais árvores são instanciadas.
+
+
+### 26/11/2026 — Abandono definitivo dos modelos 3D GLB no jogo
+- Removidos os cinco modelos GLB de personagem e o modelo GLB da espada do diretório público.
+- Removidos CharacterRenderer3D.js e CharacterAssets.js; o protagonista permanece renderizado exclusivamente por CharacterSpriteRenderer.js e spritesheets PNG/JSON.
+- Removidas do workflow Deploy as verificações que exigiam modelos GLB no source e no dist.
+- Three.js foi movido de dependencies para devDependencies: permanece disponível somente para a ferramenta offline que gera spritesheets 2D a partir dos pacotes-fonte de animação. Não participa do runtime do jogo.
+- Preservados os spritesheets já gerados, seus metadados, CharacterSpriteRenderer, catálogo de animações e validações de âncoras.
+- Os pacotes-fonte GLB de animação publicados historicamente em Releases não são carregados pelo jogo; permanecem apenas como arquivos-fonte arquivados do processo de geração 2D.
