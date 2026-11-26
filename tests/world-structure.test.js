@@ -4,9 +4,9 @@ import { readFileSync } from 'node:fs';
 import WorldDepthManager from '../src/world/WorldDepthManager.js';
 import { ISLAND_01_LAYOUT } from '../src/world/map-layout/island-01.js';
 
-test('layout da ilha possui IDs únicos e assets válidos', () => {
+test('layout da floresta usa dois tipos de árvores, coordenadas fixas e uma ancestral', () => {
   const ids = new Set();
-  const validAssets = new Set(['tree-large', 'tree-flowering']);
+  const validAssets = new Set(['tree-forest-broad', 'tree-forest-pine', 'tree-ancestral']);
   for (const item of ISLAND_01_LAYOUT) {
     assert.ok(item.id && !ids.has(item.id), 'ID ausente ou duplicado: ' + item.id);
     ids.add(item.id);
@@ -14,13 +14,14 @@ test('layout da ilha possui IDs únicos e assets válidos', () => {
     assert.ok(Number.isFinite(item.x) && item.x > 0 && item.x < 4096);
     assert.ok(Number.isFinite(item.y) && item.y > 0 && item.y < 4096);
     assert.ok(item.targetHeight > 0);
-    if (item.collision) {
-      assert.ok(item.collision.radiusX > 0);
-      assert.ok(item.collision.radiusY > 0);
-    }
+    assert.ok(item.collision?.radiusX > 0 && item.collision?.radiusY > 0, 'Colisão de tronco ausente: ' + item.id);
   }
-  assert.equal(ISLAND_01_LAYOUT.length, 32);
+  assert.equal(ISLAND_01_LAYOUT.length, 33);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-ancestral').length, 1);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 16);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-pine').length, 16);
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('rock-')));
+  assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('bush-')));
 });
 
 test('estruturas principais deixam a área inicial livre', () => {
