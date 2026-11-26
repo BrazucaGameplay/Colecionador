@@ -942,3 +942,25 @@ CORREÇÃO DE CI DA FLORESTA — 26/11/2026:
   o teste ainda verificava o raio antigo.
 - Expectativa corrigida para 38 e versão atualizada para 2.1.9.
 - Aguardar nova execução de build/test/deploy.
+
+
+======================================================================
+26. DISTRIBUIÇÃO AMPLIADA DE ÁRVORES — 26/11/2026
+======================================================================
+
+- Versão 2.2.0.
+- Mantidos os três bosques existentes e a árvore ancestral única no norte.
+- Adicionadas 185 árvores solitárias com coordenadas X/Y explícitas em toda
+  a superfície circular jogável. Total: 218 árvores (217 comuns + ancestral).
+- A escala espacial de referência usa alcance de ataque 150 ~= 5 m, portanto
+  30 unidades de mundo por metro. Distância máxima ao vizinho mais próximo:
+  300 unidades (10 m); cálculo automatizado no teste de layout.
+- Distribuição visual das árvores comuns (217):
+  22 com aumento de 80% (escala 1.8x);
+  22 com aumento de 90% (escala 1.9x);
+  173 sem aumento (escala-base).
+- O tamanho visual e as colisões de tronco são escalados juntos. A copa não
+  vira um obstáculo integral; navegação continua usando as elipses de tronco.
+- Layout continua estático, determinístico e sem aleatoriedade.
+- Testes adicionados para vizinhança máxima e contagem das três categorias.
+- Aguardando GitHub Actions e publicação; não houve teste visual no Android.
