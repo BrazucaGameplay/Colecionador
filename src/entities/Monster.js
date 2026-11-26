@@ -30,6 +30,9 @@ export default class Monster {
     });
     this.maxHealth = this.stats.maxHealth;
     this.health = this.maxHealth;
+    this.maxEnergy = this.stats.maxEnergy;
+    this.energy = this.maxEnergy;
+    this.inCombatUntil = 0;
     this.speed = Math.max(0, Number(definition.speed) || 0) * this.stats.movementSpeed;
     this.defense = this.stats.defense;
     this.moving = false;
@@ -62,7 +65,43 @@ export default class Monster {
     this.moving = this.alive && Boolean(moving);
   }
 
-  takeDamage(amount = 1, penetration = 0) {
+  markCombat(now, duration = 5000) {
+    this.inCombatUntil = Math.max(this.inCombatUntil, Number(now) + duration);
+  }
+
+  isInCombat(now) {
+    return Number(now) < this.inCombatUntil;
+  }
+
+  restoreHealth(amount = this.maxHealth) {
+    this.health = Math.min(this.maxHealth, this.health + Math.max(0, Number(amount) || 0));
+    if (this.health > 0) this.state = 'alive';
+    return this.health;
+  }
+
+  restoreEnergy(amount = this.maxEnergy) {
+    this.energy = Math.min(this.maxEnergy, this.energy + Math.max(0, Number(amount) || 0));
+    return this.energy;
+  }
+
+  spendEnergy(amount = 0) {
+    const cost = Math.max(0, Number(amount) || 0);
+    if (this.energy < cost) return false;
+    this.energy -= cost;
+    return true;
+  }
+
+  update(delta = 16.67, now = 0) {
+    if (!this.alive) return;
+    const seconds = Math.min(Math.max(Number(delta) || 0, 0), 100) / 1000;
+    if (!seconds) return;
+    if (!this.isInCombat(now)) {
+      this.health = Math.min(this.maxHealth, this.health + this.stats.healthRegen * seconds);
+    }
+    this.energy = Math.min(this.maxEnergy, this.energy + this.stats.energyRegen * seconds);
+  }
+
+  takeDamage(amount = 1, penetration = 0, now = 0) {
     if (!this.alive) return { applied: 0, health: this.health, dead: this.dead };
 
     const rawDamage = Math.max(0, Math.floor(Number(amount) || 0));
@@ -70,6 +109,7 @@ export default class Monster {
     const applied = Math.max(0, rawDamage - effectiveDefense);
     if (applied <= 0) return { applied: 0, health: this.health, dead: false };
 
+    this.markCombat(now);
     this.health = Math.max(0, this.health - applied);
     if (this.health === 0) {
       this.state = 'dead';
@@ -80,6 +120,8 @@ export default class Monster {
 
   restore() {
     this.health = this.maxHealth;
+    this.energy = this.maxEnergy;
+    this.inCombatUntil = 0;
     this.state = 'alive';
     this.moving = false;
     this.facing = { x: 0, y: 1 };
