@@ -138,7 +138,6 @@ export const ISLAND_01_LAYOUT = Object.freeze([
   { id: 'tree-solo-086', assetKey: 'tree-forest-pine', x: 1008, y: 2048, targetHeight: 215, sizeTier: 'base', collision: Object.freeze({"offsetY":-13,"radiusX":29,"radiusY":27}) },
   { id: 'tree-solo-087', assetKey: 'tree-forest-broad', x: 1268, y: 2048, targetHeight: 206, sizeTier: 'base', collision: Object.freeze({"offsetY":-14,"radiusX":31,"radiusY":28}) },
   { id: 'tree-solo-088', assetKey: 'tree-forest-pine', x: 1528, y: 2048, targetHeight: 229, sizeTier: 'base', collision: Object.freeze({"offsetY":-13,"radiusX":29,"radiusY":27}) },
-  { id: 'tree-solo-091', assetKey: 'tree-forest-broad', x: 2308, y: 2048, targetHeight: 206, sizeTier: 'base', collision: Object.freeze({"offsetY":-14,"radiusX":31,"radiusY":28}) },
   { id: 'tree-solo-092', assetKey: 'tree-forest-pine', x: 2568, y: 2048, targetHeight: 412, sizeTier: 'plus-80', collision: Object.freeze({"offsetY":-23,"radiusX":52,"radiusY":49}) },
   { id: 'tree-solo-093', assetKey: 'tree-forest-broad', x: 2828, y: 2048, targetHeight: 190, sizeTier: 'base', collision: Object.freeze({"offsetY":-14,"radiusX":31,"radiusY":28}) },
   { id: 'tree-solo-094', assetKey: 'tree-forest-pine', x: 3088, y: 2048, targetHeight: 215, sizeTier: 'base', collision: Object.freeze({"offsetY":-13,"radiusX":29,"radiusY":27}) },
