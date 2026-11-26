@@ -64,7 +64,7 @@ export default class TouchInputController {
       const points = [...this.pointers.values()];
       const distance = Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
       if (this.gesture?.type === 'pinch' && this.gesture.startDistance > 0) {
-        this.camera.setZoom(Math.min(2.25, Math.max(0.28,
+        this.camera.setZoom(Math.min(2.25, Math.max(0.08,
           this.gesture.startZoom * distance / this.gesture.startDistance
         )));
       }
