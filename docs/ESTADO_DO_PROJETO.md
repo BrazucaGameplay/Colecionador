@@ -1145,8 +1145,12 @@ ATRIBUTOS:
   attack, defense, penetration, attackSpeed, movementSpeed, maxHealth,
   maxEnergy, healthRegen e energyRegen.
 - Todos os valores-base dos monstros são 1.
-- A vida máxima do monstro deriva de stats.maxHealth (1); velocidade de
-  movimento usa o valor de definição multiplicado por movementSpeed (1).
+- A vida máxima e energia máxima derivam de maxHealth/maxEnergy (1); o
+  monstro mantém health e energy próprios.
+- Movimento usa a velocidade definida pela espécie multiplicada por
+  movementSpeed (1); attackSpeed (1) equivale a um ataque por segundo.
+- healthRegen e energyRegen (1/s) são processados no estado lógico; vida
+  não regenera durante a janela de combate e energia regenera continuamente.
 - Os atributos permanecem independentes dos atributos e progressão do Player.
 
 COMBATE INIMIGO:
@@ -1167,6 +1171,8 @@ ARQUITETURA:
 - Game coordena ciclo de vida e update; shutdown destrói o sistema.
 - Player.takeDamage recebeu parâmetro opcional de penetração, mantendo
   compatibilidade com chamadas existentes de dois argumentos.
+- CombatSystem envia ataque-base; a entidade-alvo aplica defesa/penetração
+  uma única vez, evitando mitigação duplicada.
 - Não há compartilhamento de atributos, progressão ou cooldown entre
   jogador e monstros.
 
