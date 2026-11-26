@@ -1,6 +1,18 @@
+import { MONSTER_ACTIVE_DISTANCE_WORLD_UNITS } from '../../config.js';
 import { MONSTER_DEFINITIONS } from '../../data/monsters/index.js';
 import MonsterFactory from './MonsterFactory.js';
 import MonsterSpawner from './MonsterSpawner.js';
+
+export const MONSTER_ACTIVE_DISTANCE_SQUARED = MONSTER_ACTIVE_DISTANCE_WORLD_UNITS ** 2;
+
+/** Usa distância ao quadrado para evitar Math.sqrt/Math.hypot no loop de atualização. */
+export function isWithinMonsterActivationRange(player, monster) {
+  if (!player || !monster || !Number.isFinite(player.x) || !Number.isFinite(player.y) ||
+      !Number.isFinite(monster.x) || !Number.isFinite(monster.y)) return false;
+  const dx = monster.x - player.x;
+  const dy = monster.y - player.y;
+  return dx * dx + dy * dy <= MONSTER_ACTIVE_DISTANCE_SQUARED;
+}
 
 export default class MonsterManager {
   constructor(scene, { navigation, playerBody, depthManager, spawnZones, definitions = MONSTER_DEFINITIONS, onKill = () => {} } = {}) {
@@ -23,6 +35,7 @@ export default class MonsterManager {
   createMonster(definition, point, zone) {
     const entry = this.factory.create(definition, point, zone);
     entry.collider = null;
+    entry.isActive = null;
     this.entries.set(entry.entity.id, entry);
     return entry;
   }
@@ -42,6 +55,25 @@ export default class MonsterManager {
     return false;
   }
   isAlive(id) { return Boolean(this.entries.get(id)?.entity.alive); }
+  setEntryActive(entry, active, now) {
+    if (entry.isActive === active) return;
+    entry.isActive = active;
+    if (!active) {
+      // Congela a simulação sem remover o monstro do mundo ou alterar seu estado/posição.
+      entry.behavior.velocityX = 0;
+      entry.behavior.velocityY = 0;
+      entry.entity.setMoving(false);
+      entry.body.setEnabled(false);
+      // Encerra uma possível animação de ação e deixa o sprite em repouso.
+      entry.renderer.currentState = null;
+      entry.renderer.play('idle', now);
+      return;
+    }
+    // Reposiciona o corpo uma única vez antes de reativar a física.
+    entry.body.sync();
+    entry.body.setEnabled(true);
+    entry.renderer.setTransform(entry.entity.x, entry.entity.y);
+  }
   damage(id, amount = 1, now = this.scene.time.now, penetration = 0) {
     const entry = this.entries.get(id);
     if (!entry || !entry.entity.alive) return { applied: 0, dead: false };
@@ -60,8 +92,14 @@ export default class MonsterManager {
   update(now, delta) {
     if (this.destroyed) return;
     this.spawner.update(now);
+    const player = this.playerBody.player;
     for (const [id, entry] of this.entries) {
       if (entry.entity.dead) { if (now >= entry.removeAt) this.remove(id); continue; }
+
+      const active = isWithinMonsterActivationRange(player, entry.entity);
+      this.setEntryActive(entry, active, now);
+      if (!active) continue;
+
       entry.behavior.update(entry.entity, now, delta);
       entry.body.sync();
       entry.renderer.setTransform(entry.entity.x, entry.entity.y);
