@@ -1,32 +1,26 @@
 /**
- * Terreno leve: três materiais são compostos uma única vez num padrão
- * pequeno e repetível. O mundo usa um único TileSprite e uma máscara circular.
- * Não há canvas do tamanho do mapa, múltiplas camadas ou trabalho por frame.
+ * Composição periódica do terreno. O padrão 512x512 é composto uma vez na
+ * inicialização; não há canvas do tamanho do mundo nem processamento por frame.
  */
 const PATTERN_SIZE = 512;
+const TAU = Math.PI * 2;
+const EDGE_BLEND = 48;
+const smoothstep = (value) => value * value * (3 - 2 * value);
 
-function materialScore(x, y) {
-  const broad = Math.sin(x * 0.026) * 0.34
-    + Math.cos(y * 0.031) * 0.29
-    + Math.sin((x + y) * 0.018) * 0.23
-    + Math.cos((x - y) * 0.021) * 0.14;
-  const grain = Math.sin(x * 0.173 + y * 0.117) * 0.035
-    + Math.cos(x * 0.091 - y * 0.203) * 0.025;
+/**
+ * Campo harmônico periódico: todas as frequências são inteiras em relação
+ * ao período 512, portanto o padrão fecha nas bordas X e Y sem emendas
+ * introduzidas pelo mapa de distribuição.
+ */
+export function materialScore(x, y) {
+  const u = TAU / PATTERN_SIZE;
+  const broad = Math.sin(u * (2 * x)) * 0.34
+    + Math.cos(u * (3 * y)) * 0.29
+    + Math.sin(u * (x + y)) * 0.23
+    + Math.cos(u * (x - y)) * 0.14;
+  const grain = Math.sin(u * (11 * x + 7 * y)) * 0.035
+    + Math.cos(u * (5 * x - 13 * y)) * 0.025;
   return broad + grain;
-}
-
-function createAlphaMask(scores, thresholdLow, thresholdHigh) {
-  const canvas = document.createElement('canvas');
-  canvas.width = PATTERN_SIZE;
-  canvas.height = PATTERN_SIZE;
-  const context = canvas.getContext('2d', { willReadFrequently: false });
-  const pixels = context.createImageData(PATTERN_SIZE, PATTERN_SIZE);
-  for (let i = 0; i < scores.length; i++) {
-    const score = scores[i];
-    pixels.data[i * 4 + 3] = score >= thresholdLow && score < thresholdHigh ? 255 : 0;
-  }
-  context.putImageData(pixels, 0, 0);
-  return canvas;
 }
 
 function quantileThreshold(histogram, targetCount) {
@@ -38,17 +32,57 @@ function quantileThreshold(histogram, targetCount) {
   return histogram.length - 1;
 }
 
-function drawMaskedMaterial(outputContext, source, maskCanvas) {
-  const layer = document.createElement('canvas');
-  layer.width = PATTERN_SIZE;
-  layer.height = PATTERN_SIZE;
-  const context = layer.getContext('2d');
+/**
+ * Redimensiona cada material para o padrão e mistura faixas opostas nas
+ * bordas. Os pixels extremos ficam iguais nos lados opostos, inclusive nos
+ * quatro cantos, para que a textura original também possa ser repetida.
+ */
+function readSeamlessPixels(source) {
+  const canvas = document.createElement('canvas');
+  canvas.width = PATTERN_SIZE;
+  canvas.height = PATTERN_SIZE;
+  const context = canvas.getContext('2d', { willReadFrequently: true });
   context.drawImage(source, 0, 0, PATTERN_SIZE, PATTERN_SIZE);
-  context.globalCompositeOperation = 'destination-in';
-  context.drawImage(maskCanvas, 0, 0);
-  outputContext.drawImage(layer, 0, 0);
-  layer.width = 1;
-  layer.height = 1;
+  const image = context.getImageData(0, 0, PATTERN_SIZE, PATTERN_SIZE);
+  const original = new Uint8ClampedArray(image.data);
+  const horizontal = new Uint8ClampedArray(original.length);
+
+  for (let y = 0; y < PATTERN_SIZE; y++) {
+    for (let x = 0; x < PATTERN_SIZE; x++) {
+      const edge = Math.min(x, PATTERN_SIZE - 1 - x);
+      const weight = edge < EDGE_BLEND
+        ? 0.5 * (1 - smoothstep(edge / EDGE_BLEND))
+        : 0;
+      const oppositeX = PATTERN_SIZE - 1 - x;
+      const index = (y * PATTERN_SIZE + x) * 4;
+      const opposite = (y * PATTERN_SIZE + oppositeX) * 4;
+      for (let channel = 0; channel < 4; channel++) {
+        horizontal[index + channel] = original[index + channel] * (1 - weight)
+          + original[opposite + channel] * weight;
+      }
+    }
+  }
+
+  const seamless = new Uint8ClampedArray(horizontal.length);
+  for (let y = 0; y < PATTERN_SIZE; y++) {
+    const edge = Math.min(y, PATTERN_SIZE - 1 - y);
+    const weight = edge < EDGE_BLEND
+      ? 0.5 * (1 - smoothstep(edge / EDGE_BLEND))
+      : 0;
+    const oppositeY = PATTERN_SIZE - 1 - y;
+    for (let x = 0; x < PATTERN_SIZE; x++) {
+      const index = (y * PATTERN_SIZE + x) * 4;
+      const opposite = (oppositeY * PATTERN_SIZE + x) * 4;
+      for (let channel = 0; channel < 4; channel++) {
+        seamless[index + channel] = horizontal[index + channel] * (1 - weight)
+          + horizontal[opposite + channel] * weight;
+      }
+    }
+  }
+
+  canvas.width = 1;
+  canvas.height = 1;
+  return seamless;
 }
 
 export function composeTerrainPattern(scene, {
@@ -59,8 +93,10 @@ export function composeTerrainPattern(scene, {
 } = {}) {
   const sources = [smoothKey, grassKey, reliefKey].map(key => {
     const source = scene.textures.get(key)?.getSourceImage?.();
-    if (!source?.width || !source?.height) throw new Error('Textura de terreno indisponível: ' + key);
-    return source;
+    if (!source?.width || !source?.height) {
+      throw new Error('Textura de terreno indisponível: ' + key);
+    }
+    return readSeamlessPixels(source);
   });
 
   const count = PATTERN_SIZE * PATTERN_SIZE;
@@ -69,8 +105,8 @@ export function composeTerrainPattern(scene, {
   let max = -Infinity;
   for (let y = 0; y < PATTERN_SIZE; y++) {
     for (let x = 0; x < PATTERN_SIZE; x++) {
-      const score = materialScore(x, y);
       const index = y * PATTERN_SIZE + x;
+      const score = materialScore(x, y);
       scores[index] = score;
       if (score < min) min = score;
       if (score > max) max = score;
@@ -79,30 +115,47 @@ export function composeTerrainPattern(scene, {
 
   const histogram = new Uint32Array(256);
   for (let i = 0; i < count; i++) {
-    const bin = Math.max(0, Math.min(255, Math.floor((scores[i] - min) / (max - min) * 255)));
+    const bin = Math.max(0, Math.min(255,
+      Math.floor((scores[i] - min) / (max - min) * 255)));
     scores[i] = bin;
     histogram[bin]++;
   }
+
   const grassThreshold = quantileThreshold(histogram, Math.round(count * 0.20));
   const reliefThreshold = quantileThreshold(histogram, Math.round(count * 0.30));
+  const output = document.createElement('canvas');
+  output.width = PATTERN_SIZE;
+  output.height = PATTERN_SIZE;
+  const context = output.getContext('2d');
+  const image = context.createImageData(PATTERN_SIZE, PATTERN_SIZE);
+  const distribution = { smooth: 0, grass: 0, relief: 0 };
 
-  const canvas = document.createElement('canvas');
-  canvas.width = PATTERN_SIZE;
-  canvas.height = PATTERN_SIZE;
-  const context = canvas.getContext('2d');
-  context.drawImage(sources[0], 0, 0, PATTERN_SIZE, PATTERN_SIZE);
+  for (let i = 0; i < count; i++) {
+    const bin = scores[i];
+    let materialIndex = 0;
+    if (bin < grassThreshold + 1) materialIndex = 1;
+    else if (bin < reliefThreshold + 1) materialIndex = 2;
+    distribution[materialIndex === 0 ? 'smooth' : materialIndex === 1 ? 'grass' : 'relief']++;
+    const sourceIndex = i * 4;
+    image.data[sourceIndex] = sources[materialIndex][sourceIndex];
+    image.data[sourceIndex + 1] = sources[materialIndex][sourceIndex + 1];
+    image.data[sourceIndex + 2] = sources[materialIndex][sourceIndex + 2];
+    image.data[sourceIndex + 3] = sources[materialIndex][sourceIndex + 3];
+  }
 
-  const grassMask = createAlphaMask(scores, 0, grassThreshold + 1);
-  const reliefMask = createAlphaMask(scores, grassThreshold + 1, reliefThreshold + 1);
-  drawMaskedMaterial(context, sources[1], grassMask);
-  drawMaskedMaterial(context, sources[2], reliefMask);
-
+  context.putImageData(image, 0, 0);
   if (scene.textures.exists(outputKey)) scene.textures.remove(outputKey);
-  scene.textures.addCanvas(outputKey, canvas);
+  scene.textures.addCanvas(outputKey, output);
+
+  const actualDistribution = Object.freeze({
+    smooth: distribution.smooth / count,
+    grass: distribution.grass / count,
+    relief: distribution.relief / count
+  });
   return Object.freeze({
     textureKey: outputKey,
     patternSize: PATTERN_SIZE,
-    distribution: Object.freeze({ smooth: 0.70, grass: 0.20, relief: 0.10 })
+    distribution: actualDistribution
   });
 }
 
@@ -114,11 +167,13 @@ export function createTerrainLayers(scene, {
 } = {}) {
   const pattern = composeTerrainPattern(scene, { smoothKey, grassKey, reliefKey });
   const center = diameter / 2;
-  const circleGraphics = scene.add.graphics();
+
+  // Graphics fora da Display List: serve exclusivamente como geometria da
+  // máscara, sem ser desenhado por cima do terreno ou sofrer ordenação de depth.
+  const circleGraphics = scene.make.graphics({ x: 0, y: 0, add: false });
   circleGraphics.fillStyle(0xffffff, 1);
   circleGraphics.fillCircle(center, center, center - 2);
   const circleMask = circleGraphics.createGeometryMask();
-  circleGraphics.setVisible(false);
 
   const terrain = scene.add.tileSprite(0, 0, diameter, diameter, pattern.textureKey)
     .setOrigin(0, 0)
