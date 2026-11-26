@@ -139,7 +139,7 @@ export default class MonsterManager {
       if (entry.mode === 'pursuit') {
         entry.behavior.pursue(entry.entity, player, delta);
       } else {
-        // Dentro de 2 m, o sistema de combate do jogador executa os ataques.
+        // Dentro de 2 m, a IA para; os dois sistemas de combate resolvem seus ataques.
         entry.behavior.stop(entry.entity);
       }
 
