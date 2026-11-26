@@ -175,6 +175,9 @@ export default class CharacterSpriteRenderer {
     this.sprite.setScale(this.baseScale * this.actionScaleMultiplier);
     const playConfig = {
       key,
+      // Phaser 4.2.1 só deriva a taxa de quadros pela duração quando
+      // frameRate é explicitamente null; sem isso, prevalece o FPS do clip.
+      frameRate: Number.isFinite(durationMs) && durationMs > 0 ? null : undefined,
       repeat: animation.loop ? -1 : 0,
       ...(Number.isFinite(durationMs) && durationMs > 0 ? { duration: durationMs } : {})
     };
