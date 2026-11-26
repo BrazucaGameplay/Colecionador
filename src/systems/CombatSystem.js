@@ -40,9 +40,10 @@ this.nextAttackAt = 0; this.nextRetargetAt = 0; this.nextPathAt = 0; this.pathRe
     if (now < this.nextAttackAt) return;
     const configuredAps = Number(this.player.stats?.attackSpeed);
     const aps = Math.max(0.1, Number.isFinite(configuredAps) ? configuredAps : 1);
-    this.nextAttackAt = now + 1000 / aps;
+    const attackIntervalMs = 1000 / aps;
+    this.nextAttackAt = now + attackIntervalMs;
     this.player.markCombat(now);
-    this.onAttack(target, this.player.getAttackDamage(target.defense), now, this.player.stats.penetration);
+    this.onAttack(target, this.player.getAttackDamage(target.defense), now, this.player.stats.penetration, attackIntervalMs);
   }
   destroy() {
     this.destroyed = true; this.movement?.stopAutomaticMovement(); this.player = null; this.movement = null;
