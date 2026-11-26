@@ -4,19 +4,23 @@ import { readFileSync } from 'node:fs';
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 
-test('oceano usa diretamente o WebP original sem modificar pixels ou criar texturas', () => {
+test('oceano suaviza emendas com shader GPU sem alterar o WebP original', () => {
   const game = read('../src/scenes/Game.js');
-  const method = game.slice(game.indexOf('  createOceanBackground() {'), game.indexOf('  syncOceanBackground() {'));
-  assert.match(method, /'ocean-pattern'/);
-  assert.match(method, /this\.add\.tileSprite\(/);
-  assert.doesNotMatch(method, /createCanvas|getImageData|putImageData|drawImage|Uint8ClampedArray|ImageData|refresh\(|setTileScale|seamless/);
-  assert.doesNotMatch(game, /ocean-pattern-seamless/);
+  const method = game.slice(game.indexOf('  createOceanBackground() {'), game.indexOf('  readSavedProgress() {'));
+  assert.match(method, /this\.add\.shader\(/);
+  assert.match(method, /sampleHorizontal/);
+  assert.match(method, /sampleSeamless/);
+  assert.match(method, /uBlendWidth/);
+  assert.match(method, /0\.055/);
+  assert.match(method, /\['ocean-pattern'\]/);
+  assert.doesNotMatch(method, /createCanvas|getImageData|putImageData|drawImage|Uint8ClampedArray|ImageData|CanvasTexture/);
 });
 
-test('ocean background mantém um único TileSprite e invalida cache anterior', () => {
-  const preload = read('../src/scenes/Preload.js');
+test('oceano usa um único Shader e mantém fallback sem processar a textura', () => {
   const game = read('../src/scenes/Game.js');
-  assert.match(preload, /ocean-original-v31/);
-  assert.equal((game.match(/this\.add\.tileSprite\(/g) || []).length, 1);
-  assert.match(game, /syncOceanBackground\(\)/);
+  const method = game.slice(game.indexOf('  createOceanBackground() {'), game.indexOf('  readSavedProgress() {'));
+  assert.match(method, /tilesprite-fallback/);
+  assert.match(method, /syncOceanBackground\(\)/);
+  assert.equal((method.match(/this\.add\.shader\(/g) || []).length, 1);
+  assert.equal((method.match(/this\.add\.tileSprite\(/g) || []).length, 1);
 });
