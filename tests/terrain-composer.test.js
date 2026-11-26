@@ -16,7 +16,7 @@ test('Game renderiza a ilha inteira com uma única textura e preserva o mundo l�
 test('Preload carrega a textura única do terreno e mantém oceano e vegetação', () => {
   const preload = read('../src/scenes/Preload.js');
   assert.match(preload, /ilha_terreno\.webp/);
-  assert.match(preload, /ocean-pattern\.webp/);
+  assert.match(preload, /ocean-pattern-seamless-512\.webp/);
   assert.match(preload, /tree-forest-broad/);
   assert.doesNotMatch(preload, /Terreno_liso|Terreno_moita|Terreno_relevo/);
   assert.match(preload, /ocean-original-v/);
