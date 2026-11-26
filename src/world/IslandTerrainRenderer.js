@@ -77,10 +77,13 @@ vec2 mirroredRepeat(vec2 point) {
 void main() {
   vec2 uv = outTexCoord;
   vec2 centered = (uv - vec2(0.5)) * 2.0;
-  float radius = length(centered);
+  float radiusSquared = dot(centered, centered);
 
-  // Recorte circular feito por fragmento: funciona no WebGL do Phaser 4.
-  float islandAlpha = 1.0 - smoothstep(0.998, 1.0, radius);
+  // Descarta o fragmento fora do disco. Não depende de alpha blending:
+  // a GPU não escreve nenhum pixel externo e revela o oceano diretamente.
+  if (radiusSquared >= 1.0) {
+    discard;
+  }
 
   // Repetição espelhada evita emendas duras nas bordas das texturas.
   vec2 tileUV = mirroredRepeat(uv * 4.0);
@@ -97,7 +100,7 @@ void main() {
     terrainColor = mix(terrainColor, texture2D(uRelief, tileUV).rgb, reliefMask);
   }
 
-  gl_FragColor = vec4(terrainColor, islandAlpha);
+  gl_FragColor = vec4(terrainColor, 1.0);
 }
 `;
 }
