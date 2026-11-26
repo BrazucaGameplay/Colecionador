@@ -42,10 +42,10 @@ export default class MonsterManager {
     return false;
   }
   isAlive(id) { return Boolean(this.entries.get(id)?.entity.alive); }
-  damage(id, amount = 1, now = this.scene.time.now) {
+  damage(id, amount = 1, now = this.scene.time.now, penetration = 0) {
     const entry = this.entries.get(id);
     if (!entry || !entry.entity.alive) return { applied: 0, dead: false };
-    const result = entry.entity.takeDamage(amount);
+    const result = entry.entity.takeDamage(amount, penetration);
     if (!result.dead) {
       entry.renderer.play('attack', now);
       return result;

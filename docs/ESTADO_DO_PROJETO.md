@@ -729,3 +729,66 @@ VALIDACAO AINDA NECESSARIA:
 - Testar visualmente o jogo em navegador e em Android real.
 - O projeto Android nativo ainda nao esta versionado; nao declarar APK
   ou teste Android concluido.
+
+
+======================================================================
+17. SISTEMA DE STATUS E PROGRESSÃO — 25/11/2026
+======================================================================
+
+VERSIONAMENTO:
+- Versão anterior: 2.0.7. Nova versão: 2.1.0.
+- Nova funcionalidade de atributos, recursos, experiência e progressão.
+
+IMPLEMENTADO:
+- Atributos iniciais: Ataque 5; Defesa 0; Penetração 0; Velocidade de
+  ataque 1 ataque/s; Movimento 1.0x; Vida máxima 100; Energia máxima 100;
+  Recuperação de vida 1/s; Recuperação de energia 2/s.
+- Penetração absoluta reduz a defesa efetiva do alvo ponto a ponto.
+  Dano causado = ataque - defesa efetiva, com dano mínimo 1.
+- Velocidade de ataque controla ataques/s; movimento multiplica a
+  velocidade-base de 220 unidades/s.
+- Vida regenera somente após 5 segundos sem atividade de combate;
+  energia regenera continuamente. Delta de tempo e limites máximos.
+- XP para próximo nível = floor(100 * nível^1.5). Cada nível concede
+  3 pontos distribuíveis e restaura vida e energia.
+- Painel STATUS permite investir: Ataque +1; Defesa +1; Penetração +1;
+  Velocidade de ataque +0.10/s; Movimento +0.05x; Vida/Energia máxima
+  +10; Recuperação de vida/energia +0.50/s.
+- Slime concede 25 EXP e passa a ter 10 HP. Saves antigos migram para
+  valores iniciais sem perder pontuação. Recursos e progressão são salvos.
+
+INTEGRAÇÃO:
+- Player puro, ProgressionSystem e PlayerStatusUI separados de Phaser.
+- CombatSystem consome velocidade de ataque, ataque e penetração.
+- Monster/MonsterManager aplicam penetração absoluta.
+- MovementSystem usa Player.speed derivada do multiplicador de movimento.
+- Game coordena regeneração, XP, UI e persistência.
+
+RECAP INTEGRAL:
+- Produto: RPG 2D de ação anime; Android prioritário, web/PWA e Capacitor;
+  APK/Google Play ainda não concluídos.
+- Mundo: ilha circular jogável, objetos, navegação e zonas de spawn;
+  expansão por ilhas ainda planejada.
+- Gameplay: toque para mover, arraste de câmera, pinch zoom, combate
+  automático, status, XP, níveis, pontos, regeneração e save local.
+  Habilidades que gastam energia, dano inimigo ao jogador, drops,
+  inventário, quests e waifus ainda pendentes.
+- Personagem: estado lógico, corpo Arcade e renderer 2D separados;
+  atlas e animações existentes.
+- Monstros: sistema modular de entidades, fábrica, spawner, comportamento,
+  dano e respawn; slime com experiência configurada.
+- Arquitetura: Phaser 4.2.1, Vite 8, JavaScript ESM, Capacitor 8,
+  Three.js para ferramentas/renderer GLB, Arcade Physics e sistemas modulares.
+- Assets: atlas PNG/JSON do protagonista e assets do mundo; monstros
+  dependem dos pacotes habilitados nas definições.
+- Interface: HUD e painel de status em Phaser; validação visual Android
+  ainda pendente.
+- Build/publicação: workflows existentes; deploy do commit desta versão
+  precisa ser confirmado.
+- Pendências: habilidades/consumo de energia, fontes de dano inimigo,
+  drops, inventário, quests, waifus, novas ilhas, APK e teste Android.
+
+VALIDAÇÃO:
+- Testes automatizados não executados conforme solicitação.
+- Nenhum teste visual em dispositivo foi realizado.
+- Build/deploy dependem do workflow associado ao commit 2.1.0.

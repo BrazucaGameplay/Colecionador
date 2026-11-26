@@ -11,6 +11,8 @@ import WorldObjectManager from '../world/WorldObjectManager.js';
 import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
 import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
+import ProgressionSystem from '../systems/ProgressionSystem.js';
+import PlayerStatusUI from '../ui/PlayerStatusUI.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 
@@ -58,7 +60,8 @@ export default class Game extends Phaser.Scene {
     }
 
     // Logical player state exists independently of the GLB and all renderers.
-    this.player = new Player({ x: playerSpawn.x, y: playerSpawn.y, speed: 220, maxHealth: 3 });
+    this.player = new Player({ x: playerSpawn.x, y: playerSpawn.y, speed: 220, saveData: this.savedProgress.player });
+    this.progression = new ProgressionSystem({ statPointsPerLevel: 3, onLevelUp: ({ level }) => this.showLevelUpNotice(level) });
     this.playerBody = new PlayerBodyAdapter(this, this.player);
     this.characterRenderer = new CharacterSpriteRenderer(this, {
       x: playerSpawn.x,
@@ -66,29 +69,16 @@ export default class Game extends Phaser.Scene {
       depthManager: this.depthManager
     });
 
-    this.hpText = this.add.text(16, 16, 'HP ' + this.player.health, {
-      fontSize: '20px',
-      color: '#fff',
-      stroke: '#172719',
-      strokeThickness: 4
-    }).setScrollFactor(0).setDepth(1000);
-
-    this.scoreText = this.add.text(16, 44, 'Monstros: ' + this.score, {
-      fontSize: '18px',
-      color: '#fff',
-      stroke: '#172719',
-      strokeThickness: 4
-    }).setScrollFactor(0).setDepth(1000);
-
     this.monsterManager = new MonsterManager(this, {
       navigation: this.navigation,
       playerBody: this.playerBody,
       depthManager: this.depthManager,
       spawnZones: ISLAND_01_MONSTER_SPAWNS,
-      onKill: () => {
+      onKill: ({ experience = 0 } = {}) => {
         this.score += 1;
-        this.scoreText.setText('Monstros: ' + this.score);
-        this.persistProgress({ score: this.score });
+        this.progression.award(this.player, experience);
+        this.persistProgress({ score: this.score, player: this.player.toSaveData() });
+        this.statusUI?.refresh();
       }
     });
 
@@ -122,13 +112,17 @@ export default class Game extends Phaser.Scene {
       player: this.player,
       movement: this.movement,
       getTargets: () => this.monsterManager?.getAliveEntities() || [],
-      onAttack: (target, damage, now) => {
+      onAttack: (target, damage, now, penetration) => {
         this.characterRenderer?.playAction('combat');
-        this.monsterManager?.damage(target.id, damage, now);
+        this.monsterManager?.damage(target.id, damage, now, penetration);
       }
+    });
+    this.statusUI = new PlayerStatusUI(this, this.player, this.progression, {
+      onChange: () => this.persistProgress({ score: this.score, player: this.player.toSaveData() })
     });
     this.touchInput = new TouchInputController(this, {
       camera: this.camera,
+      isUiPointer: (x, y) => this.statusUI?.isUiPointer(x, y) || false,
       onTap: (screenX, screenY) => {
         const target = this.camera.getWorldPoint(screenX, screenY);
         const accepted = this.movement.setDestination(target.x, target.y);
@@ -315,6 +309,8 @@ export default class Game extends Phaser.Scene {
     this.movement?.setPaused(!this.player?.alive);
     this.combat?.update(this.time.now);
     this.movement?.update(delta);
+    this.player?.update(delta, this.time.now);
+    this.statusUI?.refresh();
     this.playerBody?.sync();
 
     this.characterRenderer?.setTransform(this.player.x, this.player.y);
@@ -330,7 +326,14 @@ export default class Game extends Phaser.Scene {
     // O renderer do personagem e os objetos do cenário usam a mesma escala de profundidade.
   }
 
+  showLevelUpNotice(level) {
+    const n = this.add.text(this.scale.width/2,this.scale.height*.22,'NÍVEL '+level+'!',{fontSize:'28px',color:'#fde68a',fontStyle:'bold',stroke:'#422006',strokeThickness:5}).setOrigin(.5).setScrollFactor(0).setDepth(1250);
+    this.tweens.add({targets:n,y:n.y-34,alpha:0,duration:1800,onComplete:()=>n.destroy()});
+  }
+
   shutdown() {
+    if (this.player) this.persistProgress({ score: this.score, player: this.player.toSaveData() });
+    this.statusUI?.destroy();
     this.touchInput?.destroy();
     this.combat?.destroy();
     this.movement?.destroy();
@@ -349,6 +352,8 @@ export default class Game extends Phaser.Scene {
     this.collisionManager = null;
     this.depthManager = null;
     this.player = null;
+    this.progression = null;
+    this.statusUI = null;
     this.monsterManager = null;
   }
 }

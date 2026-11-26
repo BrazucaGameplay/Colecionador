@@ -7,8 +7,8 @@ const slimeAnimations = Object.freeze({
 });
 export const MONSTER_DEFINITIONS = Object.freeze({
   slime: Object.freeze({
-    id: 'slime', name: 'Slime', maxHealth: 2, speed: 60, defense: 0,
-    contactDamage: 0, experience: 0, drops: Object.freeze([]),
+    id: 'slime', name: 'Slime', maxHealth: 10, speed: 60, defense: 0,
+    contactDamage: 0, experience: 25, drops: Object.freeze([]),
     collision: Object.freeze({ radius: 12 }), deathDurationMs: 600,
     behavior: Object.freeze({ moveChance: 0.7, decisionMinMs: 800, decisionMaxMs: 1600 }),
     visual: Object.freeze({

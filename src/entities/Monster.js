@@ -50,11 +50,12 @@ export default class Monster {
     this.moving = this.alive && Boolean(moving);
   }
 
-  takeDamage(amount = 1) {
+  takeDamage(amount = 1, penetration = 0) {
     if (!this.alive) return { applied: 0, health: this.health, dead: this.dead };
 
     const rawDamage = Math.max(0, Math.floor(Number(amount) || 0));
-    const applied = Math.max(0, rawDamage - this.defense);
+    const effectiveDefense = Math.max(0, this.defense - Math.max(0, Math.floor(Number(penetration) || 0)));
+    const applied = Math.max(0, rawDamage - effectiveDefense);
     if (applied <= 0) return { applied: 0, health: this.health, dead: false };
 
     this.health = Math.max(0, this.health - applied);

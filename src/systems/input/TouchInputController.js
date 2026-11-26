@@ -8,10 +8,11 @@ const DEFAULT_TAP_THRESHOLD = 12;
  * It never reads other input devices and never moves the player directly.
  */
 export default class TouchInputController {
-  constructor(scene, { camera, onTap, tapThreshold = DEFAULT_TAP_THRESHOLD } = {}) {
+  constructor(scene, { camera, onTap, isUiPointer = () => false, tapThreshold = DEFAULT_TAP_THRESHOLD } = {}) {
     this.scene = scene;
     this.camera = camera;
     this.onTap = onTap;
+    this.isUiPointer = isUiPointer;
     this.tapThreshold = tapThreshold;
     this.pointers = new Map();
     this.gesture = null;
@@ -24,6 +25,7 @@ export default class TouchInputController {
   }
 
   onPointerDown(pointer) {
+    if (this.isUiPointer?.(pointer.x, pointer.y)) return;
     this.pointers.set(pointer.id, {
       x: pointer.x,
       y: pointer.y,
@@ -122,5 +124,6 @@ export default class TouchInputController {
     this.scene = null;
     this.camera = null;
     this.onTap = null;
+    this.isUiPointer = null;
   }
 }
