@@ -28,7 +28,9 @@ test('shader compoe a textura costeira com alpha sobre terreno continuo',()=>{
  assert.ok(s.includes('landColor=mix(landColor,shore.rgb,shore.a)'));
  assert.ok(s.includes('if(shoreInRange&&shore.a>.003)'));
  assert.ok(s.includes('const float CORE_RADIUS=1660.0'));
- assert.ok(s.includes('float shoreV=.70-(radiusWorld-coastRadius)/360.0'));
+ assert.ok(s.includes('float shoreV=.58+(radiusWorld-coastRadius)/360.0'));
+ assert.ok(s.includes('oceano no topo e grama na base'));
+ assert.ok(!s.includes('float shoreV=.70-(radiusWorld-coastRadius)/360.0'));
  assert.ok(!s.includes('vec3 color=texture2D(uShoreline'));
  const src=readFileSync(new URL('../src/world/IslandTerrainRenderer.js',import.meta.url),'utf8');
  for(const call of ['createGeometryMask(','createCanvas(','createAlphaMask(','add.tileSprite(','setMask('])assert.ok(!src.includes(call));
