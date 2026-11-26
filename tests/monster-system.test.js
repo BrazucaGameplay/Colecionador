@@ -31,15 +31,50 @@ test('slime usa os quatro WebP finais já existentes no repositório', () => {
   ]);
   assert.deepEqual(slime.drops, []);
 });
-test('zonas da ilha têm IDs únicos, limites e afastamento do ponto inicial', () => {
-  const ids = new Set();
-  for (const zone of ISLAND_01_MONSTER_SPAWNS) {
-    assert.ok(!ids.has(zone.id)); ids.add(zone.id);
-    assert.ok(zone.maxAlive > 0); assert.ok(zone.radius > 0); assert.ok(zone.respawnMs > 0);
-    assert.ok(Math.hypot(zone.x - 2048, zone.y - 2048) > 280);
-  }
-  assert.equal(ISLAND_01_MONSTER_SPAWNS.length, 4);
+test('ilha usa um único limite global de 50 slimes com surgimento em toda a área', () => {
+  assert.equal(ISLAND_01_MONSTER_SPAWNS.length, 1);
+  const [zone] = ISLAND_01_MONSTER_SPAWNS;
+  assert.equal(zone.id, 'slime-island');
+  assert.equal(zone.x, 2048);
+  assert.equal(zone.y, 2048);
+  assert.equal(zone.radius, 2010);
+  assert.equal(zone.maxAlive, 50);
+  assert.equal(zone.minPlayerDistance, 0);
+  assert.equal(zone.respawnMs, 1000);
+  assert.equal(zone.spawnIntervalMs, 1000);
+  assert.equal(zone.retryMs, 1000);
 });
+
+test('Spawner cria no máximo um slime por segundo até atingir 50 vivos', () => {
+  const alive = [];
+  const created = [];
+  const zone = ISLAND_01_MONSTER_SPAWNS[0];
+  const spawner = new MonsterSpawner({
+    navigation: { isAreaWalkable: () => true },
+    spawnZones: [zone],
+    definitions: { slime: definition },
+    canSpawn: () => true,
+    createMonster: (monsterDefinition, point, spawnZone) => {
+      const entry = { definition: monsterDefinition, point, zoneId: spawnZone.id };
+      alive.push(entry); created.push(entry); return entry;
+    },
+    getAlive: zoneId => alive.filter(entry => entry.zoneId === zoneId),
+    getPlayerPosition: () => ({ x: 2048, y: 2048 }),
+    isOccupied: () => false,
+    random: () => 0.5
+  });
+  spawner.update(0);
+  assert.equal(created.length, 1);
+  spawner.update(999);
+  assert.equal(created.length, 1);
+  spawner.update(1000);
+  assert.equal(created.length, 2);
+  for (let now = 2000; now <= 49000; now += 1000) spawner.update(now);
+  assert.equal(created.length, 50);
+  spawner.update(50000);
+  assert.equal(created.length, 50);
+});
+
 test('Spawner respeita população máxima e agenda respawn após morte', () => {
   const alive = []; const created = [];
   const zone = { id: 'test-zone', speciesId: 'test-monster', x: 200, y: 200, radius: 40, maxAlive: 2, minPlayerDistance: 0, respawnMs: 100, retryMs: 20, enabled: true };
