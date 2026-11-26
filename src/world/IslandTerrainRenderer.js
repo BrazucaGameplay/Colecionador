@@ -17,10 +17,10 @@ export function getTerrainMaterialAt(u,v){
 function buildMaskExpression(material){return TERRAIN_REGIONS.filter(r=>r.material===material).map(r=>'ellipseMask(uv, vec2('+r.x.toFixed(4)+', '+r.y.toFixed(4)+'), vec2('+r.rx.toFixed(4)+', '+r.ry.toFixed(4)+'))').reduce((a,b)=>a?'max('+a+', '+b+')':b,'');}
 export function buildIslandTerrainShader(){return `
 precision mediump float;
-uniform sampler2D uSmooth;uniform sampler2D uGrass;uniform sampler2D uRelief;uniform sampler2D uShoreline;
+uniform sampler2D uSmooth;uniform sampler2D uGrass;uniform sampler2D uRelief;
 varying vec2 outTexCoord;
 float ellipseMask(vec2 p,vec2 c,vec2 r){vec2 d=(p-c)/r;return 1.0-smoothstep(.7744,1.2544,dot(d,d));}
-float boundaryRadius(float a){return 1992.0+32.0*sin(a*3.0+.4)+16.0*sin(a*5.0-.9)+8.0*sin(a*8.0+.7);}
+float boundaryRadius(float a){return 1992.0;}
 vec2 mirroredRepeat(vec2 p){vec2 c=mod(p,2.0);return 1.0-abs(c-1.0);}
 float mirroredRepeat1D(float p){float c=mod(p,2.0);return 1.0-abs(c-1.0);}
 float hash21(vec2 p){
@@ -40,26 +40,8 @@ void main(){
  float radiusWorld=radius*2560.0;
  float angle=atan(centered.y,centered.x);
  float coastRadius=boundaryRadius(angle);
- // Ruido fixo em coordenadas do mundo: cria pequenas variacoes naturais
- // na faixa costeira sem animar, mover ou modificar os assets originais.
- vec2 worldPosition=centered*2560.0;
- float broadNoise=(valueNoise(worldPosition*0.0035)-0.5)*48.0;
- float fineNoise=(valueNoise(worldPosition*0.011)-0.5)*18.0;
- float coastNoise=broadNoise+fineNoise;
- float shoreDistance=radiusWorld-coastRadius+coastNoise;
+ float shoreDistance=radiusWorld-coastRadius;
  const float CORE_RADIUS=1660.0;
-
- // A imagem fonte tem oceano no topo e grama na base. O upload WebGL
- // inverte o eixo V; por isso, a costa usa V=.58 na espuma e cresce
- // para fora da ilha: terra amostra grama, mar amostra oceano.
- // A largura da imagem tambem precisa manter escala fisica: a circunferencia
- // equivale a cerca de 35 larguras de 360 unidades. Repetimos em espelho
- // 35 vezes para evitar esticar a arte e manter a emenda angular continua.
- float shoreU=mirroredRepeat1D((angle+3.141592654)*5.570423008);
- float shoreV=.58+shoreDistance/360.0;
- vec4 shore=vec4(0.0);
- bool shoreInRange=shoreV>=0.0&&shoreV<=1.0;
- if(shoreInRange)shore=texture2D(uShoreline,vec2(shoreU,shoreV));
 
  // O terreno permanece continuo por toda a area caminhavel, inclusive
  // entre o nucleo circular e a costa irregular.
@@ -75,34 +57,21 @@ void main(){
    if(grassMask>.001)landColor=mix(landColor,texture2D(uGrass,tileUV).rgb,grassMask);
    if(reliefMask>.001)landColor=mix(landColor,texture2D(uRelief,tileUV).rgb,reliefMask);
   }
-  // A textura costeira fica restrita a uma faixa estreita junto a margem.
-  // O alpha original e respeitado sem amplificacao; a grama permanece dominante
-  // no interior e a textura nao e esticada sobre grandes areas do terreno.
-  if(shoreInRange){
-   // Feather no lado da terra: alfa original e espuma restrita a margem.
-   float landFade=1.0-smoothstep(-72.0,24.0,shoreDistance);
-   float shorelineAlpha=shore.a*landFade;
-   landColor=mix(landColor,shore.rgb,shorelineAlpha);
-  }
-  gl_FragColor=vec4(landColor,1.0);
+  // Antialias radial de um pixel: a textura do mapa termina diretamente no oceano.
+  float edgeWidth=max(fwidth(radiusWorld),1.0);
+  float landAlpha=1.0-smoothstep(coastRadius-edgeWidth,coastRadius+edgeWidth,radiusWorld);
+  gl_FragColor=vec4(landColor,landAlpha);
   return;
  }
 
- // Fora da ilha, somente os pixels opacos da parte marinha da textura
- // costeira sao desenhados; o oceano-base continua visivel na transparencia.
- if(shoreInRange&&shore.a>.003){
-  // Fade gradual para o mar aberto, sem limite duro da textura costeira.
-  float waterFade=1.0-smoothstep(55.0,150.0,shoreDistance);
-  gl_FragColor=vec4(shore.rgb,shore.a*waterFade);
-  return;
- }
+ // O oceano fica visivel por baixo; nenhuma textura de margem e desenhada.
  discard;
 }`;}
-export function createIslandTerrain(scene,{diameter=4096,smoothKey='terrain-smooth',grassKey='terrain-grass',reliefKey='terrain-relief',shorelineKey='island-shoreline'}={}){
+export function createIslandTerrain(scene,{diameter=4096,smoothKey='terrain-smooth',grassKey='terrain-grass',reliefKey='terrain-relief'}={}){
  const renderer=scene.sys.game.renderer;
  if(renderer?.gl){
-  const shader=scene.add.shader({name:'island-terrain-v2',fragmentSource:buildIslandTerrainShader(),initialUniforms:{uSmooth:0,uGrass:1,uRelief:2,uShoreline:3}},
-   -(diameter*.125),-(diameter*.125),diameter*1.25,diameter*1.25,[smoothKey,grassKey,reliefKey,shorelineKey]).setOrigin(0,0).setDepth(-1000);
+  const shader=scene.add.shader({name:'island-terrain-v2',fragmentSource:buildIslandTerrainShader(),initialUniforms:{uSmooth:0,uGrass:1,uRelief:2}},
+   -(diameter*.125),-(diameter*.125),diameter*1.25,diameter*1.25,[smoothKey,grassKey,reliefKey]).setOrigin(0,0).setDepth(-1000);
   return Object.freeze({object:shader,mode:'webgl-shader',drawCalls:1});
  }
  const fallback=scene.add.graphics().setDepth(-1000);

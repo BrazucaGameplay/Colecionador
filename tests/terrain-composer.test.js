@@ -19,26 +19,15 @@ test('materiais ocupam regioes estaveis no nucleo circular',()=>{
  assert.equal(getTerrainMaterialAt(0,0),'ocean');
  assert.equal(getTerrainMaterialAt(.5,.5),'grass');
 });
-test('shader compoe a textura costeira com alpha sobre terreno continuo',()=>{
+test('shader termina o mapa circular diretamente no oceano sem texturas de margem',()=>{
  const s=buildIslandTerrainShader();
- assert.ok(s.includes('uniform sampler2D uShoreline'));
- assert.ok(s.includes('float boundaryRadius(float a)'));
+ assert.ok(!s.includes('uShoreline'));
+ assert.ok(s.includes('float boundaryRadius(float a){return 1992.0;}'));
  assert.ok(s.includes('if(radiusWorld<=coastRadius)'));
- assert.ok(s.includes('vec4 shore=vec4(0.0)'));
- assert.ok(s.includes('float landFade=1.0-smoothstep(-72.0,24.0,shoreDistance)'));
- assert.ok(s.includes('float shorelineAlpha=shore.a*landFade'));
- assert.ok(s.includes('landColor=mix(landColor,shore.rgb,shorelineAlpha)'));
- assert.ok(s.includes('if(shoreInRange&&shore.a>.003)'));
- assert.ok(s.includes('const float CORE_RADIUS=1660.0'));
- assert.ok(s.includes('float shoreV=.58+shoreDistance/360.0'));
- assert.ok(s.includes('float coastNoise=broadNoise+fineNoise'));
- assert.ok(s.includes('float mirroredRepeat1D(float p)'));
- assert.ok(s.includes('float shoreU=mirroredRepeat1D((angle+3.141592654)*5.570423008)'));
- assert.ok(s.includes('equivale a cerca de 35 larguras de 360 unidades'));
- assert.ok(!s.includes('float shoreU=fract(angle*.159154943+.5)'));
- assert.ok(s.includes('oceano no topo e grama na base'));
- assert.ok(!s.includes('float shoreV=.70-(radiusWorld-coastRadius)/360.0'));
- assert.ok(!s.includes('vec3 color=texture2D(uShoreline'));
+ assert.ok(s.includes('float edgeWidth=max(fwidth(radiusWorld),1.0)'));
+ assert.ok(s.includes('gl_FragColor=vec4(landColor,landAlpha)'));
+ assert.ok(s.includes('discard;'));
+ assert.ok(!s.includes('shorelineAlpha'));
  const src=readFileSync(new URL('../src/world/IslandTerrainRenderer.js',import.meta.url),'utf8');
  for(const call of ['createGeometryMask(','createCanvas(','createAlphaMask(','add.tileSprite(','setMask('])assert.ok(!src.includes(call));
 });
@@ -48,20 +37,17 @@ test('Game usa a mascara de ilha compartilhada e oceano abaixo do terreno',()=>{
  assert.match(game,/this\.groundObject = this\.terrain\.object/);
  assert.match(game,/setDepth\(-1200\)/);
 });
-test('Preload carrega materiais e textura costeira WebP',()=>{
+test('Preload carrega materiais sem textura de margem',()=>{
  const preload=readFileSync(new URL('../src/scenes/Preload.js',import.meta.url),'utf8');
- for(const key of ['terrain-smooth','terrain-grass','terrain-relief','island-shoreline.webp'])assert.ok(preload.includes(key));
- const webp=readFileSync(new URL('../public/assets/world/terrain/island-shoreline.webp',import.meta.url));
- assert.equal(webp.toString('ascii',0,4),'RIFF');
- assert.equal(webp.toString('ascii',8,12),'WEBP');
- assert.ok(webp.length>10000,'textura costeira deve conter os dados da imagem atual');
+ for(const key of ['terrain-smooth','terrain-grass','terrain-relief'])assert.ok(preload.includes(key));
+ assert.ok(!preload.includes('island-shoreline'));
 });
-test('nucleo permanece circular e o litoral apresenta entradas e saidas',()=>{
+test('nucleo e contorno externo permanecem circulares',()=>{
  assert.equal(ISLAND_SHAPE.coreRadius,1660);
  const radii=Array.from({length:720},(_,i)=>getIslandBoundaryRadius(i*Math.PI*2/720));
- assert.ok(Math.min(...radii)>1930);
- assert.ok(Math.max(...radii)<=2048);
- assert.ok(Math.max(...radii)-Math.min(...radii)>70);
+ assert.ok(Math.min(...radii)>1991);
+ assert.ok(Math.max(...radii)<=1993);
+ assert.ok(Math.max(...radii)-Math.min(...radii)<0.01);
  assert.ok(isInsideIsland(2048+1500,2048));
  assert.ok(isInsideIsland(2048+1850,2048));
  assert.ok(!isInsideIsland(2048+2050,2048));
