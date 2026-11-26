@@ -1,73 +1,35 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { buildTerrainRegions, syncTerrainLayersToCamera } from '../src/world/TerrainComposer.js';
+import { composeTerrainPattern, createTerrainLayers } from '../src/world/TerrainComposer.js';
 
-test('terreno distribui células em proporções de 70/20/10 sem sobreposição', () => {
-  const result = buildTerrainRegions({ diameter: 4096, cellSize: 64 });
-  assert.equal(result.smoothCount + result.grassCells.length + result.reliefCells.length, result.eligibleCells);
-  assert.ok(Math.abs(result.distribution.smooth - 0.70) < 0.01);
-  assert.ok(Math.abs(result.distribution.grass - 0.20) < 0.01);
-  assert.ok(Math.abs(result.distribution.relief - 0.10) < 0.01);
-  const keys = new Set();
-  for (const cell of [...result.grassCells, ...result.reliefCells]) {
-    const key = cell.x + ':' + cell.y;
-    assert.ok(!keys.has(key), 'Célula repetida entre tipos de terreno: ' + key);
-    keys.add(key);
-    const cx = cell.x + cell.width / 2;
-    const cy = cell.y + cell.height / 2;
-    assert.ok(Math.hypot(cx - 2048, cy - 2048) + Math.hypot(cell.width, cell.height) / 2 <= 2046);
-  }
+test('composição usa três fontes e cria um único padrão repetível de 512px', () => {
+  const source = readFileSync(new URL('../src/world/TerrainComposer.js', import.meta.url), 'utf8');
+  assert.match(source, /PATTERN_SIZE = 512/);
+  assert.match(source, /smoothKey/);
+  assert.match(source, /grassKey/);
+  assert.match(source, /reliefKey/);
+  assert.doesNotMatch(source, /buildTerrainRegions|syncTerrainLayersToCamera|fillRect\(cell/);
 });
 
-test('distribuição é determinística e cria manchas espalhadas', () => {
-  const first = buildTerrainRegions();
-  const second = buildTerrainRegions();
-  assert.deepEqual(first.grassCells, second.grassCells);
-  assert.deepEqual(first.reliefCells, second.reliefCells);
-  const quadrants = new Set([...first.grassCells, ...first.reliefCells].map(cell =>
-    (cell.y < 2048 ? 'N' : 'S') + (cell.x < 2048 ? 'W' : 'E')
-  ));
-  assert.equal(quadrants.size, 4);
-  assert.equal(Object.keys(first.sectorDistribution).length, 16);
-  for (const sector of Object.values(first.sectorDistribution)) {
-    assert.ok(Math.abs(sector.grass - 0.20) < 0.015);
-    assert.ok(Math.abs(sector.relief - 0.10) < 0.015);
-    assert.ok(Math.abs(sector.smooth - 0.70) < 0.02);
-  }
+test('a ilha usa um único TileSprite com recorte circular', () => {
+  const source = readFileSync(new URL('../src/world/TerrainComposer.js', import.meta.url), 'utf8');
+  assert.match(source, /fillCircle\(center, center, center - 2\)/);
+  assert.match(source, /add\.tileSprite\(0, 0, diameter, diameter, pattern\.textureKey\)/);
+  assert.match(source, /setMask\(circleMask\)/);
+  assert.match(source, /tiles: \[terrain\]/);
 });
 
-test('composição do jogo usa TileSprites e não cria canvas 4096x4096', () => {
+test('a cena não reposiciona camadas do terreno por quadro nem cria nuvens em lote', () => {
   const source = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
   assert.match(source, /createTerrainLayers/);
-  assert.doesNotMatch(source, /canvas\.width\s*=\s*this\.worldWidth/);
-  assert.doesNotMatch(source, /canvas\.height\s*=\s*this\.worldHeight/);
-  assert.doesNotMatch(source, /addCanvas\(['"]island-01-ground-generated/);
+  assert.match(source, /createOceanBackground/);
+  assert.doesNotMatch(source, /syncTerrainLayersToCamera|createCloudBoundary|generated-cloud-sea/);
+  assert.doesNotMatch(source, /for \(let i = 0; i < count; i\+\+\)/);
 });
 
-test('preload carrega somente as três texturas novas de terreno', () => {
+test('Preload continua carregando as três texturas finais, sem imagem única antiga', () => {
   const source = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
   for (const key of ['terrain-smooth', 'terrain-grass', 'terrain-relief']) assert.ok(source.includes(key));
   assert.doesNotMatch(source, /terreno-01\.png|island-01\.png/);
-});
-
-test('TileSprites acompanham somente o viewport, mantendo a textura ancorada no mundo', () => {
-  const calls = [];
-  const tile = {
-    setSize: (...args) => { calls.push(['size', ...args]); return tile; },
-    setPosition: (...args) => { calls.push(['position', ...args]); return tile; },
-    setTilePosition: (...args) => { calls.push(['tile', ...args]); return tile; }
-  };
-  syncTerrainLayersToCamera([tile], { width: 960, height: 540, zoom: 1.2, scrollX: 500, scrollY: 700 });
-  assert.deepEqual(calls, [
-    ['size', 800, 450],
-    ['position', 900, 925],
-    ['tile', 500, 700]
-  ]);
-});
-
-test('fundo do mar não mantém TileSprite gigante', () => {
-  const source = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
-  assert.match(source, /this\.scale\.width, this\.scale\.height, textureKey/);
-  assert.doesNotMatch(source, /8192,\s*8192/);
 });
