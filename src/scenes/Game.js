@@ -198,22 +198,17 @@ export default class Game extends Phaser.Scene {
 
 
   /**
-   * Borda decorativa em camadas: cascatas no limite externo e relevo
-   * ligeiramente para dentro. A máscara circular continua sendo a regra
-   * de caminhada, portanto os elementos de borda não ampliam a área jogável.
-   */
-  /**
-   * Nuvens formam uma faixa contínua fora do contorno circular.
-   * A camada fica atrás do terreno: a grama recorta naturalmente a parte
-   * interna das nuvens, sem cobrir a área caminhável nem exigir PNG externo.
+   * Oceano estático contínuo sob a ilha. A área é maior que os limites de
+   * câmera permitidos, inclusive no zoom mínimo, para nunca revelar o fundo
+   * da página ao arrastar ou afastar a câmera.
    */
   createOceanBackground() {
-    // Um único retângulo estático substitui as 48 imagens e os canvases de nuvens.
+    const oceanSize = ISLAND_DIAMETER * 4;
     this.oceanBackground = this.add.rectangle(
       ISLAND_RADIUS,
       ISLAND_RADIUS,
-      ISLAND_DIAMETER,
-      ISLAND_DIAMETER,
+      oceanSize,
+      oceanSize,
       0x315b78
     ).setDepth(-1200);
   }
