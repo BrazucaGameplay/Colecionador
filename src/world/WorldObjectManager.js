@@ -1,6 +1,7 @@
 /**
  * Instancia os objetos visuais definidos no layout da ilha.
- * O sistema nunca escolhe coordenadas ou deforma os assets.
+ * Estruturas são imagens estáticas: não possuem lógica, animação, física,
+ * input ou atualização por quadro. O Phaser cuida do culling de renderização.
  */
 export default class WorldObjectManager {
   constructor(scene, { depthManager, collisionManager } = {}) {
@@ -28,8 +29,12 @@ export default class WorldObjectManager {
         throw new Error('Asset de estrutura indisponível: ' + definition.assetKey);
       }
 
+      // Image não entra na Update List do Phaser: não executa preUpdate.
+      // active=false documenta e garante que a estrutura não seja tratada
+      // como entidade ativa; visible permanece true para o renderer/culling.
       const image = this.scene.add.image(definition.x, definition.y, definition.assetKey)
-        .setOrigin(definition.originX ?? 0.5, definition.originY ?? 1);
+        .setOrigin(definition.originX ?? 0.5, definition.originY ?? 1)
+        .setActive(false);
 
       // Escala uniforme: largura e altura mantêm sempre a proporção do PNG.
       const uniformScale = definition.targetHeight
@@ -38,9 +43,7 @@ export default class WorldObjectManager {
       image.setScale(uniformScale);
       if (Number.isFinite(definition.rotation)) image.setRotation(definition.rotation);
 
-      image.setData('worldObjectId', definition.id);
-      image.setData('worldObjectKind', definition.kind || 'structure');
-      image.setData('worldAnchorY', definition.y);
+      // Profundidade e colisão são dados estáticos calculados uma única vez.
       this.depthManager.apply(image, definition.y, 'structure');
       this.collisionManager.register(definition);
 
