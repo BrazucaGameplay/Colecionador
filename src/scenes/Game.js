@@ -244,78 +244,23 @@ export default class Game extends Phaser.Scene {
    */
   createOceanBackground() {
     const texture = this.textures.get('ocean-pattern');
-    const source = texture?.getSourceImage?.();
-    if (!source?.width || !source?.height) {
+    if (!texture?.getSourceImage?.()) {
       throw new Error('A textura original do oceano não foi carregada.');
     }
 
+    // Mantém a cobertura completa do oceano usando o WebP original.
+    // A tentativa de shader de transição foi revertida porque seu quad não
+    // acompanhou corretamente a área da câmera em dispositivos móveis.
     const view = this.cameras.main.worldView;
-    const blendShader = `
-      precision mediump float;
-      uniform sampler2D iChannel0;
-      uniform vec2 uRepeat;
-      uniform vec2 uOffset;
-      uniform float uBlendWidth;
-      varying vec2 outTexCoord;
-
-      vec4 sampleHorizontal(vec2 uv) {
-        vec4 base = texture2D(iChannel0, uv);
-        float edge = min(uv.x, 1.0 - uv.x);
-        float amount = 0.5 * (1.0 - smoothstep(0.0, uBlendWidth, edge));
-        vec4 opposite = texture2D(iChannel0, vec2(1.0 - uv.x, uv.y));
-        return mix(base, opposite, amount);
-      }
-
-      vec4 sampleSeamless(vec2 uv) {
-        vec4 base = sampleHorizontal(uv);
-        float edge = min(uv.y, 1.0 - uv.y);
-        float amount = 0.5 * (1.0 - smoothstep(0.0, uBlendWidth, edge));
-        vec4 opposite = sampleHorizontal(vec2(uv.x, 1.0 - uv.y));
-        return mix(base, opposite, amount);
-      }
-
-      void main() {
-        vec2 uv = fract(outTexCoord * uRepeat + uOffset);
-        gl_FragColor = sampleSeamless(uv);
-      }
-    `;
-
-    // Phaser 4 usa Shader/RenderNode (não o sistema de Pipeline removido do Phaser 3).
-    // A mistura é feita por amostragem na GPU; o WebP original permanece intacto.
-    if (typeof this.add.shader === 'function') {
-      try {
-        this.oceanBackground = this.add.shader({
-          name: 'ocean-edge-blend-v1',
-          fragmentSource: blendShader,
-          setupUniforms: (setUniform) => {
-            const currentView = this.camera?.worldView || this.cameras.main.worldView;
-            setUniform('iChannel0', 0);
-            setUniform('uRepeat', [
-              currentView.width / source.width,
-              currentView.height / source.height
-            ]);
-            setUniform('uOffset', [
-              currentView.x / source.width,
-              currentView.y / source.height
-            ]);
-            setUniform('uBlendWidth', 0.055);
-          }
-        }, view.centerX, view.centerY, view.width, view.height, ['ocean-pattern'])
-          .setOrigin(0.5)
-          .setDepth(-1200);
-        this.oceanRenderMode = 'shader';
-        return;
-      } catch (error) {
-        console.warn('Shader de transição do oceano indisponível; usando TileSprite original.', error);
-      }
-    }
-
-    // Fallback para renderizadores sem suporte a Shader. Mantém o WebP original.
     this.oceanBackground = this.add.tileSprite(
-      view.centerX, view.centerY, view.width, view.height, 'ocean-pattern'
+      view.centerX,
+      view.centerY,
+      view.width,
+      view.height,
+      'ocean-pattern'
     ).setOrigin(0.5).setDepth(-1200);
+
     this.oceanBackground.setTilePosition(view.x, view.y);
-    this.oceanRenderMode = 'tilesprite-fallback';
   }
 
   syncOceanBackground() {
@@ -323,9 +268,7 @@ export default class Game extends Phaser.Scene {
     const view = this.camera.worldView;
     this.oceanBackground.setPosition(view.centerX, view.centerY);
     this.oceanBackground.setSize(view.width, view.height);
-    if (this.oceanRenderMode === 'tilesprite-fallback') {
-      this.oceanBackground.setTilePosition(view.x, view.y);
-    }
+    this.oceanBackground.setTilePosition(view.x, view.y);
   }
 
   readSavedProgress() {
