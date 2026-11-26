@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import Player from '../entities/Player.js';
 import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
 import CharacterSpriteRenderer from '../rendering/characters/CharacterSpriteRenderer.js';

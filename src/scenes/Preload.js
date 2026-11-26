@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 import { queuePlayerSpriteAssets, registerPlayerSpriteAnimations } from '../rendering/characters/CharacterSpriteRenderer.js';
 import { queueMonsterAssets, registerMonsterAnimations } from '../rendering/monsters/MonsterAssetLoader.js';
 

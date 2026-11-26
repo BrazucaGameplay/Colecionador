@@ -1,24 +1,49 @@
 # Conquistador de Waifu's
 
-Projeto de RPG 2D de acao com estetica anime, desenvolvido com Phaser 4 e Vite, com foco em Android e suporte a PWA.
+RPG 2D de ação com estética anime, desenvolvido com Phaser 4, JavaScript ES modules e Vite. O projeto prioriza Android e mantém distribuição web/PWA.
 
-## Documentos principais
+## Requisitos
 
-- [Estado atual e continuidade](docs/ESTADO_DO_PROJETO.md) — fonte central para o que esta implementado, validacoes e proximas etapas.\n- [Arquitetura do mundo por ilhas](docs/ARQUITETURA_DO_MUNDO_POR_ILHAS.md) — decisão aprovada, transições, carregamento de uma ilha por vez e plano de implementação.
-- [Plano de arquitetura e desenvolvimento](docs/PLANO_ARQUITETURA_E_DESENVOLVIMENTO.txt) — arquitetura-alvo, principios tecnicos e roteiro.
-- [Diretriz de reutilizacao do repositorio original](docs/DIRETRIZ_DE_REUSO_DO_REPOSITORIO_ORIGINAL.txt) — limites para consultar e reutilizar assets historicos.
+- Node.js 26.13.1 LTS (versão registrada em `.nvmrc`)
+- npm 12.2.2
+- Para gerar/compilar o aplicativo nativo: Android Studio 2025.2.1 ou superior e Android SDK API 24 ou superior
 
-## Desenvolvimento
+## Instalação
 
 ```bash
-npm install
+npm ci
+```
+
+Se o lockfile ainda não estiver presente no clone, aguarde o workflow **Dependency lockfile** concluir na branch `main` ou gere-o com `npm install`.
+
+## Desenvolvimento web
+
+```bash
 npm run dev
 ```
 
-Build de producao:
+## Testes e build
 
 ```bash
+npm test
 npm run build
+npm audit
 ```
 
-O build e o deploy web nao substituem testes em dispositivo Android real.
+## Android / Capacitor
+
+```bash
+npm run android:init
+npm run android:sync
+npm run android:open
+```
+
+O build web e o deploy PWA não substituem a sincronização, compilação e validação em dispositivo Android real.
+
+## Documentos principais
+
+- [Estado atual e continuidade](docs/ESTADO_DO_PROJETO.md) — implementação real, validações e pendências.
+- [Arquitetura do mundo por ilhas](docs/ARQUITETURA_DO_MUNDO_POR_ILHAS.md) — direção aprovada e plano incremental.
+- [Plano de arquitetura e desenvolvimento](docs/PLANO_ARQUITETURA_E_DESENVOLVIMENTO.txt) — princípios técnicos e roteiro.
+- [Processo obrigatório de atualização](docs/PROCESSO_OBRIGATORIO_DE_ATUALIZACAO.md) — versionamento, auditoria e critérios de publicação.
+- [Guia de sprites de monstros](docs/GUIA_DE_SPRITES_DE_MONSTROS.md) — contrato dos atlas PNG/JSON.

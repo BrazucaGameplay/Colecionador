@@ -593,3 +593,101 @@ VALIDAÇÃO:
 - A falha foi localizada no teste de respawn, não no código do Spawner.
 - A versão 1.7.1 deve ser validada pelo novo workflow associado ao commit
   corretivo; não considerar o commit 1.7.0 pronto para publicação.
+
+
+======================================================================
+15. MODERNIZAÇÃO DA STACK DE DESENVOLVIMENTO — 25/11/2026
+======================================================================
+
+VERSIONAMENTO:
+- Versão anterior: 1.7.2.
+- Nova versão: 2.0.0.
+- Motivo: migração de versões principais do ambiente de build e runtime
+  Capacitor, além da atualização das ferramentas e do contrato de imports
+  ESM do Phaser 4.
+
+VERSÕES ESTÁVEIS ADOTADAS:
+- Node.js 26.13.1 LTS (fixado em .nvmrc).
+- npm 12.2.2 (registrado em packageManager).
+- Phaser 4.2.1.
+- Vite 8.3.8.
+- Capacitor Core, Android e CLI 8.6.2 (mesma versão em todos os pacotes).
+- Three.js 0.187.0.
+- Playwright 1.65.1.
+- Requisitos mínimos de Node declarados: >=22.12.0.
+
+ALTERAÇÕES DE CÓDIGO:
+- Imports do Phaser padronizados para import * as Phaser from 'phaser'
+  nos pontos de entrada, cenas, input por toque e renderer de sprites.
+- Vite 8 utiliza Rolldown no pipeline de build. O vite.config.js atual
+  mantém somente base, plugin transformIndexHtml, servidor e opções
+  simples de build; não foi identificada configuração Rollup/esbuild
+  personalizada que exija migração manual.
+- CharacterRenderer3D e character-baker continuam usando os addons
+  oficiais do Three.js (GLTFLoader e MeshoptDecoder); compatibilidade
+  funcional depende dos testes de build e do workflow de bake.
+- A configuração do Capacitor permanece em capacitor.config.ts.
+
+LOCKFILE E SEGURANÇA:
+- package-lock.json não existia na branch main consultada antes desta
+  atualização. Foi criado um workflow Dependency lockfile para gerar e
+  versionar o lockfile, aplicar npm audit fix sem --force, executar testes,
+  build e auditoria completa.
+- O lockfile será considerado confirmado somente após o workflow gerar
+  e publicar o arquivo no repositório.
+- Dependências de produção e de desenvolvimento serão auditadas em
+  conjunto; não basta o resultado anterior de npm audit --omit=dev.
+- Dependabot foi configurado para propor atualizações semanais de
+  dependências npm e GitHub Actions.
+
+ANDROID / CAPACITOR:
+- A branch main não contém diretório android/ nem arquivos Gradle.
+  Portanto, a dependência Capacitor foi atualizada, mas não havia projeto
+  Android nativo versionado para migrar nesta etapa.
+- Capacitor 8 requer Node.js 22+, Android Studio 2025.2.1 ou superior e
+  Android SDK API 24 ou superior.
+- A geração/sincronização do projeto Android e o teste em aparelho real
+  permanecem pendentes; build web não substitui validação Android.
+
+RECAP INTEGRAL DO JOGO:
+- Produto/plataforma: RPG 2D de ação com estética anime, Android como
+  prioridade e distribuição PWA/web. Capacitor prepara a integração
+  nativa; APK e publicação na Google Play não estão concluídos.
+- Mundo: uma ilha ativa com terreno ilustrado, máscara de navegação,
+  objetos de mundo, profundidade e spawn configurado. Catálogo de ilhas,
+  transições, pontes, portais e carregamento de uma ilha por vez seguem
+  aprovados/planejados, não implementados.
+- Gameplay: tap-to-move, arraste da câmera e pinch zoom; jogador lógico,
+  corpo Arcade, movimento/pathfinding, combate simples, vida, pontuação e
+  salvamento local. O sistema modular de monstros existe, mas o slime
+  permanece com visual desabilitado enquanto não houver atlas final.
+  Waifus, inventário, quests, progressão completa e dungeons completas
+  ainda não estão implementados.
+- Personagem: renderer 2D por spritesheets PNG/JSON e renderer 3D de
+  personagem GLB isolado; os contratos de estado lógico e apresentação
+  permanecem separados. Os pacotes de animação existentes continuam
+  catalogados no repositório.
+- Arquitetura: Phaser 4, JavaScript ES modules, Vite 8, Capacitor 8,
+  Three.js para renderização GLB/geração de sprites, Arcade Physics,
+  sistemas de movimento, input por toque, navegação, profundidade,
+  objetos de mundo e monstros.
+- Assets: PNG/JSON de animação do protagonista, GLBs de personagens,
+  espada, ilha, terreno, árvores e rochas nos caminhos existentes.
+  Não foram encontrados sprites finais de monstros na pasta slime.
+- Interface/mobile: controles exclusivamente por toque, sem joystick;
+  tap-to-move, arraste de câmera e pinch zoom. Não foi realizado teste
+  visual/físico em Android nesta atualização.
+- Build/publicação: workflows atualizados para Node 26, npm ci com
+  lockfile, versões atuais das Actions e validação de auditoria, testes,
+  build, assets e deploy. Resultado final depende dos workflows associados
+  ao commit da modernização e da geração do lockfile.
+- Riscos/pendências: confirmar resolução das vulnerabilidades em toda a
+  árvore npm; validar Three.js e Phaser no build; executar bake de sprites;
+  gerar/sincronizar projeto Android com Capacitor 8; testar em dispositivo
+  Android real.
+
+STATUS DE VALIDAÇÃO:
+- Atualização do código e manifests registrada na versão 2.0.0.
+- Build, testes, auditoria completa, lockfile e deploy precisam ser
+  confirmados pelos workflows desta atualização.
+- Nenhum teste em aparelho Android é declarado concluído.

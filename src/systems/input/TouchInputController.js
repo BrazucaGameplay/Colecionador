@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import * as Phaser from 'phaser';
 
 const DEFAULT_TAP_THRESHOLD = 12;
 
