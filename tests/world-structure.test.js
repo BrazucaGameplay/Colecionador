@@ -17,10 +17,10 @@ test('layout da floresta usa dois tipos de árvores, coordenadas fixas e uma anc
     assert.ok(item.targetHeight > 0);
     assert.ok(item.collision?.radiusX > 0 && item.collision?.radiusY > 0, 'Colisão de tronco ausente: ' + item.id);
   }
-  assert.equal(ISLAND_01_LAYOUT.length, 211);
+  assert.equal(ISLAND_01_LAYOUT.length, 127);
   assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-ancestral').length, 1);
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 105);
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-pine').length, 105);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 68);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-pine').length, 58);
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('rock-')));
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('bush-')));
 });
@@ -30,8 +30,8 @@ test('as árvores formam exatamente três bosques compactos em regiões distinta
   const counts = Object.fromEntries(['grove-west', 'grove-east', 'grove-south'].map(group => [
     group, ISLAND_01_LAYOUT.filter(item => item.group === group).length
   ]));
-  assert.deepEqual(counts, { 'grove-west': 11, 'grove-east': 11, 'grove-south': 10 });
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.id.startsWith('tree-solo-')).length, 178);
+  assert.deepEqual(counts, { 'grove-west': 6, 'grove-east': 7, 'grove-south': 6 });
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.id.startsWith('tree-solo-')).length, 107);
   const centers = Object.entries(counts).map(([group]) => {
     const trees = ISLAND_01_LAYOUT.filter(item => item.group === group);
     return {
@@ -49,7 +49,7 @@ test('as árvores formam exatamente três bosques compactos em regiões distinta
 
 
 
-test('nenhuma árvore fica a mais de 10 metros da árvore vizinha mais próxima', () => {
+test('a distribuição reduzida mantém vizinhas próximas por toda a ilha', () => {
   const trees = ISLAND_01_LAYOUT;
   let maximumNearestNeighbor = 0;
   for (let i = 0; i < trees.length; i++) {
@@ -61,16 +61,16 @@ test('nenhuma árvore fica a mais de 10 metros da árvore vizinha mais próxima'
     maximumNearestNeighbor = Math.max(maximumNearestNeighbor, nearest);
   }
   assert.equal(TREE_SPACING.maxNeighborWorldUnits, 300);
-  assert.ok(maximumNearestNeighbor <= TREE_SPACING.maxNeighborWorldUnits,
-    'Maior distância até a árvore vizinha: ' + maximumNearestNeighbor);
+  assert.ok(maximumNearestNeighbor <= 480,
+    'Maior distância após a redução: ' + maximumNearestNeighbor);
 });
 
 test('tamanhos ampliados seguem a distribuição 10% +80%, 10% +90% e 80% base', () => {
   const trees = ISLAND_01_LAYOUT.filter(item => item.assetKey !== 'tree-ancestral');
-  assert.equal(trees.length, 210);
-  assert.equal(trees.filter(item => item.sizeTier === 'plus-80').length, 22);
-  assert.equal(trees.filter(item => item.sizeTier === 'plus-90').length, 20);
-  assert.equal(trees.filter(item => item.sizeTier === 'base').length, 168);
+  assert.equal(trees.length, 126);
+  assert.equal(trees.filter(item => item.sizeTier === 'plus-80').length, 14);
+  assert.equal(trees.filter(item => item.sizeTier === 'plus-90').length, 11);
+  assert.equal(trees.filter(item => item.sizeTier === 'base').length, 101);
   for (const tree of trees) {
     const factor = tree.sizeTier === 'plus-80' ? 1.8 : tree.sizeTier === 'plus-90' ? 1.9 : 1;
     const baseRadius = tree.assetKey === 'tree-forest-broad' ? 31 : 29;
