@@ -30,6 +30,7 @@ export default class Game extends Phaser.Scene {
     this.worldObjects = [];
     this.groundObject = null;
     this.terrain = null;
+    this.shorelineObject = null;
   }
 
   create() {
@@ -48,6 +49,7 @@ export default class Game extends Phaser.Scene {
     this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
     this.createOceanBackground();
     this.createGround();
+    this.createIslandShoreline();
     this.createIslandWalkableMask();
     this.depthManager = new WorldDepthManager();
     this.collisionManager = new WorldCollisionManager(this.navigation);
@@ -189,6 +191,17 @@ export default class Game extends Phaser.Scene {
     this.groundObject = this.terrain.object;
   }
 
+  createIslandShoreline() {
+    // Faixa costeira pré-renderizada: acompanha a circunferência sem cálculos por frame.
+    this.shorelineObject = this.add.image(
+      ISLAND_RADIUS,
+      ISLAND_RADIUS,
+      'island-shoreline'
+    ).setOrigin(0.5)
+      .setDisplaySize(ISLAND_DIAMETER * 1.03125, ISLAND_DIAMETER * 1.03125)
+      .setDepth(-990);
+  }
+
   createIslandWalkableMask() {
     this.navigation.setCircleMask(ISLAND_RADIUS, ISLAND_RADIUS, ISLAND_RADIUS - 28);
   }
@@ -283,6 +296,8 @@ export default class Game extends Phaser.Scene {
     this.worldObjectManager?.destroy();
     this.collisionManager?.destroy();
     this.worldObjects.length = 0;
+    this.shorelineObject?.destroy();
+    this.shorelineObject = null;
     this.groundObject?.destroy();
     this.groundObject = null;
     this.terrain = null;

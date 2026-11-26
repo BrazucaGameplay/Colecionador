@@ -1473,3 +1473,26 @@ VALIDACAO:
 - Removido o SVG estilizado anterior, que nao correspondia ao nivel de
   realismo da referencia enviada.
 - Versao: 2.4.3.
+
+
+======================================================================
+27. MARGEM COSTEIRA CIRCULAR — TEXTURA DO USUARIO (26/11/2026)
+======================================================================
+
+- A imagem de referencia enviada pelo usuario foi convertida em uma faixa
+  costeira circular, mapeando a transicao de oceano/espuma para grama ao
+  redor de toda a ilha.
+- Arquivo: public/assets/world/terrain/island-shoreline.webp.
+- Textura final: 1536 x 1536, WebP com transparencia; arquivo compacto.
+- A faixa acompanha a circunferencia da ilha de 4096 unidades, posicionada
+  no centro (2048, 2048) e exibida em 4224 x 4224 unidades.
+- A parte verde sobrepoe a borda interna do terreno; a espuma/agua avanca
+  ligeiramente para fora, sobre o oceano de fundo.
+- A emenda angular da textura foi suavizada antes do mapeamento circular.
+- Renderizacao: uma imagem estatica adicional, depth -990, entre o shader
+  do terreno (-1000) e os objetos do mundo. Sem loops, shaders novos,
+  atualizacao por frame, fisica ou colisores.
+- Memoria RGBA teorica da textura decodificada: cerca de 9 MiB
+  (1536 x 1536 x 4), mais overhead do navegador; compressao WebP reduz
+  transferencia/armazenamento, nao a memoria apos decodificacao.
+- Versao: 2.4.4.

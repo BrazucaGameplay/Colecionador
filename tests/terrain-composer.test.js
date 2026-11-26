@@ -72,3 +72,17 @@ test('oceano usa a textura WebP de referencia e TileSprite estático', () => {
   assert.equal(ocean.toString('ascii', 0, 4), 'RIFF');
   assert.equal(ocean.toString('ascii', 8, 12), 'WEBP');
 });
+
+
+test('margem costeira usa faixa circular pré-renderizada sem processamento por frame', () => {
+  const game = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
+  const preload = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
+  const shoreline = readFileSync(new URL('../public/assets/world/terrain/island-shoreline.webp', import.meta.url));
+  assert.match(game, /createIslandShoreline\(\)/);
+  assert.match(game, /'island-shoreline'/);
+  assert.match(game, /setDisplaySize\(ISLAND_DIAMETER \* 1\.03125/);
+  assert.match(game, /shorelineObject\?\.destroy\(\)/);
+  assert.ok(preload.includes('island-shoreline.webp'));
+  assert.equal(shoreline.toString('ascii', 0, 4), 'RIFF');
+  assert.equal(shoreline.toString('ascii', 8, 12), 'WEBP');
+});
