@@ -70,7 +70,7 @@ export default class MonsterManager {
     return [...this.activeEntries].filter(entry => entry.entity.alive).map(entry => entry.entity);
   }
   getCombatEntries() {
-    return [...this.entries.values()].filter(entry => entry.entity.alive && entry.mode === 'combat');
+    return [...this.activeEntries].filter(entry => entry.entity.alive && entry.mode === 'combat');
   }
   isOccupied(point, radius, zoneId) {
     for (const entry of this.getAliveInZone(zoneId)) {
@@ -121,6 +121,9 @@ export default class MonsterManager {
       this.activeEntries.delete(entry);
       entry.behavior?.stop(entry.entity);
       entry.body?.setEnabled(false);
+      // Ao adormecer, congela novamente na primeira arte estática.
+      entry.renderer.currentState = null;
+      entry.renderer.play('idle', now);
       return;
     }
 
