@@ -4,7 +4,7 @@ import { queueMonsterAssets } from '../rendering/monsters/MonsterAssetLoader.js'
 
 const WORLD_ASSETS = [
   ['ocean-pattern', 'assets/world/terrain/ocean-pattern.webp'],
-  ['island-shoreline', 'assets/world/terrain/island-shoreline.webp'],
+  ['island-shoreline', 'assets/world/terrain/island-shoreline.png'],
   ['terrain-smooth', 'assets/world/terrain/Terreno_liso.webp'],
   ['terrain-grass', 'assets/world/terrain/Terreno_moita.webp'],
   ['terrain-relief', 'assets/world/terrain/Terreno_relevo.webp'],
