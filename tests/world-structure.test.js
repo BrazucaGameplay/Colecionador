@@ -17,10 +17,10 @@ test('layout da floresta usa dois tipos de árvores, coordenadas fixas e uma anc
     assert.ok(item.targetHeight > 0);
     assert.ok(item.collision?.radiusX > 0 && item.collision?.radiusY > 0, 'Colisão de tronco ausente: ' + item.id);
   }
-  assert.equal(ISLAND_01_LAYOUT.length, 127);
+  assert.equal(ISLAND_01_LAYOUT.length, 85);
   assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-ancestral').length, 1);
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 68);
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-pine').length, 58);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 44);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-pine').length, 40);
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('rock-')));
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('bush-')));
 });
@@ -31,7 +31,7 @@ test('as árvores formam exatamente três bosques compactos em regiões distinta
     group, ISLAND_01_LAYOUT.filter(item => item.group === group).length
   ]));
   assert.deepEqual(counts, { 'grove-west': 6, 'grove-east': 7, 'grove-south': 6 });
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.id.startsWith('tree-solo-')).length, 107);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.id.startsWith('tree-solo-')).length, 65);
   const centers = Object.entries(counts).map(([group]) => {
     const trees = ISLAND_01_LAYOUT.filter(item => item.group === group);
     return {
@@ -67,10 +67,10 @@ test('a distribuição reduzida mantém vizinhas próximas por toda a ilha', () 
 
 test('tamanhos ampliados seguem a distribuição 10% +80%, 10% +90% e 80% base', () => {
   const trees = ISLAND_01_LAYOUT.filter(item => item.assetKey !== 'tree-ancestral');
-  assert.equal(trees.length, 126);
-  assert.equal(trees.filter(item => item.sizeTier === 'plus-80').length, 14);
-  assert.equal(trees.filter(item => item.sizeTier === 'plus-90').length, 11);
-  assert.equal(trees.filter(item => item.sizeTier === 'base').length, 101);
+  assert.equal(trees.length, 84);
+  assert.equal(trees.filter(item => item.sizeTier === 'plus-80').length, 8);
+  assert.equal(trees.filter(item => item.sizeTier === 'plus-90').length, 8);
+  assert.equal(trees.filter(item => item.sizeTier === 'base').length, 68);
   for (const tree of trees) {
     const factor = tree.sizeTier === 'plus-80' ? 1.8 : tree.sizeTier === 'plus-90' ? 1.9 : 1;
     const baseRadius = tree.assetKey === 'tree-forest-broad' ? 31 : 29;
@@ -98,8 +98,8 @@ test('cada árvore registra colisão fixa do tronco na navegação', () => {
   assert.equal(ancestral.length, 1);
   assert.equal(ancestral[0].x, 2048);
   assert.equal(ancestral[0].y, 516);
-  assert.equal(ancestral[0].radiusX, 38);
-  assert.equal(ancestral[0].radiusY, 32);
+  assert.equal(ancestral[0].radiusX, 57);
+  assert.equal(ancestral[0].radiusY, 48);
   assert.throws(() => collisions.register(ISLAND_01_LAYOUT[0]), /Colisão duplicada/);
   collisions.destroy();
 });

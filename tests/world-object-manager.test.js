@@ -34,15 +34,15 @@ function createHarness() {
   return { manager, created, registered, depths };
 }
 
-test('ilha mantém os 127 elementos como imagens estáticas sem processamento por quadro', () => {
-  assert.equal(ISLAND_01_LAYOUT.length, 127);
+test('ilha mantém os 85 elementos como imagens estáticas sem processamento por quadro', () => {
+  assert.equal(ISLAND_01_LAYOUT.length, 85);
   const { manager, created, registered, depths } = createHarness();
   const objects = manager.create(ISLAND_01_LAYOUT);
 
-  assert.equal(objects.length, 127);
-  assert.equal(created.length, 127);
-  assert.equal(registered.length, 127);
-  assert.equal(depths.length, 127);
+  assert.equal(objects.length, 85);
+  assert.equal(created.length, 85);
+  assert.equal(registered.length, 85);
+  assert.equal(depths.length, 85);
 
   for (const image of objects) {
     assert.equal(image.active, false);
