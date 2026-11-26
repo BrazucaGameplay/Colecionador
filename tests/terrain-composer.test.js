@@ -39,7 +39,9 @@ test('shader recorta a ilha no próprio fragmento, sem GeometryMask ou canvas', 
   assert.match(shader, /uniform sampler2D uSmooth/);
   assert.match(shader, /uniform sampler2D uGrass/);
   assert.match(shader, /uniform sampler2D uRelief/);
-  assert.match(shader, /smoothstep\(0\.998, 1\.0, radius\)/);
+  assert.match(shader, /if \(radiusSquared >= 1\.0\) \{\s*discard;/);
+  assert.match(shader, /gl_FragColor = vec4\(terrainColor, 1\.0\)/);
+  assert.doesNotMatch(shader, /islandAlpha|smoothstep\(0\.998/);
   assert.match(shader, /mirroredRepeat/);
   const source = readFileSync(new URL('../src/world/IslandTerrainRenderer.js', import.meta.url), 'utf8');
   for (const legacyCall of ['createGeometryMask(', 'createCanvas(', 'createAlphaMask(', 'add.tileSprite(', 'setMask(']) assert.ok(!source.includes(legacyCall));
