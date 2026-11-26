@@ -1,6 +1,6 @@
 {
   "name": "colecionador",
-  "version": "2.4.67",
+  "version": "2.4.68",
   "private": true,
   "type": "module",
   "packageManager": "npm@11.20.0",
@@ -14,7 +14,9 @@
     "android:init": "npx cap add android",
     "android:open": "npx cap open android",
     "android:sync": "npm run build && npx cap sync android",
-    "test": "node --test"
+    "test": "node --test",
+    "prebuild": "node scripts/validate-tree-layout.mjs",
+    "predev": "node scripts/validate-tree-layout.mjs"
   },
   "dependencies": {
     "phaser": "^4.2.1",

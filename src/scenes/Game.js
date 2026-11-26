@@ -10,7 +10,7 @@ import WorldDepthManager from '../world/WorldDepthManager.js';
 import WorldCollisionManager from '../world/WorldCollisionManager.js';
 import WorldObjectManager from '../world/WorldObjectManager.js';
 import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
-import { filterTreesToIslandLand } from '../world/filter-trees-to-island-land.js';
+import validatedTreeManifest from '../world/map-layout/island-01.validated.json';
 import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
 import ProgressionSystem from '../systems/ProgressionSystem.js';
@@ -64,11 +64,9 @@ export default class Game extends Phaser.Scene {
       depthManager: this.depthManager,
       collisionManager: this.collisionManager
     });
-    const landOnlyTreeLayout = filterTreesToIslandLand(ISLAND_01_LAYOUT, this.navigation, this.textures);
-    this.removedEdgeTreeIds = ISLAND_01_LAYOUT
-      .filter(definition => !landOnlyTreeLayout.includes(definition))
-      .map(definition => definition.id);
-    this.worldObjects = this.worldObjectManager.create(landOnlyTreeLayout);
+    const validatedTreeIds = new Set(validatedTreeManifest.treeIds);
+    const validatedTreeLayout = ISLAND_01_LAYOUT.filter(definition => validatedTreeIds.has(definition.id));
+    this.worldObjects = this.worldObjectManager.create(validatedTreeLayout);
 
     const playerSpawn = this.navigation.findNearestWalkablePoint(centerX, centerY);
     if (!playerSpawn) {
