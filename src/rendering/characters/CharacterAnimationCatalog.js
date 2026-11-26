@@ -1,7 +1,7 @@
 /**
  * Catálogo de animações do protagonista.
- * Os dois GLBs do Release compartilham personagem e esqueleto; cada um
- * fornece um conjunto de clips para a mesma Skin 01.
+ * Os pacotes de animação foram consolidados em atlas PNG/JSON da Skin 01.
+ * O runtime não depende de modelos 3D nem de fontes GLB.
  */
 const pack = (id, file, clip, usage, {
   loop = true, returnToLocomotion = true, priority = 30,

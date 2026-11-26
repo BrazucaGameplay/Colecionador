@@ -418,8 +418,9 @@ DIRECAO VISUAL:
 - Esta direcao pode ser chamada de 2.5D: o visual simula volume 3D,
   mas a base atual permanece Phaser 4.
 - Nao migrar para Three.js ou motor 3D sem prototipo comparativo e
-  justificativa tecnica. A dependencia Three.js no package.json, isoladamente,
-  nao comprova uso no renderizador do jogo.
+  justificativa tecnica. Three.js nao faz parte das dependencias atuais.
+- Os spritesheets finais PNG/JSON sao consumidos diretamente pelo runtime;
+  a antiga ferramenta de bake baseada em GLB foi removida.
 
 ARQUITETURA DE MUNDO A ADOTAR GRADUALMENTE:
 - Catalogo leve de ilhas e metadados.
@@ -477,8 +478,8 @@ CONTRATOS:
   PNG/JSON e recebe apenas direcao, estado de movimento e acoes.
 - O caminho de renderizacao 3D por GLB foi abandonado e removido do runtime.
   Os modelos GLB de personagem e arma nao fazem parte dos assets do jogo.
-- Three.js permanece apenas como dependencia de desenvolvimento da ferramenta
-  offline que gera spritesheets 2D a partir de pacotes-fonte arquivados.
+- Os spritesheets PNG/JSON ja gerados sao os unicos recursos de animacao
+  carregados pelo jogo; nao existe pipeline GLB ativo no repositorio ou CI.
 
 A sequencia de toque curto para destino, arraste para camera e pinch para
 zoom e implementada em TouchInputController. MovementSystem permanece

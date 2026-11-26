@@ -15,7 +15,7 @@ Não será construído um continente contínuo nem um mundo aberto gigantesco. O
 
 A direção escolhida é um mundo com aparência tridimensional: volumes reconhecíveis, relevo, sombras, iluminação, perspectiva isométrica e objetos com profundidade visual. O termo **2.5D** descreve a direção visual pretendida, não uma decisão de migrar imediatamente o jogo para um motor 3D.
 
-O projeto atual usa Phaser 4. A implementação inicial deve privilegiar recursos 2D/isométricos do Phaser (sprites, imagens, camadas, profundidade, sombras e efeitos) e só introduzir renderização 3D/Three.js se um protótipo técnico demonstrar benefício real em qualidade, desempenho e manutenção. A dependência Three.js já presente no package.json não significa que exista integração funcional com o mundo.
+O projeto atual usa Phaser 4. A implementação inicial deve privilegiar recursos 2D/isométricos do Phaser (sprites, imagens, camadas, profundidade, sombras e efeitos) e só introduzir renderização 3D/Three.js se um protótipo técnico demonstrar benefício real em qualidade, desempenho e manutenção. Three.js não faz parte das dependências atuais nem possui integração com o runtime. Sua eventual adoção exige protótipo técnico comparativo.
 
 A ilha deve parecer um ambiente tridimensional construído, e não uma simples imagem plana com objetos colados. Entretanto, o terreno e os objetos podem continuar sendo assets 2D renderizados com perspectiva e iluminação coerentes.
 

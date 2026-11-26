@@ -1907,3 +1907,106 @@ Versão do jogo: 2.4.59
 - Three.js foi movido de dependencies para devDependencies: permanece disponível somente para a ferramenta offline que gera spritesheets 2D a partir dos pacotes-fonte de animação. Não participa do runtime do jogo.
 - Preservados os spritesheets já gerados, seus metadados, CharacterSpriteRenderer, catálogo de animações e validações de âncoras.
 - Os pacotes-fonte GLB de animação publicados historicamente em Releases não são carregados pelo jogo; permanecem apenas como arquivos-fonte arquivados do processo de geração 2D.
+
+
+======================================================================
+AUDITORIA E LIMPEZA ESTRUTURAL — 26/11/2026 — VERSÃO 2.4.75
+======================================================================
+
+ESCOPO E RESULTADO
+- Revisada a branch main, a estrutura recursiva do repositório, os documentos
+  de arquitetura/continuidade, o fluxo de publicação, os sistemas de monstros,
+  os carregadores de assets e as referências cruzadas do código.
+- Removido o pipeline de bake baseado em GLB: workflow bake-characters,
+  script bake-character-sprites e ferramenta tools/character-baker.
+- Removidas as dependências Three.js, Playwright e Playwright Core, que eram
+  utilizadas exclusivamente pelo pipeline de bake removido. Phaser 4 permanece
+  como motor do jogo; Vite e Capacitor permanecem nas dependências.
+- O workflow Deploy deixou de aguardar o workflow de bake e agora é acionado
+  diretamente por pushes válidos na main.
+- Removidos os caminhos de origem GLB dos sete metadados JSON de spritesheets.
+  Os PNG/JSON finais foram preservados sem alteração de quadros ou animações.
+- Atualizado o comentário do catálogo para refletir o runtime exclusivamente
+  baseado em atlas 2D.
+- Removida a lógica de patrulha aleatória não utilizada de
+  MonsterBehaviorController. O comportamento ativo permanece perseguição
+  escalonada; estados idle, visual e dormant continuam sem IA.
+- Removido MonsterManager.getAliveInZone, método sem consumidores; a contagem
+  direta por zona usada pelo spawner permanece intacta.
+- Removida a configuração de patrulha aleatória da definição do slime, pois
+  não havia caminho de execução que a consumisse.
+- Atualizados os documentos de arquitetura e plano para não afirmar que
+  Three.js ou a ferramenta GLB continuam presentes.
+
+RECAP INTEGRAL DO ESTADO DO JOGO
+
+1. Produto e plataforma
+- Implementado: RPG de ação 2D com estética anime, Phaser 4, JavaScript ES
+  modules e Vite; distribuição web pelo GitHub Pages e configuração Capacitor
+  para Android.
+- Parcial/não verificado: preparação nativa para APK/Google Play depende de
+  sincronização, compilação e teste em dispositivo Android real.
+
+2. Mundo e conteúdo
+- Implementado: uma ilha jogável de 4096 x 4096, terreno estático, oceano,
+  objetos ambientais independentes, layout de árvores validado no build,
+  navegação baseada no terreno e cache persistente da grade caminhável.
+- Planejado: catálogo de ilhas, carregador por ilha, pontes/portais e transição
+  com descarregamento da ilha anterior. O mundo ainda não é multi-ilhas.
+
+3. Gameplay
+- Implementado: movimento por toque com destino, arraste da câmera e pinch
+  para zoom; combate de ação, ataque automático, progressão/experiência,
+  atributos, vida/energia e monstros com spawn por zona.
+- Monstros: limite global configurado de 50 slimes; estados de apresentação
+  estática fora das faixas ativas; perseguição em ticks escalonados; combate
+  separado; morte com janela de animação e remoção; sem corpos Arcade próprios.
+- Parcial: conteúdo atual de monstros está concentrado no slime; outras
+  espécies, drops e sistemas de waifus ainda não estão implementados no runtime.
+
+4. Arquitetura
+- Implementado: cenas Boot, Preload, Menu e Game; entidades lógicas Player e
+  Monster; adaptador de corpo do jogador; sistemas separados de movimento,
+  combate, progressão, input, monstros, renderização e mundo.
+- Renderização do protagonista e monstros usa spritesheets/imagens 2D.
+  Nenhum renderizador GLB/Three.js é usado no runtime.
+- Dependências de desenvolvimento agora não incluem Three.js nem Playwright.
+
+5. Assets
+- Implementado: terreno ilha_terreno.webp, oceano seamless WebP, árvores WebP,
+  atlas PNG/JSON do protagonista e WebP de slime. Os sete pares de atlas do
+  protagonista foram mantidos e continuam referenciados pelo catálogo.
+- Removido: pipeline/ferramenta de bake GLB e suas dependências; não foram
+  removidos os spritesheets finais necessários ao jogo.
+
+6. Interface e experiência mobile
+- Implementado: menu, HUD/status do jogador, monitor de desempenho e controles
+  por toque. Zoom configurado em mínimo 0.2x, inicial 0.4x e máximo 0.6x.
+- Parcial/não verificado: responsividade e desempenho final precisam de teste
+  em aparelhos Android de diferentes capacidades e proporções de tela.
+
+7. Build e publicação
+- Implementado: Vite, scripts npm de teste/build, validação de árvores antes
+  de dev/build, workflow Deploy com testes, build, verificação de versão,
+  validação de atlas e integridade dos arquivos publicados.
+- A publicação da versão 2.4.75 depende da execução do workflow disparado pelo
+  commit desta auditoria; não declarar deploy confirmado antes da conclusão.
+
+8. Pendências e riscos
+- Executar e confirmar testes, build, npm audit e deploy para o commit 2.4.75.
+- Medir FPS, CPU, memória e GPU em Android real com 10/25/50 monstros e câmera
+  afastada; a telemetria JavaScript não mede sozinha o custo de GPU.
+- Validar a experiência nativa Android e a persistência em dispositivo real.
+- Implementar a arquitetura multi-ilhas somente quando houver conteúdo e
+  critérios de transição aprovados.
+
+VALIDAÇÃO DE SEGURANÇA DA LIMPEZA
+- Preservados os arquivos PNG/JSON que o Preload e CharacterSpriteRenderer
+  carregam diretamente.
+- Preservados MonsterManager, MonsterFactory, MonsterSpawner, MonsterRenderer,
+  MonsterCombatSystem, MonsterBehaviorController (somente perseguição) e os
+  testes correspondentes.
+- Preservados WorldNavigation, cache da grade, layout/manifesto de árvores,
+  WorldObjectManager, WorldDepthManager e WorldCollisionManager.
+- O build/teste/CI não foi executado localmente neste ambiente; o resultado
+  verificável será o workflow disparado pelo commit da main.

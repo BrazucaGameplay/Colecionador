@@ -1,6 +1,5 @@
 {
   "schema": "colecionador.sprite-atlas.v1",
-  "source": "/Colecionador/assets/characters/skin_01/animation-sources/animacoes_basicas.glb",
   "animation": "Flirty_Strut",
   "fps": 12,
   "frameSize": {

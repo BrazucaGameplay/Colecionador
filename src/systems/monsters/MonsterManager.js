@@ -93,14 +93,6 @@ export default class MonsterManager {
     return count;
   }
 
-  getAliveInZone(zoneId) {
-    const result = [];
-    for (const entry of this.entries.values()) {
-      if (entry.entity.alive && entry.entity.spawnZoneId === zoneId) result.push(entry);
-    }
-    return result;
-  }
-
   getAliveEntities() { return this.targetEntities; }
   getCombatEntries() { return this.combatEntries; }
 
