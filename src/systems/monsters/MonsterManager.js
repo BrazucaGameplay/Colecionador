@@ -99,7 +99,7 @@ export default class MonsterManager {
   damage(id, amount = 1, now = this.scene.time.now, penetration = 0) {
     const entry = this.entries.get(id);
     if (!entry || !entry.entity.alive) return { applied: 0, dead: false };
-    const result = entry.entity.takeDamage(amount, penetration);
+    const result = entry.entity.takeDamage(amount, penetration, now);
     if (!result.dead) {
       entry.renderer.play('attack', now);
       return result;
@@ -133,6 +133,7 @@ export default class MonsterManager {
         continue;
       }
 
+      entry.entity.update(delta, now);
       if (entry.mode === 'pursuit') {
         entry.behavior.pursue(entry.entity, player, delta);
       } else {
