@@ -1325,8 +1325,11 @@ DIAGNÓSTICO:
 CORREÇÕES:
 - A máscara agora usa scene.make.graphics({ add: false }), com círculo
   centrado em (2048, 2048) e raio 2046, aplicado ao único TileSprite.
-- O oceano é um retângulo estático de 16384 x 16384, centrado na ilha.
-  Essa área cobre o alcance de câmera configurado até o zoom mínimo 0.28.
+- O oceano é um retângulo estático de 49152 x 49152, centrado na ilha.
+  Essa área cobre o alcance de câmera configurado até o zoom mínimo 0.08.
+- O zoom mínimo foi reduzido de 0.28 para 0.08 tanto na configuração
+  da câmera quanto no gesto de pinça, permitindo enquadrar a ilha inteira
+  inclusive em telas mobile verticais.
 - O campo de distribuição do terreno usa harmônicos inteiros com período
   exato de 512 pixels nos eixos X e Y.
 - As três texturas de material recebem mistura toroidal das bordas antes
