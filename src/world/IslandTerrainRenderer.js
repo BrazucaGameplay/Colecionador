@@ -65,8 +65,8 @@ varying vec2 outTexCoord;
 
 float ellipseMask(vec2 point, vec2 center, vec2 radius) {
   vec2 delta = (point - center) / radius;
-  float distanceToCenter = length(delta);
-  return 1.0 - smoothstep(0.88, 1.12, distanceToCenter);
+  float distanceSquared = dot(delta, delta);
+  return 1.0 - smoothstep(0.7744, 1.2544, distanceSquared);
 }
 
 vec2 mirroredRepeat(vec2 point) {
@@ -84,15 +84,18 @@ void main() {
 
   // Repetição espelhada evita emendas duras nas bordas das texturas.
   vec2 tileUV = mirroredRepeat(uv * 4.0);
-  vec3 smoothColor = texture2D(uSmooth, tileUV).rgb;
-  vec3 grassColor = texture2D(uGrass, tileUV).rgb;
-  vec3 reliefColor = texture2D(uRelief, tileUV).rgb;
-
   float grassMask = ${buildMaskExpression('grass')};
   float reliefMask = ${buildMaskExpression('relief')};
 
-  vec3 terrainColor = mix(smoothColor, grassColor, grassMask);
-  terrainColor = mix(terrainColor, reliefColor, reliefMask);
+  // Amostra somente o material ativo naquela regiao; a base custa uma
+  // amostra, e os overlays so adicionam leitura onde realmente aparecem.
+  vec3 terrainColor = texture2D(uSmooth, tileUV).rgb;
+  if (grassMask > 0.001) {
+    terrainColor = mix(terrainColor, texture2D(uGrass, tileUV).rgb, grassMask);
+  }
+  if (reliefMask > 0.001) {
+    terrainColor = mix(terrainColor, texture2D(uRelief, tileUV).rgb, reliefMask);
+  }
 
   gl_FragColor = vec4(terrainColor, islandAlpha);
 }
