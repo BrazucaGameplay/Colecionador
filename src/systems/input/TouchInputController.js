@@ -8,10 +8,11 @@ const DEFAULT_TAP_THRESHOLD = 12;
  * It never reads other input devices and never moves the player directly.
  */
 export default class TouchInputController {
-  constructor(scene, { camera, onTap, isUiPointer = () => false, tapThreshold = DEFAULT_TAP_THRESHOLD } = {}) {
+  constructor(scene, { camera, onTap, onPan, isUiPointer = () => false, tapThreshold = DEFAULT_TAP_THRESHOLD } = {}) {
     this.scene = scene;
     this.camera = camera;
     this.onTap = onTap;
+    this.onPan = onPan;
     this.isUiPointer = isUiPointer;
     this.tapThreshold = tapThreshold;
     this.pointers = new Map();
@@ -83,6 +84,7 @@ export default class TouchInputController {
       // O arraste assume temporariamente o controle da câmera.
       this.camera.stopFollow();
       this.gesture.type = 'pan';
+      this.onPan?.();
     }
     this.camera.scrollX -= (pointer.x - this.gesture.lastX) / this.camera.zoom;
     this.camera.scrollY -= (pointer.y - this.gesture.lastY) / this.camera.zoom;
@@ -128,6 +130,7 @@ export default class TouchInputController {
     this.scene = null;
     this.camera = null;
     this.onTap = null;
+    this.onPan = null;
     this.isUiPointer = null;
   }
 }
