@@ -30,11 +30,12 @@ void main(){
  float coastRadius=boundaryRadius(angle);
  const float CORE_RADIUS=1660.0;
 
- // A textura costeira e centrada na linha de espuma; o lado azul fica fora
- // da ilha e o lado verde se sobrepoe ao terreno. 0.70 acompanha a espuma
- // da arte costeira atual; 360 unidades mapeiam a altura completa da imagem.
+ // A imagem fonte tem oceano no topo e grama na base. O upload WebGL
+ // inverte o eixo V; por isso, a costa usa V=.58 na espuma e cresce
+ // para fora da ilha: terra amostra grama, mar amostra oceano.
+ // 360 unidades radiais mapeiam a altura completa da textura.
  float shoreU=fract(angle*.159154943+.5);
- float shoreV=.70-(radiusWorld-coastRadius)/360.0;
+ float shoreV=.58+(radiusWorld-coastRadius)/360.0;
  vec4 shore=vec4(0.0);
  bool shoreInRange=shoreV>=0.0&&shoreV<=1.0;
  if(shoreInRange)shore=texture2D(uShoreline,vec2(shoreU,shoreV));
