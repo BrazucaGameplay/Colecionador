@@ -25,6 +25,28 @@ test('layout da floresta usa dois tipos de árvores, coordenadas fixas e uma anc
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('bush-')));
 });
 
+
+test('as árvores formam exatamente três bosques compactos em regiões distintas', () => {
+  const counts = Object.fromEntries(['grove-west', 'grove-east', 'grove-south'].map(group => [
+    group, ISLAND_01_LAYOUT.filter(item => item.group === group).length
+  ]));
+  assert.deepEqual(counts, { 'grove-west': 11, 'grove-east': 11, 'grove-south': 10 });
+  const centers = Object.entries(counts).map(([group]) => {
+    const trees = ISLAND_01_LAYOUT.filter(item => item.group === group);
+    return {
+      group,
+      x: trees.reduce((sum, tree) => sum + tree.x, 0) / trees.length,
+      y: trees.reduce((sum, tree) => sum + tree.y, 0) / trees.length
+    };
+  });
+  for (let i = 0; i < centers.length; i++) {
+    for (let j = i + 1; j < centers.length; j++) {
+      assert.ok(Math.hypot(centers[i].x - centers[j].x, centers[i].y - centers[j].y) > 900);
+    }
+  }
+});
+
+
 test('estruturas principais deixam a área inicial livre', () => {
   const center = 2048;
   for (const item of ISLAND_01_LAYOUT) {
@@ -40,10 +62,10 @@ test('cada árvore registra colisão fixa do tronco na navegação', () => {
   const collisions = new WorldCollisionManager(navigation);
   for (const item of ISLAND_01_LAYOUT) collisions.register(item);
   assert.equal(obstacles.length, ISLAND_01_LAYOUT.length);
-  const ancestral = collisions.registrations.filter(item => item.id === 'tree-ancestral-nw');
+  const ancestral = collisions.registrations.filter(item => item.id === 'tree-ancestral-north');
   assert.equal(ancestral.length, 1);
-  assert.equal(ancestral[0].x, 700);
-  assert.equal(ancestral[0].y, 698);
+  assert.equal(ancestral[0].x, 2048);
+  assert.equal(ancestral[0].y, 516);
   assert.equal(ancestral[0].radiusX, 31);
   assert.equal(ancestral[0].radiusY, 25);
   assert.throws(() => collisions.register(ISLAND_01_LAYOUT[0]), /Colisão duplicada/);
