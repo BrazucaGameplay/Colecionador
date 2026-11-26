@@ -112,8 +112,8 @@ export default class Game extends Phaser.Scene {
       player: this.player,
       movement: this.movement,
       getTargets: () => this.monsterManager?.getAliveEntities() || [],
-      onAttack: (target, damage, now, penetration) => {
-        this.characterRenderer?.playAction('combat');
+      onAttack: (target, damage, now, penetration, attackIntervalMs) => {
+        this.characterRenderer?.playAction('combat', { durationMs: attackIntervalMs });
         this.monsterManager?.damage(target.id, damage, now, penetration);
       }
     });
