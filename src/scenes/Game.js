@@ -9,8 +9,6 @@ import WorldNavigation from '../world/WorldNavigation.js';
 import WorldDepthManager from '../world/WorldDepthManager.js';
 import WorldCollisionManager from '../world/WorldCollisionManager.js';
 import WorldObjectManager from '../world/WorldObjectManager.js';
-import { createIslandTerrain } from '../world/IslandTerrainRenderer.js';
-import { ISLAND_SHAPE } from '../world/IslandShape.js';
 import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
 import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
@@ -181,17 +179,56 @@ export default class Game extends Phaser.Scene {
    * Os três materiais são escolhidos por regiões fixas, não por RNG.
    */
   createGround() {
-    this.terrain = createIslandTerrain(this, {
-      diameter: this.worldWidth,
-      smoothKey: 'terrain-smooth',
-      grassKey: 'terrain-grass',
-      reliefKey: 'terrain-relief'
+    const texture = this.textures.get('island-terrain');
+    const source = texture?.getSourceImage?.();
+    if (!source?.width || !source?.height) {
+      throw new Error('A imagem principal da ilha não foi carregada.');
+    }
+
+    // Um único Image estático representa todo o terreno; a textura original
+    // permanece na resolução WebP e é dimensionada apenas no espaço do mundo.
+    this.groundObject = this.add.image(
+      this.worldWidth / 2,
+      this.worldHeight / 2,
+      'island-terrain'
+    ).setOrigin(0.5).setDisplaySize(this.worldWidth, this.worldHeight).setDepth(-1000).setActive(false);
+
+    this.terrain = Object.freeze({
+      object: this.groundObject,
+      mode: 'single-image',
+      textureKey: 'island-terrain',
+      sourceWidth: source.width,
+      sourceHeight: source.height
     });
-    this.groundObject = this.terrain.object;
   }
 
   createIslandWalkableMask() {
-    this.navigation.setIslandMask(ISLAND_SHAPE.centerX, ISLAND_SHAPE.centerY, ISLAND_SHAPE);
+    const source = this.textures.get('island-terrain')?.getSourceImage?.();
+    if (!source?.width || !source?.height) {
+      throw new Error('Não foi possível gerar a navegação: imagem da ilha indisponível.');
+    }
+
+    // Máscara de navegação reduzida: resolução suficiente para a grade de
+    // 24 unidades, sem manter uma cópia RGBA de 1254² na memória do jogo.
+    const maskSize = Math.min(1024, source.width, source.height);
+    const canvas = document.createElement('canvas');
+    canvas.width = maskSize;
+    canvas.height = maskSize;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    if (!context) throw new Error('Não foi possível criar a máscara alfa da ilha.');
+
+    try {
+      context.clearRect(0, 0, maskSize, maskSize);
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = 'high';
+      context.drawImage(source, 0, 0, maskSize, maskSize);
+      const pixels = context.getImageData(0, 0, maskSize, maskSize).data;
+      this.navigation.setAlphaMask(pixels, maskSize, maskSize, 160);
+    } finally {
+      // Libera o backing store do canvas após a grade caminhável ser criada.
+      canvas.width = 0;
+      canvas.height = 0;
+    }
   }
 
 
