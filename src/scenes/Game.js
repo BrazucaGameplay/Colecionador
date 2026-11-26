@@ -19,7 +19,7 @@ import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 import { ISLAND_SHAPE } from '../world/IslandShape.js';
 
-const CAMERA_ZOOM = Object.freeze({ max: 2.25, default: 0.1 });
+const CAMERA_ZOOM = Object.freeze({ min: 0.4, max: 2.25, default: 0.8 });
 const CAMERA_FOLLOW_LERP = 0.06;
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 const ISLAND_DIAMETER = 4096;
@@ -164,16 +164,7 @@ export default class Game extends Phaser.Scene {
   }
 
   getMinimumCameraZoom() {
-    const bounds = this.oceanBounds;
-    if (!this.camera || !bounds) return 0.08;
-    // O zoom mínimo enquadra a área-base do oceano, não todo o buffer
-    // externo. Assim sobra mar dentro dos limites da câmera para arrastar
-    // mesmo no maior afastamento.
-    return Math.min(
-      CAMERA_ZOOM.max,
-      this.camera.width / (bounds.width / OCEAN_PAN_BUFFER_FACTOR),
-      this.camera.height / (bounds.height / OCEAN_PAN_BUFFER_FACTOR)
-    );
+    return CAMERA_ZOOM.min;
   }
 
   clampCameraToWorld() {
@@ -297,11 +288,11 @@ export default class Game extends Phaser.Scene {
     // A dimensão maior cresce para acompanhar o formato da tela.
     const width = Math.max(
       (aspect >= 1 ? baseDiameter * aspect : baseDiameter) * OCEAN_PAN_BUFFER_FACTOR,
-      viewWidth / CAMERA_ZOOM.default * OCEAN_PAN_BUFFER_FACTOR
+      viewWidth / CAMERA_ZOOM.min * OCEAN_PAN_BUFFER_FACTOR
     );
     const height = Math.max(
       (aspect >= 1 ? baseDiameter : baseDiameter / aspect) * OCEAN_PAN_BUFFER_FACTOR,
-      viewHeight / CAMERA_ZOOM.default * OCEAN_PAN_BUFFER_FACTOR
+      viewHeight / CAMERA_ZOOM.min * OCEAN_PAN_BUFFER_FACTOR
     );
     this.oceanBounds = Object.freeze({
       x: ISLAND_SHAPE.centerX - width / 2,

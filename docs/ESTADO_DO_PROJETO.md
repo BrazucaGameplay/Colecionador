@@ -1758,3 +1758,19 @@ Versão do jogo: 2.4.52
 - Terreno, mundo jogável 4096 x 4096, árvores e estruturas permanecem
   inalterados.
 - Testes/build/publicação devem ser confirmados pelo CI.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — ZOOM INICIAL 0.8X E MÍNIMO 0.4X
+======================================================================
+
+Versão do jogo: 2.4.53
+
+- Zoom inicial fixado em 0.8x.
+- Zoom mínimo fixado em 0.4x.
+- Zoom máximo preservado em 2.25x.
+- O oceano e seu buffer de arraste são dimensionados usando o zoom mínimo
+  de 0.4x, evitando revelar o fundo ao afastar até esse limite.
+- Terreno, mundo jogável 4096 x 4096, árvores e estruturas permanecem
+  inalterados.
+- Testes/build/publicação devem ser confirmados pelo CI.
