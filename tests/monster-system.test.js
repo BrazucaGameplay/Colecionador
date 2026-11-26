@@ -2,8 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import Monster from '../src/entities/Monster.js';
 import MonsterSpawner from '../src/systems/monsters/MonsterSpawner.js';
-import { MONSTER_ACTIVE_DISTANCE_METERS, MONSTER_ACTIVE_DISTANCE_WORLD_UNITS, WORLD_UNITS_PER_METER } from '../src/config.js';
-import { isWithinMonsterActivationRange } from '../src/systems/monsters/MonsterManager.js';
+import { PLAYER_ATTACK_RANGE_METERS, PLAYER_ATTACK_RANGE_WORLD_UNITS, WORLD_UNITS_PER_METER, MONSTER_PURSUIT_DISTANCE_METERS, MONSTER_IDLE_DISTANCE_METERS, MONSTER_PURSUIT_DISTANCE_WORLD_UNITS, MONSTER_IDLE_DISTANCE_WORLD_UNITS } from '../src/config.js';
+import { getMonsterBehaviorMode } from '../src/systems/monsters/MonsterManager.js';
+import MonsterBehaviorController from '../src/systems/monsters/MonsterBehaviorController.js';
 import { MONSTER_DEFINITIONS } from '../src/data/monsters/index.js';
 import { ISLAND_01_MONSTER_SPAWNS } from '../src/world/spawn-layout/island-01.js';
 const definition = { id: 'test-monster', maxHealth: 2, speed: 20, defense: 0, collision: { radius: 8 }, behavior: { moveChance: 1, decisionMinMs: 500, decisionMaxMs: 500 } };
@@ -102,16 +103,40 @@ test('Spawner não cria monstro sobre área bloqueada e agenda nova tentativa', 
   spawner.update(0); spawner.update(49); assert.equal(attempts, 0); spawner.update(50); assert.equal(attempts, 0);
 });
 
-test('distância de ativação equivale a 50 m na escala do alcance de ataque de 2 m', () => {
+test('escala fixa: ataque 2 m, perseguição 10 m e ociosidade até 30 m', () => {
   assert.equal(WORLD_UNITS_PER_METER, 75);
-  assert.equal(MONSTER_ACTIVE_DISTANCE_METERS, 50);
-  assert.equal(MONSTER_ACTIVE_DISTANCE_WORLD_UNITS, 3750);
+  assert.equal(PLAYER_ATTACK_RANGE_METERS, 2);
+  assert.equal(PLAYER_ATTACK_RANGE_WORLD_UNITS, 150);
+  assert.equal(MONSTER_PURSUIT_DISTANCE_METERS, 10);
+  assert.equal(MONSTER_IDLE_DISTANCE_METERS, 30);
+  assert.equal(MONSTER_PURSUIT_DISTANCE_WORLD_UNITS, 750);
+  assert.equal(MONSTER_IDLE_DISTANCE_WORLD_UNITS, 2250);
 });
 
-test('monstro permanece ativo até 50 m e fica fora da simulação acima desse limite', () => {
+test('faixas de distância aplicam combate, perseguição, ociosidade e visual-only nos limites exatos', () => {
   const player = { x: 100, y: 200 };
-  assert.equal(isWithinMonsterActivationRange(player, { x: 3850, y: 200 }), true);
-  assert.equal(isWithinMonsterActivationRange(player, { x: 3850.01, y: 200 }), false);
-  assert.equal(isWithinMonsterActivationRange(player, { x: 100, y: 3950 }), true);
-  assert.equal(isWithinMonsterActivationRange(player, { x: 100, y: 3950.01 }), false);
+  const modeAt = distance => getMonsterBehaviorMode(player, { x: player.x + distance, y: player.y });
+  assert.equal(modeAt(0), 'combat');
+  assert.equal(modeAt(150), 'combat');
+  assert.equal(modeAt(150.01), 'pursuit');
+  assert.equal(modeAt(750), 'pursuit');
+  assert.equal(modeAt(750.01), 'idle');
+  assert.equal(modeAt(2250), 'idle');
+  assert.equal(modeAt(2250.01), 'visual');
+});
+
+test('perseguição move o monstro na direção do jogador e respeita navegação', () => {
+  const monster = new Monster({ id: 'chaser', speciesId: 'test-monster', x: 100, y: 100, definition, spawnZoneId: 'test-zone' });
+  const behavior = new MonsterBehaviorController({
+    navigation: { isAreaWalkable: () => true },
+    zone: { x: 100, y: 100, radius: 1000 },
+    definition,
+    random: () => 0
+  });
+  assert.equal(behavior.pursue(monster, { x: 200, y: 100 }, 50), true);
+  assert.ok(monster.x > 100);
+  assert.equal(monster.y, 100);
+  assert.equal(monster.moving, true);
+  behavior.stop(monster);
+  assert.equal(monster.moving, false);
 });
