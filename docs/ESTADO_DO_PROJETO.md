@@ -1135,7 +1135,7 @@ FIM DA ATUALIZACAO 15
 
 VERSÃO:
 - Versão anterior: 2.2.3.
-- Nova versão: 2.2.5.
+- Nova versão: 2.2.6.
 - package.json e package-lock.json sincronizados.
 
 ATRIBUTOS:
@@ -1190,3 +1190,10 @@ VALIDAÇÃO:
   localmente nesta sessão.
 - Build, workflow GitHub Actions, deploy e validação visual no Android
   ainda precisam ser confirmados.
+
+
+VALIDAÇÃO ADICIONAL — 26/11/2026:
+- A primeira execução do workflow detectou um teste frágil por comparação
+  exata de ponto flutuante na regeneração de energia (1.2000000000000002
+  versus 1.2). A asserção foi corrigida para usar tolerância numérica.
+- Versão atualizada para 2.2.6; aguardando nova execução completa do CI.
