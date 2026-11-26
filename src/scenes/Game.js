@@ -19,6 +19,7 @@ import PerformanceMonitor from '../ui/PerformanceMonitor.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 import { ISLAND_SHAPE } from '../world/IslandShape.js';
+import { getTerrainContentHash, readWalkableGrid, writeWalkableGrid, WALKABLE_GRID_ALGORITHM_VERSION } from '../world/WalkableGridCache.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.2, max: 0.6, default: 0.4 });
 const CAMERA_FOLLOW_LERP = 0.06;
@@ -39,7 +40,8 @@ export default class Game extends Phaser.Scene {
     this.terrain = null;
   }
 
-  create() {
+  async create() {
+    this.initialized = false;
     this.savedProgress = this.readSavedProgress();
     this.score = Math.max(0, Number(this.savedProgress.score) || 0);
 
@@ -55,7 +57,7 @@ export default class Game extends Phaser.Scene {
     this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
     this.createOceanBackground();
     this.createGround();
-    this.createIslandWalkableMask();
+    await this.createIslandWalkableMask();
     this.depthManager = new WorldDepthManager();
     this.collisionManager = new WorldCollisionManager(this.navigation);
     this.worldObjectManager = new WorldObjectManager(this, {
@@ -163,6 +165,7 @@ export default class Game extends Phaser.Scene {
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this._cooldown = 0;
+    this.initialized = true;
   }
 
   getMinimumCameraZoom() {
@@ -252,15 +255,42 @@ export default class Game extends Phaser.Scene {
     });
   }
 
-  createIslandWalkableMask() {
+  async createIslandWalkableMask() {
     const source = this.textures.get('island-terrain')?.getSourceImage?.();
     if (!source?.width || !source?.height) {
       throw new Error('Não foi possível gerar a navegação: imagem da ilha indisponível.');
     }
 
-    // Máscara de navegação reduzida: resolução suficiente para a grade de
-    // 24 unidades, sem manter uma cópia RGBA de 1254² na memória do jogo.
     const maskSize = Math.min(1024, source.width, source.height);
+    const threshold = 160;
+    const terrainUrl = import.meta.env.BASE_URL +
+      'assets/world/terrain/ilha_terreno.webp?v=20261126-ocean-seamless-512-v36';
+    const terrainHash = await getTerrainContentHash(terrainUrl);
+    const cacheId = terrainHash
+      ? [
+          'island-walkable',
+          'island-geometry-v1',
+          'grid-algorithm-' + WALKABLE_GRID_ALGORITHM_VERSION,
+          this.worldWidth + 'x' + this.worldHeight,
+          this.navigation.cols + 'x' + this.navigation.rows,
+          'cell-24',
+          'mask-' + maskSize,
+          'alpha-' + threshold,
+          'inset-14',
+          terrainHash
+        ].join(':')
+      : null;
+
+    if (cacheId) {
+      const cachedGrid = await readWalkableGrid(cacheId, this.navigation.cols * this.navigation.rows);
+      if (cachedGrid) {
+        this.navigation.setWalkableGrid(cachedGrid);
+        this.walkableGridCacheStatus = 'hit';
+        return;
+      }
+    }
+
+    // Cache ausente/inválido: gera a máscara exatamente pelo processo atual.
     const canvas = document.createElement('canvas');
     canvas.width = maskSize;
     canvas.height = maskSize;
@@ -273,14 +303,17 @@ export default class Game extends Phaser.Scene {
       context.imageSmoothingQuality = 'high';
       context.drawImage(source, 0, 0, maskSize, maskSize);
       const pixels = context.getImageData(0, 0, maskSize, maskSize).data;
-      this.navigation.setAlphaMask(pixels, maskSize, maskSize, 160);
+      this.navigation.setAlphaMask(pixels, maskSize, maskSize, threshold);
     } finally {
-      // Libera o backing store do canvas após a grade caminhável ser criada.
       canvas.width = 0;
       canvas.height = 0;
     }
-  }
 
+    this.walkableGridCacheStatus = 'rebuilt';
+    this.walkableGridCacheSaved = cacheId
+      ? await writeWalkableGrid(cacheId, this.navigation.walkableGrid)
+      : false;
+  }
 
   /**
    * Oceano estático contínuo sob a ilha. A área é maior que os limites de
@@ -361,6 +394,7 @@ export default class Game extends Phaser.Scene {
 
 
   update(time, delta = 16.67) {
+    if (!this.initialized) return;
     const updateStartedAt = performance.now();
     if (!this.player?.alive) {
       this.movement?.clearDestination();
