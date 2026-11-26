@@ -74,14 +74,19 @@ test('oceano usa a textura WebP de referencia e TileSprite estático', () => {
 });
 
 
-test('margem costeira usa faixa circular pré-renderizada sem processamento por frame', () => {
+test('margem costeira usa a textura WebP no mesmo shader da ilha', () => {
   const game = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
   const preload = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
-  const shoreline = readFileSync(new URL('../public/assets/world/terrain/island-shoreline.png', import.meta.url));
-  assert.match(game, /createIslandShoreline\(\)/);
-  assert.match(game, /'island-shoreline'/);
-  assert.match(game, /setDisplaySize\(ISLAND_DIAMETER \* 1\.03125/);
-  assert.match(game, /shorelineObject\?\.destroy\(\)/);
-  assert.ok(preload.includes('island-shoreline.png'));
-  assert.equal(shoreline.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+  const shaderSource = readFileSync(new URL('../src/world/IslandTerrainRenderer.js', import.meta.url), 'utf8');
+  const shoreline = readFileSync(new URL('../public/assets/world/terrain/island-shoreline.webp', import.meta.url));
+  assert.match(game, /shorelineKey: 'island-shoreline'/);
+  assert.doesNotMatch(game, /createIslandShoreline|shorelineObject/);
+  assert.ok(preload.includes('island-shoreline.webp'));
+  assert.match(shaderSource, /uniform sampler2D uShoreline/);
+  assert.match(shaderSource, /const float LAND_RADIUS = 0\.8/);
+  assert.match(shaderSource, /float shoreU = fract\(angle \* 0\.636619772/);
+  assert.match(shaderSource, /uShoreline: 3/);
+  assert.equal(shoreline.toString('ascii', 0, 4), 'RIFF');
+  assert.equal(shoreline.toString('ascii', 8, 12), 'WEBP');
+  assert.ok(shoreline.length > 20000, 'textura costeira deve preservar detalhe');
 });

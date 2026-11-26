@@ -61,6 +61,7 @@ precision mediump float;
 uniform sampler2D uSmooth;
 uniform sampler2D uGrass;
 uniform sampler2D uRelief;
+uniform sampler2D uShoreline;
 varying vec2 outTexCoord;
 
 float ellipseMask(vec2 point, vec2 center, vec2 radius) {
@@ -75,23 +76,31 @@ vec2 mirroredRepeat(vec2 point) {
 }
 
 void main() {
-  vec2 uv = outTexCoord;
-  vec2 centered = (uv - vec2(0.5)) * 2.0;
-  float radiusSquared = dot(centered, centered);
+  vec2 centered = (outTexCoord - vec2(0.5)) * 2.0;
+  float radius = length(centered);
+  const float LAND_RADIUS = 0.8;
 
-  // Descarta o fragmento fora do disco. Não depende de alpha blending:
-  // a GPU não escreve nenhum pixel externo e revela o oceano diretamente.
-  if (radiusSquared >= 1.0) {
-    discard;
+  // O mesmo shader desenha a ilha e sua margem. A margem ocupa o anel
+  // externo; nao ha segundo Game Object nem geometria costeira adicional.
+  if (radius > 1.0) discard;
+
+  if (radius > LAND_RADIUS) {
+    float angle = atan(centered.y, centered.x);
+    // Quatro repeticoes angulares reduzem o estiramento ao longo da costa.
+    float shoreU = fract(angle * 0.636619772 + 0.5);
+    float shoreV = 1.0 - clamp((radius - LAND_RADIUS) / (1.0 - LAND_RADIUS), 0.0, 1.0);
+    vec3 shoreColor = texture2D(uShoreline, vec2(shoreU, shoreV)).rgb;
+    float edgeAlpha = 1.0 - smoothstep(0.94, 1.0, radius);
+    gl_FragColor = vec4(shoreColor, edgeAlpha);
+    return;
   }
 
-  // Repetição espelhada evita emendas duras nas bordas das texturas.
+  // Converte a area interna do shader expandido para UVs circulares da ilha.
+  vec2 uv = centered / (2.0 * LAND_RADIUS) + vec2(0.5);
   vec2 tileUV = mirroredRepeat(uv * 4.0);
   float grassMask = ${buildMaskExpression('grass')};
   float reliefMask = ${buildMaskExpression('relief')};
 
-  // Amostra somente o material ativo naquela regiao; a base custa uma
-  // amostra, e os overlays so adicionam leitura onde realmente aparecem.
   vec3 terrainColor = texture2D(uSmooth, tileUV).rgb;
   if (grassMask > 0.001) {
     terrainColor = mix(terrainColor, texture2D(uGrass, tileUV).rgb, grassMask);
@@ -109,7 +118,8 @@ export function createIslandTerrain(scene, {
   diameter = 4096,
   smoothKey = 'terrain-smooth',
   grassKey = 'terrain-grass',
-  reliefKey = 'terrain-relief'
+  reliefKey = 'terrain-relief',
+  shorelineKey = 'island-shoreline'
 } = {}) {
   const renderer = scene.sys.game.renderer;
 
@@ -120,9 +130,10 @@ export function createIslandTerrain(scene, {
       initialUniforms: {
         uSmooth: 0,
         uGrass: 1,
-        uRelief: 2
+        uRelief: 2,
+        uShoreline: 3
       }
-    }, 0, 0, diameter, diameter, [smoothKey, grassKey, reliefKey])
+    }, -(diameter * 0.125), -(diameter * 0.125), diameter * 1.25, diameter * 1.25, [smoothKey, grassKey, reliefKey, shorelineKey])
       .setOrigin(0, 0)
       .setDepth(-1000);
 

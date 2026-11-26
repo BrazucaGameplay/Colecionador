@@ -1495,3 +1495,29 @@ VALIDACAO:
 - Memoria RGBA teorica da textura decodificada: cerca de 256 KiB
   (256 x 256 x 4), mais overhead do navegador.
 - Versao: 2.4.4.
+
+
+======================================================================
+28. MARGEM COSTEIRA INTEGRADA AO SHADER (26/11/2026)
+======================================================================
+
+- A revisao da captura Android mostrou que a faixa costeira anterior estava
+  com baixa resolucao e era ampliada por um Game Object independente. A
+  imagem apresentava degraus/faixas e nao preservava o detalhe da referencia.
+- Removido o PNG indexado de 256 x 256 e removida a imagem costeira separada
+  da cena. Nao existe mais shorelineObject nem draw call adicional.
+- A referencia original foi recortada para manter oceano, espuma e grama,
+  corrigida para repeticao horizontal e convertida em WebP 512 x 256,
+  qualidade 86. Arquivo: island-shoreline.webp.
+- O shader principal agora desenha o disco da ilha e o anel costeiro
+  exterior na mesma chamada, com uma quarta textura amostrada apenas
+  nos fragmentos da margem.
+- O raio da ilha permanece 4096 unidades de diametro. A area do shader
+  cresce para 5120 x 5120, com o anel costeiro ocupando 512 unidades radiais.
+- A textura e mapeada por angulo e distancia ao centro, com quatro repeticoes
+  ao redor da circunferencia. A margem acompanha a curvatura sem canvas,
+  mascara, sprites extras, fisica ou atualizacao por frame.
+- Custo estimado da textura WebP: 26.992 bytes; memoria RGBA decodificada:
+  512 KiB. O custo de fragmentos aumenta apenas na area do anel costeiro;
+  a cena continua com um unico objeto shader para terreno e margem.
+- Versao: 2.4.5.
