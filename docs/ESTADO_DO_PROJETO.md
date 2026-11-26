@@ -1774,3 +1774,18 @@ Versão do jogo: 2.4.53
 - Terreno, mundo jogável 4096 x 4096, árvores e estruturas permanecem
   inalterados.
 - Testes/build/publicação devem ser confirmados pelo CI.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — CORREÇÃO DOS TESTES DO BUFFER DO OCEANO
+======================================================================
+
+Versão do jogo: 2.4.54
+
+- Corrigido o teste de regressão do buffer do oceano: ele ainda esperava
+  o cálculo antigo baseado em bounds.width / OCEAN_PAN_BUFFER_FACTOR.
+- O cálculo atual dimensiona o oceano a partir do viewport dividido pelo
+  zoom mínimo configurado (0.4), multiplicado pelo buffer de 1.35.
+- O teste agora valida o cálculo atual, o zoom mínimo fixo e a margem.
+- Valores mantidos: zoom inicial 0.8x, mínimo 0.4x e máximo 2.25x.
+- Nenhuma lógica de jogo ou asset foi alterado nesta correção.

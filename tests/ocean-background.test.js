@@ -48,8 +48,9 @@ test('oceano permanece em um único TileSprite, sem processamento por frame', ()
 test('limites visuais do oceano reservam espaço para arraste no zoom mínimo', () => {
   const game = read('../src/scenes/Game.js');
   assert.match(game, /const OCEAN_PAN_BUFFER_FACTOR = 1\.35/);
-  assert.match(game, /bounds\.width \/ OCEAN_PAN_BUFFER_FACTOR/);
-  assert.match(game, /bounds\.height \/ OCEAN_PAN_BUFFER_FACTOR/);
+  assert.match(game, /viewWidth \/ CAMERA_ZOOM\.min \* OCEAN_PAN_BUFFER_FACTOR/);
+  assert.match(game, /viewHeight \/ CAMERA_ZOOM\.min \* OCEAN_PAN_BUFFER_FACTOR/);
+  assert.match(game, /return CAMERA_ZOOM\.min/);
   assert.match(game, /\* OCEAN_PAN_BUFFER_FACTOR/);
 });
 
