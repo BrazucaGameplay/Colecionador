@@ -145,6 +145,8 @@ export default class Game extends Phaser.Scene {
   createHudCamera() {
     // A HUD é renderizada por uma segunda câmera sem zoom nem scroll do mundo.
     this.uiCamera = this.cameras.add(0, 0, this.scale.width, this.scale.height, false);
+    this.uiCamera.setZoom(1).setScroll(0, 0);
+    this.uiCamera.roundPixels = true;
     this.camera.ignore(this.statusUI.uiLayer);
     this.uiCamera.ignore(this.children.list.filter(child => child !== this.statusUI.uiLayer));
     this.scale.on('resize', this.resizeHudCamera, this);
