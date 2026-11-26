@@ -203,12 +203,25 @@ export default class Game extends Phaser.Scene {
    */
   createOceanBackground() {
     const oceanSize = ISLAND_DIAMETER * 12;
+    // Tile 2x2 espelhado: as bordas coincidem e eliminam emendas na repetição.
+    const source = this.textures.get('ocean-pattern').getSourceImage();
+    const tileWidth = source.width;
+    const tileHeight = source.height;
+    const seamlessKey = 'ocean-pattern-seamless';
+    if (!this.textures.exists(seamlessKey)) {
+      const seamless = this.textures.createCanvas(seamlessKey, tileWidth * 2, tileHeight * 2);
+      const context = seamless.getContext();
+      context.drawImage(source, 0, 0, tileWidth, tileHeight);
+      context.save(); context.translate(tileWidth * 2, 0); context.scale(-1, 1);
+      context.drawImage(source, 0, 0, tileWidth, tileHeight); context.restore();
+      context.save(); context.translate(0, tileHeight * 2); context.scale(1, -1);
+      context.drawImage(source, 0, 0, tileWidth, tileHeight); context.restore();
+      context.save(); context.translate(tileWidth * 2, tileHeight * 2); context.scale(-1, -1);
+      context.drawImage(source, 0, 0, tileWidth, tileHeight); context.restore();
+      seamless.refresh();
+    }
     this.oceanBackground = this.add.tileSprite(
-      ISLAND_RADIUS,
-      ISLAND_RADIUS,
-      oceanSize,
-      oceanSize,
-      'ocean-pattern'
+      ISLAND_RADIUS, ISLAND_RADIUS, oceanSize, oceanSize, seamlessKey
     ).setOrigin(0.5).setDepth(-1200);
   }
 
