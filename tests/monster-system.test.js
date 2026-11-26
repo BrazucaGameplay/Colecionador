@@ -180,3 +180,50 @@ test('CombatSystem ataca somente dentro de 2 m e detecta alvos ate 10 m', () => 
   assert.equal(combat.selectTarget(), null);
   combat.destroy();
 });
+
+
+import Player from '../src/entities/Player.js';
+import MonsterCombatSystem from '../src/systems/monsters/MonsterCombatSystem.js';
+
+test('monstros recebem cópia independente do mesmo esquema de status do jogador, todos em 1', () => {
+  const monster = new Monster({ id: 'stats-1', speciesId: 'test-monster', x: 0, y: 0, definition, spawnZoneId: 'test-zone' });
+  assert.deepEqual(monster.stats, {
+    attack: 1, defense: 1, penetration: 1, attackSpeed: 1,
+    movementSpeed: 1, maxHealth: 1, maxEnergy: 1,
+    healthRegen: 1, energyRegen: 1
+  });
+  assert.equal(monster.maxHealth, 1);
+  assert.equal(monster.health, 1);
+  assert.notEqual(monster.stats, Player.prototype.stats);
+});
+
+test('MonsterCombatSystem ataca a 2 m, respeita cooldown de 1 ataque/s e usa penetração', () => {
+  const player = new Player({ x: 0, y: 0 });
+  const monster = new Monster({ id: 'attacker-1', speciesId: 'test-monster', x: 150, y: 0, definition, spawnZoneId: 'test-zone' });
+  const entry = { entity: monster, mode: 'combat', renderer: { playCalls: 0, play() { this.playCalls += 1; } } };
+  const combat = new MonsterCombatSystem({ player, getAttackers: () => [entry] });
+
+  combat.update(0);
+  assert.equal(player.health, 99);
+  assert.equal(entry.renderer.playCalls, 1);
+  combat.update(999);
+  assert.equal(player.health, 99);
+  combat.update(1000);
+  assert.equal(player.health, 98);
+  assert.equal(entry.renderer.playCalls, 2);
+
+  monster.x = 151;
+  combat.update(2000);
+  assert.equal(player.health, 98);
+  combat.destroy();
+});
+
+test('dano recebido pelo jogador considera penetração sem alterar os status do atacante', () => {
+  const player = new Player({ x: 0, y: 0, saveData: { stats: { defense: 2 } } });
+  const blocked = player.takeDamage(1, 0, 1);
+  assert.equal(blocked.applied, 0);
+  const penetrated = player.takeDamage(2, 10, 1);
+  assert.equal(penetrated.applied, 1);
+  assert.equal(player.health, 99);
+  assert.equal(player.stats.defense, 2);
+});
