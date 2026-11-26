@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import WorldDepthManager from '../src/world/WorldDepthManager.js';
 import { ISLAND_01_LAYOUT } from '../src/world/map-layout/island-01.js';
 
@@ -133,7 +134,7 @@ test('o ataque alterna ciclicamente entre os três movimentos de combate', () =>
 
 
 test('ações de combate compensam a escala menor dos atlas sem alterar a escala base', () => {
-  const source = require('node:fs').readFileSync(new URL('../src/rendering/characters/CharacterSpriteRenderer.js', import.meta.url), 'utf8');
+  const source = readFileSync(new URL('../src/rendering/characters/CharacterSpriteRenderer.js', import.meta.url), 'utf8');
   assert.match(source, /this\.actionScaleMultiplier = 1\.35/);
   assert.match(source, /setScale\(this\.baseScale \* this\.actionScaleMultiplier\)/);
   assert.match(source, /setScale\(this\.baseScale\)/);
