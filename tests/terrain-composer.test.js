@@ -19,7 +19,7 @@ test('Preload carrega a textura única do terreno e mantém oceano e vegetação
   assert.match(preload, /ocean-pattern-seamless-512\.webp/);
   assert.match(preload, /tree-forest-broad/);
   assert.doesNotMatch(preload, /Terreno_liso|Terreno_moita|Terreno_relevo/);
-  assert.match(preload, /ocean-original-v/);
+  assert.match(preload, /ocean-seamless-512-v/);
 });
 
 test('Navegação continua usando máscara alfa pré-calculada, sem leitura por frame', () => {
