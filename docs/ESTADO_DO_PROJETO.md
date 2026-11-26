@@ -848,3 +848,17 @@ VALIDAÇÃO:
 - Zoom por pinça continua aplicado somente à câmera do mundo.
 - Versão anterior: 2.1.3. Nova versão: 2.1.4.
 - package.json e package-lock.json sincronizados em 2.1.4.
+
+
+======================================================================
+22. SINCRONIZAÇÃO DA ANIMAÇÃO COM O COOLDOWN DE ATAQUE — 25/11/2026
+======================================================================
+- CombatSystem calcula o intervalo real do próximo ataque (1000 / APS)
+  e o envia junto com o evento de ataque.
+- CharacterSpriteRenderer recebe esse intervalo como duração do clip
+  Phaser, fazendo a animação completar no mesmo tempo do cooldown.
+- Cada golpe reinicia a animação no primeiro quadro, inclusive quando
+  o novo golpe usa a mesma ação/prioridade ou outra variante de combate.
+- A sequência visual continua alternando as variantes já cadastradas.
+- Versão anterior: 2.1.4. Nova versão: 2.1.5.
+- package.json e package-lock.json sincronizados em 2.1.5.
