@@ -20,8 +20,9 @@ test('oceano mantém a margem costeira e expande a dimensão maior para a propor
   assert.match(game, /const OCEAN_RADIUS = ISLAND_SHAPE\.baseRadius \+ OCEAN_MARGIN/);
   assert.match(method, /const baseDiameter = OCEAN_RADIUS \* 2/);
   assert.match(method, /const aspect = Math\.max\(0\.1, viewWidth \/ Math\.max\(1, viewHeight\)\)/);
-  assert.match(method, /aspect >= 1 \? baseDiameter \* aspect : baseDiameter/);
-  assert.match(method, /aspect >= 1 \? baseDiameter : baseDiameter \/ aspect/);
+  assert.match(method, /viewWidth \/ CAMERA_ZOOM\.default \* OCEAN_PAN_BUFFER_FACTOR/);
+  assert.match(method, /viewHeight \/ CAMERA_ZOOM\.default \* OCEAN_PAN_BUFFER_FACTOR/);
+  assert.match(method, /Math\.max\(/);
   assert.match(method, /this\.add\.tileSprite\(/);
   assert.match(method, /'ocean-pattern'/);
   assert.match(game, /camera\.setBounds\(\s*this\.oceanBounds\.x/);
@@ -54,5 +55,5 @@ test('limites visuais do oceano reservam espaço para arraste no zoom mínimo', 
 
 test('limite máximo de aproximação preserva 2.25x', () => {
   const game = read('../src/scenes/Game.js');
-  assert.match(game, /CAMERA_ZOOM = Object\.freeze\(\{ max: 2\.25, default: 1\.2 \}\)/);
+  assert.match(game, /CAMERA_ZOOM = Object\.freeze\(\{ max: 2\.25, default: 0\.1 \}\)/);
 });

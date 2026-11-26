@@ -1741,3 +1741,20 @@ Versão do jogo: 2.4.51
 - Terreno, árvores, estruturas, física e navegação do mundo 4096 x 4096
   permanecem inalterados.
 - CI e validação visual Android ainda precisam ser conferidos.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — ZOOM INICIAL 0.1X
+======================================================================
+
+Versão do jogo: 2.4.52
+
+- Zoom inicial alterado de 1.2x para 0.1x.
+- O limite máximo de aproximação permanece em 2.25x.
+- A área visual do oceano é expandida conforme a dimensão do viewport
+  dividida pelo zoom inicial, preservando cobertura e buffer de arraste.
+- O limite mínimo adaptativo continua calculado com o buffer externo,
+  permitindo pan sem expor o fundo preto no zoom inicial.
+- Terreno, mundo jogável 4096 x 4096, árvores e estruturas permanecem
+  inalterados.
+- Testes/build/publicação devem ser confirmados pelo CI.

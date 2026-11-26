@@ -19,7 +19,7 @@ import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 import { ISLAND_SHAPE } from '../world/IslandShape.js';
 
-const CAMERA_ZOOM = Object.freeze({ max: 2.25, default: 1.2 });
+const CAMERA_ZOOM = Object.freeze({ max: 2.25, default: 0.1 });
 const CAMERA_FOLLOW_LERP = 0.06;
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 const ISLAND_DIAMETER = 4096;
@@ -295,8 +295,14 @@ export default class Game extends Phaser.Scene {
     const aspect = Math.max(0.1, viewWidth / Math.max(1, viewHeight));
     // Preserva ao menos 512 unidades de mar além da costa em todos os lados.
     // A dimensão maior cresce para acompanhar o formato da tela.
-    const width = (aspect >= 1 ? baseDiameter * aspect : baseDiameter) * OCEAN_PAN_BUFFER_FACTOR;
-    const height = (aspect >= 1 ? baseDiameter : baseDiameter / aspect) * OCEAN_PAN_BUFFER_FACTOR;
+    const width = Math.max(
+      (aspect >= 1 ? baseDiameter * aspect : baseDiameter) * OCEAN_PAN_BUFFER_FACTOR,
+      viewWidth / CAMERA_ZOOM.default * OCEAN_PAN_BUFFER_FACTOR
+    );
+    const height = Math.max(
+      (aspect >= 1 ? baseDiameter : baseDiameter / aspect) * OCEAN_PAN_BUFFER_FACTOR,
+      viewHeight / CAMERA_ZOOM.default * OCEAN_PAN_BUFFER_FACTOR
+    );
     this.oceanBounds = Object.freeze({
       x: ISLAND_SHAPE.centerX - width / 2,
       y: ISLAND_SHAPE.centerY - height / 2,
