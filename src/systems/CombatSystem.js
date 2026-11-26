@@ -1,10 +1,10 @@
 export default class CombatSystem {
-  constructor({ player, movement, getTargets, onAttack = () => {}, attackRange = 150, detectionRange = 500, retargetIntervalMs = 250, damage = 1 } = {}) {
+  constructor({ player, movement, getTargets, onAttack = () => {}, attackRange = 150, detectionRange = 500, retargetIntervalMs = 250 } = {}) {
     if (!player || !movement || typeof getTargets !== 'function') throw new TypeError('CombatSystem exige jogador, movimento e consulta de alvos.');
     this.player = player; this.movement = movement; this.getTargets = getTargets; this.onAttack = onAttack;
     this.attackRange = Math.max(0, attackRange); this.detectionRange = Math.max(this.attackRange, detectionRange);
     this.retargetIntervalMs = Math.max(50, retargetIntervalMs);
-    this.damage = Math.max(0, damage); this.nextAttackAt = 0; this.nextRetargetAt = 0; this.nextPathAt = 0; this.pathRefreshIntervalMs = 250; this.targetId = null; this.destroyed = false;
+this.nextAttackAt = 0; this.nextRetargetAt = 0; this.nextPathAt = 0; this.pathRefreshIntervalMs = 250; this.targetId = null; this.destroyed = false;
   }
   selectTarget() {
     let selected = null, selectedDistance = this.detectionRange;
@@ -39,7 +39,7 @@ export default class CombatSystem {
     this.nextPathAt = now;
     if (now < this.nextAttackAt) return;
     const configuredAps = Number(this.player.stats?.attackSpeed);
-    const aps = Math.max(0.1, Number.isFinite(configuredAps) ? configuredAps : 2);
+    const aps = Math.max(0.1, Number.isFinite(configuredAps) ? configuredAps : 1);
     this.nextAttackAt = now + 1000 / aps;
     this.player.markCombat(now);
     this.onAttack(target, this.player.getAttackDamage(target.defense), now, this.player.stats.penetration);

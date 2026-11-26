@@ -33,6 +33,10 @@ test('ataque ocorre no alcance e respeita cooldown lógico', () => {
   f.combat.update(200);
   assert.equal(f.attacks.length, 1);
   f.combat.update(500);
+  assert.equal(f.attacks.length, 1);
+  f.combat.update(999);
+  assert.equal(f.attacks.length, 1);
+  f.combat.update(1000);
   assert.equal(f.attacks.length, 2);
 });
 

@@ -817,3 +817,17 @@ VALIDAÇÃO:
   do workflow automático. Os testes não foram alterados nem removidos.
 - Versão anterior: 2.1.1. Nova versão: 2.1.2 (correção compatível).
 - package.json e package-lock.json foram sincronizados em 2.1.2.
+
+
+======================================================================
+20. AJUSTE DO CONTRATO DE VELOCIDADE DE ATAQUE — 25/11/2026
+======================================================================
+- O teste legado de cooldown esperava dois ataques em 500 ms. O requisito
+  funcional aprovado define 1 ataque/s como valor inicial, portanto o
+  comportamento correto é um segundo ataque somente em 1000 ms.
+- Atualizada a expectativa temporal do teste existente para refletir o
+  novo contrato. Nenhum teste foi executado manualmente nem removido.
+- Removido fallback legado de 2 ataques/s: jogadores sem stats também
+  recebem fallback 1/s, consistente com o valor padrão do sistema.
+- Versão anterior: 2.1.2. Nova versão: 2.1.3.
+- package.json e package-lock.json sincronizados em 2.1.3.
