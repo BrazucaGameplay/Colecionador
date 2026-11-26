@@ -1,24 +1,20 @@
-const animation = (id, file, clip, loop) => Object.freeze({
+const animation = (id, file, loop) => Object.freeze({
   id,
-  clip,
   key: 'monster-slime-' + id,
   path: 'assets/monsters/slime/' + file,
-  loop,
-  frameRate: 10
+  loop
 });
 
 const slimeAnimations = Object.freeze({
-  idle: animation('idle', 'slime-idle', 'Idle', true),
-  walking: animation('walking', 'slime-walk', 'Walk', true),
-  attack: animation('attack', 'slime-attack', 'Attack', false),
-  death: animation('death', 'slime-death', 'Death', false)
+  idle: animation('idle', 'parado_01.webp', true),
+  walking: animation('walking', 'slime_movimento_frame_02_webp.webp', true),
+  attack: animation('attack', 'slime_ataque_frame_02(1).webp', false),
+  death: animation('death', 'slime_morte_frame_02.webp', false)
 });
 
 /**
  * Definições de gameplay não dependem de Phaser nem de recursos visuais.
- * Os valores atuais preservam apenas a escala do antigo monstro de teste.
- * Balanceamento, drops e dano de contato ficam deliberadamente neutros até
- * serem definidos no design de combate.
+ * Os WebP atuais são poses individuais; cada estado usa sua imagem final.
  */
 export const MONSTER_DEFINITIONS = Object.freeze({
   slime: Object.freeze({
@@ -38,10 +34,10 @@ export const MONSTER_DEFINITIONS = Object.freeze({
       decisionMaxMs: 1600
     }),
     visual: Object.freeze({
-      enabled: false,
-      scale: 1,
+      enabled: true,
+      scale: 0.55,
       originX: 0.5,
-      originY: 0.9375,
+      originY: 0.92,
       animations: slimeAnimations
     })
   })
