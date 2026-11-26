@@ -1264,3 +1264,36 @@ TESTES:
 VALIDAÇÃO:
 - Testes e build precisam ser confirmados pelo GitHub Actions.
 - Tremor visual em Android precisa ser conferido no aparelho após publicação.
+
+
+======================================================================
+19. TERRENO EM TILESPRITES — 26/11/2026
+======================================================================
+
+VERSÃO:
+- 2.2.9; package.json e package-lock.json sincronizados.
+
+IMPLEMENTADO:
+- Preload carrega Terreno_liso.webp, Terreno_moita.webp e
+  Terreno_relevo.webp como as três texturas oficiais de terreno.
+- Game não cria mais canvas nem textura intermediária de 4096 x 4096.
+- Cada tipo de terreno é renderizado por Phaser TileSprite, repetindo a
+  textura diretamente na GPU.
+- Máscara geométrica circular recorta a base e mantém o contorno da ilha.
+- Máscaras geométricas independentes distribuem manchas de grama e relevo.
+- A classificação usa grade determinística de 64 unidades, sem RNG no jogo.
+- Proporções por área elegível: 70% liso, 20% moita/grama e 10% relevo,
+  com diferença máxima decorrente do arredondamento da grade.
+- Cada célula pertence a uma única classe; não há sobreposição entre os
+  dois overlays. As células de overlay ficam inteiramente dentro do círculo.
+- Texturas e máscaras são destruídas no shutdown da cena.
+- Removidas referências ao terreno PNG antigo e ao island-01.png não usado;
+  removidos os arquivos legados terreno-01.png e island-01.png.
+- A imagem 01_ilha_principal.png foi preservada, sem referência ativa no
+  Preload, para não apagar um asset que pode ser a referência atual.
+
+TESTES:
+- Proporções, exclusividade de células, limites circulares e determinismo.
+- Verificação estática de ausência de canvas gigante e das três texturas.
+- Build, GitHub Actions e inspeção visual Android ainda pendentes.
+

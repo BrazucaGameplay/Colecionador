@@ -9,6 +9,7 @@ import WorldNavigation from '../world/WorldNavigation.js';
 import WorldDepthManager from '../world/WorldDepthManager.js';
 import WorldCollisionManager from '../world/WorldCollisionManager.js';
 import WorldObjectManager from '../world/WorldObjectManager.js';
+import { createTerrainLayers } from '../world/TerrainComposer.js';
 import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
 import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
@@ -19,7 +20,6 @@ import { SAVE_KEY } from '../config.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.28, max: 2.25, default: 1.2 });
 const CAMERA_FOLLOW_LERP = 0.06;
-const GENERATED_GROUND_TEXTURE = 'island-01-ground-generated';
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 const ISLAND_DIAMETER = 4096;
 const ISLAND_RADIUS = ISLAND_DIAMETER / 2;
@@ -29,6 +29,7 @@ export default class Game extends Phaser.Scene {
     super('Game');
     this.worldObjects = [];
     this.groundTiles = [];
+    this.groundMasks = [];
   }
 
   create() {
@@ -175,46 +176,20 @@ export default class Game extends Phaser.Scene {
   }
 
   /**
-   * Repete a única textura de grama e recorta o resultado pela transparência
-   * de uma máscara circular. A dimensão do mundo e a navegação usam o mesmo raio.
+   * Monta o terreno diretamente com TileSprites e máscaras geométricas.
+   * Nenhuma textura/canvas do tamanho total da ilha é gerada.
    */
   createGround() {
-    const tileSource = this.textures.get('island-ground-tile').getSourceImage();
-    const canvas = document.createElement('canvas');
-    canvas.width = this.worldWidth;
-    canvas.height = this.worldHeight;
-
-    const context = canvas.getContext('2d');
-    if (!context) {
-      throw new Error('Não foi possível preparar a textura repetida do terreno.');
-    }
-
-    const pattern = context.createPattern(tileSource, 'repeat');
-    if (!pattern) {
-      throw new Error('Não foi possível criar o padrão repetido de grama.');
-    }
-
-    // Recorta a textura repetida em um círculo perfeito, sem esticar o tile.
-    context.save();
-    context.beginPath();
-    context.arc(ISLAND_RADIUS, ISLAND_RADIUS, ISLAND_RADIUS - 2, 0, Math.PI * 2);
-    context.clip();
-    context.fillStyle = pattern;
-    context.fillRect(0, 0, this.worldWidth, this.worldHeight);
-    context.restore();
-
-    if (this.textures.exists(GENERATED_GROUND_TEXTURE)) {
-      this.textures.remove(GENERATED_GROUND_TEXTURE);
-    }
-    this.textures.addCanvas(GENERATED_GROUND_TEXTURE, canvas);
-
-    const ground = this.add.image(
-      this.worldWidth / 2,
-      this.worldHeight / 2,
-      GENERATED_GROUND_TEXTURE
-    ).setOrigin(0.5, 0.5).setDepth(-1000);
-
-    this.groundTiles.push(ground);
+    const terrain = createTerrainLayers(this, {
+      diameter: this.worldWidth,
+      smoothKey: 'terrain-smooth',
+      grassKey: 'terrain-grass',
+      reliefKey: 'terrain-relief',
+      cellSize: 64
+    });
+    this.groundTiles = terrain.tiles;
+    this.groundMasks = terrain.masks;
+    this.terrainDistribution = terrain.distribution;
   }
 
   createIslandWalkableMask() {
@@ -383,7 +358,10 @@ export default class Game extends Phaser.Scene {
     this.worldObjectManager?.destroy();
     this.collisionManager?.destroy();
     this.worldObjects.length = 0;
+    for (const object of this.groundTiles) object.destroy();
+    for (const mask of this.groundMasks) mask.destroy();
     this.groundTiles.length = 0;
+    this.groundMasks.length = 0;
     this.touchInput = null;
     this.movement = null;
     this.playerBody = null;
