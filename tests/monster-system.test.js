@@ -33,6 +33,11 @@ test('slime usa os quatro WebP finais já existentes no repositório', () => {
     'assets/monsters/slime/slime_morte_frame_02.webp'
   ]);
   assert.deepEqual(slime.drops, []);
+  assert.deepEqual(slime.stats, {
+    attack: 1, defense: 1, penetration: 1, attackSpeed: 1,
+    movementSpeed: 1, maxHealth: 1, maxEnergy: 1,
+    healthRegen: 1, energyRegen: 1
+  });
 });
 test('ilha usa um único limite global de 50 slimes com surgimento em toda a área', () => {
   assert.equal(ISLAND_01_MONSTER_SPAWNS.length, 1);
