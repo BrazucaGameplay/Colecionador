@@ -15,6 +15,7 @@ import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
 import ProgressionSystem from '../systems/ProgressionSystem.js';
 import PlayerStatusUI from '../ui/PlayerStatusUI.js';
+import PerformanceMonitor from '../ui/PerformanceMonitor.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 import { ISLAND_SHAPE } from '../world/IslandShape.js';
@@ -130,6 +131,7 @@ export default class Game extends Phaser.Scene {
     this.statusUI = new PlayerStatusUI(this, this.player, this.progression, {
       onChange: () => this.persistProgress({ score: this.score, player: this.player.toSaveData() })
     });
+    this.performanceMonitor = new PerformanceMonitor(this);
     this.createHudCamera();
     this.touchInput = new TouchInputController(this, {
       camera: this.camera,
@@ -355,6 +357,7 @@ export default class Game extends Phaser.Scene {
 
 
   update(time, delta = 16.67) {
+    const updateStartedAt = performance.now();
     if (!this.player?.alive) {
       this.movement?.clearDestination();
       if (this.characterRenderer?.activeAction !== 'dying') this.characterRenderer?.playAction('dying');
@@ -377,6 +380,7 @@ export default class Game extends Phaser.Scene {
 
     this.monsterManager?.update(this.time.now, delta);
     this.monsterCombat?.update(this.time.now);
+    this.performanceMonitor?.update(delta, performance.now() - updateStartedAt);
     // O renderer do personagem e os objetos do cenário usam a mesma escala de profundidade.
   }
 
@@ -388,6 +392,8 @@ export default class Game extends Phaser.Scene {
   shutdown() {
     if (this.player) this.persistProgress({ score: this.score, player: this.player.toSaveData() });
     this.scale.off('resize', this.resizeHudCamera, this);
+    this.performanceMonitor?.destroy();
+    this.performanceMonitor = null;
     this.statusUI?.destroy();
     if (this.uiCamera) this.cameras.remove(this.uiCamera);
     this.uiCamera = null;
