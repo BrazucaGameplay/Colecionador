@@ -18,7 +18,7 @@ test('oceano usa offset tiling e uma textura composta apenas uma vez', () => {
 test('a textura do oceano é invalidada no cache e mantém um único TileSprite', () => {
   const preload = read('../src/scenes/Preload.js');
   const game = read('../src/scenes/Game.js');
-  assert.match(preload, /ocean-seamless-v28/);
+  assert.match(preload, /ocean-seamless-v30/);
   assert.equal((game.match(/this\.add\.tileSprite\(/g) || []).length, 1);
   assert.match(game, /syncOceanBackground\(\)/);
 });
