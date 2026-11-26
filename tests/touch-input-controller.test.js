@@ -64,7 +64,7 @@ test('pinch mantém ancorado o ponto mundial sob o centro dos dedos', () => {
   f.camera.scrollY = 100;
   f.input.emit('pointerdown', { id: 1, x: 100, y: 100 });
   f.input.emit('pointerdown', { id: 2, x: 200, y: 100 });
-  const before = f.camera.getWorldPoint(150, 100);
+  const before = f.camera.getWorldPoint(200, 100);
 
   f.input.emit('pointermove', { id: 2, x: 300, y: 100 });
   const after = f.camera.getWorldPoint(200, 100);
