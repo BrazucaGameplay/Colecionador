@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import WorldDepthManager from '../src/world/WorldDepthManager.js';
+import WorldCollisionManager from '../src/world/WorldCollisionManager.js';
 import { ISLAND_01_LAYOUT } from '../src/world/map-layout/island-01.js';
 
 test('layout da floresta usa dois tipos de árvores, coordenadas fixas e uma ancestral', () => {
@@ -30,6 +31,23 @@ test('estruturas principais deixam a área inicial livre', () => {
     const distance = Math.hypot(item.x - center, item.y - center);
     assert.ok(distance > 320, item.id + ' invade a área central de início.');
   }
+});
+
+
+test('cada árvore registra colisão fixa do tronco na navegação', () => {
+  const obstacles = [];
+  const navigation = { addObstacle: (...args) => obstacles.push(args) };
+  const collisions = new WorldCollisionManager(navigation);
+  for (const item of ISLAND_01_LAYOUT) collisions.register(item);
+  assert.equal(obstacles.length, ISLAND_01_LAYOUT.length);
+  const ancestral = collisions.registrations.filter(item => item.id === 'tree-ancestral-nw');
+  assert.equal(ancestral.length, 1);
+  assert.equal(ancestral[0].x, 700);
+  assert.equal(ancestral[0].y, 698);
+  assert.equal(ancestral[0].radiusX, 31);
+  assert.equal(ancestral[0].radiusY, 25);
+  assert.throws(() => collisions.register(ISLAND_01_LAYOUT[0]), /Colisão duplicada/);
+  collisions.destroy();
 });
 
 test('profundidade respeita o ponto de apoio e desempata personagem acima da estrutura', () => {
