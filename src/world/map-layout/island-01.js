@@ -18,7 +18,7 @@ export const TREE_SPACING = Object.freeze({
 });
 
 export const ISLAND_01_LAYOUT = Object.freeze([
-  { id: 'tree-ancestral-north', assetKey: 'tree-ancestral', kind: 'landmark', x: 2048, y: 540, targetHeight: 645, sizeTier: 'landmark', collision: TREE_COLLISION_ANCESTRAL },
+  { id: 'tree-ancestral-north', assetKey: 'tree-ancestral', kind: 'landmark', x: 2048, y: 746, targetHeight: 645, sizeTier: 'landmark', collision: TREE_COLLISION_ANCESTRAL },
   { id: 'tree-west-01', group: 'grove-west', assetKey: 'tree-forest-broad', x: 920, y: 1360, targetHeight: 218, sizeTier: 'base', collision: Object.freeze({"offsetY":-14,"radiusX":31,"radiusY":28}) },
   { id: 'tree-west-03', group: 'grove-west', assetKey: 'tree-forest-broad', x: 1040, y: 1360, targetHeight: 194, sizeTier: 'base', collision: Object.freeze({"offsetY":-14,"radiusX":31,"radiusY":28}) },
   { id: 'tree-west-06', group: 'grove-west', assetKey: 'tree-forest-broad', x: 960, y: 1420, targetHeight: 425, sizeTier: 'plus-80', collision: Object.freeze({"offsetY":-25,"radiusX":56,"radiusY":50}) },
