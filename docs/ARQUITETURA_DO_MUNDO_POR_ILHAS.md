@@ -114,14 +114,15 @@ Isso é uma arquitetura-alvo, não uma afirmação de que tais módulos já exis
 
 Estado atualizado em 26/11/2026:
 
-- `Preload` carrega três materiais de terreno separados: liso, moita e relevo.
-- `Game` monta a ilha circular por meio de `IslandTerrainRenderer`, com shader WebGL e regiões determinísticas.
-- O layout de objetos e árvores está em `src/world/map-layout/island-01.js`; os spawns ficam em `src/world/spawn-layout/island-01.js`.
-- `WorldNavigation` mantém navegação local por grade, máscara circular matemática e obstáculos.
-- Não existe uma imagem única de ilha usada como plano de fundo ou base do terreno.
-- Catálogo de ilhas, conexões, pontes, portais e transições entre ilhas ainda não estão implementados.
+- `Preload` carrega o oceano em `ocean-pattern`, o terreno em `island-terrain` e as texturas de árvores a partir de `public/assets/world/`.
+- `Game.createGround()` instancia uma única imagem estática de terreno, `ilha_terreno.webp`, dimensionada para o mundo de 4096 x 4096. O caminho ativo não usa shader nem o módulo legado `IslandTerrainRenderer.js`.
+- O layout de árvores está em `src/world/map-layout/island-01.js`; os spawns de monstros ficam em `src/world/spawn-layout/island-01.js`.
+- `WorldObjectManager` instancia as árvores; `WorldDepthManager` e `WorldCollisionManager` tratam profundidade e obstáculos.
+- `WorldNavigation` constrói a máscara caminhável a partir do alfa do terreno, pré-calcula a grade e usa cache persistente versionado em IndexedDB quando o hash do terreno pode ser obtido.
+- `scripts/validate-tree-layout.mjs` valida posições no build e gera `island-01.validated.json`, que limita as árvores instanciadas às posições aprovadas.
+- O mundo ainda é uma única ilha; catálogo, conexões, pontes, portais e transições entre ilhas não estão implementados.
 
-A implementação atual usa materiais e layout declarativo; não depende de um PNG de mapa completo.
+A implementação atual usa um PNG de terreno completo como base visual, objetos ambientais independentes e navegação calculada/cacheada a partir da máscara alfa.
 
 ## 9. Plano incremental
 
@@ -188,3 +189,9 @@ Build bem-sucedido ou existência dos módulos não substitui esses testes.
 - Registrado que a arquitetura é uma decisão aprovada, ainda não implementada.
 - Registradas fases, critérios de aceitação e relação com o código atual.
 
+
+
+### 26/11/2026 — Auditoria do fluxo de terreno e estruturas
+- Corrigida a descrição do estado implementado para refletir o código ativo de `Preload`, `Game`, `WorldNavigation` e `WorldObjectManager`.
+- Registrado que o terreno ativo é uma única imagem estática e que `IslandTerrainRenderer.js` foi removido por não possuir consumidores.
+- Separadas explicitamente as validações de árvore executadas no build das rotinas de instanciação em tempo de jogo.
