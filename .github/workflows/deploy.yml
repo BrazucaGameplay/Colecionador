@@ -141,7 +141,7 @@ jobs:
                 continue;
               }
               const rel = relative(root, path).split('\\\\').join('/');
-              if (rel !== 'index.html' && !/\\.(?:m?js|css)$/i.test(extname(rel))) continue;
+              if (rel !== 'index.html' && !/\.(?:m?js|css)$/i.test(extname(rel))) continue;
               const bytes = await readFile(path);
               files.push({
                 path: rel,
@@ -151,13 +151,13 @@ jobs:
             }
           }
           await walk(root);
-          if (!files.some(file => file.path === 'index.html') || !files.some(file => /\\.js$/i.test(file.path))) {
+          if (!files.some(file => file.path === 'index.html') || !files.some(file => /\.js$/i.test(file.path))) {
             throw new Error('Build manifest is missing index.html or JavaScript bundles.');
           }
           await writeFile(join(root, 'build-manifest.json'), JSON.stringify({
             version: JSON.parse(await readFile('package.json', 'utf8')).version,
             files
-          }, null, 2) + '\\n');
+          }, null, 2) + '\n');
           console.log(`Created integrity manifest for ${files.length} deployed code files.`);
           NODE
       - uses: actions/configure-pages@v6
@@ -226,7 +226,7 @@ jobs:
               }
             }
             for (const script of scripts) {
-              const normalized = script.replace(/^\\//, '').replace(/^Colecionador\\//, '');
+              const normalized = script.replace(/^\/, '').replace(/^Colecionador\//, '');
               if (!manifestPaths.has(normalized)) throw new Error(`Published script is absent from integrity manifest: ${script}`);
             }
             console.log(`Published version ${expectedVersion} verified; ${manifest.files.length} HTML/JS/CSS files match the exact build.`);
