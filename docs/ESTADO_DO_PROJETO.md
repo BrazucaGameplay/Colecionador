@@ -1789,3 +1789,21 @@ Versão do jogo: 2.4.54
 - O teste agora valida o cálculo atual, o zoom mínimo fixo e a margem.
 - Valores mantidos: zoom inicial 0.8x, mínimo 0.4x e máximo 2.25x.
 - Nenhuma lógica de jogo ou asset foi alterado nesta correção.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — LIMITES DE ZOOM 0.3X / 0.4X / 0.8X
+======================================================================
+
+Versão do jogo: 2.4.55
+
+- Zoom mínimo configurado em 0.3x.
+- Zoom inicial configurado em 0.4x.
+- Zoom máximo configurado em 0.8x.
+- A pinça respeita os limites mínimo e máximo definidos pela cena.
+- O oceano e o buffer de arraste continuam dimensionados pelo zoom mínimo
+  configurado, agora 0.3x, para manter cobertura ao afastar a câmera.
+- O terreno 4096 x 4096, navegação, física, árvores, estruturas e assets
+  não foram alterados.
+- Testes atualizados para validar os três valores e os limites da pinça.
+- Build, testes e publicação devem ser confirmados pelo GitHub Actions.
