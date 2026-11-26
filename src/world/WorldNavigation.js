@@ -91,6 +91,18 @@ export default class WorldNavigation {
     }
   }
 
+  setWalkableGrid(grid) {
+    if (!(grid instanceof Uint8Array) || grid.length !== this.cols * this.rows) {
+      throw new TypeError('Grade caminhável inválida.');
+    }
+    this.shapeMask = null;
+    this.circleMask = null;
+    this.alphaMask = null;
+    this.maskWidth = 0;
+    this.maskHeight = 0;
+    this.walkableGrid = new Uint8Array(grid);
+  }
+
   setAlphaMask(rgbaPixels, width, height, threshold = 150) {
     this.shapeMask = null;
     this.alphaMask = new Uint8Array(width * height);
@@ -110,6 +122,14 @@ export default class WorldNavigation {
         this.walkableGrid[row * this.cols + col] = this.isInsideIsland(x, y) ? 1 : 0;
       }
     }
+  }
+
+  isTerrainWalkableAt(x, y) {
+    if (!this.walkableGrid) return this.isInsideIsland(x, y);
+    const col = Math.floor(x / CELL);
+    const row = Math.floor(y / CELL);
+    return col >= 0 && row >= 0 && col < this.cols && row < this.rows &&
+      this.walkableGrid[row * this.cols + col] === 1;
   }
 
   isInsideIsland(x, y) {
@@ -220,7 +240,7 @@ export default class WorldNavigation {
       [radius * 0.7, radius * 0.7], [-radius * 0.7, radius * 0.7],
       [radius * 0.7, -radius * 0.7], [-radius * 0.7, -radius * 0.7]
     ];
-    if (samples.some(([dx, dy]) => !this.isInsideIsland(x + dx, y + dy))) return false;
+    if (samples.some(([dx, dy]) => !this.isTerrainWalkableAt(x + dx, y + dy))) return false;
     return !this.getNearbyObstacles(x, y, radius).some(b => {
       const dx = (x - b.x) / (b.radiusX + radius);
       const dy = (y - b.y) / (b.radiusY + radius);
