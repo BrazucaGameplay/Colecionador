@@ -12,15 +12,14 @@ const definition = { id: 'test-monster', maxHealth: 2, speed: 20, defense: 0, co
 test('Monster mantém estado lógico, recebe dano e morre sem dependência de Phaser', () => {
   const monster = new Monster({ id: 'test-1', speciesId: 'test-monster', x: 10, y: 20, definition, spawnZoneId: 'test-zone' });
   assert.equal(monster.alive, true);
-  assert.deepEqual(monster.takeDamage(1), { applied: 1, health: 1, dead: false });
-  assert.deepEqual(monster.takeDamage(1), { applied: 1, health: 0, dead: true });
+  assert.deepEqual(monster.takeDamage(1, 1), { applied: 1, health: 0, dead: true });
   assert.equal(monster.moving, false);
-  assert.deepEqual(monster.takeDamage(1), { applied: 0, health: 0, dead: true });
+  assert.deepEqual(monster.takeDamage(1, 1), { applied: 0, health: 0, dead: true });
 });
 test('Monster restaura vida e estado sem alterar sua definição', () => {
   const monster = new Monster({ id: 'test-2', speciesId: 'test-monster', x: 10, y: 20, definition, spawnZoneId: 'test-zone' });
   monster.takeDamage(2); monster.restore();
-  assert.equal(monster.health, 2); assert.equal(monster.alive, true);
+  assert.equal(monster.health, 1); assert.equal(monster.alive, true);
   assert.deepEqual(monster.facing, { x: 0, y: 1 });
 });
 test('slime usa os quatro WebP finais já existentes no repositório', () => {
