@@ -51,7 +51,11 @@ export default class CombatSystem {
     const attackIntervalMs = 1000 / aps;
     this.nextAttackAt = now + attackIntervalMs;
     this.player.markCombat(now);
-    this.onAttack(target, this.player.getAttackDamage(target.defense), now, this.player.stats.penetration, attackIntervalMs);
+    // A entidade-alvo resolve defesa/penetração uma única vez em takeDamage().
+    const baseAttack = Number.isFinite(Number(this.player.stats?.attack))
+      ? Math.max(1, Math.floor(this.player.stats.attack))
+      : this.player.getAttackDamage(target.defense);
+    this.onAttack(target, baseAttack, now, this.player.stats.penetration, attackIntervalMs);
   }
   destroy() {
     this.destroyed = true; this.movement?.stopAutomaticMovement(); this.player = null; this.movement = null;
