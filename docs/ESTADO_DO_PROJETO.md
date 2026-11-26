@@ -1861,3 +1861,21 @@ Versão do jogo: 2.4.58
 - Valores de câmera permanecem: mínimo 0.2x, inicial 0.4x e máximo 0.6x.
 - A nova versão só será considerada publicada após todos os testes,
   build, verificações, upload do artefato e deploy passarem.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — REDUÇÃO DA ÁREA VISUAL DO OCEANO
+======================================================================
+
+Versão do jogo: 2.4.59
+
+- Reduzida a margem costeira visual do oceano de 512 para 256 unidades.
+- Reduzido o buffer externo de arraste de 1.35x para 1.15x, mantendo
+  reserva de espaço para deslocar a câmera no zoom mínimo.
+- Mantidos integralmente os limites de zoom atuais: mínimo 0.2x,
+  inicial 0.4x e máximo 0.6x.
+- Mundo jogável 4096 x 4096, terreno, ilha, navegação, física, árvores,
+  estruturas e posições de objetos permanecem inalterados.
+- O oceano continua sendo um único TileSprite e se adapta ao viewport.
+- Testes atualizados para validar a nova margem e o buffer reduzido.
+- Build, testes e publicação devem ser confirmados pelo GitHub Actions.

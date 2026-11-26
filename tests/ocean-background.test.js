@@ -16,7 +16,7 @@ test('o terreno e o mundo jogável continuam em 4096 x 4096', () => {
 test('oceano mantém a margem costeira e expande a dimensão maior para a proporção da tela', () => {
   const game = read('../src/scenes/Game.js');
   const method = game.slice(game.indexOf('  updateOceanBounds('), game.indexOf('  readSavedProgress() {'));
-  assert.match(game, /const OCEAN_MARGIN = 512/);
+  assert.match(game, /const OCEAN_MARGIN = 256/);
   assert.match(game, /const OCEAN_RADIUS = ISLAND_SHAPE\.baseRadius \+ OCEAN_MARGIN/);
   assert.match(method, /const baseDiameter = OCEAN_RADIUS \* 2/);
   assert.match(method, /const aspect = Math\.max\(0\.1, viewWidth \/ Math\.max\(1, viewHeight\)\)/);
@@ -47,7 +47,7 @@ test('oceano permanece em um único TileSprite, sem processamento por frame', ()
 
 test('limites visuais do oceano reservam espaço para arraste no zoom mínimo', () => {
   const game = read('../src/scenes/Game.js');
-  assert.match(game, /const OCEAN_PAN_BUFFER_FACTOR = 1\.35/);
+  assert.match(game, /const OCEAN_PAN_BUFFER_FACTOR = 1\.15/);
   assert.match(game, /viewWidth \/ CAMERA_ZOOM\.min \* OCEAN_PAN_BUFFER_FACTOR/);
   assert.match(game, /viewHeight \/ CAMERA_ZOOM\.min \* OCEAN_PAN_BUFFER_FACTOR/);
   assert.match(game, /return CAMERA_ZOOM\.min/);

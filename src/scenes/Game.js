@@ -25,10 +25,10 @@ const CAMERA_FOLLOW_LERP = 0.06;
 const ISLAND_DIAMETER = 4096;
 const ISLAND_RADIUS = ISLAND_DIAMETER / 2;
 // O oceano termina a mesma distância da costa em todos os lados.
-const OCEAN_MARGIN = 512;
+const OCEAN_MARGIN = 256;
 const OCEAN_RADIUS = ISLAND_SHAPE.baseRadius + OCEAN_MARGIN;
-// Espaço extra de mar além da área enquadrada, reservado para o pan no zoom mínimo.
-const OCEAN_PAN_BUFFER_FACTOR = 1.35;
+// Buffer menor: mantém espaço para arraste no zoom mínimo sem ampliar demais o oceano.
+const OCEAN_PAN_BUFFER_FACTOR = 1.15;
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -284,7 +284,7 @@ export default class Game extends Phaser.Scene {
   updateOceanBounds(viewWidth, viewHeight) {
     const baseDiameter = OCEAN_RADIUS * 2;
     const aspect = Math.max(0.1, viewWidth / Math.max(1, viewHeight));
-    // Preserva ao menos 512 unidades de mar além da costa em todos os lados.
+    // Preserva 256 unidades de mar além da costa em todos os lados.
     // A dimensão maior cresce para acompanhar o formato da tela.
     const width = Math.max(
       (aspect >= 1 ? baseDiameter * aspect : baseDiameter) * OCEAN_PAN_BUFFER_FACTOR,
