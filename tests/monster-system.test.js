@@ -38,7 +38,8 @@ test('zonas da ilha têm IDs únicos, limites e afastamento do ponto inicial', (
     assert.ok(zone.maxAlive > 0); assert.ok(zone.radius > 0); assert.ok(zone.respawnMs > 0);
     assert.ok(Math.hypot(zone.x - 2048, zone.y - 2048) > 280);
   }
-  assert.equal(ISLAND_01_MONSTER_SPAWNS.length, 4);
+  assert.equal(ISLAND_01_MONSTER_SPAWNS.length, 5);
+  assert.ok(ISLAND_01_MONSTER_SPAWNS.some(zone => zone.id === 'slime-start'));
 });
 test('Spawner respeita população máxima e agenda respawn após morte', () => {
   const alive = []; const created = [];
