@@ -691,3 +691,41 @@ STATUS DE VALIDAÇÃO:
 - Build, testes, auditoria completa, lockfile e deploy precisam ser
   confirmados pelos workflows desta atualização.
 - Nenhum teste em aparelho Android é declarado concluído.
+
+
+======================================================================
+16. CONSOLIDACAO DA MODERNIZACAO E LIMPEZA — 26/11/2026
+======================================================================
+
+ESTADO CONFIRMADO NA BRANCH MAIN:
+- A modernizacao da stack foi registrada na versao 2.0.0.
+- O workflow de bake concluiu com sucesso e gerou sete pares PNG/JSON
+  para as animacoes do protagonista.
+- O commit de bake atualizou a versao para 2.0.1 e incluiu package-lock.json.
+- A auditoria npm completa e os 22 testes automatizados passaram na
+  execucao de validacao da modernizacao.
+- O deploy da versao 2.0.0 concluiu com sucesso. O deploy posterior
+  associado ao commit de bake falhou por checkout sem lockfile visivel;
+  essa condicao esta sendo tratada no workflow.
+
+CONSOLIDACAO:
+- Versao patch: 2.0.2.
+- packageManager alinhado ao npm 11.20.0 observado no runner Node 26.13.1.
+- package-lock.json permanece versionado e com metadados sincronizados.
+- O workflow separado que tentava gerar e commitar outro lockfile foi
+  removido. O bake ja mantem package.json e package-lock.json juntos;
+  Dependabot acompanha atualizacoes de dependencias.
+- Deploy usa npm ci quando o lockfile existe e tem conteudo. Se estiver
+  ausente num checkout, gera um lockfile temporario antes da instalacao.
+- Assets sem conteudo e aliases binarios duplicados nao utilizados foram
+  removidos somente apos verificar ausencia de referencias no codigo.
+- Os PNGs originais arvore_1.png e arvore_2.png foram preservados porque
+  Preload.js os carrega. Os nomes logicos tree-large/tree-flowering sao
+  chaves de textura, nao dependem de arquivos homonimos.
+
+VALIDACAO AINDA NECESSARIA:
+- Confirmar o novo workflow Deploy para a versao 2.0.2.
+- Confirmar npm audit e npm test apos a limpeza.
+- Testar visualmente o jogo em navegador e em Android real.
+- O projeto Android nativo ainda nao esta versionado; nao declarar APK
+  ou teste Android concluido.

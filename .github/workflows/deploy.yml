@@ -5,7 +5,6 @@ name: Deploy
   workflow_run:
     workflows:
       - "Bake character spritesheets"
-      - "Dependency lockfile"
     types: [completed]
     branches: [main]
 
@@ -40,10 +39,12 @@ jobs:
           package-manager-cache: false
       - name: Install dependencies
         run: |
-          if [ -f package-lock.json ]; then
+          if [ -s package-lock.json ]; then
             npm ci
           else
-            npm install
+            echo "Lockfile ausente neste checkout; gerando lockfile temporário para validar o build."
+            npm install --package-lock-only --ignore-scripts
+            npm ci
           fi
       - name: Audit all dependencies
         run: npm audit --audit-level=low

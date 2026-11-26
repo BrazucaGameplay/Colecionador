@@ -5,7 +5,7 @@ RPG 2D de ação com estética anime, desenvolvido com Phaser 4, JavaScript ES m
 ## Requisitos
 
 - Node.js 26.13.1 LTS (versão registrada em `.nvmrc`)
-- npm 12.2.2
+- npm 11.20.0
 - Para gerar/compilar o aplicativo nativo: Android Studio 2025.2.1 ou superior e Android SDK API 24 ou superior
 
 ## Instalação
