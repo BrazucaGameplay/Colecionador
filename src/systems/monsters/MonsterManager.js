@@ -93,7 +93,9 @@ export default class MonsterManager {
     // Margem proporcional ao viewport evita alternância visual durante pan,
     // zoom e acompanhamento do jogador sem manter sprites distantes no draw.
     const padding = Math.max(view.width, view.height) * this.visibilityPaddingFactor;
-    for (const entry of this.activeEntries) {
+    // Culling é exclusivamente visual: percorre também monstros dormentes,
+    // sem criar corpo, IA, animação ou alterar o estado de ativação.
+    for (const entry of this.entries.values()) {
       if (entry.entity.dead) continue;
       const frame = entry.renderer.frameBox || { width: 32, height: 32 };
       const visible = isMonsterInView(
