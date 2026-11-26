@@ -71,5 +71,4 @@ test('oceano usa textura SVG pequena e TileSprite estático', () => {
   assert.ok(preload.includes('ocean-pattern.svg'));
   assert.ok(ocean.includes('width="256" height="256"'));
   assert.ok(!ocean.includes('<image') && !ocean.includes('filter='));
-  assert.doesNotMatch(ocean, /<image|filter=/);
 });
