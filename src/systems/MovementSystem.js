@@ -9,7 +9,7 @@ export default class MovementSystem {
   }
   setPaused(paused) {
     this.paused = Boolean(paused);
-    if (this.paused) this.clearDestination();
+    if (this.paused) this.player?.setMoving(false);
   }
   setDestination(x, y) {
     const accepted = this.setRoute(x, y);
