@@ -1299,3 +1299,12 @@ TESTES:
 - A dimensão dos TileSprites segue a recomendação Phaser 4 de nunca exceder o canvas/viewport; a textura é deslocada pela posição da câmera. O fundo de nuvens também deixou de ser um TileSprite de 8192 x 8192.
 - Build, GitHub Actions e inspeção visual Android ainda pendentes.
 
+
+
+## Update 20 — composição leve do terreno (26/11/2026)
+- Substituída a composição anterior com três TileSprites, máscaras regionais e sincronização por quadro.
+- As três texturas finais são compostas uma única vez num padrão repetível de 512 × 512; o mundo usa um único TileSprite com máscara circular.
+- Removido o campo de nuvens com 48 imagens e dois canvases; o oceano é um único retângulo estático sob a ilha.
+- Nenhum canvas é criado com dimensões do mundo e nenhuma camada de terreno é reposicionada no update.
+- A proporção visual do padrão é configurada para 70% liso, 20% grama e 10% relevo; a proporção exata em pixels pode variar pelo quantil do histograma.
+- A validação visual em Android continua obrigatória após o deploy.
