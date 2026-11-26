@@ -24,7 +24,8 @@ test('shader termina o mapa circular diretamente no oceano sem texturas de marge
  assert.ok(!s.includes('uShoreline'));
  assert.ok(s.includes('float boundaryRadius(float a){return 1992.0;}'));
  assert.ok(s.includes('if(radiusWorld<=coastRadius)'));
- assert.ok(s.includes('float edgeWidth=max(fwidth(radiusWorld),1.0)'));
+ assert.ok(s.includes('float landAlpha=1.0-smoothstep(coastRadius-3.0,coastRadius+3.0,radiusWorld)'));
+ assert.ok(!s.includes('fwidth('));
  assert.ok(s.includes('gl_FragColor=vec4(landColor,landAlpha)'));
  assert.ok(s.includes('discard;'));
  assert.ok(!s.includes('shorelineAlpha'));

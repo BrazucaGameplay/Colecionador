@@ -185,8 +185,7 @@ export default class Game extends Phaser.Scene {
       diameter: this.worldWidth,
       smoothKey: 'terrain-smooth',
       grassKey: 'terrain-grass',
-      reliefKey: 'terrain-relief',
-      shorelineKey: 'island-shoreline'
+      reliefKey: 'terrain-relief'
     });
     this.groundObject = this.terrain.object;
   }

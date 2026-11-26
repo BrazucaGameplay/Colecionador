@@ -58,8 +58,8 @@ void main(){
    if(reliefMask>.001)landColor=mix(landColor,texture2D(uRelief,tileUV).rgb,reliefMask);
   }
   // Antialias radial de um pixel: a textura do mapa termina diretamente no oceano.
-  float edgeWidth=max(fwidth(radiusWorld),1.0);
-  float landAlpha=1.0-smoothstep(coastRadius-edgeWidth,coastRadius+edgeWidth,radiusWorld);
+  // Faixa fixa de antialias; evita depender de OES_standard_derivatives no WebGL1.
+  float landAlpha=1.0-smoothstep(coastRadius-3.0,coastRadius+3.0,radiusWorld);
   gl_FragColor=vec4(landColor,landAlpha);
   return;
  }
