@@ -140,7 +140,7 @@ jobs:
                 await walk(path);
                 continue;
               }
-              const rel = relative(root, path).split('\\\\').join('/');
+              const rel = relative(root, path).split('\\').join('/');
               if (rel !== 'index.html' && !/\.(?:m?js|css)$/i.test(extname(rel))) continue;
               const bytes = await readFile(path);
               files.push({
@@ -226,7 +226,7 @@ jobs:
               }
             }
             for (const script of scripts) {
-              const normalized = script.replace(/^\/, '').replace(/^Colecionador\//, '');
+              const normalized = script.replace(/^\/+/, '').replace(/^Colecionador\//, '');
               if (!manifestPaths.has(normalized)) throw new Error(`Published script is absent from integrity manifest: ${script}`);
             }
             console.log(`Published version ${expectedVersion} verified; ${manifest.files.length} HTML/JS/CSS files match the exact build.`);
