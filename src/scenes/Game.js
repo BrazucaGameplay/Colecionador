@@ -96,13 +96,11 @@ export default class Game extends Phaser.Scene {
     this.camera = this.cameras.main;
     // Zoom padrão próximo ao enquadramento de referência: o personagem fica
     // legível no celular sem enquadrar a ilha inteira de uma vez.
-    // Zoom fixo de referência: mantém o enquadramento próximo ao screenshot
-    // enviado pelo usuário em telas mobile, sem reduzir automaticamente em telas estreitas.
-    this.camera.setZoom(CAMERA_ZOOM.default);
-
-    // Afastamento mínimo suficiente para enquadrar toda a ilha no viewport.
+    // Inicia no maior afastamento que a tela permite, enquadrando toda a
+    // área visual do oceano sem barras pretas. O usuário ainda pode aproximar
+    // com o gesto de pinça até CAMERA_ZOOM.max.
     this.camera.setBounds(this.oceanBounds.x, this.oceanBounds.y, this.oceanBounds.width, this.oceanBounds.height);
-    this.camera.setZoom(Math.max(this.getMinimumCameraZoom(), CAMERA_ZOOM.default));
+    this.camera.setZoom(this.getMinimumCameraZoom());
     this.clampCameraToWorld();
     // O primeiro enquadramento acompanha o ponto válido onde o jogador nasceu.
     this.camera.startFollow(this.playerBody.object, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);

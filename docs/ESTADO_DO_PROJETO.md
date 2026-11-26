@@ -1683,3 +1683,18 @@ Versão do jogo: 2.4.48
   permanecem inalterados em 4096 x 4096.
 - Testes adicionados para cobertura responsiva e atualização dos viewports.
 - Build e testes completos devem ser confirmados pelo GitHub Actions.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — ZOOM INICIAL NO MAIOR AFASTAMENTO
+======================================================================
+
+Versão do jogo: 2.4.49
+
+- A câmera inicia no menor fator de zoom permitido pelo viewport e pelos
+  limites visuais do oceano, ou seja, no maior afastamento que a tela suporta.
+- O enquadramento inicial mostra toda a área visual do oceano, evitando
+  iniciar aproximado em uma pequena região do terreno.
+- O gesto de pinça continua permitindo aproximação até o limite máximo
+  CAMERA_ZOOM.max (2.25).
+- Nenhuma escala, coordenada ou estrutura do terreno foi alterada.
