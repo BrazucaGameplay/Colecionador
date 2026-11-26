@@ -1,17 +1,27 @@
-import { MONSTER_ACTIVE_DISTANCE_WORLD_UNITS } from '../../config.js';
+import {
+  PLAYER_ATTACK_RANGE_WORLD_UNITS,
+  MONSTER_PURSUIT_DISTANCE_WORLD_UNITS,
+  MONSTER_IDLE_DISTANCE_WORLD_UNITS
+} from '../../config.js';
 import { MONSTER_DEFINITIONS } from '../../data/monsters/index.js';
 import MonsterFactory from './MonsterFactory.js';
 import MonsterSpawner from './MonsterSpawner.js';
 
-export const MONSTER_ACTIVE_DISTANCE_SQUARED = MONSTER_ACTIVE_DISTANCE_WORLD_UNITS ** 2;
+export const PLAYER_ATTACK_RANGE_SQUARED = PLAYER_ATTACK_RANGE_WORLD_UNITS ** 2;
+export const MONSTER_PURSUIT_DISTANCE_SQUARED = MONSTER_PURSUIT_DISTANCE_WORLD_UNITS ** 2;
+export const MONSTER_IDLE_DISTANCE_SQUARED = MONSTER_IDLE_DISTANCE_WORLD_UNITS ** 2;
 
-/** Usa distância ao quadrado para evitar Math.sqrt/Math.hypot no loop de atualização. */
-export function isWithinMonsterActivationRange(player, monster) {
+/** Retorna o nível de simulação sem calcular raiz quadrada. */
+export function getMonsterBehaviorMode(player, monster) {
   if (!player || !monster || !Number.isFinite(player.x) || !Number.isFinite(player.y) ||
-      !Number.isFinite(monster.x) || !Number.isFinite(monster.y)) return false;
+      !Number.isFinite(monster.x) || !Number.isFinite(monster.y)) return 'visual';
   const dx = monster.x - player.x;
   const dy = monster.y - player.y;
-  return dx * dx + dy * dy <= MONSTER_ACTIVE_DISTANCE_SQUARED;
+  const distanceSquared = dx * dx + dy * dy;
+  if (distanceSquared <= PLAYER_ATTACK_RANGE_SQUARED) return 'combat';
+  if (distanceSquared <= MONSTER_PURSUIT_DISTANCE_SQUARED) return 'pursuit';
+  if (distanceSquared <= MONSTER_IDLE_DISTANCE_SQUARED) return 'idle';
+  return 'visual';
 }
 
 export default class MonsterManager {
@@ -22,6 +32,7 @@ export default class MonsterManager {
     this.scene = scene; this.navigation = navigation; this.playerBody = playerBody;
     this.definitions = definitions; this.onKill = onKill; this.entries = new Map();
     this.factory = new MonsterFactory(scene, { navigation, depthManager }); this.destroyed = false;
+    this.rangeCheckIntervalMs = 100;
     this.spawner = new MonsterSpawner({
       navigation, spawnZones, definitions,
       canSpawn: definition => definition?.spawnable !== false,
@@ -35,7 +46,8 @@ export default class MonsterManager {
   createMonster(definition, point, zone) {
     const entry = this.factory.create(definition, point, zone);
     entry.collider = null;
-    entry.isActive = null;
+    entry.mode = null;
+    entry.nextRangeCheckAt = 0;
     this.entries.set(entry.entity.id, entry);
     return entry;
   }
@@ -55,25 +67,31 @@ export default class MonsterManager {
     return false;
   }
   isAlive(id) { return Boolean(this.entries.get(id)?.entity.alive); }
-  setEntryActive(entry, active, now) {
-    if (entry.isActive === active) return;
-    entry.isActive = active;
-    if (!active) {
-      // Congela a simulação sem remover o monstro do mundo ou alterar seu estado/posição.
-      entry.behavior.velocityX = 0;
-      entry.behavior.velocityY = 0;
-      entry.entity.setMoving(false);
+
+  setEntryMode(entry, mode, now) {
+    if (entry.mode === mode) return;
+    const previousMode = entry.mode;
+    entry.mode = mode;
+    entry.nextRangeCheckAt = now + this.rangeCheckIntervalMs;
+
+    if (mode === 'idle' || mode === 'visual') {
+      entry.behavior.stop(entry.entity);
       entry.body.setEnabled(false);
-      // Encerra uma possível animação de ação e deixa o sprite em repouso.
-      entry.renderer.currentState = null;
-      entry.renderer.play('idle', now);
+      // Um único frame de repouso; em visual-only o renderer não recebe updates.
+      if (previousMode !== 'visual') {
+        entry.renderer.currentState = null;
+        entry.renderer.play('idle', now);
+      }
       return;
     }
-    // Reposiciona o corpo uma única vez antes de reativar a física.
-    entry.body.sync();
+
+    // Corpo físico só fica habilitado nas faixas de combate/perseguição.
     entry.body.setEnabled(true);
+    entry.body.sync();
     entry.renderer.setTransform(entry.entity.x, entry.entity.y);
+    if (mode === 'combat') entry.behavior.stop(entry.entity);
   }
+
   damage(id, amount = 1, now = this.scene.time.now, penetration = 0) {
     const entry = this.entries.get(id);
     if (!entry || !entry.entity.alive) return { applied: 0, dead: false };
@@ -89,6 +107,7 @@ export default class MonsterManager {
     this.onKill({ monster: entry.entity, experience: entry.entity.definition.experience, drops: entry.entity.definition.drops });
     return result;
   }
+
   update(now, delta) {
     if (this.destroyed) return;
     this.spawner.update(now);
@@ -96,17 +115,36 @@ export default class MonsterManager {
     for (const [id, entry] of this.entries) {
       if (entry.entity.dead) { if (now >= entry.removeAt) this.remove(id); continue; }
 
-      const active = isWithinMonsterActivationRange(player, entry.entity);
-      this.setEntryActive(entry, active, now);
-      if (!active) continue;
+      // Entidades paradas verificam mudança de faixa a cada 100 ms, não a cada frame.
+      if (now >= entry.nextRangeCheckAt) {
+        this.setEntryMode(entry, getMonsterBehaviorMode(player, entry.entity), now);
+      }
 
-      entry.behavior.update(entry.entity, now, delta);
-      entry.body.sync();
-      entry.renderer.setTransform(entry.entity.x, entry.entity.y);
+      if (entry.mode === 'visual') continue;
+
+      if (entry.mode === 'idle') {
+        // Mantém apenas o repouso visual; sem IA, física ou sincronização.
+        entry.renderer.update(now);
+        entry.renderer.play('idle', now);
+        continue;
+      }
+
+      if (entry.mode === 'pursuit') {
+        entry.behavior.pursue(entry.entity, player, delta);
+      } else {
+        // Dentro de 2 m, o sistema de combate do jogador executa os ataques.
+        entry.behavior.stop(entry.entity);
+      }
+
+      if (entry.entity.moving) {
+        entry.body.sync();
+        entry.renderer.setTransform(entry.entity.x, entry.entity.y);
+      }
       entry.renderer.update(now);
       entry.renderer.play(entry.entity.moving ? 'walking' : 'idle', now);
     }
   }
+
   remove(id) {
     const entry = this.entries.get(id);
     if (!entry) return false;
