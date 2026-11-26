@@ -1,6 +1,6 @@
 {
   "name": "colecionador",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "type": "module",
   "packageManager": "npm@12.2.2",
@@ -27,4 +27,4 @@
     "@capacitor/cli": "^8.6.2",
     "playwright": "^1.65.1"
   }
-}
+}\n
