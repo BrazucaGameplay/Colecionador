@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import Monster from '../src/entities/Monster.js';
 import MonsterSpawner from '../src/systems/monsters/MonsterSpawner.js';
+import { MONSTER_ACTIVE_DISTANCE_METERS, MONSTER_ACTIVE_DISTANCE_WORLD_UNITS, WORLD_UNITS_PER_METER } from '../src/config.js';
+import { isWithinMonsterActivationRange } from '../src/systems/monsters/MonsterManager.js';
 import { MONSTER_DEFINITIONS } from '../src/data/monsters/index.js';
 import { ISLAND_01_MONSTER_SPAWNS } from '../src/world/spawn-layout/island-01.js';
 const definition = { id: 'test-monster', maxHealth: 2, speed: 20, defense: 0, collision: { radius: 8 }, behavior: { moveChance: 1, decisionMinMs: 500, decisionMaxMs: 500 } };
@@ -88,6 +90,7 @@ test('Spawner respeita população máxima e agenda respawn após morte', () => 
   spawner.update(109); assert.equal(alive.length, 1); assert.equal(created.length, 2);
   spawner.update(110); assert.equal(alive.length, 2); assert.equal(created.length, 3);
 });
+
 test('Spawner não cria monstro sobre área bloqueada e agenda nova tentativa', () => {
   let attempts = 0;
   const spawner = new MonsterSpawner({
@@ -97,4 +100,18 @@ test('Spawner não cria monstro sobre área bloqueada e agenda nova tentativa', 
     createMonster: () => { attempts += 1; return true; }, random: () => 0.5
   });
   spawner.update(0); spawner.update(49); assert.equal(attempts, 0); spawner.update(50); assert.equal(attempts, 0);
+});
+
+test('distância de ativação equivale a 50 m na escala do alcance de ataque de 2 m', () => {
+  assert.equal(WORLD_UNITS_PER_METER, 75);
+  assert.equal(MONSTER_ACTIVE_DISTANCE_METERS, 50);
+  assert.equal(MONSTER_ACTIVE_DISTANCE_WORLD_UNITS, 3750);
+});
+
+test('monstro permanece ativo até 50 m e fica fora da simulação acima desse limite', () => {
+  const player = { x: 100, y: 200 };
+  assert.equal(isWithinMonsterActivationRange(player, { x: 3850, y: 200 }), true);
+  assert.equal(isWithinMonsterActivationRange(player, { x: 3850.01, y: 200 }), false);
+  assert.equal(isWithinMonsterActivationRange(player, { x: 100, y: 3950 }), true);
+  assert.equal(isWithinMonsterActivationRange(player, { x: 100, y: 3950.01 }), false);
 });
