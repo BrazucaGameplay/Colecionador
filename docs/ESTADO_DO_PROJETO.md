@@ -1453,3 +1453,23 @@ VALIDACAO:
   TileSprite estatico; o fragment fill acompanha apenas a area visivel
   do oceano, nao os 49.152 x 49.152 pixels geometricos inteiros.
 - Versao: 2.4.2.
+
+
+======================================================================
+26. OCEANO — TEXTURA FOTOGRAFICA DE REFERENCIA (26/11/2026)
+======================================================================
+
+- Substituido o SVG procedural anterior pela textura de oceano fornecida
+  como referencia visual pelo usuario.
+- Arquivo: public/assets/world/terrain/ocean-pattern.webp.
+- A imagem de origem foi reduzida para 512 x 512 pixels e codificada em
+  WebP com qualidade 78, mantendo ondas profundas e reflexos ciano.
+- O TileSprite existente continua usando a mesma chave ocean-pattern;
+  nenhuma mudanca de geometria, camera ou quantidade de objetos.
+- A textura e carregada uma vez e repetida no TileSprite estatico.
+- Peso do arquivo WebP: aproximadamente 24.8 KB; textura RGBA expandida
+  em memoria: aproximadamente 1 MiB (512 x 512 x 4), sem contar overhead.
+- CPU por frame: zero para geracao; o desenho continua sendo um TileSprite.
+- Removido o SVG estilizado anterior, que nao correspondia ao nivel de
+  realismo da referencia enviada.
+- Versao: 2.4.3.

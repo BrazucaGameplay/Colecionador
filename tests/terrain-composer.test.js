@@ -61,14 +61,14 @@ test('Preload carrega os três assets materiais usados diretamente pelo shader',
 });
 
 
-test('oceano usa textura SVG pequena e TileSprite estático', () => {
+test('oceano usa a textura WebP de referencia e TileSprite estático', () => {
   const game = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
   const preload = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
-  const ocean = readFileSync(new URL('../public/assets/world/terrain/ocean-pattern.svg', import.meta.url), 'utf8');
+  const ocean = readFileSync(new URL('../public/assets/world/terrain/ocean-pattern.webp', import.meta.url));
   assert.ok(game.includes('this.add.tileSprite('));
   assert.ok(game.includes("'ocean-pattern'"));
   assert.ok(!game.includes('0x315b78'));
-  assert.ok(preload.includes('ocean-pattern.svg'));
-  assert.ok(ocean.includes('width="256" height="256"'));
-  assert.ok(!ocean.includes('<image') && !ocean.includes('filter='));
+  assert.ok(preload.includes('ocean-pattern.webp'));
+  assert.equal(ocean.toString('ascii', 0, 4), 'RIFF');
+  assert.equal(ocean.toString('ascii', 8, 12), 'WEBP');
 });
