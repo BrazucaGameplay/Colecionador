@@ -6,13 +6,17 @@ export function fitMonsterFrameScale(frameWidth, frameHeight, targetWidth, targe
 
 /** Teste AABB no espaço do mundo; a margem evita pop-in durante pan/follow. */
 export function isMonsterInView(x, y, width, height, view, padding = 0) {
-  if (![x, y, width, height].every(Number.isFinite) || !view) return true;
+  if (![x, y, width, height].every(Number.isFinite) || !view ||
+      !Number.isFinite(view.x) || !Number.isFinite(view.y)) return true;
+  const right = Number.isFinite(view.right) ? view.right : view.x + view.width;
+  const bottom = Number.isFinite(view.bottom) ? view.bottom : view.y + view.height;
+  if (!Number.isFinite(right) || !Number.isFinite(bottom)) return true;
   const halfWidth = Math.max(0, width) / 2;
   const halfHeight = Math.max(0, height) / 2;
   return x + halfWidth >= view.x - padding &&
-    x - halfWidth <= view.right + padding &&
+    x - halfWidth <= right + padding &&
     y + halfHeight >= view.y - padding &&
-    y - halfHeight <= view.bottom + padding;
+    y - halfHeight <= bottom + padding;
 }
 
 export default class MonsterRenderer {
