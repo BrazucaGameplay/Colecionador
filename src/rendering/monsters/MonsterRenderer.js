@@ -28,8 +28,6 @@ export default class MonsterRenderer {
     const idle = visual?.enabled ? visual.animations?.idle : null;
     this.shadow = null; this.sprite = null; this.frameBox = null;
     if (idle && scene.textures.exists(idle.key)) {
-      this.shadow = scene.add.ellipse(monster.x, monster.y - 2, 26, 9, 0x101522, 0.24);
-      this.depthManager?.apply(this.shadow, monster.y, 'shadow');
       this.sprite = scene.add.image(monster.x, monster.y, idle.key)
         .setOrigin(visual.originX ?? 0.5, visual.originY ?? 0.92);
       const frame = this.sprite.frame;
@@ -52,10 +50,26 @@ export default class MonsterRenderer {
   }
   setInView(visible) {
     if (this.destroyed) return;
-    this.inView = Boolean(visible);
+    const nextVisibility = Boolean(visible);
+    if (this.inView === nextVisibility) return;
+    this.inView = nextVisibility;
     const renderVisible = this.inView && this.currentState !== 'death';
     this.sprite?.setVisible(renderVisible);
-    this.shadow?.setVisible(this.inView && this.currentState !== 'death');
+    this.shadow?.setVisible(renderVisible);
+  }
+  setShadowEnabled(enabled) {
+    if (this.destroyed || !this.sprite || !this.scene) return;
+    if (!enabled) {
+      this.shadow?.destroy();
+      this.shadow = null;
+      return;
+    }
+    if (this.shadow) return;
+    this.shadow = this.scene.add.ellipse(
+      this.monster.x, this.monster.y - 2, 26, 9, 0x101522, 0.24
+    );
+    this.depthManager?.apply(this.shadow, this.monster.y, 'shadow');
+    this.shadow.setVisible(this.inView && this.currentState !== 'death');
   }
   play(state, now = 0) {
     if (this.destroyed || !this.sprite) return false;

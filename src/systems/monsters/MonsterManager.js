@@ -43,6 +43,8 @@ export default class MonsterManager {
     this.nextActivationCheckAt = 0;
     this.activeEntries = new Set();
     this.visibilityCheckIntervalMs = 150;
+    this.spawnerCheckIntervalMs = 500;
+    this.nextSpawnerCheckAt = 0;
     this.nextVisibilityCheckAt = 0;
     this.visibilityPaddingFactor = 0.2;
     this.spawner = new MonsterSpawner({
@@ -53,7 +55,9 @@ export default class MonsterManager {
       getPlayerPosition: () => ({ x: this.playerBody.player.x, y: this.playerBody.player.y }),
       isOccupied: (point, radius, zoneId) => this.isOccupied(point, radius, zoneId)
     });
-    this.spawner.update(scene.time?.now || 0);
+    const initialNow = scene.time?.now || 0;
+    this.spawner.update(initialNow);
+    this.nextSpawnerCheckAt = initialNow + this.spawnerCheckIntervalMs;
   }
   createMonster(definition, point, zone) {
     const entry = this.factory.create(definition, point, zone);
@@ -123,6 +127,7 @@ export default class MonsterManager {
       this.activeEntries.delete(entry);
       entry.behavior?.stop(entry.entity);
       entry.body?.setEnabled(false);
+      entry.renderer.setShadowEnabled?.(false);
       // Ao adormecer, congela novamente na primeira arte estática.
       entry.renderer.currentState = null;
       entry.renderer.play('idle', now);
@@ -132,6 +137,7 @@ export default class MonsterManager {
     this.activateEntry(entry);
     this.activeEntries.add(entry);
     if (mode === 'idle' || mode === 'visual') {
+      entry.renderer.setShadowEnabled?.(mode === 'idle');
       entry.behavior.stop(entry.entity);
       entry.body.setEnabled(false);
       if (previousMode === 'dormant' || previousMode === 'idle' || previousMode === 'visual') {
@@ -141,6 +147,7 @@ export default class MonsterManager {
       return;
     }
 
+    entry.renderer.setShadowEnabled?.(true);
     entry.body.setEnabled(true);
     entry.body.sync();
     entry.renderer.setTransform(entry.entity.x, entry.entity.y);
@@ -169,6 +176,7 @@ export default class MonsterManager {
       return result;
     }
     entry.body.setEnabled(false);
+    entry.renderer.setShadowEnabled?.(false);
     entry.renderer.play('death', now);
     entry.removeAt = now + (Number(entry.entity.definition.deathDurationMs) || 600);
     this.spawner.notifyDeath(entry.entity.spawnZoneId, now);
@@ -178,7 +186,10 @@ export default class MonsterManager {
 
   update(now, delta) {
     if (this.destroyed) return;
-    this.spawner.update(now);
+    if (now >= this.nextSpawnerCheckAt) {
+      this.spawner.update(now);
+      this.nextSpawnerCheckAt = now + this.spawnerCheckIntervalMs;
+    }
     this.updateActivation(now);
     this.updateVisibility(now);
     const player = this.playerBody.player;
