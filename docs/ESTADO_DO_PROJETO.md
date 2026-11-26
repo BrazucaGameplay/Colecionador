@@ -876,3 +876,41 @@ VALIDAÇÃO:
 - Versão anterior: 2.1.5. Nova versão: 2.1.6.
 - package.json e package-lock.json sincronizados em 2.1.6.
 - Testes manuais/visuais não foram executados; aguardar CI e validar no Android.
+
+
+======================================================================
+24. FLORESTA FIXA DA ILHA INICIAL — 26/11/2026
+======================================================================
+
+VERSIONAMENTO:
+- Versão anterior: 2.1.6. Nova versão: 2.1.7.
+- package.json e package-lock.json sincronizados.
+
+ASSETS DE VEGETAÇÃO:
+- Removidas as referências aos PNGs antigos arvore_1.png e arvore_2.png.
+- Preload usa somente três WebP existentes em public/assets/world/vegetation:
+  arvore_ilha_webp_256.webp (copa larga),
+  pinheiro_ilha_webp_384.webp (pinheiro),
+  arvore_ancestral_toca_webp_640.webp (marco único).
+- Árvores secas, copa dourada, árvore de toca grande e assets de rocha não
+  são carregados nem usados no layout desta floresta.
+
+LAYOUT:
+- ISLAND_01_LAYOUT contém 33 instâncias com coordenadas X/Y explícitas:
+  16 árvores de copa larga, 16 pinheiros e uma árvore ancestral.
+- Árvore ancestral posicionada em (700, 720), no canto noroeste.
+- Variações de escala são declaradas por targetHeight em cada instância.
+- Nenhuma árvore é posicionada por sorteio ou distribuição procedural.
+- Profundidade usa a coordenada Y da base do tronco.
+
+COLISÃO:
+- Cada instância declara uma área elíptica de colisão para o tronco.
+- WorldCollisionManager registra os obstáculos no WorldNavigation.
+- Movimento tap-to-move e A* respeitam as áreas bloqueadas; colisão é
+  separada do tamanho visual da copa.
+- Testes automatizados verificam os três tipos, contagem, unicidade da
+  árvore ancestral, coordenadas fixas e registro dos obstáculos.
+
+VALIDAÇÃO:
+- Código enviado para main. Aguardando GitHub Actions para confirmar
+  testes, build e deploy. Nenhum teste manual ou visual Android foi feito.
