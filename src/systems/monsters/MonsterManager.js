@@ -125,6 +125,7 @@ export default class MonsterManager {
   isAlive(id) { return Boolean(this.entries.get(id)?.entity.alive); }
 
   updateVisibility(now) {
+    this.metrics ||= {};
     if (now < this.nextVisibilityCheckAt) return;
     this.nextVisibilityCheckAt = now + this.visibilityCheckIntervalMs;
     const view = this.scene?.cameras?.main?.worldView;
@@ -275,8 +276,9 @@ export default class MonsterManager {
     this.metrics.totalMs = performance.now() - started;
     this.metrics.alive = this.entries.size;
     this.metrics.active = this.activeEntries.size;
-    this.metrics.combat = this.combatEntries.size;
-    this.metrics.pursuing = this.activeEntries.size - this.combatEntries.size;
+    const combatCount = this.combatEntries?.size ?? 0;
+    this.metrics.combat = combatCount;
+    this.metrics.pursuing = this.activeEntries.size - combatCount;
   }
 
   remove(id) {
