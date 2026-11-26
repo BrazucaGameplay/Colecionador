@@ -184,6 +184,10 @@ export default class MonsterManager {
     entry.entity.setMoving(false);
     entry.lastMoving = false;
     entry.renderer.setShadowEnabled(false);
+    // Ao sair da simulação, encerra qualquer ação visual temporária: o estado
+    // estático não terá update contínuo para concluir um cooldown de animação.
+    entry.renderer.currentState = null;
+    entry.renderer.actionUntil = 0;
     entry.renderer.play('idle', now);
   }
 
