@@ -188,7 +188,7 @@ export default class MonsterManager {
         this.setEntryMode(entry, getMonsterBehaviorMode(player, entry.entity), now);
       }
 
-      if (entry.mode === 'dormant' || entry.mode === 'visual' || entry.mode === 'idle') continue;
+      if (entry.mode === 'dormant' || entry.mode === 'visual') continue;
 
       entry.entity.update(delta, now);
       if (entry.mode === 'pursuit') {
