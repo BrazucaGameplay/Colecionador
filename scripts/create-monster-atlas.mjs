@@ -70,6 +70,6 @@ const metadata = {
   frames
 };
 
-await writeFile(jsonPath, JSON.stringify(metadata, null, 2) + '\\n', 'utf8');
+await writeFile(jsonPath, JSON.stringify(metadata, null, 2) + '\n', 'utf8');
 console.log('JSON de atlas criado: ' + jsonPath);
 console.log(frames.length + ' quadros; ' + directionCount + ' direções; ' + fps + ' FPS.');
