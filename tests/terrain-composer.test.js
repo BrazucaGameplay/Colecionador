@@ -9,7 +9,7 @@ test('Game renderiza a ilha inteira com uma √∫nica textura e preserva o mundo l√
   assert.match(game, /const ISLAND_DIAMETER = 4096/);
   assert.match(game, /this\.add\.image\([\s\S]*?'island-terrain'/);
   assert.match(game, /setDisplaySize\(this\.worldWidth, this\.worldHeight\)/);
-  assert.match(game, /this\.navigation\.setAlphaMask\(pixels, maskSize, maskSize, 160\)/);
+  assert.match(game, /this\\.navigation\\.setAlphaMask\\(pixels, maskSize, maskSize, threshold\\)/);
   assert.doesNotMatch(game, /createIslandTerrain|setIslandMask\(/);
 });
 
