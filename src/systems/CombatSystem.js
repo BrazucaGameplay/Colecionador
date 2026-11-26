@@ -1,7 +1,10 @@
-import { PLAYER_ATTACK_RANGE_WORLD_UNITS } from '../config.js';
+import {
+  PLAYER_ATTACK_RANGE_WORLD_UNITS,
+  MONSTER_PURSUIT_DISTANCE_WORLD_UNITS
+} from '../config.js';
 
 export default class CombatSystem {
-  constructor({ player, movement, getTargets, onAttack = () => {}, attackRange = PLAYER_ATTACK_RANGE_WORLD_UNITS, detectionRange = 500, retargetIntervalMs = 250 } = {}) {
+  constructor({ player, movement, getTargets, onAttack = () => {}, attackRange = PLAYER_ATTACK_RANGE_WORLD_UNITS, detectionRange = MONSTER_PURSUIT_DISTANCE_WORLD_UNITS, retargetIntervalMs = 250 } = {}) {
     if (!player || !movement || typeof getTargets !== 'function') throw new TypeError('CombatSystem exige jogador, movimento e consulta de alvos.');
     this.player = player; this.movement = movement; this.getTargets = getTargets; this.onAttack = onAttack;
     this.attackRange = Math.max(0, attackRange); this.detectionRange = Math.max(this.attackRange, detectionRange);
@@ -12,8 +15,11 @@ export default class CombatSystem {
     let selected = null, selectedDistance = this.detectionRange;
     for (const target of this.getTargets() || []) {
       if (!target?.alive) continue;
-      const distance = Math.hypot(target.x - this.player.x, target.y - this.player.y);
-      if (distance <= selectedDistance) { selected = target; selectedDistance = distance; }
+      const dx = target.x - this.player.x, dy = target.y - this.player.y;
+      const distanceSquared = dx * dx + dy * dy;
+      if (distanceSquared <= selectedDistance * selectedDistance) {
+        selected = target; selectedDistance = Math.sqrt(distanceSquared);
+      }
     }
     return selected;
   }
