@@ -1,5 +1,6 @@
 import { getIslandBoundaryRadius, ISLAND_SHAPE } from './IslandShape.js';
 const CELL = 24;
+const OBSTACLE_GRID_CELL = 128;
 const DIRECTIONS = [
   [1, 0, 1], [-1, 0, 1], [0, 1, 1], [0, -1, 1],
   [1, 1, Math.SQRT2], [1, -1, Math.SQRT2], [-1, 1, Math.SQRT2], [-1, -1, Math.SQRT2]
@@ -49,6 +50,13 @@ export default class WorldNavigation {
     this.cols = Math.ceil(width / CELL);
     this.rows = Math.ceil(height / CELL);
     this.blockers = [];
+    // Índice espacial: cada obstáculo fica apenas no bucket de seu centro.
+    // A consulta expande o raio pelo maior tronco registrado, preservando
+    // colisões elípticas sem percorrer toda a lista em cada célula do A*.
+    this.obstacleGrid = new Map();
+    this.obstacleGridCellSize = OBSTACLE_GRID_CELL;
+    this.maxObstacleRadiusX = 0;
+    this.maxObstacleRadiusY = 0;
     this.alphaMask = null;
     this.maskWidth = 0;
     this.maskHeight = 0;
@@ -156,7 +164,39 @@ export default class WorldNavigation {
   }
 
   addObstacle(x, y, radiusX, radiusY = radiusX) {
-    this.blockers.push({ x, y, radiusX, radiusY });
+    const obstacle = { x, y, radiusX, radiusY };
+    this.blockers.push(obstacle);
+    this.maxObstacleRadiusX = Math.max(this.maxObstacleRadiusX, radiusX);
+    this.maxObstacleRadiusY = Math.max(this.maxObstacleRadiusY, radiusY);
+
+    const col = Math.floor(x / this.obstacleGridCellSize);
+    const row = Math.floor(y / this.obstacleGridCellSize);
+    const key = row * Math.ceil(this.width / this.obstacleGridCellSize) + col;
+    let bucket = this.obstacleGrid.get(key);
+    if (!bucket) this.obstacleGrid.set(key, bucket = []);
+    bucket.push(obstacle);
+  }
+
+  getNearbyObstacles(x, y, queryRadius = 12) {
+    if (!this.obstacleGrid.size) return [];
+    const cellSize = this.obstacleGridCellSize;
+    const cols = Math.ceil(this.width / cellSize);
+    const reachX = this.maxObstacleRadiusX + queryRadius;
+    const reachY = this.maxObstacleRadiusY + queryRadius;
+    const minCol = Math.floor((x - reachX) / cellSize);
+    const maxCol = Math.floor((x + reachX) / cellSize);
+    const minRow = Math.floor((y - reachY) / cellSize);
+    const maxRow = Math.floor((y + reachY) / cellSize);
+    const nearby = [];
+
+    for (let row = minRow; row <= maxRow; row++) {
+      for (let col = minCol; col <= maxCol; col++) {
+        if (col < 0 || row < 0 || col >= cols) continue;
+        const bucket = this.obstacleGrid.get(row * cols + col);
+        if (bucket) nearby.push(...bucket);
+      }
+    }
+    return nearby;
   }
 
   isWalkable(col, row) {
@@ -166,7 +206,7 @@ export default class WorldNavigation {
     if (!this.walkableGrid && !this.isInsideIsland(col * CELL + CELL / 2, row * CELL + CELL / 2)) return false;
     const x = col * CELL + CELL / 2;
     const y = row * CELL + CELL / 2;
-    return !this.blockers.some(b => {
+    return !this.getNearbyObstacles(x, y, 12).some(b => {
       const dx = (x - b.x) / (b.radiusX + 12);
       const dy = (y - b.y) / (b.radiusY + 12);
       return dx * dx + dy * dy < 1;
@@ -181,7 +221,7 @@ export default class WorldNavigation {
       [radius * 0.7, -radius * 0.7], [-radius * 0.7, -radius * 0.7]
     ];
     if (samples.some(([dx, dy]) => !this.isInsideIsland(x + dx, y + dy))) return false;
-    return !this.blockers.some(b => {
+    return !this.getNearbyObstacles(x, y, radius).some(b => {
       const dx = (x - b.x) / (b.radiusX + radius);
       const dy = (y - b.y) / (b.radiusY + radius);
       return dx * dx + dy * dy < 1;
