@@ -31,7 +31,6 @@ export default class Game extends Phaser.Scene {
     this.worldObjects = [];
     this.groundObject = null;
     this.terrain = null;
-    this.shorelineOverlays = [];
   }
 
   create() {
@@ -50,7 +49,6 @@ export default class Game extends Phaser.Scene {
     this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
     this.createOceanBackground();
     this.createGround();
-    this.createShorelineOverlays();
     this.createIslandWalkableMask();
     this.depthManager = new WorldDepthManager();
     this.collisionManager = new WorldCollisionManager(this.navigation);
@@ -190,30 +188,6 @@ export default class Game extends Phaser.Scene {
       reliefKey: 'terrain-relief'
     });
     this.groundObject = this.terrain.object;
-  }
-
-  createShorelineOverlays() {
-    // Cinco recortes de margem formam uma camada visual acima do terreno.
-    // Cada peça atravessa a linha circular: metade fica sobre a ilha e metade
-    // avança sobre o oceano. A sobreposição entre peças evita frestas visíveis.
-    const keys = ['shore-overlay-0','shore-overlay-2','shore-overlay-3','shore-overlay-4','shore-overlay-5'];
-    const count = 25;
-    const radius = ISLAND_SHAPE.baseRadius;
-    const pieceSize = 620;
-    const angleOffset = -Math.PI / 2;
-    this.shorelineOverlays = [];
-    for (let index = 0; index < count; index++) {
-      const angle = angleOffset + (index / count) * Math.PI * 2;
-      const key = keys[index % keys.length];
-      const x = ISLAND_SHAPE.centerX + Math.cos(angle) * radius;
-      const y = ISLAND_SHAPE.centerY + Math.sin(angle) * radius;
-      const overlay = this.add.image(x, y, key)
-        .setDisplaySize(pieceSize, pieceSize)
-        .setOrigin(0.5, 0.5)
-        .setRotation(angle + Math.PI / 2)
-        .setDepth(-950);
-      this.shorelineOverlays.push(overlay);
-    }
   }
 
   createIslandWalkableMask() {
@@ -376,8 +350,6 @@ export default class Game extends Phaser.Scene {
     this.worldObjectManager?.destroy();
     this.collisionManager?.destroy();
     this.worldObjects.length = 0;
-    this.shorelineOverlays?.forEach(overlay => overlay.destroy());
-    this.shorelineOverlays = [];
     this.groundObject?.destroy();
     this.groundObject = null;
     this.terrain = null;

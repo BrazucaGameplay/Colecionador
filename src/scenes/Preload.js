@@ -7,11 +7,6 @@ const WORLD_ASSETS = [
   ['terrain-smooth', 'assets/world/terrain/Terreno_liso.webp'],
   ['terrain-grass', 'assets/world/terrain/Terreno_moita.webp'],
   ['terrain-relief', 'assets/world/terrain/Terreno_relevo.webp'],
-  ['shore-overlay-0', 'assets/world/terrain/margem0.webp'],
-  ['shore-overlay-2', 'assets/world/terrain/margem2.webp'],
-  ['shore-overlay-3', 'assets/world/terrain/margem3.webp'],
-  ['shore-overlay-4', 'assets/world/terrain/margem4.webp'],
-  ['shore-overlay-5', 'assets/world/terrain/margem%205.webp'],
   ['tree-forest-broad', 'assets/world/vegetation/arvore_ilha_webp_256.webp'],
   ['tree-forest-pine', 'assets/world/vegetation/pinheiro_ilha_webp_384.webp'],
   ['tree-ancestral', 'assets/world/vegetation/arvore_ancestral_toca_webp_640.webp']
@@ -26,7 +21,7 @@ export default class Preload extends Phaser.Scene {
     const label = this.add.text(width / 2, height / 2 + 40, 'Carregando mundo... 0%', { fontSize: '16px', color: '#ffffff' }).setOrigin(0.5);
     this.load.on('progress', progress => { fill.width = 280 * progress; label.setText('Carregando mundo... ' + Math.round(progress * 100) + '%'); });
     this.load.on('loaderror', file => { console.error('Falha ao carregar asset final:', file.key, file.src); label.setText('Falha ao carregar recursos do jogo.'); });
-    for (const [key, url] of WORLD_ASSETS) this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261126-shore-overlays-v25');
+    for (const [key, url] of WORLD_ASSETS) this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261126-circular-island-v26');
     queuePlayerSpriteAssets(this.load);
     queueMonsterAssets(this.load);
   }
