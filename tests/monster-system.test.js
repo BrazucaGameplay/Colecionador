@@ -5,6 +5,7 @@ import MonsterSpawner from '../src/systems/monsters/MonsterSpawner.js';
 import { PLAYER_ATTACK_RANGE_METERS, PLAYER_ATTACK_RANGE_WORLD_UNITS, WORLD_UNITS_PER_METER, MONSTER_PURSUIT_DISTANCE_METERS, MONSTER_IDLE_DISTANCE_METERS, MONSTER_PURSUIT_DISTANCE_WORLD_UNITS, MONSTER_IDLE_DISTANCE_WORLD_UNITS } from '../src/config.js';
 import { getMonsterBehaviorMode } from '../src/systems/monsters/MonsterManager.js';
 import MonsterBehaviorController from '../src/systems/monsters/MonsterBehaviorController.js';
+import CombatSystem from '../src/systems/CombatSystem.js';
 import { MONSTER_DEFINITIONS } from '../src/data/monsters/index.js';
 import { ISLAND_01_MONSTER_SPAWNS } from '../src/world/spawn-layout/island-01.js';
 const definition = { id: 'test-monster', maxHealth: 2, speed: 20, defense: 0, collision: { radius: 8 }, behavior: { moveChance: 1, decisionMinMs: 500, decisionMaxMs: 500 } };
@@ -139,4 +140,43 @@ test('perseguição move o monstro na direção do jogador e respeita navegaçã
   assert.equal(monster.moving, true);
   behavior.stop(monster);
   assert.equal(monster.moving, false);
+});
+
+
+test('CombatSystem ataca somente dentro de 2 m e detecta alvos ate 10 m', () => {
+  const player = {
+    x: 0, y: 0, alive: true, stats: { attackSpeed: 1, penetration: 0 },
+    setFacing() {}, setMoving() {}, markCombat() {},
+    getAttackDamage: () => 5
+  };
+  const movement = {
+    hasManualDestination: false,
+    stopped: false,
+    destination: null,
+    stopAutomaticMovement() { this.stopped = true; },
+    setAutomaticDestination(x, y) { this.destination = { x, y }; }
+  };
+  const target = { id: 'target', x: 150, y: 0, alive: true, defense: 0 };
+  let attacks = 0;
+  const combat = new CombatSystem({
+    player, movement, getTargets: () => [target],
+    onAttack: () => { attacks += 1; }
+  });
+  assert.equal(combat.attackRange, 150);
+  assert.equal(combat.detectionRange, 750);
+  combat.update(0);
+  assert.equal(attacks, 1);
+
+  target.x = 151;
+  combat.targetId = null;
+  combat.nextRetargetAt = 0;
+  combat.update(300);
+  assert.equal(attacks, 1);
+  assert.deepEqual(movement.destination, { x: 151, y: 0 });
+
+  target.x = 750;
+  assert.equal(combat.selectTarget(), target);
+  target.x = 750.01;
+  assert.equal(combat.selectTarget(), null);
+  combat.destroy();
 });
