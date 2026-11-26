@@ -964,3 +964,13 @@ CORREÇÃO DE CI DA FLORESTA — 26/11/2026:
 - Layout continua estático, determinístico e sem aleatoriedade.
 - Testes adicionados para vizinhança máxima e contagem das três categorias.
 - Aguardando GitHub Actions e publicação; não houve teste visual no Android.
+
+
+CORREÇÃO DA ÁREA DE NASCIMENTO — 26/11/2026:
+- CI da versão 2.2.0 apontou uma árvore solitária dentro do raio de início.
+- Removida a árvore tree-solo-075 (1918, 1823), que invadia a área inicial.
+- O layout passa a ter 217 estruturas: 216 árvores comuns + ancestral.
+- 22 árvores permanecem com aumento de 80%, 21 com aumento de 90% e
+  173 no tamanho-base. O arredondamento é feito sobre a quantidade real.
+- Testes de contagem e área inicial atualizados. Versão 2.2.1.
+- Aguardar nova execução CI/deploy.
