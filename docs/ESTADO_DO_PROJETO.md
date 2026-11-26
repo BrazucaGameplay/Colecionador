@@ -1879,3 +1879,20 @@ Versão do jogo: 2.4.59
 - O oceano continua sendo um único TileSprite e se adapta ao viewport.
 - Testes atualizados para validar a nova margem e o buffer reduzido.
 - Build, testes e publicação devem ser confirmados pelo GitHub Actions.
+
+
+======================================================================
+11. LIMPEZA DE CÓDIGO — 26/11/2026
+======================================================================
+
+- Removido src/world/IslandTerrainRenderer.js: módulo de renderização de terreno
+  legado sem importadores no código de produção ou nos testes. O terreno ativo
+  permanece no fluxo atual de Game.js e Preload.js.
+- Mantidos WorldObjectManager, WorldDepthManager, WorldCollisionManager,
+  WorldNavigation e o layout validado de árvores; esses módulos participam
+  diretamente do fluxo atual do jogo.
+- Mantidos módulos de renderização 3D e utilitários ainda não ativados na cena
+  principal, pois sua remoção exigiria confirmar a decisão de produto e o uso
+  futuro; não foram tratados como código comprovadamente obsoleto.
+- A limpeza não altera o layout, as coordenadas, os assets nem as regras de
+  colisão das estruturas.
