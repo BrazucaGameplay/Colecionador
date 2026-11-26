@@ -1807,3 +1807,20 @@ Versão do jogo: 2.4.55
   não foram alterados.
 - Testes atualizados para validar os três valores e os limites da pinça.
 - Build, testes e publicação devem ser confirmados pelo GitHub Actions.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — CORREÇÃO DE TESTE DO ZOOM MÁXIMO
+======================================================================
+
+Versão do jogo: 2.4.56
+
+- O workflow da versão 2.4.55 executou instalação e auditoria sem
+  vulnerabilidades, mas falhou em um teste de entrada por toque.
+- A falha era uma expectativa obsoleta no teste de zoom máximo: o código
+  já limitava corretamente o zoom a 0.8x, mas o teste ainda esperava 2.25x.
+- Corrigida a asserção para validar 0.8x, sem alterar a lógica de câmera.
+- A publicação não ocorreu na execução 45890876464: o job deploy foi
+  ignorado porque a etapa de testes falhou.
+- A nova execução de CI precisa concluir testes, build, verificação da
+  versão compilada, upload do artefato e deploy antes de declarar publicada.

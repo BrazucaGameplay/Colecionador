@@ -132,6 +132,6 @@ test('zoom máximo permite ampliar até 0.8x e bloqueia além desse limite', () 
   f.input.emit('pointerdown', { id: 1, x: 100, y: 100 });
   f.input.emit('pointerdown', { id: 2, x: 200, y: 100 });
   f.input.emit('pointermove', { id: 2, x: 500, y: 100 });
-  assert.equal(f.camera.zoom, 2.25);
+  assert.equal(f.camera.zoom, 0.8);
   f.controller.destroy();
 });
