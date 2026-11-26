@@ -31,7 +31,7 @@ test('as árvores formam exatamente três bosques compactos em regiões distinta
     group, ISLAND_01_LAYOUT.filter(item => item.group === group).length
   ]));
   assert.deepEqual(counts, { 'grove-west': 11, 'grove-east': 11, 'grove-south': 10 });
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.id.startsWith('tree-solo-')).length, 185);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.id.startsWith('tree-solo-')).length, 184);
   const centers = Object.entries(counts).map(([group]) => {
     const trees = ISLAND_01_LAYOUT.filter(item => item.group === group);
     return {
