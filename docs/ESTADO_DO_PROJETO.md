@@ -1064,3 +1064,66 @@ VALIDAÇÃO:
   commit final; não há validação visual ou Android declarada nesta etapa.
 
 FIM DA ATUALIZAÇÃO 14
+
+
+======================================================================
+15. ATUALIZACAO — FAIXAS DE DISTANCIA DOS MONSTROS (26/11/2026)
+======================================================================
+
+VERSAO:
+- 2.2.3 (substitui a regra provisoria de 50 metros da versao 2.2.2).
+
+ESCALA FIXA:
+- 2 metros de alcance de ataque = 150 unidades do mundo.
+- 1 metro = 75 unidades do mundo.
+- As distancias sao constantes centralizadas em src/config.js.
+
+REGRAS IMPLEMENTADAS (distancia euclidiana):
+- Ate 2 m (150 unidades): modo combat. O monstro para de perseguir e o
+  CombatSystem do jogador pode atacar automaticamente dentro desse alcance.
+- Acima de 2 m ate 10 m (750 unidades): modo pursuit. O monstro persegue
+  o jogador, respeitando a zona de surgimento, a navegacao e os obstaculos.
+- Acima de 10 m ate 30 m (2250 unidades): modo idle. Sem patrulha ou
+  perseguicao, corpo fisico desativado e visual em repouso.
+- Acima de 30 m: modo visual. IA, fisica, sincronizacao e atualizacao
+  individual do renderer ficam suspensas; sprite/sombra permanecem no mapa.
+- Limites: 2 m pertence a combat; 10 m pertence a pursuit; 30 m pertence
+  a idle. A proxima unidade acima de cada limite entra na faixa seguinte.
+
+OTIMIZACAO:
+- Distancia calculada ao quadrado para evitar raiz quadrada na classificacao.
+- Entidades paradas reavaliam a faixa a cada 100 ms, nao a cada frame.
+- Fisica Arcade fica habilitada apenas nos modos combat e pursuit.
+- Em idle e visual, o corpo fisico e desativado.
+- Em visual, o loop pula todas as atualizacoes individuais de IA, fisica e
+  renderer. A verificacao de faixa continua ocorrendo a cada 100 ms para
+  detectar aproximacao do jogador.
+- Em pursuit, a IA move o monstro em direcao ao jogador com limite de delta,
+  validacao de navegacao e restricao da zona de spawn.
+- O sistema de combate do jogador procura alvos ate 10 m e ataca a 2 m.
+- Nao foi criado dano de monstros contra o jogador: o codigo atual nao
+  possui um sistema de ataque/dano inimigo completo. O monstro para a 2 m;
+  ataques automaticos existentes sao os do jogador contra o monstro.
+
+ARQUIVOS:
+- src/config.js
+- src/systems/monsters/MonsterBehaviorController.js
+- src/systems/monsters/MonsterManager.js
+- src/systems/CombatSystem.js
+- tests/monster-system.test.js
+- package.json
+
+TESTES ADICIONADOS:
+- Conversao da escala 75 unidades por metro.
+- Alcance de ataque de 2 m = 150 unidades.
+- Perseguicao ate 10 m = 750 unidades.
+- Ociosidade ate 30 m = 2250 unidades.
+- Limites exatos e transicoes de cada faixa.
+- Movimento de perseguicao e respeito a navegacao.
+
+VALIDACAO:
+- Testes automatizados foram atualizados no repositorio.
+- Build, execucao do jogo, comportamento visual e desempenho em Android
+  ainda precisam ser executados e observados antes de marcar como VALIDADO.
+
+FIM DA ATUALIZACAO 15
