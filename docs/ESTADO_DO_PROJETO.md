@@ -1280,7 +1280,7 @@ IMPLEMENTADO:
 - Cada tipo de terreno é renderizado por Phaser TileSprite, repetindo a
   textura diretamente na GPU.
 - Máscara geométrica circular recorta a base e mantém o contorno da ilha.
-- Os TileSprites têm o tamanho do viewport em coordenadas do mundo e acompanham a câmera; não ocupam 4096 x 4096.
+- Os TileSprites de terreno e o TileSprite do mar/nuvens têm o tamanho do viewport em coordenadas do mundo e acompanham a câmera; nenhum ocupa 4096 x 4096 ou 8192 x 8192.
 - Máscaras geométricas independentes distribuem manchas de grama e relevo.
 - A classificação usa grade determinística de 64 unidades, sem RNG no jogo.
 - Proporções por área elegível: 70% liso, 20% moita/grama e 10% relevo,
@@ -1296,6 +1296,6 @@ IMPLEMENTADO:
 TESTES:
 - Proporções, exclusividade de células, limites circulares e determinismo.
 - Verificação estática de ausência de canvas gigante e das três texturas.
-- A dimensão dos TileSprites segue a recomendação Phaser 4 de nunca exceder o canvas/viewport; a textura é deslocada pela posição da câmera.
+- A dimensão dos TileSprites segue a recomendação Phaser 4 de nunca exceder o canvas/viewport; a textura é deslocada pela posição da câmera. O fundo de nuvens também deixou de ser um TileSprite de 8192 x 8192.
 - Build, GitHub Actions e inspeção visual Android ainda pendentes.
 

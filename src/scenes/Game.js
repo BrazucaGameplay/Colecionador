@@ -187,7 +187,7 @@ export default class Game extends Phaser.Scene {
       reliefKey: 'terrain-relief',
       cellSize: 64
     });
-    this.groundTiles = terrain.tiles;
+    this.groundTiles = this.cloudFieldTile ? [this.cloudFieldTile, ...terrain.tiles] : terrain.tiles;
     this.groundMasks = terrain.masks;
     this.terrainDistribution = terrain.distribution;
   }
@@ -244,7 +244,7 @@ export default class Game extends Phaser.Scene {
 
     if (this.textures.exists(textureKey)) this.textures.remove(textureKey);
     this.textures.addCanvas(textureKey, fieldCanvas);
-    this.add.tileSprite(ISLAND_RADIUS, ISLAND_RADIUS, 8192, 8192, textureKey)
+    this.cloudFieldTile = this.add.tileSprite(ISLAND_RADIUS, ISLAND_RADIUS, this.scale.width, this.scale.height, textureKey)
       .setOrigin(0.5).setDepth(-1200);
 
     // Faixa volumosa em primeiro plano, avançando sobre a grama.
@@ -363,6 +363,7 @@ export default class Game extends Phaser.Scene {
     for (const mask of this.groundMasks) mask.destroy();
     this.groundTiles.length = 0;
     this.groundMasks.length = 0;
+    this.cloudFieldTile = null;
     this.touchInput = null;
     this.movement = null;
     this.playerBody = null;

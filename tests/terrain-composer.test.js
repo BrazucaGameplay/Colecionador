@@ -58,3 +58,9 @@ test('TileSprites acompanham somente o viewport, mantendo a textura ancorada no 
     ['tile', 500, 700]
   ]);
 });
+
+test('fundo do mar não mantém TileSprite gigante', () => {
+  const source = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
+  assert.match(source, /this\.scale\.width, this\.scale\.height, textureKey/);
+  assert.doesNotMatch(source, /8192,\s*8192/);
+});
