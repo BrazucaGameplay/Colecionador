@@ -35,11 +35,13 @@ test('Game usa a mascara de ilha compartilhada e oceano abaixo do terreno',()=>{
  assert.match(game,/this\.groundObject = this\.terrain\.object/);
  assert.match(game,/setDepth\(-1200\)/);
 });
-test('Preload carrega materiais e textura costeira SVG',()=>{
+test('Preload carrega materiais e textura costeira WebP',()=>{
  const preload=readFileSync(new URL('../src/scenes/Preload.js',import.meta.url),'utf8');
- for(const key of ['terrain-smooth','terrain-grass','terrain-relief','island-shoreline.svg'])assert.ok(preload.includes(key));
- const svg=readFileSync(new URL('../public/assets/world/terrain/island-shoreline.svg',import.meta.url),'utf8');
- assert.match(svg,/<svg/);assert.match(svg,/id="sea"/);assert.match(svg,/id="grass"/);assert.match(svg,/id="foam"/);
+ for(const key of ['terrain-smooth','terrain-grass','terrain-relief','island-shoreline.webp'])assert.ok(preload.includes(key));
+ const webp=readFileSync(new URL('../public/assets/world/terrain/island-shoreline.webp',import.meta.url));
+ assert.equal(webp.toString('ascii',0,4),'RIFF');
+ assert.equal(webp.toString('ascii',8,12),'WEBP');
+ assert.ok(webp.length>10000,'textura costeira deve conter os dados da imagem atual');
 });
 test('nucleo permanece circular e o litoral apresenta entradas e saidas',()=>{
  assert.equal(ISLAND_SHAPE.coreRadius,1660);
