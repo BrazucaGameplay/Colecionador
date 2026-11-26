@@ -1507,8 +1507,8 @@ VALIDACAO:
 - Removido o PNG indexado de 256 x 256 e removida a imagem costeira separada
   da cena. Nao existe mais shorelineObject nem draw call adicional.
 - A referencia original foi recortada para manter oceano, espuma e grama,
-  corrigida para repeticao horizontal e convertida em WebP 512 x 256,
-  qualidade 86. Arquivo: island-shoreline.webp.
+  corrigida para repeticao horizontal e convertida em WebP 384 x 192,
+  qualidade 68. Arquivo: island-shoreline.webp.
 - O shader principal agora desenha o disco da ilha e o anel costeiro
   exterior na mesma chamada, com uma quarta textura amostrada apenas
   nos fragmentos da margem.
@@ -1517,7 +1517,7 @@ VALIDACAO:
 - A textura e mapeada por angulo e distancia ao centro, com quatro repeticoes
   ao redor da circunferencia. A margem acompanha a curvatura sem canvas,
   mascara, sprites extras, fisica ou atualizacao por frame.
-- Custo estimado da textura WebP: 26.992 bytes; memoria RGBA decodificada:
-  512 KiB. O custo de fragmentos aumenta apenas na area do anel costeiro;
+- Custo estimado da textura WebP: 9.806 bytes; memoria RGBA decodificada:
+  288 KiB. O custo de fragmentos aumenta apenas na area do anel costeiro;
   a cena continua com um unico objeto shader para terreno e margem.
 - Versao: 2.4.5.
