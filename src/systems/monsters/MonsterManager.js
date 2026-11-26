@@ -4,6 +4,7 @@ import {
   MONSTER_IDLE_DISTANCE_WORLD_UNITS
 } from '../../config.js';
 import { MONSTER_DEFINITIONS } from '../../data/monsters/index.js';
+import { isMonsterInView } from '../../rendering/monsters/MonsterRenderer.js';
 import MonsterFactory from './MonsterFactory.js';
 import MonsterSpawner from './MonsterSpawner.js';
 
@@ -33,6 +34,9 @@ export default class MonsterManager {
     this.definitions = definitions; this.onKill = onKill; this.entries = new Map();
     this.factory = new MonsterFactory(scene, { navigation, depthManager }); this.destroyed = false;
     this.rangeCheckIntervalMs = 100;
+    this.visibilityCheckIntervalMs = 150;
+    this.nextVisibilityCheckAt = 0;
+    this.visibilityPaddingFactor = 0.2;
     this.spawner = new MonsterSpawner({
       navigation, spawnZones, definitions,
       canSpawn: definition => definition?.spawnable !== false,
@@ -71,8 +75,27 @@ export default class MonsterManager {
   }
   isAlive(id) { return Boolean(this.entries.get(id)?.entity.alive); }
 
+  updateVisibility(now) {
+    if (now < this.nextVisibilityCheckAt) return;
+    this.nextVisibilityCheckAt = now + this.visibilityCheckIntervalMs;
+    const camera = this.scene?.cameras?.main;
+    const view = camera?.worldView;
+    if (!view || !Number.isFinite(view.x) || !Number.isFinite(view.y)) return;
+
+    // Margem proporcional ao viewport evita alternância visual durante pan,
+    // zoom e acompanhamento do jogador sem manter sprites distantes no draw.
+    const padding = Math.max(view.width, view.height) * this.visibilityPaddingFactor;
+    for (const entry of this.entries.values()) {
+      if (entry.entity.dead) continue;
+      const frame = entry.renderer.frameBox || { width: 32, height: 32 };
+      const visible = isMonsterInView(
+        entry.entity.x, entry.entity.y, frame.width, frame.height, view, padding
+      );
+      entry.renderer.setInView(visible);
+    }
+  }
+
   setEntryMode(entry, mode, now) {
-    // Reagenda sempre, inclusive quando a faixa nao mudou.
     entry.nextRangeCheckAt = now + this.rangeCheckIntervalMs;
     if (entry.mode === mode) return;
     const previousMode = entry.mode;
@@ -81,7 +104,6 @@ export default class MonsterManager {
     if (mode === 'idle' || mode === 'visual') {
       entry.behavior.stop(entry.entity);
       entry.body.setEnabled(false);
-      // Um único frame de repouso; em visual-only o renderer não recebe updates.
       if (previousMode !== 'visual') {
         entry.renderer.currentState = null;
         entry.renderer.play('idle', now);
@@ -89,7 +111,6 @@ export default class MonsterManager {
       return;
     }
 
-    // Corpo físico só fica habilitado nas faixas de combate/perseguição.
     entry.body.setEnabled(true);
     entry.body.sync();
     entry.renderer.setTransform(entry.entity.x, entry.entity.y);
@@ -115,29 +136,21 @@ export default class MonsterManager {
   update(now, delta) {
     if (this.destroyed) return;
     this.spawner.update(now);
+    this.updateVisibility(now);
     const player = this.playerBody.player;
     for (const [id, entry] of this.entries) {
       if (entry.entity.dead) { if (now >= entry.removeAt) this.remove(id); continue; }
 
-      // Entidades paradas verificam mudança de faixa a cada 100 ms, não a cada frame.
       if (now >= entry.nextRangeCheckAt) {
         this.setEntryMode(entry, getMonsterBehaviorMode(player, entry.entity), now);
       }
 
-      if (entry.mode === 'visual') continue;
-
-      if (entry.mode === 'idle') {
-        // Repouso real: sprite fica congelado no frame atual de idle.
-        // Sem regeneração, IA, física, sincronização, update do renderer
-        // ou troca/reaplicação de animação enquanto permanecer nesta faixa.
-        continue;
-      }
+      if (entry.mode === 'visual' || entry.mode === 'idle') continue;
 
       entry.entity.update(delta, now);
       if (entry.mode === 'pursuit') {
         entry.behavior.pursue(entry.entity, player, delta);
       } else {
-        // Dentro de 2 m, a IA para; os dois sistemas de combate resolvem seus ataques.
         entry.behavior.stop(entry.entity);
       }
 
