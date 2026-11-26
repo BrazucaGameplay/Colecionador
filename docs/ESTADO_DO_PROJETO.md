@@ -1537,3 +1537,105 @@ Versao de codigo: 2.4.6
 - A faixa costeira usa textura SVG estatica no shader, sem sprites extras.
 - O raio de distribuicao dos monstros foi ajustado para a nova silhueta.
 - Validacao visual Android e publicacao desta versao ainda dependem do CI.
+
+
+======================================================================
+ATUALIZACAO TECNICA — 26/11/2026
+======================================================================
+
+Versao do jogo: 2.4.46
+Branch: main
+Escopo concluido: correção do zoom por pinça e limites adaptativos da câmera.
+
+CAMERA E CONTROLES — IMPLEMENTADO NO CODIGO
+- O zoom de dois dedos agora mantém como âncora a coordenada mundial sob
+  o ponto médio entre os dedos.
+- O limite mínimo é calculado com base na menor razão entre largura/altura
+  do viewport e largura/altura do mundo, permitindo enquadrar a ilha inteira
+  sem exigir um valor fixo inadequado a telas de proporções diferentes.
+- O limite máximo permanece em 2.25x.
+- Os limites de scroll são aplicados aos limites reais do mundo (0,0 a
+  4096,4096), centralizando a câmera no eixo em que o viewport excede a ilha.
+- Em redimensionamento/orientação, o zoom mínimo é recalculado e a câmera
+  é mantida dentro do mundo.
+- O gesto de pinça interrompe o camera follow para que o acompanhamento do
+  personagem não concorra com o gesto manual.
+- Ao terminar a pinça com um dedo restante, o toque não vira destino por
+  engano; o usuário precisa ultrapassar o limiar normal para iniciar arraste.
+- Toque curto, arraste, destino por toque, camera follow, HUD em câmera
+  separada e movimento do jogador foram preservados.
+
+ARQUITETURA E ARQUIVOS ALTERADOS
+- src/systems/input/TouchInputController.js: reconhecimento da pinça,
+  ancoragem espacial, zoom adaptativo e transição de gestos.
+- src/scenes/Game.js: cálculo do zoom mínimo, clamp de scroll, limites do
+  mundo e atualização em resize.
+- tests/touch-input-controller.test.js: testes de ancoragem, zoom mínimo e
+  transição após pinça.
+- package.json e package-lock.json: versão sincronizada em 2.4.46.
+
+RECAP INTEGRAL DO ESTADO OBSERVADO NO REPOSITORIO
+1. Produto e plataforma
+- Implementado: RPG de ação 2D com Phaser 4, Vite, distribuição web e
+  configuração Capacitor para Android.
+- Parcial/não verificado: preparação de APK e teste em dispositivo Android.
+- Planejado: publicação e validação final na Google Play.
+
+2. Mundo e conteúdo
+- Implementado: uma ilha principal de 4096 x 4096 unidades, terreno como
+  imagem única, oceano em TileSprite, máscara alfa de área caminhável,
+  distribuição de árvores, colisões e pontos de surgimento de monstros.
+- Planejado: múltiplas ilhas, pontes, portais e mapa-mundi; não considerar
+  esses sistemas implementados.
+
+3. Gameplay
+- Implementado: movimentação por toque para marcar destino, pathfinding A*,
+  movimento automático, combate automático por proximidade, monstros,
+  progressão por experiência, atributos, vida/energia e salvamento local.
+- Parcial: menu principal contém entrada para jogar; a interface de status
+  permite distribuir pontos de atributo.
+- Planejado/não identificado no fluxo atual: sistema funcional de waifus,
+  loja, inventário completo, presentes e habilidades de waifus.
+
+4. Arquitetura
+- Implementado: Phaser 4, JavaScript ES modules, Vite, cenas Boot/Preload/
+  Menu/Game, entidades, renderizadores, sistemas de combate/movimento,
+  navegação, colisão, profundidade, entrada por toque e HUD.
+- Parcial: Game.js coordena diversos sistemas; persistência ainda usa
+  localStorage diretamente, sem SaveManager centralizado.
+
+5. Assets
+- Implementado: terreno em public/assets/world/terrain/ilha_terreno.webp,
+  oceano em ocean-pattern-seamless-512.webp, árvores em WebP, spritesheets
+  de personagem PNG/JSON, modelos GLB e sprites de monstros.
+- O Preload registra os caminhos de terreno, oceano e vegetação; os
+  carregadores especializados registram os sprites de personagens e monstros.
+- Não foi realizada substituição nem remoção de assets nesta atualização.
+
+6. Interface e experiência mobile
+- Implementado: escala Phaser.Scale.RESIZE, entrada sem teclado, toque,
+  arraste e pinça; HUD em câmera independente do mundo.
+- Parcial: orientação e ergonomia precisam de teste visual em diferentes
+  aparelhos Android.
+- O zoom por pinça agora se adapta à proporção do viewport e enquadra a ilha
+  no afastamento mínimo.
+
+7. Build e publicação
+- Implementado: scripts npm de teste/build e workflow GitHub Actions para
+  instalar dependências, auditar, testar, compilar e publicar no Pages.
+- A versão do package.json e as duas declarações de versão do package-lock
+  foram atualizadas para 2.4.46.
+- Build, auditoria de dependências e publicação desta versão dependem da
+  execução do workflow após o commit final; não declarar concluídos antes
+  de verificar a execução correspondente.
+
+8. Pendências e riscos
+- Executar npm test, npm run build e npm audit no workflow do commit final.
+- Confirmar o workflow Deploy e a versão publicada 2.4.46.
+- Validar em Android real: ancoragem da pinça, limites ao afastar,
+  orientação portrait/landscape, arraste nas bordas e retomada do follow.
+- Verificar visualmente a ilha inteira no afastamento mínimo; não foi feito
+  teste visual em dispositivo nesta alteração.
+
+Esta atualização complementa e prevalece sobre observações históricas
+anteriores deste documento quando divergirem do código atual consultado.
