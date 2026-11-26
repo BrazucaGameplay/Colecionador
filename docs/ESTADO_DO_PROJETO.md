@@ -1461,7 +1461,7 @@ VALIDACAO:
 
 - Substituido o SVG procedural anterior pela textura de oceano fornecida
   como referencia visual pelo usuario.
-- Arquivo: public/assets/world/terrain/ocean-pattern.webp.
+- Arquivo: public/assets/world/terrain/ocean-pattern-seamless-512.webp.
 - A imagem de origem foi reduzida para 384 x 384 pixels e codificada em
   WebP com qualidade 62, mantendo ondas profundas e reflexos ciano.
 - O TileSprite existente continua usando a mesma chave ocean-pattern;
