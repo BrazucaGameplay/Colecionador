@@ -83,5 +83,5 @@ test('margem costeira usa faixa circular pré-renderizada sem processamento por 
   assert.match(game, /setDisplaySize\(ISLAND_DIAMETER \* 1\.03125/);
   assert.match(game, /shorelineObject\?\.destroy\(\)/);
   assert.ok(preload.includes('island-shoreline.webp'));
-  assert.equal(shoreline.toString('ascii', 0, 8), '\x89PNG\r\n\x1a\n');
+  assert.equal(shoreline.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
 });
