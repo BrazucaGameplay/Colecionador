@@ -2010,3 +2010,15 @@ VALIDAÇÃO DE SEGURANÇA DA LIMPEZA
   WorldObjectManager, WorldDepthManager e WorldCollisionManager.
 - O build/teste/CI não foi executado localmente neste ambiente; o resultado
   verificável será o workflow disparado pelo commit da main.
+
+
+CORREÇÃO DA AUDITORIA — 26/11/2026 — VERSÃO 2.4.76
+- A primeira execução do CI da versão 2.4.75 passou por instalação e npm audit
+  (zero vulnerabilidades), e 65 testes passaram; um teste falhou ao importar
+  frame-grounding.js, módulo pertencente à ferramenta GLB removida.
+- Removidos somente os testes unitários da antiga ferramenta offline de bake,
+  que não validavam o runtime do jogo. Mantidas as verificações dos atlas finais,
+  metadados, ações, escala, âncoras e arquivos efetivamente usados pelo jogo.
+- Removida a última referência de teste ao diretório tools/character-baker.
+- Incrementada a versão para 2.4.76; nova execução completa de CI/deploy
+  necessária para confirmar a publicação.

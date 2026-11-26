@@ -120,7 +120,7 @@ test('profundidade respeita o ponto de apoio e desempata personagem acima da est
 
 import { CHARACTER_ANIMATIONS, COMBAT_ANIMATION_SEQUENCE, DEFAULT_CHARACTER_SCALE, DEFAULT_IDLE_ANIMATION, DEFAULT_MOVEMENT_ANIMATION } from '../src/rendering/characters/CharacterAnimationCatalog.js';
 
-test('o protagonista usa os dois pacotes de animação do Release', () => {
+test('o protagonista usa os pacotes de animação PNG/JSON versionados', () => {
   assert.equal(DEFAULT_IDLE_ANIMATION, 'idle');
   assert.equal(DEFAULT_MOVEMENT_ANIMATION, 'walking');
   for (const id of ['idle', 'walking', 'running', 'combat', 'combatSlash', 'jump', 'dying', 'flirtyStrut']) {
@@ -146,45 +146,6 @@ test('cada pacote catalogado possui PNG e JSON correspondentes', async () => {
     await access(new URL(`../public/${animation.path}.png`, import.meta.url));
     await access(new URL(`../public/${animation.path}.json`, import.meta.url));
   }
-});
-
-
-import { getCameraCenterCorrection, getCenteredFrustum, getFramePlacement, getOpaqueBounds } from '../tools/character-baker/frame-grounding.js';
-
-test('limites visíveis medem a área real do personagem', () => {
-  const width = 8, height = 10;
-  const rgba = new Uint8ClampedArray(width * height * 4);
-  for (let y = 2; y <= 6; y++) for (let x = 1; x <= 4; x++) rgba[(y * width + x) * 4 + 3] = 255;
-  assert.deepEqual(getOpaqueBounds(rgba, width, height), { minX: 1, minY: 2, maxX: 4, maxY: 6, width: 4, height: 5 });
-  assert.equal(getOpaqueBounds(new Uint8ClampedArray(width * height * 4), width, height), null);
-  assert.throws(() => getOpaqueBounds(new Uint8ClampedArray(3), width, height));
-});
-
-test('normalização mantém escala comum e linha de chão consistente', () => {
-  const bounds = { minX: 4, minY: 8, maxX: 23, maxY: 57, width: 20, height: 50 };
-  const maxBounds = { width: 24, height: 60 };
-  const placement = getFramePlacement(bounds, maxBounds, 128, 8, 112);
-  assert.equal(placement.scale, 112 / 60);
-  assert.equal(placement.pivotY, 120 / 128);
-  assert.equal(placement.y + placement.height, 120);
-  assert.equal(placement.x + placement.width / 2, 64);
-  assert.throws(() => getFramePlacement(bounds, maxBounds, 128, 64, 112));
-});
-
-test('frustum ortográfico fica centrado no espaço local da câmera', () => {
-  assert.deepEqual(getCenteredFrustum(4), { top: 2, bottom: -2 });
-  assert.deepEqual(getCenteredFrustum(2.5), { top: 1.25, bottom: -1.25 });
-  assert.throws(() => getCenteredFrustum(0));
-});
-
-test('correção de câmera recentraliza poses deslocadas pelo root motion', () => {
-  const right = getCameraCenterCorrection({ minX: 175, maxX: 255, minY: 90, maxY: 150 }, 256, 6);
-  assert.ok(right.x > 0);
-  assert.equal(right.y, 0.1875);
-  const high = getCameraCenterCorrection({ minX: 98, maxX: 158, minY: 0, maxY: 95 }, 256, 6);
-  assert.equal(high.x, 0);
-  assert.ok(high.y > 0);
-  assert.equal(high.y, 1.88671875);
 });
 
 
