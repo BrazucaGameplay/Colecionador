@@ -10,6 +10,7 @@ import WorldCollisionManager from '../world/WorldCollisionManager.js';
 import WorldObjectManager from '../world/WorldObjectManager.js';
 import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
 import MovementSystem from '../systems/MovementSystem.js';
+import CombatSystem from '../systems/CombatSystem.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 
@@ -84,7 +85,10 @@ export default class Game extends Phaser.Scene {
       playerBody: this.playerBody,
       depthManager: this.depthManager,
       spawnZones: ISLAND_01_MONSTER_SPAWNS,
-      onContact: (monsterId) => this.hitMonster(monsterId),
+      onPlayerDamage: (monster, damage) => {
+        this.player.takeDamage(damage);
+        this.hpText.setText('HP ' + this.player.health);
+      },
       onKill: () => {
         this.score += 1;
         this.scoreText.setText('Monstros: ' + this.score);
@@ -118,10 +122,17 @@ export default class Game extends Phaser.Scene {
       .setVisible(false);
 
     this.movement = new MovementSystem(this.player, this.navigation);
+    this.combatSystem = new CombatSystem({
+      player: this.player,
+      movement: this.movement,
+      getTargets: () => this.monsterManager.getAliveTargets(),
+      onAttack: (monsterId, damage, now) => this.hitMonster(monsterId, damage, now)
+    });
     this.touchInput = new TouchInputController(this, {
       camera: this.camera,
       onTap: (screenX, screenY) => {
         const target = this.camera.getWorldPoint(screenX, screenY);
+        this.characterRenderer?.cancelAction({ force: true });
         const accepted = this.movement.setDestination(target.x, target.y);
         if (accepted) {
           const destination = this.movement.destination;
@@ -297,14 +308,13 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  hitMonster(monsterId) {
-    if (this._cooldown > this.time.now || !this.player.alive) return;
-    if (!this.monsterManager?.isAlive(monsterId)) return;
-    if (this.characterRenderer && !this.characterRenderer.canStartAction('combat')) return;
-    if (!this.characterRenderer?.playAction('combat')) return;
-
-    this._cooldown = this.time.now + 500;
-    this.monsterManager.damage(monsterId, 1, this.time.now);
+  hitMonster(monsterId, damage = 1, now = this.time.now) {
+    if (!this.player?.alive || !this.monsterManager?.isAlive(monsterId)) return;
+    // A animação é apenas feedback visual: o dano e o cooldown pertencem ao CombatSystem.
+    if (this.characterRenderer?.canStartAction('combat')) {
+      this.characterRenderer.playAction('combat');
+    }
+    this.monsterManager.damage(monsterId, damage, now);
   }
 
   update(time, delta = 16.67) {
@@ -322,6 +332,7 @@ export default class Game extends Phaser.Scene {
       this.characterRenderer?.setDirection(this.player.facing.x, this.player.facing.y);
     }
     this.characterRenderer?.update(delta, this.camera);
+    this.combatSystem?.update(this.time.now, delta);
 
     if (!this.movement?.destination) this.destinationMarker?.setVisible(false);
 
@@ -331,6 +342,7 @@ export default class Game extends Phaser.Scene {
 
   shutdown() {
     this.touchInput?.destroy();
+    this.combatSystem?.destroy();
     this.movement?.destroy();
     this.monsterManager?.destroy();
     this.playerBody?.destroy();
@@ -340,6 +352,7 @@ export default class Game extends Phaser.Scene {
     this.worldObjects.length = 0;
     this.groundTiles.length = 0;
     this.touchInput = null;
+    this.combatSystem = null;
     this.movement = null;
     this.playerBody = null;
     this.characterRenderer = null;
