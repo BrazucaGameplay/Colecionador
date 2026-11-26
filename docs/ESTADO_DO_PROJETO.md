@@ -1639,3 +1639,27 @@ RECAP INTEGRAL DO ESTADO OBSERVADO NO REPOSITORIO
 
 Esta atualização complementa e prevalece sobre observações históricas
 anteriores deste documento quando divergirem do código atual consultado.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — OCEANO COM MARGEM SIMÉTRICA
+======================================================================
+
+Versão do jogo: 2.4.47
+
+- O terreno, a navegação, a física e as estruturas permanecem no mundo
+  lógico de 4096 x 4096; nenhuma coordenada de árvore ou estrutura foi
+  alterada.
+- O oceano passa a ter limites visuais próprios, independentes dos limites
+  jogáveis.
+- A costa atual tem raio-base de 1992 unidades. Foi definida uma margem
+  de oceano de 512 unidades a partir da costa em todas as direções.
+- O retângulo do oceano fica centrado no mesmo ponto da ilha e mede
+  5008 x 5008 unidades (raio externo de 2504).
+- A câmera e o zoom mínimo usam os limites visuais do oceano; a física e
+  a navegação continuam limitadas aos 4096 x 4096 do terreno.
+- O oceano é um único TileSprite estático. Foi removida a atualização
+  por frame que redimensionava e reposicionava o TileSprite na câmera.
+- Testes cobrem a separação entre limites jogáveis e visuais, a margem
+  simétrica e a ausência de sincronização por frame.
+- Build, testes completos e publicação devem ser confirmados pelo CI.

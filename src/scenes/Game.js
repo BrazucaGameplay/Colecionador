@@ -17,12 +17,16 @@ import ProgressionSystem from '../systems/ProgressionSystem.js';
 import PlayerStatusUI from '../ui/PlayerStatusUI.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
+import { ISLAND_SHAPE } from '../world/IslandShape.js';
 
 const CAMERA_ZOOM = Object.freeze({ max: 2.25, default: 1.2 });
 const CAMERA_FOLLOW_LERP = 0.06;
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 const ISLAND_DIAMETER = 4096;
 const ISLAND_RADIUS = ISLAND_DIAMETER / 2;
+// O oceano termina a mesma distância da costa em todos os lados.
+const OCEAN_MARGIN = 512;
+const OCEAN_RADIUS = ISLAND_SHAPE.baseRadius + OCEAN_MARGIN;
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -97,7 +101,7 @@ export default class Game extends Phaser.Scene {
     this.camera.setZoom(CAMERA_ZOOM.default);
 
     // Afastamento mínimo suficiente para enquadrar toda a ilha no viewport.
-    this.camera.setBounds(0, 0, this.worldWidth, this.worldHeight);
+    this.camera.setBounds(this.oceanBounds.x, this.oceanBounds.y, this.oceanBounds.width, this.oceanBounds.height);
     this.camera.setZoom(Math.max(this.getMinimumCameraZoom(), CAMERA_ZOOM.default));
     this.clampCameraToWorld();
     // O primeiro enquadramento acompanha o ponto válido onde o jogador nasceu.
@@ -160,27 +164,29 @@ export default class Game extends Phaser.Scene {
   }
 
   getMinimumCameraZoom() {
-    if (!this.camera || !this.worldWidth || !this.worldHeight) return 0.08;
+    const bounds = this.oceanBounds;
+    if (!this.camera || !bounds) return 0.08;
     return Math.min(
       CAMERA_ZOOM.max,
-      this.camera.width / this.worldWidth,
-      this.camera.height / this.worldHeight
+      this.camera.width / bounds.width,
+      this.camera.height / bounds.height
     );
   }
 
   clampCameraToWorld() {
-    if (!this.camera || !this.worldWidth || !this.worldHeight) return;
+    const bounds = this.oceanBounds;
+    if (!this.camera || !bounds) return;
     const visibleWidth = this.camera.width / this.camera.zoom;
     const visibleHeight = this.camera.height / this.camera.zoom;
-    const maxScrollX = this.worldWidth - visibleWidth;
-    const maxScrollY = this.worldHeight - visibleHeight;
+    const maxScrollX = bounds.x + bounds.width - visibleWidth;
+    const maxScrollY = bounds.y + bounds.height - visibleHeight;
 
-    this.camera.scrollX = maxScrollX < 0
-      ? maxScrollX / 2
-      : Phaser.Math.Clamp(this.camera.scrollX, 0, maxScrollX);
-    this.camera.scrollY = maxScrollY < 0
-      ? maxScrollY / 2
-      : Phaser.Math.Clamp(this.camera.scrollY, 0, maxScrollY);
+    this.camera.scrollX = maxScrollX < bounds.x
+      ? bounds.x + (bounds.width - visibleWidth) / 2
+      : Phaser.Math.Clamp(this.camera.scrollX, bounds.x, maxScrollX);
+    this.camera.scrollY = maxScrollY < bounds.y
+      ? bounds.y + (bounds.height - visibleHeight) / 2
+      : Phaser.Math.Clamp(this.camera.scrollY, bounds.y, maxScrollY);
   }
 
   createHudCamera() {
@@ -273,27 +279,27 @@ export default class Game extends Phaser.Scene {
       throw new Error('A textura original do oceano não foi carregada.');
     }
 
-    // Mantém a cobertura completa do oceano usando o WebP original.
-    // A tentativa de shader de transição foi revertida porque seu quad não
-    // acompanhou corretamente a área da câmera em dispositivos móveis.
-    const view = this.cameras.main.worldView;
+    // O terreno e os objetos continuam no quadrado lógico 4096 x 4096.
+    // A área visual do oceano é um quadrado maior, centrado na mesma ilha:
+    // 1992 unidades de costa + 512 unidades de mar em cada direção.
+    const diameter = OCEAN_RADIUS * 2;
+    const min = ISLAND_SHAPE.centerX - OCEAN_RADIUS;
+    this.oceanBounds = Object.freeze({
+      x: min,
+      y: ISLAND_SHAPE.centerY - OCEAN_RADIUS,
+      width: diameter,
+      height: diameter
+    });
+
     this.oceanBackground = this.add.tileSprite(
-      view.centerX,
-      view.centerY,
-      view.width,
-      view.height,
+      ISLAND_SHAPE.centerX,
+      ISLAND_SHAPE.centerY,
+      diameter,
+      diameter,
       'ocean-pattern'
     ).setOrigin(0.5).setDepth(-1200);
 
-    this.oceanBackground.setTilePosition(view.x, view.y);
-  }
-
-  syncOceanBackground() {
-    if (!this.oceanBackground || !this.camera) return;
-    const view = this.camera.worldView;
-    this.oceanBackground.setPosition(view.centerX, view.centerY);
-    this.oceanBackground.setSize(view.width, view.height);
-    this.oceanBackground.setTilePosition(view.x, view.y);
+    this.oceanBackground.setTilePosition(0, 0);
   }
 
   readSavedProgress() {
@@ -328,7 +334,6 @@ export default class Game extends Phaser.Scene {
       if (this.characterRenderer?.activeAction !== 'dying') this.characterRenderer?.playAction('dying');
     }
     this.movement?.setPaused(!this.player?.alive);
-    this.syncOceanBackground();
     this.combat?.update(this.time.now);
     this.movement?.update(delta);
     this.player?.update(delta, this.time.now);
