@@ -934,3 +934,11 @@ VALIDAÇÃO:
   borda externa e da faixa de nuvens.
 - Testes atualizados para validar o ponto norte e os três grupos.
 - Aguardando CI e deploy; nenhuma validação visual Android foi executada.
+
+
+CORREÇÃO DE CI DA FLORESTA — 26/11/2026:
+- A execução 45747044215 identificou uma expectativa antiga no teste de
+  colisão da árvore ancestral (31 em vez de 38). O layout estava correto;
+  o teste ainda verificava o raio antigo.
+- Expectativa corrigida para 38 e versão atualizada para 2.1.9.
+- Aguardar nova execução de build/test/deploy.
