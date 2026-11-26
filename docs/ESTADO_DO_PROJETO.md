@@ -803,3 +803,17 @@ VALIDAÇÃO:
 - Versão anterior: 2.1.0. Nova versão: 2.1.1 (correção de metadados).
 - A execução do workflow para 2.1.0 não valida este commit corretivo;
   confirmar a execução de deploy correspondente a 2.1.1.
+
+
+======================================================================
+19. COMPATIBILIDADE DO COOLDOWN DE COMBATE — 25/11/2026
+======================================================================
+- A execução automática do workflow 2.1.0 encontrou um teste legado que
+  usa um jogador simulado sem objeto stats e pressupõe o cooldown antigo
+  de 500 ms. O Player real usa o atributo attackSpeed configurado em 1/s.
+- CombatSystem mantém 1/s para o Player real e usa 2/s somente como fallback
+  de compatibilidade para consumidores antigos sem stats.attackSpeed.
+- Nenhum teste foi executado manualmente; o erro foi identificado nos logs
+  do workflow automático. Os testes não foram alterados nem removidos.
+- Versão anterior: 2.1.1. Nova versão: 2.1.2 (correção compatível).
+- package.json e package-lock.json foram sincronizados em 2.1.2.

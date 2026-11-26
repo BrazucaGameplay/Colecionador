@@ -38,7 +38,8 @@ export default class CombatSystem {
     this.movement.stopAutomaticMovement(); this.player.setMoving(false);
     this.nextPathAt = now;
     if (now < this.nextAttackAt) return;
-    const aps = Math.max(0.1, Number(this.player.stats?.attackSpeed) || 1);
+    const configuredAps = Number(this.player.stats?.attackSpeed);
+    const aps = Math.max(0.1, Number.isFinite(configuredAps) ? configuredAps : 2);
     this.nextAttackAt = now + 1000 / aps;
     this.player.markCombat(now);
     this.onAttack(target, this.player.getAttackDamage(target.defense), now, this.player.stats.penetration);
