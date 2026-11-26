@@ -1663,3 +1663,23 @@ Versão do jogo: 2.4.47
 - Testes cobrem a separação entre limites jogáveis e visuais, a margem
   simétrica e a ausência de sincronização por frame.
 - Build, testes completos e publicação devem ser confirmados pelo CI.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — OCEANO RESPONSIVO EM TELAS VERTICAIS
+======================================================================
+
+Versão do jogo: 2.4.48
+
+- Corrigida a cobertura do oceano em viewports de celular com proporção
+  vertical: a dimensão maior do TileSprite agora acompanha a proporção
+  real da tela, mantendo a margem costeira mínima de 512 unidades.
+- O tamanho visual do oceano é recalculado em mudanças de tamanho ou
+  orientação do navegador.
+- O viewport da câmera principal também é atualizado explicitamente no
+  resize, junto com o viewport da HUD.
+- Os limites de câmera e o zoom mínimo são recalculados após o resize.
+- O mundo jogável, terreno, física, navegação e posições de árvores
+  permanecem inalterados em 4096 x 4096.
+- Testes adicionados para cobertura responsiva e atualização dos viewports.
+- Build e testes completos devem ser confirmados pelo GitHub Actions.

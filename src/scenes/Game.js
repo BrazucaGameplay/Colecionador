@@ -200,11 +200,25 @@ export default class Game extends Phaser.Scene {
   }
 
   resizeHudCamera(gameSize) {
-    if (!this.uiCamera) return;
+    if (!this.uiCamera || !this.camera) return;
     const width = gameSize?.width || this.scale.width;
     const height = gameSize?.height || this.scale.height;
+
+    // Phaser pode redimensionar o canvas sem atualizar o viewport da câmera
+    // principal em alguns ciclos de resize do navegador mobile.
+    this.camera.setViewport(0, 0, width, height);
     this.uiCamera.setViewport(0, 0, width, height);
-    // Em mudanças de orientação, recalcula o zoom mínimo e mantém a ilha enquadrável.
+
+    // A área de oceano acompanha a proporção real da tela, evitando revelar
+    // o fundo preto acima/abaixo da textura em telas verticais.
+    this.updateOceanBounds(width, height);
+    this.camera.setBounds(
+      this.oceanBounds.x,
+      this.oceanBounds.y,
+      this.oceanBounds.width,
+      this.oceanBounds.height
+    );
+
     const minZoom = this.getMinimumCameraZoom();
     if (this.camera.zoom < minZoom) this.camera.setZoom(minZoom);
     this.clampCameraToWorld();
@@ -273,29 +287,41 @@ export default class Game extends Phaser.Scene {
    * câmera permitidos, inclusive no zoom mínimo, para nunca revelar o fundo
    * da página ao arrastar ou afastar a câmera.
    */
+  updateOceanBounds(viewWidth, viewHeight) {
+    const baseDiameter = OCEAN_RADIUS * 2;
+    const aspect = Math.max(0.1, viewWidth / Math.max(1, viewHeight));
+    // Preserva ao menos 512 unidades de mar além da costa em todos os lados.
+    // A dimensão maior cresce para acompanhar o formato da tela.
+    const width = aspect >= 1 ? baseDiameter * aspect : baseDiameter;
+    const height = aspect >= 1 ? baseDiameter : baseDiameter / aspect;
+    this.oceanBounds = Object.freeze({
+      x: ISLAND_SHAPE.centerX - width / 2,
+      y: ISLAND_SHAPE.centerY - height / 2,
+      width,
+      height
+    });
+
+    if (this.oceanBackground) {
+      this.oceanBackground
+        .setPosition(ISLAND_SHAPE.centerX, ISLAND_SHAPE.centerY)
+        .setSize(width, height);
+    }
+  }
+
   createOceanBackground() {
     const texture = this.textures.get('ocean-pattern');
     if (!texture?.getSourceImage?.()) {
       throw new Error('A textura original do oceano não foi carregada.');
     }
 
-    // O terreno e os objetos continuam no quadrado lógico 4096 x 4096.
-    // A área visual do oceano é um quadrado maior, centrado na mesma ilha:
-    // 1992 unidades de costa + 512 unidades de mar em cada direção.
-    const diameter = OCEAN_RADIUS * 2;
-    const min = ISLAND_SHAPE.centerX - OCEAN_RADIUS;
-    this.oceanBounds = Object.freeze({
-      x: min,
-      y: ISLAND_SHAPE.centerY - OCEAN_RADIUS,
-      width: diameter,
-      height: diameter
-    });
-
+    // O mundo jogável continua em 4096 x 4096. Só a área visual do oceano
+    // é expandida para preencher a proporção do viewport, sem bordas pretas.
+    this.updateOceanBounds(this.scale.width, this.scale.height);
     this.oceanBackground = this.add.tileSprite(
       ISLAND_SHAPE.centerX,
       ISLAND_SHAPE.centerY,
-      diameter,
-      diameter,
+      this.oceanBounds.width,
+      this.oceanBounds.height,
       'ocean-pattern'
     ).setOrigin(0.5).setDepth(-1200);
 

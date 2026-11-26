@@ -13,22 +13,31 @@ test('o terreno e o mundo jogável continuam em 4096 x 4096', () => {
   assert.match(game, /new WorldNavigation\(this\.worldWidth, this\.worldHeight\)/);
 });
 
-test('oceano tem limite próprio e margem simétrica de 512 unidades a partir da costa', () => {
+test('oceano mantém a margem costeira e expande a dimensão maior para a proporção da tela', () => {
   const game = read('../src/scenes/Game.js');
-  const method = game.slice(game.indexOf('  createOceanBackground() {'), game.indexOf('  readSavedProgress() {'));
+  const method = game.slice(game.indexOf('  updateOceanBounds('), game.indexOf('  readSavedProgress() {'));
   assert.match(game, /const OCEAN_MARGIN = 512/);
   assert.match(game, /const OCEAN_RADIUS = ISLAND_SHAPE\.baseRadius \+ OCEAN_MARGIN/);
-  assert.match(method, /width: diameter/);
-  assert.match(method, /height: diameter/);
-  assert.match(method, /ISLAND_SHAPE\.centerX - OCEAN_RADIUS/);
-  assert.match(method, /ISLAND_SHAPE\.centerY - OCEAN_RADIUS/);
+  assert.match(method, /const baseDiameter = OCEAN_RADIUS \* 2/);
+  assert.match(method, /const aspect = Math\.max\(0\.1, viewWidth \/ Math\.max\(1, viewHeight\)\)/);
+  assert.match(method, /aspect >= 1 \? baseDiameter \* aspect : baseDiameter/);
+  assert.match(method, /aspect >= 1 \? baseDiameter : baseDiameter \/ aspect/);
   assert.match(method, /this\.add\.tileSprite\(/);
   assert.match(method, /'ocean-pattern'/);
-  assert.match(game, /camera\.setBounds\(this\.oceanBounds\.x, this\.oceanBounds\.y, this\.oceanBounds\.width, this\.oceanBounds\.height\)/);
-  assert.doesNotMatch(method, /add\.shader|createCanvas|getImageData|putImageData|drawImage|CanvasTexture|ImageData/);
+  assert.match(game, /camera\.setBounds\(\s*this\.oceanBounds\.x/);
 });
 
-test('oceano é estático e não acompanha a câmera a cada frame', () => {
+test('resize atualiza viewport das duas câmeras e redimensiona o oceano', () => {
+  const game = read('../src/scenes/Game.js');
+  const method = game.slice(game.indexOf('  resizeHudCamera('), game.indexOf('  createGround() {'));
+  assert.match(method, /this\.camera\.setViewport\(0, 0, width, height\)/);
+  assert.match(method, /this\.uiCamera\.setViewport\(0, 0, width, height\)/);
+  assert.match(method, /this\.updateOceanBounds\(width, height\)/);
+  assert.match(method, /this\.camera\.setBounds\(/);
+  assert.match(method, /this\.getMinimumCameraZoom\(\)/);
+});
+
+test('oceano permanece em um único TileSprite, sem processamento por frame', () => {
   const game = read('../src/scenes/Game.js');
   assert.equal((game.match(/this\.add\.tileSprite\(/g) || []).length, 1);
   assert.doesNotMatch(game, /syncOceanBackground/);
