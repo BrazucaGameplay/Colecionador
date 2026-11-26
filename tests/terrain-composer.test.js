@@ -29,6 +29,12 @@ test('distribuição é determinística e cria manchas espalhadas', () => {
     (cell.y < 2048 ? 'N' : 'S') + (cell.x < 2048 ? 'W' : 'E')
   ));
   assert.equal(quadrants.size, 4);
+  assert.equal(Object.keys(first.sectorDistribution).length, 16);
+  for (const sector of Object.values(first.sectorDistribution)) {
+    assert.ok(Math.abs(sector.grass - 0.20) < 0.015);
+    assert.ok(Math.abs(sector.relief - 0.10) < 0.015);
+    assert.ok(Math.abs(sector.smooth - 0.70) < 0.02);
+  }
 });
 
 test('composição do jogo usa TileSprites e não cria canvas 4096x4096', () => {

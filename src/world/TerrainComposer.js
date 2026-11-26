@@ -50,12 +50,37 @@ export function buildTerrainRegions({ diameter = 4096, cellSize = DEFAULT_CELL_S
     }
   }
 
-  eligible.sort((a, b) => a.score - b.score);
-  const grassCount = Math.round(eligible.length * 0.20);
-  const reliefCount = Math.round(eligible.length * 0.10);
-  const grassCells = eligible.slice(0, grassCount);
-  const reliefCells = eligible.slice(grassCount, grassCount + reliefCount);
-  const smoothCount = eligible.length - grassCount - reliefCount;
+  // Divide a ilha em 4 x 4 setores e calcula as proporções dentro de
+  // cada setor. Isso impede que o campo de ruído concentre os overlays
+  // numa única região do mapa.
+  const sectors = new Map();
+  for (const cell of eligible) {
+    const sectorX = Math.min(3, Math.floor((cell.x + cell.width / 2) / (diameter / 4)));
+    const sectorY = Math.min(3, Math.floor((cell.y + cell.height / 2) / (diameter / 4)));
+    const key = sectorY * 4 + sectorX;
+    if (!sectors.has(key)) sectors.set(key, []);
+    sectors.get(key).push(cell);
+  }
+
+  const grassCells = [];
+  const reliefCells = [];
+  const sectorDistribution = {};
+  let smoothCount = 0;
+  for (const [key, sectorCells] of sectors) {
+    sectorCells.sort((a, b) => a.score - b.score);
+    const grassCount = Math.round(sectorCells.length * 0.20);
+    const reliefCount = Math.round(sectorCells.length * 0.10);
+    grassCells.push(...sectorCells.slice(0, grassCount));
+    reliefCells.push(...sectorCells.slice(grassCount, grassCount + reliefCount));
+    const smoothSectorCount = sectorCells.length - grassCount - reliefCount;
+    smoothCount += smoothSectorCount;
+    sectorDistribution[key] = Object.freeze({
+      eligible: sectorCells.length,
+      smooth: smoothSectorCount / sectorCells.length,
+      grass: grassCount / sectorCells.length,
+      relief: reliefCount / sectorCells.length
+    });
+  }
 
   return Object.freeze({
     columns,
@@ -66,9 +91,10 @@ export function buildTerrainRegions({ diameter = 4096, cellSize = DEFAULT_CELL_S
     reliefCells: Object.freeze(reliefCells.map(({ x, y, width, height }) => Object.freeze({ x, y, width, height }))),
     distribution: Object.freeze({
       smooth: smoothCount / eligible.length,
-      grass: grassCount / eligible.length,
-      relief: reliefCount / eligible.length
-    })
+      grass: grassCells.length / eligible.length,
+      relief: reliefCells.length / eligible.length
+    }),
+    sectorDistribution: Object.freeze(sectorDistribution)
   });
 }
 

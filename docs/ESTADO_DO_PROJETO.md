@@ -1282,7 +1282,7 @@ IMPLEMENTADO:
 - Máscara geométrica circular recorta a base e mantém o contorno da ilha.
 - Os TileSprites de terreno e o TileSprite do mar/nuvens têm o tamanho do viewport em coordenadas do mundo e acompanham a câmera; nenhum ocupa 4096 x 4096 ou 8192 x 8192.
 - Máscaras geométricas independentes distribuem manchas de grama e relevo.
-- A classificação usa grade determinística de 64 unidades, sem RNG no jogo.
+- A classificação usa grade determinística de 64 unidades e 16 setores espaciais (4 x 4), sem RNG no jogo. Cada setor mantém as mesmas proporções, evitando concentração em um quadrante.
 - Proporções por área elegível: 70% liso, 20% moita/grama e 10% relevo,
   com diferença máxima decorrente do arredondamento da grade.
 - Cada célula pertence a uma única classe; não há sobreposição entre os
