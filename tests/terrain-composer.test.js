@@ -19,13 +19,17 @@ test('materiais ocupam regioes estaveis no nucleo circular',()=>{
  assert.equal(getTerrainMaterialAt(0,0),'ocean');
  assert.equal(getTerrainMaterialAt(.5,.5),'grass');
 });
-test('shader usa um unico objeto e recorta a costa radial irregular',()=>{
+test('shader compoe a textura costeira com alpha sobre terreno continuo',()=>{
  const s=buildIslandTerrainShader();
  assert.match(s,/uniform sampler2D uShoreline/);
- assert.match(s,/float boundaryRadius\(float a\)/);
- assert.match(s,/if\(radiusWorld>coastRadius\)discard/);
- assert.match(s,/const float CORE_RADIUS=1660\.0/);
- assert.match(s,/shoreU=fract\(angle\*\.159154943/);
+ assert.match(s,/float boundaryRadius\\(float a\\)/);
+ assert.match(s,/if\\(radiusWorld<=coastRadius\\)/);
+ assert.match(s,/vec4 shore=vec4\\(0\\.0\\)/);
+ assert.match(s,/landColor=mix\\(landColor,shore\\.rgb,shore\\.a\\)/);
+ assert.match(s,/if\\(shoreInRange&&shore\\.a>\\.003\\)/);
+ assert.match(s,/const float CORE_RADIUS=1660\\.0/);
+ assert.match(s,/shoreV=\\.70-\\(radiusWorld-coastRadius\\)\\/360\\.0/);
+ assert.doesNotMatch(s,/vec3 color=texture2D\\(uShoreline/);
  const src=readFileSync(new URL('../src/world/IslandTerrainRenderer.js',import.meta.url),'utf8');
  for(const call of ['createGeometryMask(','createCanvas(','createAlphaMask(','add.tileSprite(','setMask('])assert.ok(!src.includes(call));
 });

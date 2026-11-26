@@ -23,22 +23,48 @@ float ellipseMask(vec2 p,vec2 c,vec2 r){vec2 d=(p-c)/r;return 1.0-smoothstep(.77
 float boundaryRadius(float a){return 1992.0+32.0*sin(a*3.0+.4)+16.0*sin(a*5.0-.9)+8.0*sin(a*8.0+.7);}
 vec2 mirroredRepeat(vec2 p){vec2 c=mod(p,2.0);return 1.0-abs(c-1.0);}
 void main(){
- vec2 centered=(outTexCoord-vec2(.5))*2.0;float radius=length(centered);float radiusWorld=radius*2560.0;
- float angle=atan(centered.y,centered.x);float coastRadius=boundaryRadius(angle);const float CORE_RADIUS=1660.0;
- if(radiusWorld>coastRadius)discard;
- if(radiusWorld>CORE_RADIUS){
-  float shoreU=fract(angle*.159154943+.5);
-  float shoreV=1.0-clamp((radiusWorld-CORE_RADIUS)/(coastRadius-CORE_RADIUS),0.0,1.0);
-  vec3 color=texture2D(uShoreline,vec2(shoreU,shoreV)).rgb;
-  float alpha=1.0-smoothstep(coastRadius-3.0,coastRadius,radiusWorld);
-  gl_FragColor=vec4(color,alpha);return;
+ vec2 centered=(outTexCoord-vec2(.5))*2.0;
+ float radius=length(centered);
+ float radiusWorld=radius*2560.0;
+ float angle=atan(centered.y,centered.x);
+ float coastRadius=boundaryRadius(angle);
+ const float CORE_RADIUS=1660.0;
+
+ // A textura costeira e centrada na linha de espuma; o lado azul fica fora
+ // da ilha e o lado verde se sobrepoe ao terreno. 0.70 acompanha a espuma
+ // da arte costeira atual; 360 unidades mapeiam a altura completa da imagem.
+ float shoreU=fract(angle*.159154943+.5);
+ float shoreV=.70-(radiusWorld-coastRadius)/360.0;
+ vec4 shore=vec4(0.0);
+ bool shoreInRange=shoreV>=0.0&&shoreV<=1.0;
+ if(shoreInRange)shore=texture2D(uShoreline,vec2(shoreU,shoreV));
+
+ // O terreno permanece continuo por toda a area caminhavel, inclusive
+ // entre o nucleo circular e a costa irregular.
+ if(radiusWorld<=coastRadius){
+  vec2 uv=centered/(2.0*(CORE_RADIUS/2560.0))+vec2(.5);
+  vec2 tileUV=mirroredRepeat(uv*4.0);
+  vec3 landColor=texture2D(uSmooth,tileUV).rgb;
+  if(radiusWorld>CORE_RADIUS){
+   landColor=texture2D(uGrass,tileUV).rgb;
+  }else{
+   float grassMask=${buildMaskExpression('grass')};
+   float reliefMask=${buildMaskExpression('relief')};
+   if(grassMask>.001)landColor=mix(landColor,texture2D(uGrass,tileUV).rgb,grassMask);
+   if(reliefMask>.001)landColor=mix(landColor,texture2D(uRelief,tileUV).rgb,reliefMask);
+  }
+  if(shoreInRange)landColor=mix(landColor,shore.rgb,shore.a);
+  gl_FragColor=vec4(landColor,1.0);
+  return;
  }
- vec2 uv=centered/(2.0*(CORE_RADIUS/2560.0))+vec2(.5);vec2 tileUV=mirroredRepeat(uv*4.0);
- float grassMask=${buildMaskExpression('grass')};float reliefMask=${buildMaskExpression('relief')};
- vec3 color=texture2D(uSmooth,tileUV).rgb;
- if(grassMask>.001)color=mix(color,texture2D(uGrass,tileUV).rgb,grassMask);
- if(reliefMask>.001)color=mix(color,texture2D(uRelief,tileUV).rgb,reliefMask);
- gl_FragColor=vec4(color,1.0);
+
+ // Fora da ilha, somente os pixels opacos da parte marinha da textura
+ // costeira sao desenhados; o oceano-base continua visivel na transparencia.
+ if(shoreInRange&&shore.a>.003){
+  gl_FragColor=shore;
+  return;
+ }
+ discard;
 }`;}
 export function createIslandTerrain(scene,{diameter=4096,smoothKey='terrain-smooth',grassKey='terrain-grass',reliefKey='terrain-relief',shorelineKey='island-shoreline'}={}){
  const renderer=scene.sys.game.renderer;
