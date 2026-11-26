@@ -30,7 +30,8 @@ test('shader compoe a textura costeira com alpha sobre terreno continuo',()=>{
  assert.ok(s.includes('landColor=mix(landColor,shore.rgb,shorelineAlpha)'));
  assert.ok(s.includes('if(shoreInRange&&shore.a>.003)'));
  assert.ok(s.includes('const float CORE_RADIUS=1660.0'));
- assert.ok(s.includes('float shoreV=.58+(radiusWorld-coastRadius)/360.0'));
+ assert.ok(s.includes('float shoreV=.58+shoreDistance/360.0'));
+ assert.ok(s.includes('float coastNoise=broadNoise+fineNoise'));
  assert.ok(s.includes('float mirroredRepeat1D(float p)'));
  assert.ok(s.includes('float shoreU=mirroredRepeat1D((angle+3.141592654)*5.570423008)'));
  assert.ok(s.includes('equivale a cerca de 35 larguras de 360 unidades'));
