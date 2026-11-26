@@ -22,7 +22,7 @@ export default class Player{
  setMoving(v){this.moving=this.alive&&Boolean(v);}
  markCombat(now,duration=5000){this.inCombatUntil=Math.max(this.inCombatUntil,Number(now)+duration);}
  isInCombat(now){return Number(now)<this.inCombatUntil;}
- takeDamage(amount=1,now=0){if(!this.alive)return{applied:0,health:this.health,dead:true};const applied=Math.max(0,safe(amount,0)-this.stats.defense);if(!applied)return{applied:0,health:this.health,dead:false};this.markCombat(now);this.health=Math.max(0,this.health-applied);if(!this.health){this.alive=false;this.moving=false;}return{applied,health:this.health,dead:!this.alive};}
+ takeDamage(amount=1,now=0,penetration=0){if(!this.alive)return{applied:0,health:this.health,dead:true};const effectiveDefense=Math.max(0,this.stats.defense-Math.max(0,safe(penetration,0)));const applied=Math.max(0,safe(amount,0)-effectiveDefense);if(!applied)return{applied:0,health:this.health,dead:false};this.markCombat(now);this.health=Math.max(0,this.health-applied);if(!this.health){this.alive=false;this.moving=false;}return{applied,health:this.health,dead:!this.alive};}
  restoreHealth(a=this.maxHealth){this.health=Math.min(this.maxHealth,this.health+safe(a,0));this.alive=this.health>0;return this.health;}
  restoreEnergy(a=this.maxEnergy){this.energy=Math.min(this.maxEnergy,this.energy+safe(a,0));return this.energy;}
  spendEnergy(a=0){a=safe(a,0);if(this.energy<a)return false;this.energy-=a;return true;}
