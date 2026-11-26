@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<defs>
+ <linearGradient id="sea" x2="0" y2="1"><stop stop-color="#07518d"/><stop offset=".38" stop-color="#087eaa"/><stop offset=".68" stop-color="#12b6b1"/><stop offset="1" stop-color="#b6d77b"/></linearGradient>
+ <linearGradient id="grass" x2="0" y2="1"><stop stop-color="#b3ad50"/><stop offset=".2" stop-color="#75b92a"/><stop offset=".52" stop-color="#39ad16"/><stop offset="1" stop-color="#15920b"/></linearGradient>
+ <filter id="waterNoise"><feTurbulence type="fractalNoise" baseFrequency=".018 .055" numOctaves="3" seed="12"/><feColorMatrix values=".35 0 0 0 .05 .1 .45 0 0 .2 0 0 .65 0 .3 0 0 0 .28 0"/></filter>
+ <filter id="grassNoise"><feTurbulence type="fractalNoise" baseFrequency=".045 .09" numOctaves="3" seed="7"/><feColorMatrix values=".25 0 0 0 .05 0 .55 0 0 .2 0 0 .1 0 0 0 0 0 .3 0"/></filter>
+ <filter id="foam"><feTurbulence type="fractalNoise" baseFrequency=".025 .09" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="17" xChannelSelector="R" yChannelSelector="G"/></filter>
+</defs>
+<rect width="512" height="512" fill="url(#sea)"/><rect width="512" height="270" filter="url(#waterNoise)" opacity=".55"/>
+<path d="M0 242 C40 220 62 270 104 247 S165 218 203 247 S270 281 309 245 S379 215 418 247 S476 263 512 231 L512 512 L0 512Z" fill="url(#grass)"/>
+<path d="M0 242 C40 220 62 270 104 247 S165 218 203 247 S270 281 309 245 S379 215 418 247 S476 263 512 231" fill="none" stroke="#e9f8d4" stroke-width="16" opacity=".72" filter="url(#foam)"/>
+<path d="M0 250 C40 228 62 278 104 255 S165 226 203 255 S270 289 309 253 S379 223 418 255 S476 271 512 239" fill="none" stroke="#fffef0" stroke-width="5" opacity=".95" filter="url(#foam)"/>
+<path d="M0 264 C40 245 62 287 104 267 S165 241 203 267 S270 300 309 265 S379 239 418 267 S476 281 512 254" fill="none" stroke="#c8f7d4" stroke-width="3" opacity=".8" filter="url(#foam)"/>
+<rect y="250" width="512" height="262" filter="url(#grassNoise)" opacity=".48"/>
+<g fill="none" stroke="#a9e84c" stroke-width="2" opacity=".4"><path d="M20 360q18-28 30 0m-14 0q-2-22 14-35M90 430q15-34 28-2m-14 2q0-23 17-34M190 340q18-32 32-3m-17 3q0-24 18-34M300 410q18-34 31-2m-14 2q1-25 19-36M410 350q18-30 30-2m-15 2q0-22 17-32"/></g>
+</svg>

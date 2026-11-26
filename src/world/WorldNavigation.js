@@ -1,3 +1,4 @@
+import { getIslandBoundaryRadius, ISLAND_SHAPE } from './IslandShape.js';
 const CELL = 24;
 const DIRECTIONS = [
   [1, 0, 1], [-1, 0, 1], [0, 1, 1], [0, -1, 1],
@@ -53,9 +54,11 @@ export default class WorldNavigation {
     this.maskHeight = 0;
     this.walkableGrid = null;
     this.circleMask = null;
+    this.shapeMask = null;
   }
 
   setCircleMask(centerX, centerY, radius) {
+    this.shapeMask = null;
     this.alphaMask = null;
     this.circleMask = { centerX, centerY, radius };
     this.maskWidth = 0;
@@ -70,7 +73,18 @@ export default class WorldNavigation {
     }
   }
 
+  setIslandMask(centerX, centerY, shape = ISLAND_SHAPE) {
+    this.alphaMask = null; this.circleMask = null;
+    this.shapeMask = { centerX, centerY, coreRadius: shape.coreRadius, inset: shape.inset };
+    this.walkableGrid = new Uint8Array(this.cols * this.rows);
+    for (let row=0; row<this.rows; row++) for (let col=0; col<this.cols; col++) {
+      const x=col*CELL+CELL/2, y=row*CELL+CELL/2;
+      this.walkableGrid[row*this.cols+col] = this.isInsideIsland(x,y) ? 1 : 0;
+    }
+  }
+
   setAlphaMask(rgbaPixels, width, height, threshold = 150) {
+    this.shapeMask = null;
     this.alphaMask = new Uint8Array(width * height);
     this.maskWidth = width;
     this.maskHeight = height;
@@ -91,6 +105,11 @@ export default class WorldNavigation {
   }
 
   isInsideIsland(x, y) {
+    if (this.shapeMask) {
+      const dx=x-this.shapeMask.centerX, dy=y-this.shapeMask.centerY, distance=Math.hypot(dx,dy);
+      if(distance<=this.shapeMask.coreRadius)return true;
+      return distance<=getIslandBoundaryRadius(Math.atan2(dy,dx))-this.shapeMask.inset;
+    }
     if (this.circleMask) {
       const dx = x - this.circleMask.centerX;
       const dy = y - this.circleMask.centerY;

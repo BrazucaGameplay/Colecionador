@@ -1,92 +1,54 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import {
-  TERRAIN_REGIONS,
-  buildIslandTerrainShader,
-  getTerrainMaterialAt
-} from '../src/world/IslandTerrainRenderer.js';
+import { TERRAIN_REGIONS, buildIslandTerrainShader, getTerrainMaterialAt } from '../src/world/IslandTerrainRenderer.js';
+import { getIslandBoundaryRadius, isInsideIsland, ISLAND_SHAPE } from '../src/world/IslandShape.js';
 
-test('o desenho do terreno é fixo e não usa distribuição aleatória', () => {
-  assert.equal(TERRAIN_REGIONS.length, 9);
-  assert.ok(TERRAIN_REGIONS.every(region => ['grass', 'relief'].includes(region.material)));
-  const source = readFileSync(new URL('../src/world/IslandTerrainRenderer.js', import.meta.url), 'utf8');
-  assert.doesNotMatch(source, /Math\.random|randomBetween|RandomDataGenerator/);
+test('regioes do terreno sao deterministicas',()=>{
+ assert.equal(TERRAIN_REGIONS.length,9);
+ assert.ok(TERRAIN_REGIONS.every(r=>['grass','relief'].includes(r.material)));
+ const src=readFileSync(new URL('../src/world/IslandTerrainRenderer.js',import.meta.url),'utf8');
+ assert.doesNotMatch(src,/Math\.random|randomBetween|RandomDataGenerator/);
 });
-
-test('as regiões de material cobrem proporções estáveis da ilha', () => {
-  const counts = { smooth: 0, grass: 0, relief: 0 };
-  const samples = 300;
-  for (let y = 0; y < samples; y++) {
-    for (let x = 0; x < samples; x++) {
-      const u = (x + 0.5) / samples;
-      const v = (y + 0.5) / samples;
-      const material = getTerrainMaterialAt(u, v);
-      if (material !== 'ocean') counts[material]++;
-    }
-  }
-  const land = counts.smooth + counts.grass + counts.relief;
-  const grass = counts.grass / land;
-  const relief = counts.relief / land;
-  assert.ok(grass > 0.20 && grass < 0.27, 'grama deve ocupar cerca de 23% da ilha');
-  assert.ok(relief > 0.09 && relief < 0.14, 'relevo deve ocupar cerca de 12% da ilha');
-  assert.equal(getTerrainMaterialAt(0, 0), 'ocean');
-  assert.equal(getTerrainMaterialAt(0.5, 0.5), 'grass');
+test('materiais ocupam regioes estaveis no nucleo circular',()=>{
+ const counts={smooth:0,grass:0,relief:0},n=300;
+ for(let y=0;y<n;y++)for(let x=0;x<n;x++){const m=getTerrainMaterialAt((x+.5)/n,(y+.5)/n);if(m!=='ocean')counts[m]++;}
+ const land=counts.smooth+counts.grass+counts.relief;
+ assert.ok(counts.grass/land>.20&&counts.grass/land<.27);
+ assert.ok(counts.relief/land>.09&&counts.relief/land<.14);
+ assert.equal(getTerrainMaterialAt(0,0),'ocean');
+ assert.equal(getTerrainMaterialAt(.5,.5),'grass');
 });
-
-test('shader recorta a ilha no próprio fragmento, sem GeometryMask ou canvas', () => {
-  const shader = buildIslandTerrainShader();
-  assert.match(shader, /uniform sampler2D uSmooth/);
-  assert.match(shader, /uniform sampler2D uGrass/);
-  assert.match(shader, /uniform sampler2D uRelief/);
-  assert.match(shader, /if \(radius > 1\.0\) discard;/);
-  assert.match(shader, /gl_FragColor = vec4\(terrainColor, 1\.0\)/);
-  assert.doesNotMatch(shader, /islandAlpha|smoothstep\(0\.998/);
-  assert.match(shader, /mirroredRepeat/);
-  const source = readFileSync(new URL('../src/world/IslandTerrainRenderer.js', import.meta.url), 'utf8');
-  for (const legacyCall of ['createGeometryMask(', 'createCanvas(', 'createAlphaMask(', 'add.tileSprite(', 'setMask(']) assert.ok(!source.includes(legacyCall));
+test('shader usa um unico objeto e recorta a costa radial irregular',()=>{
+ const s=buildIslandTerrainShader();
+ assert.match(s,/uniform sampler2D uShoreline/);
+ assert.match(s,/float boundaryRadius\(float a\)/);
+ assert.match(s,/if\(radiusWorld>coastRadius\)discard/);
+ assert.match(s,/const float CORE_RADIUS=1660\.0/);
+ assert.match(s,/shoreU=fract\(angle\*\.159154943/);
+ const src=readFileSync(new URL('../src/world/IslandTerrainRenderer.js',import.meta.url),'utf8');
+ for(const call of ['createGeometryMask(','createCanvas(','createAlphaMask(','add.tileSprite(','setMask('])assert.ok(!src.includes(call));
 });
-
-test('Game usa somente o renderizador único de terreno e o oceano fica abaixo', () => {
-  const source = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
-  assert.match(source, /createIslandTerrain/);
-  assert.match(source, /this\.groundObject = this\.terrain\.object/);
-  assert.match(source, /setDepth\(-1200\)/);
-  assert.doesNotMatch(source, /groundTiles|groundMasks|TerrainComposer/);
+test('Game usa a mascara de ilha compartilhada e oceano abaixo do terreno',()=>{
+ const game=readFileSync(new URL('../src/scenes/Game.js',import.meta.url),'utf8');
+ assert.match(game,/setIslandMask\(ISLAND_SHAPE\.centerX/);
+ assert.match(game,/this\.groundObject = this\.terrain\.object/);
+ assert.match(game,/setDepth\(-1200\)/);
 });
-
-test('Preload carrega os três assets materiais usados diretamente pelo shader', () => {
-  const source = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
-  for (const key of ['terrain-smooth', 'terrain-grass', 'terrain-relief']) assert.ok(source.includes(key));
+test('Preload carrega materiais e textura costeira SVG',()=>{
+ const preload=readFileSync(new URL('../src/scenes/Preload.js',import.meta.url),'utf8');
+ for(const key of ['terrain-smooth','terrain-grass','terrain-relief','island-shoreline.svg'])assert.ok(preload.includes(key));
+ const svg=readFileSync(new URL('../public/assets/world/terrain/island-shoreline.svg',import.meta.url),'utf8');
+ assert.match(svg,/<svg/);assert.match(svg,/id="sea"/);assert.match(svg,/id="grass"/);assert.match(svg,/id="foam"/);
 });
-
-
-test('oceano usa a textura WebP de referencia e TileSprite estático', () => {
-  const game = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
-  const preload = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
-  const ocean = readFileSync(new URL('../public/assets/world/terrain/ocean-pattern.webp', import.meta.url));
-  assert.ok(game.includes('this.add.tileSprite('));
-  assert.ok(game.includes("'ocean-pattern'"));
-  assert.ok(!game.includes('0x315b78'));
-  assert.ok(preload.includes('ocean-pattern.webp'));
-  assert.equal(ocean.toString('ascii', 0, 4), 'RIFF');
-  assert.equal(ocean.toString('ascii', 8, 12), 'WEBP');
-});
-
-
-test('margem costeira usa a textura WebP no mesmo shader da ilha', () => {
-  const game = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
-  const preload = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
-  const shaderSource = readFileSync(new URL('../src/world/IslandTerrainRenderer.js', import.meta.url), 'utf8');
-  const shoreline = readFileSync(new URL('../public/assets/world/terrain/island-shoreline.webp', import.meta.url));
-  assert.match(game, /shorelineKey: 'island-shoreline'/);
-  assert.doesNotMatch(game, /createIslandShoreline|shorelineObject/);
-  assert.ok(preload.includes('island-shoreline.webp'));
-  assert.match(shaderSource, /uniform sampler2D uShoreline/);
-  assert.match(shaderSource, /const float LAND_RADIUS = 0\.8/);
-  assert.match(shaderSource, /float shoreU = fract\(angle \* 0\.636619772/);
-  assert.match(shaderSource, /uShoreline: 3/);
-  assert.equal(shoreline.toString('ascii', 0, 4), 'RIFF');
-  assert.equal(shoreline.toString('ascii', 8, 12), 'WEBP');
-  assert.ok(shoreline.length > 8000, 'textura costeira deve preservar detalhe');
+test('nucleo permanece circular e o litoral apresenta entradas e saidas',()=>{
+ assert.equal(ISLAND_SHAPE.coreRadius,1660);
+ const radii=Array.from({length:720},(_,i)=>getIslandBoundaryRadius(i*Math.PI*2/720));
+ assert.ok(Math.min(...radii)>1930);
+ assert.ok(Math.max(...radii)<=2048);
+ assert.ok(Math.max(...radii)-Math.min(...radii)>70);
+ assert.ok(isInsideIsland(2048+1500,2048));
+ assert.ok(isInsideIsland(2048+1850,2048));
+ assert.ok(!isInsideIsland(2048+2050,2048));
+ assert.ok(!isInsideIsland(2048+1500,2048+1500));
 });

@@ -10,6 +10,7 @@ import WorldDepthManager from '../world/WorldDepthManager.js';
 import WorldCollisionManager from '../world/WorldCollisionManager.js';
 import WorldObjectManager from '../world/WorldObjectManager.js';
 import { createIslandTerrain } from '../world/IslandTerrainRenderer.js';
+import { ISLAND_SHAPE } from '../world/IslandShape.js';
 import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
 import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
@@ -191,7 +192,7 @@ export default class Game extends Phaser.Scene {
   }
 
   createIslandWalkableMask() {
-    this.navigation.setCircleMask(ISLAND_RADIUS, ISLAND_RADIUS, ISLAND_RADIUS - 28);
+    this.navigation.setIslandMask(ISLAND_SHAPE.centerX, ISLAND_SHAPE.centerY, ISLAND_SHAPE);
   }
 
 

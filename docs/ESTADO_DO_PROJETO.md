@@ -1521,3 +1521,19 @@ VALIDACAO:
   288 KiB. O custo de fragmentos aumenta apenas na area do anel costeiro;
   a cena continua com um unico objeto shader para terreno e margem.
 - Versao: 2.4.5.
+
+
+======================================================================
+ATUALIZACAO — 26/11/2026 — ILHA COM COSTA IRREGULAR
+======================================================================
+
+Versao de codigo: 2.4.6
+
+- A area jogavel deixa de usar uma borda circular perfeita.
+- O nucleo interior permanece circular, com raio de 1660 unidades.
+- A costa externa varia deterministicamente por angulo, mantendo a
+  extensao maxima dentro do mundo 4096 x 4096.
+- A navegacao usa a mesma funcao radial do shader, com recuo de seguranca.
+- A faixa costeira usa textura SVG estatica no shader, sem sprites extras.
+- O raio de distribuicao dos monstros foi ajustado para a nova silhueta.
+- Validacao visual Android e publicacao desta versao ainda dependem do CI.
