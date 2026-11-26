@@ -65,9 +65,11 @@ test('oceano usa textura SVG pequena e TileSprite estático', () => {
   const game = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
   const preload = readFileSync(new URL('../src/scenes/Preload.js', import.meta.url), 'utf8');
   const ocean = readFileSync(new URL('../public/assets/world/terrain/ocean-pattern.svg', import.meta.url), 'utf8');
-  assert.match(game, /add\.tileSprite\([\s\S]*?'ocean-pattern'\)/);
-  assert.doesNotMatch(game, /add\.rectangle\([\s\S]*?0x315b78/);
-  assert.match(preload, /ocean-pattern\.svg/);
-  assert.match(ocean, /width="256" height="256"/);
+  assert.ok(game.includes('this.add.tileSprite('));
+  assert.ok(game.includes("'ocean-pattern'"));
+  assert.ok(!game.includes('0x315b78'));
+  assert.ok(preload.includes('ocean-pattern.svg'));
+  assert.ok(ocean.includes('width="256" height="256"'));
+  assert.ok(!ocean.includes('<image') && !ocean.includes('filter='));
   assert.doesNotMatch(ocean, /<image|filter=/);
 });
