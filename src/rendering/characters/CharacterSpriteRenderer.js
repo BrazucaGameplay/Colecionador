@@ -156,13 +156,31 @@ export default class CharacterSpriteRenderer {
       console.warn('[CharacterAnimations] Pacote da ação indisponível:', resolvedId);
       return false;
     }
-    const started = this.actionState.start(resolvedId, { ...animation, ...overrides });
+    const { durationMs, ...actionOverrides } = overrides;
+    const isCombatCycle = actionId === 'combat';
+    const started = this.actionState.start(resolvedId, {
+      ...animation,
+      ...actionOverrides,
+      ...(isCombatCycle ? {
+        priority: CHARACTER_ANIMATIONS.combat.priority,
+        interruptible: true,
+        lockMovement: true,
+        restartExisting: true
+      } : {})
+    });
     if (!started.accepted) return false;
     this.sprite.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     this.actionToken = started.action.token;
     this.currentAnimation = resolvedId;
     this.sprite.setScale(this.baseScale * this.actionScaleMultiplier);
-    this.sprite.play({ key, repeat: animation.loop ? -1 : 0 });
+    const playConfig = {
+      key,
+      repeat: animation.loop ? -1 : 0,
+      ...(Number.isFinite(durationMs) && durationMs > 0 ? { duration: durationMs } : {})
+    };
+    // A hit always begins at frame zero; the full clip is stretched/compressed
+    // to the exact cooldown interval calculated by CombatSystem.
+    this.sprite.play(playConfig);
     if (!animation.loop) this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     return true;
   }
