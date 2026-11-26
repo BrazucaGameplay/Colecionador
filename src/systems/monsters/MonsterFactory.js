@@ -1,7 +1,5 @@
 import Monster from '../../entities/Monster.js';
-import MonsterBodyAdapter from '../../entities/MonsterBodyAdapter.js';
 import MonsterRenderer from '../../rendering/monsters/MonsterRenderer.js';
-import MonsterBehaviorController from './MonsterBehaviorController.js';
 
 export default class MonsterFactory {
   constructor(scene, { navigation, depthManager } = {}) {
@@ -22,15 +20,10 @@ export default class MonsterFactory {
       definition,
       spawnZoneId: zone.id
     });
-    const body = new MonsterBodyAdapter(this.scene, entity, definition.collision);
+    // Entidades distantes nascem apenas como arte estática. Física e IA são
+    // construídas sob demanda quando o jogador entra no raio de ativação.
     const renderer = new MonsterRenderer(this.scene, entity, definition, this.depthManager);
-    const behavior = new MonsterBehaviorController({
-      navigation: this.navigation,
-      zone,
-      definition
-    });
-
-    return { entity, body, renderer, behavior, collider: null, removeAt: null };
+    return { entity, body: null, renderer, behavior: null, zone, collider: null, removeAt: null };
   }
 
   destroy() {
