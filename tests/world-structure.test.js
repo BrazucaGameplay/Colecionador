@@ -114,7 +114,7 @@ test('correção de câmera recentraliza poses deslocadas pelo root motion', () 
 
 
 test('a escala visual padrão do protagonista foi aumentada sem alterar os quadros', () => {
-  assert.equal(DEFAULT_CHARACTER_SCALE, 1.12);
+  assert.equal(DEFAULT_CHARACTER_SCALE, 1.35);
   assert.ok(DEFAULT_CHARACTER_SCALE > 0.95);
 });
 
