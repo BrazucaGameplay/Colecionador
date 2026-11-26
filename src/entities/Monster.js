@@ -16,10 +16,16 @@ export default class Monster {
     this.spawnZoneId = spawnZoneId;
     this.x = x;
     this.y = y;
-    this.maxHealth = Math.max(1, Number(definition.maxHealth) || 1);
+    // Mesmo contrato de atributos do Player, mas com estado próprio e valores-base 1.
+    this.stats = Object.freeze({
+      attack: 1, defense: 1, penetration: 1, attackSpeed: 1,
+      movementSpeed: 1, maxHealth: 1, maxEnergy: 1,
+      healthRegen: 1, energyRegen: 1
+    });
+    this.maxHealth = this.stats.maxHealth;
     this.health = this.maxHealth;
-    this.speed = Math.max(0, Number(definition.speed) || 0);
-    this.defense = Math.max(0, Number(definition.defense) || 0);
+    this.speed = Math.max(0, Number(definition.speed) || 0) * this.stats.movementSpeed;
+    this.defense = this.stats.defense;
     this.moving = false;
     this.facing = { x: 0, y: 1 };
     this.state = 'alive';
