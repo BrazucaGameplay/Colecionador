@@ -23,6 +23,26 @@ test('ação superior pode interromper ação inferior quando permitido', () => 
   assert.equal(state.activeAction, 'death');
 });
 
+test('cada novo ataque reinicia a ação de combate mesmo com a mesma prioridade', () => {
+  const state = new CharacterActionState();
+  const first = state.start('combat', {
+    priority: ACTION_PRIORITY.combat,
+    interruptible: true,
+    lockMovement: true
+  });
+  assert.equal(first.accepted, true);
+  const second = state.start('combatSlash', {
+    priority: ACTION_PRIORITY.combat,
+    interruptible: true,
+    lockMovement: true,
+    restartExisting: true
+  });
+  assert.equal(second.accepted, true);
+  assert.notEqual(second.action.token, first.action.token);
+  assert.equal(state.activeAction, 'combatSlash');
+  assert.equal(state.blocksMovement, true);
+});
+
 test('animação não repetida termina uma única vez e mantém a pose de morte', () => {
   const state = new CharacterActionState();
   const death = state.start('death', { priority: ACTION_PRIORITY.death, interruptible: false, holdOnComplete: true, lockMovement: true });
