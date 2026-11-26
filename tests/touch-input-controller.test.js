@@ -124,3 +124,13 @@ test('arraste de um dedo funciona depois de encerrar uma pinça', () => {
   assert.deepEqual(f.taps, []);
   f.controller.destroy();
 });
+
+
+test('zoom máximo permite ampliar até 2.25x e bloqueia além desse limite', () => {
+  const f = createController();
+  f.input.emit('pointerdown', { id: 1, x: 100, y: 100 });
+  f.input.emit('pointerdown', { id: 2, x: 200, y: 100 });
+  f.input.emit('pointermove', { id: 2, x: 500, y: 100 });
+  assert.equal(f.camera.zoom, 2.25);
+  f.controller.destroy();
+});

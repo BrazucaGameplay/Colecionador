@@ -19,7 +19,7 @@ import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 import { ISLAND_SHAPE } from '../world/IslandShape.js';
 
-const CAMERA_ZOOM = Object.freeze({ max: 1.2, default: 1.2 });
+const CAMERA_ZOOM = Object.freeze({ max: 2.25, default: 1.2 });
 const CAMERA_FOLLOW_LERP = 0.06;
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 const ISLAND_DIAMETER = 4096;
@@ -27,6 +27,8 @@ const ISLAND_RADIUS = ISLAND_DIAMETER / 2;
 // O oceano termina a mesma distância da costa em todos os lados.
 const OCEAN_MARGIN = 512;
 const OCEAN_RADIUS = ISLAND_SHAPE.baseRadius + OCEAN_MARGIN;
+// Espaço extra de mar além da área enquadrada, reservado para o pan no zoom mínimo.
+const OCEAN_PAN_BUFFER_FACTOR = 1.35;
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -164,10 +166,13 @@ export default class Game extends Phaser.Scene {
   getMinimumCameraZoom() {
     const bounds = this.oceanBounds;
     if (!this.camera || !bounds) return 0.08;
+    // O zoom mínimo enquadra a área-base do oceano, não todo o buffer
+    // externo. Assim sobra mar dentro dos limites da câmera para arrastar
+    // mesmo no maior afastamento.
     return Math.min(
       CAMERA_ZOOM.max,
-      this.camera.width / bounds.width,
-      this.camera.height / bounds.height
+      this.camera.width / (bounds.width / OCEAN_PAN_BUFFER_FACTOR),
+      this.camera.height / (bounds.height / OCEAN_PAN_BUFFER_FACTOR)
     );
   }
 
@@ -290,8 +295,8 @@ export default class Game extends Phaser.Scene {
     const aspect = Math.max(0.1, viewWidth / Math.max(1, viewHeight));
     // Preserva ao menos 512 unidades de mar além da costa em todos os lados.
     // A dimensão maior cresce para acompanhar o formato da tela.
-    const width = aspect >= 1 ? baseDiameter * aspect : baseDiameter;
-    const height = aspect >= 1 ? baseDiameter : baseDiameter / aspect;
+    const width = (aspect >= 1 ? baseDiameter * aspect : baseDiameter) * OCEAN_PAN_BUFFER_FACTOR;
+    const height = (aspect >= 1 ? baseDiameter : baseDiameter / aspect) * OCEAN_PAN_BUFFER_FACTOR;
     this.oceanBounds = Object.freeze({
       x: ISLAND_SHAPE.centerX - width / 2,
       y: ISLAND_SHAPE.centerY - height / 2,

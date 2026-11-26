@@ -1719,3 +1719,25 @@ Versão do jogo: 2.4.50
 - Adicionados testes de arraste nos zooms mínimo/máximo e após pinça.
 - Nenhuma posição, escala ou estrutura do terreno foi alterada.
 - Testes/build/publicação devem ser confirmados pelo CI.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — RESTAURAÇÃO DO ZOOM E BUFFER DE ARRASTE
+======================================================================
+
+Versão do jogo: 2.4.51
+
+- Restaurado o limite máximo de aproximação para 2.25x. O limite 1.2x
+  da versão anterior estava abaixo do enquadramento de referência e
+  impedia alcançar a ampliação desejada.
+- Zoom inicial permanece em 1.2x.
+- O oceano visual recebe buffer externo de 1.35x em relação à área-base.
+- O zoom mínimo é calculado pela área-base, mantendo o buffer externo
+  disponível para deslocamento da câmera mesmo no zoom mínimo.
+- Os limites da câmera continuam contidos na área coberta pelo TileSprite;
+  o mar permanece desenhado sob a ilha durante o arraste.
+- Adicionados testes para o fator de buffer, zoom mínimo com espaço de
+  pan e limite máximo 2.25x.
+- Terreno, árvores, estruturas, física e navegação do mundo 4096 x 4096
+  permanecem inalterados.
+- CI e validação visual Android ainda precisam ser conferidos.
