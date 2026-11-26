@@ -9,7 +9,7 @@ import WorldNavigation from '../world/WorldNavigation.js';
 import WorldDepthManager from '../world/WorldDepthManager.js';
 import WorldCollisionManager from '../world/WorldCollisionManager.js';
 import WorldObjectManager from '../world/WorldObjectManager.js';
-import { createTerrainLayers, syncTerrainLayersToCamera } from '../world/TerrainComposer.js';
+import { createTerrainLayers } from '../world/TerrainComposer.js';
 import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
 import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
@@ -46,7 +46,7 @@ export default class Game extends Phaser.Scene {
 
     this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
     this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
-    this.createCloudBoundary();
+    this.createOceanBackground();
     this.createGround();
     this.createIslandWalkableMask();
     this.depthManager = new WorldDepthManager();
@@ -184,12 +184,12 @@ export default class Game extends Phaser.Scene {
       diameter: this.worldWidth,
       smoothKey: 'terrain-smooth',
       grassKey: 'terrain-grass',
-      reliefKey: 'terrain-relief',
-      cellSize: 64
+      reliefKey: 'terrain-relief'
     });
-    this.groundTiles = this.cloudFieldTile ? [this.cloudFieldTile, ...terrain.tiles] : terrain.tiles;
+    this.groundTiles = terrain.tiles;
     this.groundMasks = terrain.masks;
     this.terrainDistribution = terrain.distribution;
+    this.terrainPatternSize = terrain.patternSize;
   }
 
   createIslandWalkableMask() {
@@ -207,82 +207,15 @@ export default class Game extends Phaser.Scene {
    * A camada fica atrás do terreno: a grama recorta naturalmente a parte
    * interna das nuvens, sem cobrir a área caminhável nem exigir PNG externo.
    */
-  createCloudBoundary() {
-    const textureKey = 'generated-cloud-sea';
-    const bankKey = 'generated-cloud-bank';
-    const size = 512;
-
-    // Campo de nuvens opaco que preenche toda a área externa visível.
-    const fieldCanvas = document.createElement('canvas');
-    fieldCanvas.width = size;
-    fieldCanvas.height = size;
-    const field = fieldCanvas.getContext('2d');
-    if (!field) throw new Error('Não foi possível criar o campo de nuvens.');
-
-    const sky = field.createLinearGradient(0, 0, size, size);
-    sky.addColorStop(0, '#a9cbea');
-    sky.addColorStop(0.5, '#c7def3');
-    sky.addColorStop(1, '#8fb8df');
-    field.fillStyle = sky;
-    field.fillRect(0, 0, size, size);
-
-    // Nuvens densas em posições determinísticas para repetir sem cintilação.
-    for (let i = 0; i < 64; i++) {
-      const x = (i * 137.5 + (i % 4) * 31) % size;
-      const y = (i * 83.7 + (i % 7) * 19) % size;
-      const radius = 32 + (i % 5) * 9;
-      const puff = field.createRadialGradient(x - radius * 0.18, y - radius * 0.28, radius * 0.08, x, y, radius);
-      puff.addColorStop(0, 'rgba(255,255,255,0.99)');
-      puff.addColorStop(0.55, 'rgba(244,250,255,0.96)');
-      puff.addColorStop(0.84, 'rgba(219,235,250,0.9)');
-      puff.addColorStop(1, 'rgba(193,220,244,0)');
-      field.fillStyle = puff;
-      field.beginPath();
-      field.arc(x, y, radius, 0, Math.PI * 2);
-      field.fill();
-    }
-
-    if (this.textures.exists(textureKey)) this.textures.remove(textureKey);
-    this.textures.addCanvas(textureKey, fieldCanvas);
-    this.cloudFieldTile = this.add.tileSprite(ISLAND_RADIUS, ISLAND_RADIUS, this.scale.width, this.scale.height, textureKey)
-      .setOrigin(0.5).setDepth(-1200);
-
-    // Faixa volumosa em primeiro plano, avançando sobre a grama.
-    const bankCanvas = document.createElement('canvas');
-    bankCanvas.width = size;
-    bankCanvas.height = 256;
-    const ctx = bankCanvas.getContext('2d');
-    if (!ctx) throw new Error('Não foi possível criar a borda de nuvens.');
-
-    const puffs = [[35,150,58],[95,118,76],[165,145,82],[245,116,78],[325,145,84],[405,120,76],[475,158,62],[135,195,92],[275,195,100],[410,195,90]];
-    for (const [x, y, radius] of puffs) {
-      const puff = ctx.createRadialGradient(x-radius*0.2,y-radius*0.3,radius*0.06,x,y,radius);
-      puff.addColorStop(0,'rgba(255,255,255,1)');
-      puff.addColorStop(0.48,'rgba(244,250,255,0.99)');
-      puff.addColorStop(0.76,'rgba(211,231,249,0.94)');
-      puff.addColorStop(1,'rgba(165,202,235,0)');
-      ctx.fillStyle=puff;
-      ctx.beginPath();
-      ctx.arc(x,y,radius,0,Math.PI*2);
-      ctx.fill();
-    }
-    if (this.textures.exists(bankKey)) this.textures.remove(bankKey);
-    this.textures.addCanvas(bankKey, bankCanvas);
-
-    const count = 48;
-    const ringRadius = ISLAND_RADIUS - 35;
-    for (let i = 0; i < count; i++) {
-      const angle = Math.PI * 2 * i / count;
-      const scale = 0.98 + ((i * 13) % 5) * 0.045;
-      const x = ISLAND_RADIUS + Math.cos(angle) * ringRadius;
-      const y = ISLAND_RADIUS + Math.sin(angle) * ringRadius;
-      this.add.image(x, y, bankKey)
-        .setOrigin(0.5)
-        .setRotation(angle + Math.PI / 2)
-        .setScale(scale)
-        .setAlpha(0.98)
-        .setDepth(-900);
-    }
+  createOceanBackground() {
+    // Um único retângulo estático substitui as 48 imagens e os canvases de nuvens.
+    this.oceanBackground = this.add.rectangle(
+      ISLAND_RADIUS,
+      ISLAND_RADIUS,
+      ISLAND_DIAMETER,
+      ISLAND_DIAMETER,
+      0x315b78
+    ).setDepth(-1200);
   }
 
   readSavedProgress() {
@@ -334,7 +267,6 @@ export default class Game extends Phaser.Scene {
 
     this.monsterManager?.update(this.time.now, delta);
     this.monsterCombat?.update(this.time.now);
-    if (this.camera && this.groundTiles.length) syncTerrainLayersToCamera(this.groundTiles, this.camera);
     // O renderer do personagem e os objetos do cenário usam a mesma escala de profundidade.
   }
 
@@ -363,7 +295,8 @@ export default class Game extends Phaser.Scene {
     for (const mask of this.groundMasks) mask.destroy();
     this.groundTiles.length = 0;
     this.groundMasks.length = 0;
-    this.cloudFieldTile = null;
+    this.oceanBackground?.destroy();
+    this.oceanBackground = null;
     this.touchInput = null;
     this.movement = null;
     this.playerBody = null;
