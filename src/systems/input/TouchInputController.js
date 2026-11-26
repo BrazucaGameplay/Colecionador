@@ -79,7 +79,11 @@ export default class TouchInputController {
     }
 
     if (this.gesture?.pointerId !== pointer.id || !point.moved) return;
-    this.gesture.type = 'pan';
+    if (this.gesture.type !== 'pan') {
+      // O arraste assume temporariamente o controle da câmera.
+      this.camera.stopFollow();
+      this.gesture.type = 'pan';
+    }
     this.camera.scrollX -= (pointer.x - this.gesture.lastX) / this.camera.zoom;
     this.camera.scrollY -= (pointer.y - this.gesture.lastY) / this.camera.zoom;
     this.gesture.lastX = pointer.x;
