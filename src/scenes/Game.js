@@ -18,7 +18,7 @@ import PlayerStatusUI from '../ui/PlayerStatusUI.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 
-const CAMERA_ZOOM = Object.freeze({ min: 0.28, max: 2.25, default: 1.2 });
+const CAMERA_ZOOM = Object.freeze({ min: 0.08, max: 2.25, default: 1.2 });
 const CAMERA_FOLLOW_LERP = 0.06;
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 const ISLAND_DIAMETER = 4096;
@@ -203,7 +203,7 @@ export default class Game extends Phaser.Scene {
    * da página ao arrastar ou afastar a câmera.
    */
   createOceanBackground() {
-    const oceanSize = ISLAND_DIAMETER * 4;
+    const oceanSize = ISLAND_DIAMETER * 12;
     this.oceanBackground = this.add.rectangle(
       ISLAND_RADIUS,
       ISLAND_RADIUS,
