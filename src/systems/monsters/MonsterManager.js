@@ -30,7 +30,7 @@ export default class MonsterManager {
       navigation,
       spawnZones,
       definitions,
-      canSpawn: definition => this.hasValidIdleAtlas(definition),
+      canSpawn: definition => this.hasValidIdleTexture(definition),
       createMonster: (definition, point, zone) => this.createMonster(definition, point, zone),
       getAlive: zoneId => this.getAliveInZone(zoneId),
       getPlayerPosition: () => ({
@@ -43,12 +43,9 @@ export default class MonsterManager {
     this.spawner.update(scene.time?.now || 0);
   }
 
-  hasValidIdleAtlas(definition) {
-    if (!definition.visual?.enabled) return false;
-    const idle = definition.visual.animations?.idle;
-    if (!idle || !this.scene.textures.exists(idle.key)) return false;
-    const metadata = this.scene.cache.json.get(idle.key + '-meta');
-    return Array.isArray(metadata?.frames) && metadata.frames.length > 0;
+  hasValidIdleTexture(definition) {
+    const idle = definition.visual?.animations?.idle;
+    return Boolean(definition.visual?.enabled && idle && this.scene.textures.exists(idle.key));
   }
 
   createMonster(definition, point, zone) {
@@ -91,7 +88,7 @@ export default class MonsterManager {
     if (!result.dead) return result;
 
     entry.body.setEnabled(false);
-    entry.renderer.play('death', 0);
+    entry.renderer.play('death');
     entry.removeAt = now + (Number(entry.entity.definition.deathDurationMs) || 600);
     this.spawner.notifyDeath(entry.entity.spawnZoneId, now);
     this.onKill({
@@ -115,8 +112,7 @@ export default class MonsterManager {
       entry.behavior.update(entry.entity, now, delta);
       entry.body.sync();
       entry.renderer.setTransform(entry.entity.x, entry.entity.y);
-      const direction = ((Math.round(Math.atan2(entry.entity.facing.x, entry.entity.facing.y) / (Math.PI / 4)) % 8) + 8) % 8;
-      entry.renderer.play(entry.entity.moving ? 'walking' : 'idle', direction);
+      entry.renderer.play(entry.entity.moving ? 'walking' : 'idle');
       entry.renderer.update();
     }
   }
