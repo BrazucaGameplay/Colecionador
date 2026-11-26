@@ -4,21 +4,19 @@ import { readFileSync } from 'node:fs';
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 
-test('oceano usa offset tiling e uma textura composta apenas uma vez', () => {
+test('oceano usa diretamente o WebP original sem modificar pixels ou criar texturas', () => {
   const game = read('../src/scenes/Game.js');
   const method = game.slice(game.indexOf('  createOceanBackground() {'), game.indexOf('  syncOceanBackground() {'));
-  assert.match(method, /ocean-pattern-seamless-v2/);
-  assert.equal((method.match(/context\.drawImage\(source/g) || []).length, 4);
-  assert.match(method, /getImageData\(0, 0, width, height\)/);
-  assert.match(method, /canvasTexture\.refresh\(\)/);
-  assert.match(method, /setTileScale\(1\.65, 1\.65\)/);
-  assert.doesNotMatch(method, /new Uint8ClampedArray\(original\);\s*const output = new Uint8ClampedArray\(original\);\s*const band = Math\.max/);
+  assert.match(method, /'ocean-pattern'/);
+  assert.match(method, /this\.add\.tileSprite\(/);
+  assert.doesNotMatch(method, /createCanvas|getImageData|putImageData|drawImage|Uint8ClampedArray|ImageData|refresh\(|setTileScale|seamless/);
+  assert.doesNotMatch(game, /ocean-pattern-seamless/);
 });
 
-test('a textura do oceano é invalidada no cache e mantém um único TileSprite', () => {
+test('ocean background mantém um único TileSprite e invalida cache anterior', () => {
   const preload = read('../src/scenes/Preload.js');
   const game = read('../src/scenes/Game.js');
-  assert.match(preload, /ocean-seamless-v/);
+  assert.match(preload, /ocean-original-v31/);
   assert.equal((game.match(/this\.add\.tileSprite\(/g) || []).length, 1);
   assert.match(game, /syncOceanBackground\(\)/);
 });

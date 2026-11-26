@@ -243,93 +243,22 @@ export default class Game extends Phaser.Scene {
    * da página ao arrastar ou afastar a câmera.
    */
   createOceanBackground() {
-    const source = this.textures.get('ocean-pattern')?.getSourceImage?.();
-    if (!source?.width || !source?.height) {
-      throw new Error('A textura do oceano não foi carregada.');
+    const texture = this.textures.get('ocean-pattern');
+    if (!texture?.getSourceImage?.()) {
+      throw new Error('A textura original do oceano não foi carregada.');
     }
 
-    // A textura é preparada uma única vez: deslocamos a origem para o centro
-    // (offset tiling) e suavizamos a cruz de emenda fora da área de jogo.
-    // As bordas externas passam a cortar uma região contínua da imagem original.
-    const seamlessKey = 'ocean-pattern-seamless-v2';
-    if (!this.textures.exists(seamlessKey)) {
-      const width = source.width;
-      const height = source.height;
-      const halfX = Math.floor(width / 2);
-      const halfY = Math.floor(height / 2);
-      const canvasTexture = this.textures.createCanvas(seamlessKey, width, height);
-      const context = canvasTexture.getContext();
-
-      context.clearRect(0, 0, width, height);
-      context.imageSmoothingEnabled = false;
-      context.drawImage(source, -halfX, -halfY);
-      context.drawImage(source, width - halfX, -halfY);
-      context.drawImage(source, -halfX, height - halfY);
-      context.drawImage(source, width - halfX, height - halfY);
-
-      const image = context.getImageData(0, 0, width, height);
-      const original = image.data;
-      const vertical = new Uint8ClampedArray(original);
-      const output = new Uint8ClampedArray(original);
-      const blendWidth = Math.max(8, Math.round(width * 0.045));
-      const blendHeight = Math.max(8, Math.round(height * 0.045));
-      const smooth = value => {
-        const t = Math.max(0, Math.min(1, value));
-        return t * t * (3 - 2 * t);
-      };
-
-      // Corrige a antiga emenda vertical no centro, sem desfocar a borda toda.
-      const seamLeft = Math.max(0, halfX - blendWidth);
-      const seamRight = Math.min(width - 1, halfX + blendWidth);
-      for (let y = 0; y < height; y++) {
-        const left = (y * width + seamLeft) * 4;
-        const right = (y * width + seamRight) * 4;
-        for (let x = seamLeft; x <= seamRight; x++) {
-          const amount = smooth((x - seamLeft) / Math.max(1, seamRight - seamLeft));
-          const index = (y * width + x) * 4;
-          for (let channel = 0; channel < 4; channel++) {
-            vertical[index + channel] = original[left + channel] * (1 - amount) +
-              original[right + channel] * amount;
-          }
-        }
-      }
-
-      // Corrige a emenda horizontal após a vertical; o cruzamento fica suave
-      // sem criar os quatro blocos borrados do método anterior.
-      const seamTop = Math.max(0, halfY - blendHeight);
-      const seamBottom = Math.min(height - 1, halfY + blendHeight);
-      for (let y = seamTop; y <= seamBottom; y++) {
-        const amount = smooth((y - seamTop) / Math.max(1, seamBottom - seamTop));
-        const topRow = seamTop * width * 4;
-        const bottomRow = seamBottom * width * 4;
-        const row = y * width * 4;
-        for (let x = 0; x < width; x++) {
-          const index = row + x * 4;
-          const top = topRow + x * 4;
-          const bottom = bottomRow + x * 4;
-          for (let channel = 0; channel < 4; channel++) {
-            output[index + channel] = vertical[top + channel] * (1 - amount) +
-              vertical[bottom + channel] * amount;
-          }
-        }
-      }
-
-      context.putImageData(new ImageData(output, width, height), 0, 0);
-      canvasTexture.refresh();
-      // Libera buffers temporários antes de iniciar a cena.
-      image.data.fill(0);
-      vertical.fill(0);
-      output.fill(0);
-    }
-
+    // Usa o WebP original diretamente. Nenhuma cópia, composição, filtro,
+    // leitura de pixels ou alteração da textura é executada.
     const view = this.cameras.main.worldView;
     this.oceanBackground = this.add.tileSprite(
-      view.centerX, view.centerY, view.width, view.height, seamlessKey
+      view.centerX,
+      view.centerY,
+      view.width,
+      view.height,
+      'ocean-pattern'
     ).setOrigin(0.5).setDepth(-1200);
 
-    // Ondas maiores reduzem a frequência de repetição perceptível sem adicionar
-    // objetos, camadas, filtros ou custo por frame.
-    this.oceanBackground.setTileScale(1.65, 1.65);
     this.oceanBackground.setTilePosition(view.x, view.y);
   }
   syncOceanBackground() {
