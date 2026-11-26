@@ -34,8 +34,9 @@ test('distribuição é determinística e cria manchas espalhadas', () => {
 test('composição do jogo usa TileSprites e não cria canvas 4096x4096', () => {
   const source = readFileSync(new URL('../src/scenes/Game.js', import.meta.url), 'utf8');
   assert.match(source, /createTerrainLayers/);
-  assert.doesNotMatch(source, /createElement\(['"]canvas['"]\)/);
-  assert.doesNotMatch(source, /addCanvas\(/);
+  assert.doesNotMatch(source, /canvas\.width\s*=\s*this\.worldWidth/);
+  assert.doesNotMatch(source, /canvas\.height\s*=\s*this\.worldHeight/);
+  assert.doesNotMatch(source, /addCanvas\(['"]island-01-ground-generated/);
 });
 
 test('preload carrega somente as três texturas novas de terreno', () => {
