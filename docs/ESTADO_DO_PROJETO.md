@@ -1288,10 +1288,8 @@ IMPLEMENTADO:
 - Cada célula pertence a uma única classe; não há sobreposição entre os
   dois overlays. As células de overlay ficam inteiramente dentro do círculo.
 - Texturas e máscaras são destruídas no shutdown da cena.
-- Removidas referências ao terreno PNG antigo e ao island-01.png não usado;
-  removidos os arquivos legados terreno-01.png e island-01.png.
-- A imagem 01_ilha_principal.png foi preservada, sem referência ativa no
-  Preload, para não apagar um asset que pode ser a referência atual.
+- Os arquivos de mapa PNG legados não fazem parte da arquitetura ativa.
+- O terreno é composto pelos três materiais WebP carregados pelo Preload.
 
 TESTES:
 - Proporções, exclusividade de células, limites circulares e determinismo.
@@ -1394,8 +1392,23 @@ VALIDACAO:
   tres texturas, recorte circular no shader e integracao em Game.
 - A compilacao GLSL e a renderizacao real precisam ser verificadas no
   navegador Android; testes Node nao executam o shader na GPU.
-- O asset 01_ilha_principal.png (3.48 MB) permanece preservado e nao foi
-  ativado automaticamente: sua adequacao como mapa-base precisa de
-  inspecao visual para nao substituir os materiais finais por uma imagem
-  que pode nao corresponder ao layout atual.
+- A arquitetura nao utiliza imagem unica como mapa-base; o terreno e
+  composto diretamente pelos tres materiais WebP oficiais.
 - Versao: 2.4.0.
+
+
+======================================================================
+23. LIMPEZA — REMOCAO DE ARTEFATOS DE MAPA LEGADO (26/11/2026)
+======================================================================
+
+- Removido o PNG legado da ilha que estava sem uso pelo jogo.
+- Removidos os arquivos .gitkeep das pastas antigas de terreno e objetos,
+  eliminando tambem essa estrutura vazia do repositorio.
+- Atualizado docs/ARQUITETURA_DO_MUNDO_POR_ILHAS.md para retirar caminhos
+  antigos e descrever a arquitetura atualmente implementada.
+- O Preload e o Game nao carregam nem referenciam mapas PNG antigos.
+- Preservados os tres materiais WebP ativos (terreno liso, moita e relevo),
+  pois sao assets finais usados pelo shader; preservadas tambem as imagens
+  de vegetacao, rochas, monstros e personagens, que nao sao mapas antigos.
+- Nenhum caminho de runtime foi removido porque nao havia referencia ativa
+  para o PNG legado; a limpeza elimina o arquivo e a documentacao obsoleta.
