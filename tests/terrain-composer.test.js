@@ -28,3 +28,25 @@ test('Navegação continua usando máscara alfa pré-calculada, sem leitura por 
   assert.match(navigation, /this\.walkableGrid = new Uint8Array/);
   assert.match(navigation, /this\.alphaMask\[py \* this\.maskWidth \+ px\] === 1/);
 });
+
+test('Grade caminhável é persistida no IndexedDB e validada por versão, hash e dimensões', () => {
+  const game = read('../src/scenes/Game.js');
+  const cache = read('../src/world/WalkableGridCache.js');
+  assert.match(game, /await this\.createIslandWalkableMask\(\)/);
+  assert.match(game, /getTerrainContentHash\(terrainUrl\)/);
+  assert.match(game, /island-geometry-v1/);
+  assert.match(game, /grid-algorithm-/);
+  assert.match(game, /readWalkableGrid\(cacheId/);
+  assert.match(game, /writeWalkableGrid\(cacheId, this\.navigation\.walkableGrid\)/);
+  assert.match(cache, /indexedDB\.open\(DB_NAME, DB_VERSION\)/);
+  assert.match(cache, /crypto\.subtle\.digest\('SHA-256'/);
+  assert.match(cache, /algorithmVersion: WALKABLE_GRID_ALGORITHM_VERSION/);
+  assert.match(game, /if \(!this\.initialized\) return/);
+});
+
+test('WorldNavigation aceita a grade restaurada sem manter a máscara RGBA', () => {
+  const navigation = read('../src/world/WorldNavigation.js');
+  assert.match(navigation, /setWalkableGrid\(grid\)/);
+  assert.match(navigation, /this\.alphaMask = null/);
+  assert.match(navigation, /isTerrainWalkableAt\(x, y\)/);
+});
