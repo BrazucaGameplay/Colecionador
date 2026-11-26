@@ -19,7 +19,7 @@ import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 import { ISLAND_SHAPE } from '../world/IslandShape.js';
 
-const CAMERA_ZOOM = Object.freeze({ max: 2.25, default: 1.2 });
+const CAMERA_ZOOM = Object.freeze({ max: 1.2, default: 1.2 });
 const CAMERA_FOLLOW_LERP = 0.06;
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 const ISLAND_DIAMETER = 4096;
@@ -96,11 +96,11 @@ export default class Game extends Phaser.Scene {
     this.camera = this.cameras.main;
     // Zoom padrão próximo ao enquadramento de referência: o personagem fica
     // legível no celular sem enquadrar a ilha inteira de uma vez.
-    // Inicia no maior afastamento que a tela permite, enquadrando toda a
-    // área visual do oceano sem barras pretas. O usuário ainda pode aproximar
-    // com o gesto de pinça até CAMERA_ZOOM.max.
+    // O enquadramento da captura de referência é o limite máximo de
+    // aproximação. O zoom inicial usa esse mesmo nível, sem permitir ampliar
+    // além da escala mostrada pelo usuário.
     this.camera.setBounds(this.oceanBounds.x, this.oceanBounds.y, this.oceanBounds.width, this.oceanBounds.height);
-    this.camera.setZoom(this.getMinimumCameraZoom());
+    this.camera.setZoom(Math.max(this.getMinimumCameraZoom(), CAMERA_ZOOM.default));
     this.clampCameraToWorld();
     // O primeiro enquadramento acompanha o ponto válido onde o jogador nasceu.
     this.camera.startFollow(this.playerBody.object, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);

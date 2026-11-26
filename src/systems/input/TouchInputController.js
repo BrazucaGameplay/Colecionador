@@ -67,7 +67,9 @@ export default class TouchInputController {
       y: pointer.y,
       startX: pointer.x,
       startY: pointer.y,
-      moved: false
+      moved: false,
+      lastX: pointer.x,
+      lastY: pointer.y
     });
 
     if (this.pointers.size === 1) {
@@ -88,9 +90,6 @@ export default class TouchInputController {
 
     point.x = pointer.x;
     point.y = pointer.y;
-    if (Math.hypot(pointer.x - point.startX, pointer.y - point.startY) > this.tapThreshold) {
-      point.moved = true;
-    }
 
     if (this.pointers.size >= 2) {
       const metrics = this.getPinchMetrics();
@@ -109,20 +108,33 @@ export default class TouchInputController {
       this.camera.scrollX += anchorBefore.x - anchorAfter.x;
       this.camera.scrollY += anchorBefore.y - anchorAfter.y;
       this.clampCamera();
+      point.lastX = pointer.x;
+      point.lastY = pointer.y;
       return;
     }
 
-    if (this.gesture?.pointerId !== pointer.id || !point.moved) return;
-    if (this.gesture.type !== 'pan') {
-      // A finger left after a pinch must cross the normal drag threshold first.
+    if (this.pointers.size !== 1) return;
+    if (Math.hypot(pointer.x - point.startX, pointer.y - point.startY) > this.tapThreshold) {
+      point.moved = true;
+    }
+    if (!point.moved) {
+      point.lastX = pointer.x;
+      point.lastY = pointer.y;
+      return;
+    }
+
+    // Pan is derived from the active pointer itself, not from a gesture id
+    // that can change during pinch -> one-finger transitions.
+    if (this.gesture?.type !== 'pan') {
       this.camera.stopFollow();
-      this.gesture.type = 'pan';
+      this.gesture = { type: 'pan', pointerId: pointer.id };
       this.onPan?.();
     }
-    this.camera.scrollX -= (pointer.x - this.gesture.lastX) / this.camera.zoom;
-    this.camera.scrollY -= (pointer.y - this.gesture.lastY) / this.camera.zoom;
-    this.gesture.lastX = pointer.x;
-    this.gesture.lastY = pointer.y;
+    const zoom = Math.max(0.01, this.camera.zoom);
+    this.camera.scrollX -= (pointer.x - point.lastX) / zoom;
+    this.camera.scrollY -= (pointer.y - point.lastY) / zoom;
+    point.lastX = pointer.x;
+    point.lastY = pointer.y;
     this.clampCamera();
   }
 
@@ -149,6 +161,8 @@ export default class TouchInputController {
       };
       remaining.startX = remaining.x;
       remaining.startY = remaining.y;
+      remaining.lastX = remaining.x;
+      remaining.lastY = remaining.y;
       remaining.moved = false;
     }
   }

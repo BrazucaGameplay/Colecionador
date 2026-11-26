@@ -96,3 +96,31 @@ test('dedo restante após pinch não dispara destino nem inicia pan sem novo arr
   assert.equal(f.pans, 1);
   f.controller.destroy();
 });
+
+
+test('arraste continua funcionando no zoom mínimo e no zoom máximo', () => {
+  for (const zoom of [0.5, 1.2]) {
+    const f = createController();
+    f.camera.zoom = zoom;
+    f.input.emit('pointerdown', { id: 1, x: 200, y: 200 });
+    f.input.emit('pointermove', { id: 1, x: 220, y: 210 });
+    assert.ok(f.camera.scrollX < 0, `scrollX deve responder no zoom ${zoom}`);
+    assert.ok(f.camera.scrollY < 0, `scrollY deve responder no zoom ${zoom}`);
+    assert.equal(f.pans, 1);
+    f.controller.destroy();
+  }
+});
+
+test('arraste de um dedo funciona depois de encerrar uma pinça', () => {
+  const f = createController();
+  f.input.emit('pointerdown', { id: 1, x: 100, y: 100 });
+  f.input.emit('pointerdown', { id: 2, x: 200, y: 100 });
+  f.input.emit('pointermove', { id: 2, x: 220, y: 100 });
+  f.input.emit('pointerup', { id: 2, x: 220, y: 100 });
+  const before = { x: f.camera.scrollX, y: f.camera.scrollY };
+  f.input.emit('pointermove', { id: 1, x: 120, y: 120 });
+  assert.notEqual(f.camera.scrollX, before.x);
+  assert.notEqual(f.camera.scrollY, before.y);
+  assert.deepEqual(f.taps, []);
+  f.controller.destroy();
+});

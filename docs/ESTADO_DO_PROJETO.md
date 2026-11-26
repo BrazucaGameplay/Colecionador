@@ -1698,3 +1698,24 @@ Versão do jogo: 2.4.49
 - O gesto de pinça continua permitindo aproximação até o limite máximo
   CAMERA_ZOOM.max (2.25).
 - Nenhuma escala, coordenada ou estrutura do terreno foi alterada.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — LIMITE DE ZOOM E ARRASTE ROBUSTO
+======================================================================
+
+Versão do jogo: 2.4.50
+
+- O enquadramento mostrado pelo usuário na captura Android passa a ser
+  o limite máximo de aproximação: CAMERA_ZOOM.max = 1.2.
+- A câmera inicia nesse enquadramento de referência, desde que o viewport
+  permita esse nível sem violar o limite mínimo adaptativo.
+- O zoom por pinça continua permitindo afastar até o mínimo calculado e
+  aproximar somente até 1.2x.
+- O arraste de um dedo passou a usar o último ponto de cada ponteiro ativo,
+  em vez de depender do identificador de gesto compartilhado.
+- A transição de pinça para um dedo reinicia as coordenadas de arraste,
+  evitando saltos e mantendo o pan após o gesto de zoom.
+- Adicionados testes de arraste nos zooms mínimo/máximo e após pinça.
+- Nenhuma posição, escala ou estrutura do terreno foi alterada.
+- Testes/build/publicação devem ser confirmados pelo CI.
