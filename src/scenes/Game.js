@@ -202,8 +202,7 @@ export default class Game extends Phaser.Scene {
    * da página ao arrastar ou afastar a câmera.
    */
   createOceanBackground() {
-    // O TileSprite acompanha somente a area visivel da camera. O Phaser recomenda
-    // nao dimensiona-lo para milhares de pixels: a textura deve rolar via tilePosition.
+    // TileSprite limitado a camera; as bordas sao fundidas sem espelhar as ondas.
     const source = this.textures.get('ocean-pattern').getSourceImage();
     const width = source.width;
     const height = source.height;
@@ -212,62 +211,55 @@ export default class Game extends Phaser.Scene {
       const texture = this.textures.createCanvas(seamlessKey, width, height);
       const context = texture.getContext();
       context.drawImage(source, 0, 0, width, height);
-
-      // Desloca o centro da imagem para as bordas. Assim, as bordas originais
-      // (que nao sao tileaveis) ficam no centro e podem ser fundidas sem espelhar
-      // a direcao das ondas. As bordas externas passam a ser vizinhas na imagem-fonte.
-      const image = context.getImageData(0, 0, width, height);
-      const shifted = new Uint8ClampedArray(image.data.length);
-      const halfX = Math.floor(width / 2);
-      const halfY = Math.floor(height / 2);
-      for (let y = 0; y < height; y++) {
-        const sourceY = (y + halfY) % height;
-        for (let x = 0; x < width; x++) {
-          const sourceX = (x + halfX) % width;
-          const from = (sourceY * width + sourceX) * 4;
-          const to = (y * width + x) * 4;
-          shifted[to] = image.data[from];
-          shifted[to + 1] = image.data[from + 1];
-          shifted[to + 2] = image.data[from + 2];
-          shifted[to + 3] = image.data[from + 3];
-        }
-      }
-
-      // Suaviza apenas a cruz central, onde estavam as bordas originais da fonte.
-      // O restante da imagem conserva os detalhes e a direcao natural das ondas.
-      const blended = new Uint8ClampedArray(shifted);
-      const band = Math.max(12, Math.round(Math.min(width, height) * 0.045));
-      const midX = Math.floor(width / 2);
-      const midY = Math.floor(height / 2);
-      const mixPixel = (target, a, b, amount) => {
-        for (let channel = 0; channel < 4; channel++) {
-          blended[target + channel] = shifted[a + channel] * (1 - amount) + shifted[b + channel] * amount;
-        }
+      const original = context.getImageData(0, 0, width, height).data;
+      const horizontal = new Uint8ClampedArray(original);
+      const output = new Uint8ClampedArray(original);
+      const band = Math.max(10, Math.round(Math.min(width, height) * 0.055));
+      const smooth = value => {
+        const t = Math.max(0, Math.min(1, value));
+        return t * t * (3 - 2 * t);
       };
+
+      // Mistura cada borda com sua oposta na mesma coordenada da onda.
+      // A influencia diminui suavemente antes de chegar ao interior da imagem.
       for (let y = 0; y < height; y++) {
-        const row = y * width * 4;
-        for (let x = midX - band; x < midX + band; x++) {
-          const amount = (x - (midX - band)) / (band * 2);
-          const target = row + x * 4;
-          mixPixel(target, row + (midX - band) * 4, row + (midX + band - 1) * 4, amount);
-        }
-      }
-      const verticalBlend = new Uint8ClampedArray(blended);
-      for (let y = midY - band; y < midY + band; y++) {
-        const amount = (y - (midY - band)) / (band * 2);
-        const top = (midY - band) * width * 4;
-        const bottom = (midY + band - 1) * width * 4;
-        const row = y * width * 4;
+        const left = y * width * 4;
+        const right = (y * width + width - 1) * 4;
         for (let x = 0; x < width; x++) {
-          const target = row + x * 4;
-          const a = top + x * 4;
-          const b = bottom + x * 4;
+          const distance = Math.min(x, width - 1 - x);
+          const amount = 1 - smooth(distance / band);
+          if (amount <= 0) continue;
+          const index = (y * width + x) * 4;
           for (let channel = 0; channel < 4; channel++) {
-            verticalBlend[target + channel] = blended[a + channel] * (1 - amount) + blended[b + channel] * amount;
+            const seam = (original[left + channel] + original[right + channel]) * 0.5;
+            horizontal[index + channel] = original[index + channel] * (1 - amount) + seam * amount;
           }
         }
       }
-      context.putImageData(new ImageData(verticalBlend, width, height), 0, 0);
+
+      // Repete a fusao no eixo vertical, incluindo os quatro cantos.
+      for (let y = 0; y < height; y++) {
+        const distance = Math.min(y, height - 1 - y);
+        const amount = 1 - smooth(distance / band);
+        if (amount <= 0) continue;
+        for (let x = 0; x < width; x++) {
+          const top = x * 4;
+          const bottom = ((height - 1) * width + x) * 4;
+          const index = (y * width + x) * 4;
+          for (let channel = 0; channel < 4; channel++) {
+            const seam = (horizontal[top + channel] + horizontal[bottom + channel]) * 0.5;
+            output[index + channel] = horizontal[index + channel] * (1 - amount) + seam * amount;
+          }
+        }
+      }
+
+      // Os quatro pixels de canto compartilham a mesma cor de encontro.
+      const corners = [0, (width - 1) * 4, (height - 1) * width * 4, (height * width - 1) * 4];
+      for (let channel = 0; channel < 4; channel++) {
+        const average = corners.reduce((sum, index) => sum + output[index + channel], 0) / 4;
+        for (const index of corners) output[index + channel] = average;
+      }
+      context.putImageData(new ImageData(output, width, height), 0, 0);
       texture.refresh();
     }
 
@@ -277,7 +269,6 @@ export default class Game extends Phaser.Scene {
     ).setOrigin(0.5).setDepth(-1200);
     this.oceanBackground.setTilePosition(view.x, view.y);
   }
-
   syncOceanBackground() {
     if (!this.oceanBackground || !this.camera) return;
     const view = this.camera.worldView;

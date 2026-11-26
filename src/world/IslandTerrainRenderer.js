@@ -79,8 +79,9 @@ void main(){
   // O alpha original e respeitado sem amplificacao; a grama permanece dominante
   // no interior e a textura nao e esticada sobre grandes areas do terreno.
   if(shoreInRange){
-   float shorelineMask=1.0-smoothstep(-105.0,18.0,shoreDistance);
-   float shorelineAlpha=shore.a*shorelineMask;
+   // Feather no lado da terra: alfa original e espuma restrita a margem.
+   float landFade=1.0-smoothstep(-72.0,24.0,shoreDistance);
+   float shorelineAlpha=shore.a*landFade;
    landColor=mix(landColor,shore.rgb,shorelineAlpha);
   }
   gl_FragColor=vec4(landColor,1.0);
@@ -90,8 +91,9 @@ void main(){
  // Fora da ilha, somente os pixels opacos da parte marinha da textura
  // costeira sao desenhados; o oceano-base continua visivel na transparencia.
  if(shoreInRange&&shore.a>.003){
-  // No oceano, manter a transparencia original do asset costeiro.
-  gl_FragColor=shore;
+  // Fade gradual para o mar aberto, sem limite duro da textura costeira.
+  float waterFade=1.0-smoothstep(55.0,150.0,shoreDistance);
+  gl_FragColor=vec4(shore.rgb,shore.a*waterFade);
   return;
  }
  discard;
