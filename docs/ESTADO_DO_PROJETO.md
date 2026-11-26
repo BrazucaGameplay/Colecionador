@@ -1228,3 +1228,39 @@ VALIDAÇÃO:
   ausência de preUpdate/body/input e registro estático das colisões.
 - Build e GitHub Actions ainda precisam ser executados para validar o commit.
 - Desempenho visual em dispositivo Android permanece pendente de teste real.
+
+
+======================================================================
+18. CORREÇÃO — RETOMADA SUAVE DA CÂMERA APÓS ARRASTE (26/11/2026)
+======================================================================
+
+DIAGNÓSTICO:
+- O toque curto não interrompe o follow da câmera.
+- O arraste chama stopFollow() uma única vez ao ultrapassar o limiar.
+- Ao tocar depois de arrastar, Game reativa o follow do jogador.
+- O código anterior também chamava startFollow em todo toque aceito,
+  inclusive quando a câmera já estava seguindo o jogador. Isso reiniciava
+  desnecessariamente a configuração de acompanhamento.
+- O Phaser documenta lerp menor como acompanhamento mais gradual; o valor
+  anterior era 0.12. O valor foi reduzido para 0.06.
+
+CORREÇÃO:
+- TouchInputController emite onPan somente quando um gesto muda de pending
+  para pan, sem executar callback em cada movimento.
+- Game mantém cameraFollowActive para distinguir câmera seguindo de câmera
+  liberada pelo arraste.
+- Toques sucessivos não reiniciam startFollow se o acompanhamento já está
+  ativo.
+- Depois de arrastar, o follow é reativado com interpolação 0.06 nos dois
+  eixos, para uma retomada mais lenta e progressiva.
+- O mapeamento do toque para coordenadas do mundo e o pathfinding não foram
+  alterados. Arraste e pinch permanecem independentes.
+
+TESTES:
+- Toque curto emite destino sem parar o follow.
+- Arraste interrompe o follow e notifica a transição uma única vez.
+- Teste de regressão do controlador de toque adicionado.
+
+VALIDAÇÃO:
+- Testes e build precisam ser confirmados pelo GitHub Actions.
+- Tremor visual em Android precisa ser conferido no aparelho após publicação.
