@@ -2,7 +2,8 @@ import * as Phaser from 'phaser';
 import { queuePlayerSpriteAssets, registerPlayerSpriteAnimations } from '../rendering/characters/CharacterSpriteRenderer.js';
 import { queueMonsterAssets } from '../rendering/monsters/MonsterAssetLoader.js';
 
-const WORLD_ASSETS = [\n  ['ocean-pattern', 'assets/world/terrain/ocean-pattern.svg'],
+const WORLD_ASSETS = [
+  ['ocean-pattern', 'assets/world/terrain/ocean-pattern.svg'],
   ['terrain-smooth', 'assets/world/terrain/Terreno_liso.webp'],
   ['terrain-grass', 'assets/world/terrain/Terreno_moita.webp'],
   ['terrain-relief', 'assets/world/terrain/Terreno_relevo.webp'],
