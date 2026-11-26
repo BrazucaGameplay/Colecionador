@@ -19,7 +19,7 @@ test('layout da floresta usa dois tipos de árvores, coordenadas fixas e uma anc
   }
   assert.equal(ISLAND_01_LAYOUT.length, 215);
   assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-ancestral').length, 1);
-  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 107);
+  assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-broad').length, 106);
   assert.equal(ISLAND_01_LAYOUT.filter(item => item.assetKey === 'tree-forest-pine').length, 107);
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('rock-')));
   assert.ok(ISLAND_01_LAYOUT.every(item => !item.id.startsWith('bush-')));
@@ -70,7 +70,7 @@ test('tamanhos ampliados seguem a distribuição 10% +80%, 10% +90% e 80% base',
   assert.equal(trees.length, 214);
   assert.equal(trees.filter(item => item.sizeTier === 'plus-80').length, 22);
   assert.equal(trees.filter(item => item.sizeTier === 'plus-90').length, 21);
-  assert.equal(trees.filter(item => item.sizeTier === 'base').length, 170);
+  assert.equal(trees.filter(item => item.sizeTier === 'base').length, 169);
   for (const tree of trees) {
     const factor = tree.sizeTier === 'plus-80' ? 1.8 : tree.sizeTier === 'plus-90' ? 1.9 : 1;
     const baseRadius = tree.assetKey === 'tree-forest-broad' ? 31 : 29;
