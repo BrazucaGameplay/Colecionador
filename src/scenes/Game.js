@@ -19,7 +19,7 @@ import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 import { ISLAND_SHAPE } from '../world/IslandShape.js';
 
-const CAMERA_ZOOM = Object.freeze({ min: 0.3, max: 0.8, default: 0.4 });
+const CAMERA_ZOOM = Object.freeze({ min: 0.2, max: 0.6, default: 0.4 });
 const CAMERA_FOLLOW_LERP = 0.06;
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 const ISLAND_DIAMETER = 4096;

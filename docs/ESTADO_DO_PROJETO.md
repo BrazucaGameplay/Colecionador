@@ -1824,3 +1824,21 @@ Versão do jogo: 2.4.56
   ignorado porque a etapa de testes falhou.
 - A nova execução de CI precisa concluir testes, build, verificação da
   versão compilada, upload do artefato e deploy antes de declarar publicada.
+
+
+======================================================================
+ATUALIZAÇÃO — 26/11/2026 — LIMITES DE ZOOM 0.2X / 0.4X / 0.6X
+======================================================================
+
+Versão do jogo: 2.4.57
+
+- Zoom mínimo reduzido de 0.3x para 0.2x.
+- Zoom inicial mantido em 0.4x.
+- Zoom máximo reduzido de 0.8x para 0.6x.
+- O dimensionamento do oceano e o buffer de arraste passam a considerar
+  o novo zoom mínimo de 0.2x.
+- Testes de pinça, limites mínimo/máximo e cobertura do oceano atualizados.
+- O mundo jogável 4096 x 4096, terreno, navegação, física, árvores,
+  estruturas e assets permanecem inalterados.
+- A publicação depende da conclusão bem-sucedida de testes, build,
+  verificação da versão no artefato, upload e deploy pelo GitHub Actions.

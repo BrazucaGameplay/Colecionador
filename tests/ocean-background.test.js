@@ -54,8 +54,8 @@ test('limites visuais do oceano reservam espaço para arraste no zoom mínimo', 
   assert.match(game, /\* OCEAN_PAN_BUFFER_FACTOR/);
 });
 
-test('limites de zoom usam mínimo 0.3x, inicial 0.4x e máximo 0.8x', () => {
+test('limites de zoom usam mínimo 0.2x, inicial 0.4x e máximo 0.6x', () => {
   const game = read('../src/scenes/Game.js');
-  assert.match(game, /CAMERA_ZOOM = Object\.freeze\(\{ min: 0\.3, max: 0\.8, default: 0\.4 \}\)/);
+  assert.match(game, /CAMERA_ZOOM = Object\.freeze\(\{ min: 0\.2, max: 0\.6, default: 0\.4 \}\)/);
   assert.match(game, /this\.camera\.setZoom\(Math\.max\(this\.getMinimumCameraZoom\(\), CAMERA_ZOOM\.default\)\)/);
 });

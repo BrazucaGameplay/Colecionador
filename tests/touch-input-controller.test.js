@@ -28,8 +28,8 @@ function createController() {
   let pans = 0;
   const controller = new TouchInputController(scene, {
     camera,
-    getMinZoom: () => 0.3,
-    maxZoom: 0.8,
+    getMinZoom: () => 0.2,
+    maxZoom: 0.6,
     onTap: (...args) => taps.push(args),
     onPan: () => { pans += 1; }
   });
@@ -70,7 +70,7 @@ test('pinch mantém ancorado o ponto mundial sob o centro dos dedos', () => {
   f.input.emit('pointermove', { id: 2, x: 300, y: 100 });
   const after = f.camera.getWorldPoint(200, 100);
 
-  assert.equal(f.camera.zoom, 0.8);
+  assert.equal(f.camera.zoom, 0.6);
   assert.ok(Math.abs(before.x - after.x) < 1e-9);
   assert.ok(Math.abs(before.y - after.y) < 1e-9);
   assert.equal(f.camera.stopped, 1);
@@ -78,12 +78,12 @@ test('pinch mantém ancorado o ponto mundial sob o centro dos dedos', () => {
   f.controller.destroy();
 });
 
-test('pinch respeita o zoom mínimo fixo de 0.3x fornecido pela cena', () => {
+test('pinch respeita o zoom mínimo fixo de 0.2x fornecido pela cena', () => {
   const f = createController();
   f.input.emit('pointerdown', { id: 1, x: 100, y: 100 });
   f.input.emit('pointerdown', { id: 2, x: 200, y: 100 });
   f.input.emit('pointermove', { id: 2, x: 120, y: 100 });
-  assert.equal(f.camera.zoom, 0.3);
+  assert.equal(f.camera.zoom, 0.2);
   f.controller.destroy();
 });
 
@@ -100,7 +100,7 @@ test('dedo restante após pinch não dispara destino nem inicia pan sem novo arr
 
 
 test('arraste continua funcionando no zoom mínimo e no zoom máximo', () => {
-  for (const zoom of [0.3, 0.8]) {
+  for (const zoom of [0.2, 0.6]) {
     const f = createController();
     f.camera.zoom = zoom;
     f.input.emit('pointerdown', { id: 1, x: 200, y: 200 });
@@ -127,7 +127,7 @@ test('arraste de um dedo funciona depois de encerrar uma pinça', () => {
 });
 
 
-test('zoom máximo permite ampliar até 0.8x e bloqueia além desse limite', () => {
+test('zoom máximo permite ampliar até 0.6x e bloqueia além desse limite', () => {
   const f = createController();
   f.input.emit('pointerdown', { id: 1, x: 100, y: 100 });
   f.input.emit('pointerdown', { id: 2, x: 200, y: 100 });
