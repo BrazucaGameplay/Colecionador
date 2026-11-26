@@ -57,6 +57,9 @@ export default class MonsterManager {
   getAliveEntities() {
     return [...this.entries.values()].filter(entry => entry.entity.alive).map(entry => entry.entity);
   }
+  getCombatEntries() {
+    return [...this.entries.values()].filter(entry => entry.entity.alive && entry.mode === 'combat');
+  }
   isOccupied(point, radius, zoneId) {
     for (const entry of this.getAliveInZone(zoneId)) {
       const otherRadius = Number(entry.entity.definition.collision?.radius) || 12;
