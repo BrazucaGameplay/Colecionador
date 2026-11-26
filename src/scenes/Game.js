@@ -138,7 +138,7 @@ export default class Game extends Phaser.Scene {
       getMinZoom: () => this.getMinimumCameraZoom(),
       maxZoom: CAMERA_ZOOM.max,
       clampCamera: () => this.clampCameraToWorld(),
-      isUiPointer: (x, y) => this.statusUI?.isUiPointer(x, y) || false,
+      isUiPointer: (x, y) => this.statusUI?.isUiPointer(x, y) || this.performanceMonitor?.containsScreenPoint(x, y) || false,
       onPan: () => {
         // O controlador já interrompeu o follow ao iniciar o arraste.
         this.cameraFollowActive = false;
@@ -190,8 +190,12 @@ export default class Game extends Phaser.Scene {
     this.uiCamera = this.cameras.add(0, 0, this.scale.width, this.scale.height, false);
     this.uiCamera.setZoom(1).setScroll(0, 0);
     this.uiCamera.roundPixels = true;
-    this.camera.ignore(this.statusUI.uiLayer);
-    this.uiCamera.ignore(this.children.list.filter(child => child !== this.statusUI.uiLayer));
+    // As duas camadas de interface ficam fora da câmera do mundo e são
+    // desenhadas somente pela câmera HUD, em escala 1:1.
+    this.camera.ignore([this.statusUI.uiLayer, this.performanceMonitor.layer]);
+    this.uiCamera.ignore(this.children.list.filter(
+      child => child !== this.statusUI.uiLayer && child !== this.performanceMonitor.layer
+    ));
     this.scale.on('resize', this.resizeHudCamera, this);
   }
 
