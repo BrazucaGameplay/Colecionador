@@ -108,7 +108,7 @@ export default class Game extends Phaser.Scene {
     this.camera.setZoom(Math.max(this.getMinimumCameraZoom(), CAMERA_ZOOM.default));
     this.clampCameraToWorld();
     // O primeiro enquadramento acompanha o ponto válido onde o jogador nasceu.
-    this.camera.startFollow(this.playerBody.object, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
+    this.camera.startFollow(this.characterRenderer.sprite, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
     this.cameraFollowActive = true;
 
     this.destinationMarker = this.add.circle(0, 0, 12, 0xfacc15, 0.18)
@@ -154,7 +154,7 @@ export default class Game extends Phaser.Scene {
           // Só reativa o follow após exploração manual. Não reinicia o
           // interpolador em toques sucessivos enquanto a câmera já acompanha.
           if (!this.cameraFollowActive) {
-            this.camera.startFollow(this.playerBody.object, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
+            this.camera.startFollow(this.characterRenderer.sprite, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
             this.cameraFollowActive = true;
           }
         } else {
