@@ -856,9 +856,23 @@ VALIDAÇÃO:
 - CombatSystem calcula o intervalo real do próximo ataque (1000 / APS)
   e o envia junto com o evento de ataque.
 - CharacterSpriteRenderer recebe esse intervalo como duração do clip
-  Phaser, fazendo a animação completar no mesmo tempo do cooldown.
+  Phaser. A primeira implementação não surtia efeito porque os clips tinham
+  frameRate próprio; no Phaser 4.2.1, frameRate precisa ser null no play()
+  para duration controlar a velocidade. O renderer agora força esse modo.
 - Cada golpe reinicia a animação no primeiro quadro, inclusive quando
   o novo golpe usa a mesma ação/prioridade ou outra variante de combate.
 - A sequência visual continua alternando as variantes já cadastradas.
 - Versão anterior: 2.1.4. Nova versão: 2.1.5.
 - package.json e package-lock.json sincronizados em 2.1.5.
+
+
+======================================================================
+23. CORREÇÃO DA DURAÇÃO REAL DO CLIP DE COMBATE — 25/11/2026
+======================================================================
+- Corrigido o PlayAnimationConfig: quando durationMs é informado, o renderer
+  envia frameRate: null junto com duration. Isso impede que o FPS original
+  registrado no clip prevaleça sobre a duração dinâmica do golpe.
+- Sem duração dinâmica, o frameRate original do clip permanece inalterado.
+- Versão anterior: 2.1.5. Nova versão: 2.1.6.
+- package.json e package-lock.json sincronizados em 2.1.6.
+- Testes manuais/visuais não foram executados; aguardar CI e validar no Android.
