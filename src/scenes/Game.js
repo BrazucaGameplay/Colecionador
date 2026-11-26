@@ -18,7 +18,7 @@ import PlayerStatusUI from '../ui/PlayerStatusUI.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 
-const CAMERA_ZOOM = Object.freeze({ min: 0.08, max: 2.25, default: 1.2 });
+const CAMERA_ZOOM = Object.freeze({ max: 2.25, default: 1.2 });
 const CAMERA_FOLLOW_LERP = 0.06;
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 const ISLAND_DIAMETER = 4096;
@@ -96,16 +96,10 @@ export default class Game extends Phaser.Scene {
     // enviado pelo usuário em telas mobile, sem reduzir automaticamente em telas estreitas.
     this.camera.setZoom(CAMERA_ZOOM.default);
 
-    const viewportWorldWidth = this.camera.width / this.camera.zoom;
-    const viewportWorldHeight = this.camera.height / this.camera.zoom;
-    const panMarginX = Math.max(160, viewportWorldWidth);
-    const panMarginY = Math.max(160, viewportWorldHeight);
-    this.camera.setBounds(
-      -panMarginX,
-      -panMarginY,
-      this.worldWidth + panMarginX * 2,
-      this.worldHeight + panMarginY * 2
-    );
+    // Afastamento mínimo suficiente para enquadrar toda a ilha no viewport.
+    this.camera.setBounds(0, 0, this.worldWidth, this.worldHeight);
+    this.camera.setZoom(Math.max(this.getMinimumCameraZoom(), CAMERA_ZOOM.default));
+    this.clampCameraToWorld();
     // O primeiro enquadramento acompanha o ponto válido onde o jogador nasceu.
     this.camera.startFollow(this.playerBody.object, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
     this.cameraFollowActive = true;
@@ -135,6 +129,9 @@ export default class Game extends Phaser.Scene {
     this.createHudCamera();
     this.touchInput = new TouchInputController(this, {
       camera: this.camera,
+      getMinZoom: () => this.getMinimumCameraZoom(),
+      maxZoom: CAMERA_ZOOM.max,
+      clampCamera: () => this.clampCameraToWorld(),
       isUiPointer: (x, y) => this.statusUI?.isUiPointer(x, y) || false,
       onPan: () => {
         // O controlador já interrompeu o follow ao iniciar o arraste.
@@ -162,6 +159,29 @@ export default class Game extends Phaser.Scene {
     this._cooldown = 0;
   }
 
+  getMinimumCameraZoom() {
+    if (!this.camera || !this.worldWidth || !this.worldHeight) return 0.08;
+    return Math.min(
+      this.camera.width / this.worldWidth,
+      this.camera.height / this.worldHeight
+    );
+  }
+
+  clampCameraToWorld() {
+    if (!this.camera || !this.worldWidth || !this.worldHeight) return;
+    const visibleWidth = this.camera.width / this.camera.zoom;
+    const visibleHeight = this.camera.height / this.camera.zoom;
+    const maxScrollX = this.worldWidth - visibleWidth;
+    const maxScrollY = this.worldHeight - visibleHeight;
+
+    this.camera.scrollX = maxScrollX < 0
+      ? maxScrollX / 2
+      : Phaser.Math.Clamp(this.camera.scrollX, 0, maxScrollX);
+    this.camera.scrollY = maxScrollY < 0
+      ? maxScrollY / 2
+      : Phaser.Math.Clamp(this.camera.scrollY, 0, maxScrollY);
+  }
+
   createHudCamera() {
     // A HUD é renderizada por uma segunda câmera sem zoom nem scroll do mundo.
     this.uiCamera = this.cameras.add(0, 0, this.scale.width, this.scale.height, false);
@@ -177,6 +197,10 @@ export default class Game extends Phaser.Scene {
     const width = gameSize?.width || this.scale.width;
     const height = gameSize?.height || this.scale.height;
     this.uiCamera.setViewport(0, 0, width, height);
+    // Em mudanças de orientação, recalcula o zoom mínimo e mantém a ilha enquadrável.
+    const minZoom = this.getMinimumCameraZoom();
+    if (this.camera.zoom < minZoom) this.camera.setZoom(minZoom);
+    this.clampCameraToWorld();
   }
 
   /**
