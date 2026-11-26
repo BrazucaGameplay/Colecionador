@@ -41,6 +41,7 @@ export default class MonsterCombatSystem {
 
       const damage = Math.max(1, Math.floor(Number(monster.stats?.attack) || 1));
       const penetration = Math.max(0, Number(monster.stats?.penetration) || 0);
+      monster.markCombat(now);
       const result = this.player.takeDamage(damage, now, penetration);
       entry.renderer?.play('attack', now);
       this.onAttack({ monster, damage: result.applied, result, now, attackIntervalMs });
