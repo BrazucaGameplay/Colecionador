@@ -1197,3 +1197,34 @@ VALIDAÇÃO ADICIONAL — 26/11/2026:
   exata de ponto flutuante na regeneração de energia (1.2000000000000002
   versus 1.2). A asserção foi corrigida para usar tolerância numérica.
 - Versão atualizada para 2.2.6; aguardando nova execução completa do CI.
+
+
+======================================================================
+17. OTIMIZAÇÃO — ESTRUTURAS ESTÁTICAS DA ILHA (26/11/2026)
+======================================================================
+
+DECISÃO:
+- Manter os 127 objetos do layout da ilha, sem remover árvores.
+- Todas as estruturas são elementos visuais estáticos, sem lógica própria,
+  animação, física, input, tween ou atualização por quadro.
+- O Phaser continua responsável pelo culling de renderização; não foi criado
+  um segundo sistema de visibilidade nem uma rotina de varredura por câmera.
+
+IMPLEMENTAÇÃO:
+- WorldObjectManager cria estruturas com Phaser GameObjects.Image, não Sprite.
+- Image não possui preUpdate e não entra na Update List do Phaser.
+- Os objetos recebem active=false como garantia/documentação de que não são
+  entidades ativas; visible permanece true e o renderer decide o que desenhar.
+- Posição, origem, escala uniforme, rotação e profundidade são configuradas
+  somente na criação.
+- Colisões de troncos continuam registradas como geometria estática no
+  WorldNavigation. Não existe corpo Arcade Physics por árvore nem cálculo
+  recorrente por objeto.
+- Removidos dados auxiliares por objeto que não eram consumidos por sistemas.
+- Nenhuma árvore, posição ou escala do layout foi alterada.
+
+VALIDAÇÃO:
+- Testes de regressão verificam 127 objetos, imagens inativas mas visíveis,
+  ausência de preUpdate/body/input e registro estático das colisões.
+- Build e GitHub Actions ainda precisam ser executados para validar o commit.
+- Desempenho visual em dispositivo Android permanece pendente de teste real.
