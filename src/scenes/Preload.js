@@ -1,13 +1,10 @@
 import * as Phaser from 'phaser';
 import { queuePlayerSpriteAssets, registerPlayerSpriteAnimations } from '../rendering/characters/CharacterSpriteRenderer.js';
-import { queueMonsterAssets, registerMonsterAnimations } from '../rendering/monsters/MonsterAssetLoader.js';
+import { queueMonsterAssets } from '../rendering/monsters/MonsterAssetLoader.js';
 
 const WORLD_ASSETS = [
-  // Silhueta original da ilha: define o tamanho do mundo e a área caminhável.
   ['island-01', 'assets/world/Islands/island-01.png'],
-  // Textura de terreno em alta resolução, repetida por código para preencher a silhueta.
   ['island-ground-tile', 'assets/world/Islands/island-01/ground/terreno-01.png'],
-  // Vegetação e elementos de relevo enviados para a ilha.
   ['tree-large', 'assets/world/vegetation/arvore_1.png'],
   ['tree-flowering', 'assets/world/vegetation/arvore_2.png'],
   ['waterfall-edge-a', 'assets/world/rock/cascata_1.png'],
@@ -49,7 +46,6 @@ export default class Preload extends Phaser.Scene {
     graphics.destroy();
 
     registerPlayerSpriteAnimations(this);
-    registerMonsterAnimations(this);
     this.scene.start('Menu');
   }
 }
