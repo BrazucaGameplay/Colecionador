@@ -75,11 +75,14 @@ void main(){
    if(grassMask>.001)landColor=mix(landColor,texture2D(uGrass,tileUV).rgb,grassMask);
    if(reliefMask>.001)landColor=mix(landColor,texture2D(uRelief,tileUV).rgb,reliefMask);
   }
-  // Mistura progressiva dentro da ilha: o alpha original continua a
-  // preservar espuma e detalhes, enquanto a mascara suaviza a emenda.
+  // Faixa de contato reforcada: amplia a penetracao da costa sobre a grama
+  // e aumenta a presenca dos pixels costeiros sem alterar o asset original.
+  // A mascara e fixa no mundo e combina largura progressiva com contato central.
   if(shoreInRange){
-   float transitionBlend=smoothstep(-118.0,8.0,shoreDistance);
-   float shorelineAlpha=shore.a*transitionBlend;
+   float transitionBlend=smoothstep(-190.0,72.0,shoreDistance);
+   float contactBand=1.0-smoothstep(35.0,210.0,abs(shoreDistance));
+   float sourceAlpha=clamp(shore.a*1.32,0.0,1.0);
+   float shorelineAlpha=mix(sourceAlpha*transitionBlend,sourceAlpha,contactBand*0.72);
    landColor=mix(landColor,shore.rgb,shorelineAlpha);
   }
   gl_FragColor=vec4(landColor,1.0);
@@ -89,7 +92,8 @@ void main(){
  // Fora da ilha, somente os pixels opacos da parte marinha da textura
  // costeira sao desenhados; o oceano-base continua visivel na transparencia.
  if(shoreInRange&&shore.a>.003){
-  gl_FragColor=shore;
+  // Reforco moderado tambem no lado do oceano para fechar a juncao.
+  gl_FragColor=vec4(shore.rgb,min(shore.a*1.16,1.0));
   return;
  }
  discard;
