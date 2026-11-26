@@ -1896,3 +1896,8 @@ Versão do jogo: 2.4.59
   futuro; não foram tratados como código comprovadamente obsoleto.
 - A limpeza não altera o layout, as coordenadas, os assets nem as regras de
   colisão das estruturas.
+
+
+### 26/11/2026 — Remoção de filtro de árvores substituído pela validação de build
+- Removidos `src/world/filter-trees-to-island-land.js` e `tests/tree-land-boundary.test.js`: o filtro em runtime não tinha consumidores no jogo e duplicava a validação de limites agora executada pelo script `scripts/validate-tree-layout.mjs` antes do dev/build.
+- A validação ativa continua obrigatória: IDs, coordenadas e limites são verificados no build e o manifesto resultante controla quais árvores são instanciadas.
