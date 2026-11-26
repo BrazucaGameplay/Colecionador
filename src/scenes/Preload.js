@@ -1,55 +1,32 @@
 import * as Phaser from 'phaser';
 import { queuePlayerSpriteAssets, registerPlayerSpriteAnimations } from '../rendering/characters/CharacterSpriteRenderer.js';
-import { queueMonsterAssets, registerMonsterAnimations } from '../rendering/monsters/MonsterAssetLoader.js';
-
+import { queueMonsterAssets } from '../rendering/monsters/MonsterAssetLoader.js';
 const WORLD_ASSETS = [
-  // Silhueta original da ilha: define o tamanho do mundo e a área caminhável.
   ['island-01', 'assets/world/Islands/island-01.png'],
-  // Textura de terreno em alta resolução, repetida por código para preencher a silhueta.
   ['island-ground-tile', 'assets/world/Islands/island-01/ground/terreno-01.png'],
-  // Vegetação e elementos de relevo enviados para a ilha.
   ['tree-large', 'assets/world/vegetation/arvore_1.png'],
   ['tree-flowering', 'assets/world/vegetation/arvore_2.png'],
   ['waterfall-edge-a', 'assets/world/rock/cascata_1.png'],
   ['waterfall-edge-b', 'assets/world/rock/cascata3.png'],
   ['rock-cluster', 'assets/world/rock/file_0000000086fc820e95353e02c57fdd6f.png']
 ];
-
 export default class Preload extends Phaser.Scene {
   constructor() { super('Preload'); }
-
   preload() {
     const { width, height } = this.scale;
     this.add.rectangle(width / 2, height / 2, 300, 20, 0x222222).setOrigin(0.5);
     const fill = this.add.rectangle(width / 2 - 140, height / 2, 0, 12, 0x22c55e).setOrigin(0, 0.5);
-    const label = this.add.text(width / 2, height / 2 + 40, 'Carregando mundo... 0%', {
-      fontSize: '16px', color: '#ffffff'
-    }).setOrigin(0.5);
-
-    this.load.on('progress', (progress) => {
-      fill.width = 280 * progress;
-      label.setText('Carregando mundo... ' + Math.round(progress * 100) + '%');
-    });
-    this.load.on('loaderror', (file) => {
-      console.error('Falha ao carregar asset final:', file.key, file.src);
-      label.setText('Falha ao carregar recursos do jogo.');
-    });
-    for (const [key, url] of WORLD_ASSETS) {
-      this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-front-waterfall-03');
-    }
+    const label = this.add.text(width / 2, height / 2 + 40, 'Carregando mundo... 0%', { fontSize: '16px', color: '#ffffff' }).setOrigin(0.5);
+    this.load.on('progress', progress => { fill.width = 280 * progress; label.setText('Carregando mundo... ' + Math.round(progress * 100) + '%'); });
+    this.load.on('loaderror', file => { console.error('Falha ao carregar asset final:', file.key, file.src); label.setText('Falha ao carregar recursos do jogo.'); });
+    for (const [key, url] of WORLD_ASSETS) this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-front-waterfall-03');
     queuePlayerSpriteAssets(this.load);
     queueMonsterAssets(this.load);
   }
-
   create() {
     const graphics = this.make.graphics({ add: false });
-    graphics.fillStyle(0xffffff, 0);
-    graphics.fillRect(0, 0, 2, 2);
-    graphics.generateTexture('player', 2, 2);
-    graphics.destroy();
-
+    graphics.fillStyle(0xffffff, 0); graphics.fillRect(0, 0, 2, 2); graphics.generateTexture('player', 2, 2); graphics.destroy();
     registerPlayerSpriteAnimations(this);
-    registerMonsterAnimations(this);
     this.scene.start('Menu');
   }
 }
