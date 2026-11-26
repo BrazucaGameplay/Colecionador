@@ -73,8 +73,12 @@ Cada ilha deve possuir um identificador estável e uma configuração declarativ
   id: 'island-01',
   name: 'Ilha inicial',
   assets: {
-    terrain: 'assets/world/islands/island-01/terrain.png',
-    objects: 'assets/world/islands/island-01/objects.json'
+    terrainMaterials: [
+      'assets/world/terrain/Terreno_liso.webp',
+      'assets/world/terrain/Terreno_moita.webp',
+      'assets/world/terrain/Terreno_relevo.webp'
+    ],
+    objectLayout: 'src/world/map-layout/island-01.js'
   },
   spawn: { x: 0, y: 0 },
   exits: [
@@ -108,15 +112,16 @@ Isso é uma arquitetura-alvo, não uma afirmação de que tais módulos já exis
 
 ## 8. Relação com o código existente
 
-Na leitura de `src/scenes/Game.js`, `src/scenes/Preload.js` e `src/world/WorldNavigation.js` em 25/11/2026:
+Estado atualizado em 26/11/2026:
 
-- `Preload` carrega uma imagem `island-01` de `assets/world/Islands/island-01.png`.
-- `Game` obtém as dimensões do mundo dessa imagem e a instancia como um único plano de terreno.
-- `Game` cria uma máscara de navegação baseada no canal alfa da imagem e instancia jogador e um monstro.
-- `WorldNavigation` mantém navegação local por grade, máscara alfa e obstáculos.
-- Não há catálogo de ilhas, carregador de ilhas, conexões, pontes, portais ou transições entre ilhas implementados nesses arquivos.
+- `Preload` carrega três materiais de terreno separados: liso, moita e relevo.
+- `Game` monta a ilha circular por meio de `IslandTerrainRenderer`, com shader WebGL e regiões determinísticas.
+- O layout de objetos e árvores está em `src/world/map-layout/island-01.js`; os spawns ficam em `src/world/spawn-layout/island-01.js`.
+- `WorldNavigation` mantém navegação local por grade, máscara circular matemática e obstáculos.
+- Não existe uma imagem única de ilha usada como plano de fundo ou base do terreno.
+- Catálogo de ilhas, conexões, pontes, portais e transições entre ilhas ainda não estão implementados.
 
-Portanto, a direção foi aprovada, mas o código ainda representa uma única ilha carregada como imagem. A arquitetura multi-ilhas não deve ser descrita como concluída.
+A implementação atual usa materiais e layout declarativo; não depende de um PNG de mapa completo.
 
 ## 9. Plano incremental
 
