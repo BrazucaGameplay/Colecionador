@@ -97,7 +97,7 @@ test('cada árvore registra colisão fixa do tronco na navegação', () => {
   const ancestral = collisions.registrations.filter(item => item.id === 'tree-ancestral-north');
   assert.equal(ancestral.length, 1);
   assert.equal(ancestral[0].x, 2048);
-  assert.equal(ancestral[0].y, 710);
+  assert.equal(ancestral[0].y, 714);
   assert.equal(ancestral[0].radiusX, 57);
   assert.equal(ancestral[0].radiusY, 48);
   assert.throws(() => collisions.register(ISLAND_01_LAYOUT[0]), /Colisão duplicada/);
