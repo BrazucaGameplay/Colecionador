@@ -72,6 +72,19 @@ export function buildTerrainRegions({ diameter = 4096, cellSize = DEFAULT_CELL_S
   });
 }
 
+export function syncTerrainLayersToCamera(tiles, camera) {
+  const zoom = Math.max(0.0001, camera.zoom || 1);
+  const width = camera.width / zoom;
+  const height = camera.height / zoom;
+  const x = camera.scrollX;
+  const y = camera.scrollY;
+  for (const tile of tiles) {
+    tile.setSize(width, height);
+    tile.setPosition(x + width / 2, y + height / 2);
+    tile.setTilePosition(x, y);
+  }
+}
+
 export function createTerrainLayers(scene, {
   diameter = 4096,
   cellSize = DEFAULT_CELL_SIZE,
@@ -91,7 +104,7 @@ export function createTerrainLayers(scene, {
   circleGraphics.setVisible(false);
   masks.push(circleGraphics);
 
-  const smooth = scene.add.tileSprite(center, center, diameter, diameter, smoothKey)
+  const smooth = scene.add.tileSprite(center, center, scene.scale.width, scene.scale.height, smoothKey)
     .setOrigin(0.5)
     .setDepth(-1000)
     .setMask(circleMask);
@@ -107,7 +120,7 @@ export function createTerrainLayers(scene, {
     graphics.setVisible(false);
     masks.push(graphics);
 
-    const tile = scene.add.tileSprite(center, center, diameter, diameter, key)
+    const tile = scene.add.tileSprite(center, center, scene.scale.width, scene.scale.height, key)
       .setOrigin(0.5)
       .setDepth(depth)
       .setMask(mask);
