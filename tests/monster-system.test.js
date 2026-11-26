@@ -256,3 +256,28 @@ test('CombatSystem envia ataque base para a entidade resolver defesa uma única 
   assert.deepEqual(received, { amount: 5, penetration: 1 });
   combat.destroy();
 });
+
+
+test('Monster usa energia e regeneração de vida sem regenerar durante combate', () => {
+  const resourceDefinition = {
+    ...definition,
+    stats: {
+      attack: 1, defense: 1, penetration: 1, attackSpeed: 1,
+      movementSpeed: 1, maxHealth: 2, maxEnergy: 2,
+      healthRegen: 1, energyRegen: 1
+    }
+  };
+  const monster = new Monster({
+    id: 'resource-monster', speciesId: 'test-monster',
+    x: 0, y: 0, definition: resourceDefinition, spawnZoneId: 'test-zone'
+  });
+  monster.takeDamage(1, 1, 0);
+  assert.equal(monster.health, 1);
+  assert.equal(monster.spendEnergy(1), true);
+  monster.update(100, 1000);
+  assert.equal(monster.health, 1);
+  assert.equal(monster.energy, 1.1);
+  monster.update(100, 5100);
+  assert.equal(monster.health, 1.1);
+  assert.equal(monster.energy, 1.2);
+});
