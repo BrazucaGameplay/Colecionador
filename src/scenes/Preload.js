@@ -8,7 +8,7 @@ const WORLD_ASSETS = [
   ['tree-flowering', 'assets/world/vegetation/arvore_2.png'],
   ['waterfall-edge-a', 'assets/world/rock/cascata_1.png'],
   ['waterfall-edge-b', 'assets/world/rock/cascata3.png'],
-  ['rock-cluster', 'assets/world/rock/file_0000000086fc820e95353e02c57fdd6f.png']
+  ['rock-cluster', 'assets/world/rock/pedra_10.webp']
 ];
 export default class Preload extends Phaser.Scene {
   constructor() { super('Preload'); }
@@ -19,7 +19,7 @@ export default class Preload extends Phaser.Scene {
     const label = this.add.text(width / 2, height / 2 + 40, 'Carregando mundo... 0%', { fontSize: '16px', color: '#ffffff' }).setOrigin(0.5);
     this.load.on('progress', progress => { fill.width = 280 * progress; label.setText('Carregando mundo... ' + Math.round(progress * 100) + '%'); });
     this.load.on('loaderror', file => { console.error('Falha ao carregar asset final:', file.key, file.src); label.setText('Falha ao carregar recursos do jogo.'); });
-    for (const [key, url] of WORLD_ASSETS) this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261125-front-waterfall-03');
+    for (const [key, url] of WORLD_ASSETS) this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261126-rock-assets-01');
     queuePlayerSpriteAssets(this.load);
     queueMonsterAssets(this.load);
   }

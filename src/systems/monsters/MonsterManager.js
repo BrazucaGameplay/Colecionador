@@ -46,9 +46,12 @@ export default class MonsterManager {
     const entry = this.entries.get(id);
     if (!entry || !entry.entity.alive) return { applied: 0, dead: false };
     const result = entry.entity.takeDamage(amount);
-    if (!result.dead) return result;
+    if (!result.dead) {
+      entry.renderer.play('attack', now);
+      return result;
+    }
     entry.body.setEnabled(false);
-    entry.renderer.play('death');
+    entry.renderer.play('death', now);
     entry.removeAt = now + (Number(entry.entity.definition.deathDurationMs) || 600);
     this.spawner.notifyDeath(entry.entity.spawnZoneId, now);
     this.onKill({ monster: entry.entity, experience: entry.entity.definition.experience, drops: entry.entity.definition.drops });
@@ -62,8 +65,8 @@ export default class MonsterManager {
       entry.behavior.update(entry.entity, now, delta);
       entry.body.sync();
       entry.renderer.setTransform(entry.entity.x, entry.entity.y);
-      entry.renderer.play(entry.entity.moving ? 'walking' : 'idle');
-      entry.renderer.update();
+      entry.renderer.update(now);
+      entry.renderer.play(entry.entity.moving ? 'walking' : 'idle', now);
     }
   }
   remove(id) {

@@ -8,10 +8,10 @@ export default class MonsterRenderer {
   constructor(scene, monster, definition, depthManager) {
     this.scene = scene; this.monster = monster; this.definition = definition;
     this.depthManager = depthManager; this.currentState = null; this.destroyed = false;
+    this.actionUntil = 0;
     const visual = definition.visual;
     const idle = visual?.enabled ? visual.animations?.idle : null;
-    this.shadow = null; this.sprite = null;
-    this.frameBox = null;
+    this.shadow = null; this.sprite = null; this.frameBox = null;
     if (idle && scene.textures.exists(idle.key)) {
       this.shadow = scene.add.ellipse(monster.x, monster.y - 2, 26, 9, 0x101522, 0.24);
       this.depthManager?.apply(this.shadow, monster.y, 'shadow');
@@ -33,11 +33,11 @@ export default class MonsterRenderer {
     const frame = this.sprite.frame;
     const width = frame.realWidth || frame.width;
     const height = frame.realHeight || frame.height;
-    const scale = fitMonsterFrameScale(width, height, this.frameBox.width, this.frameBox.height);
-    this.sprite.setScale(scale);
+    this.sprite.setScale(fitMonsterFrameScale(width, height, this.frameBox.width, this.frameBox.height));
   }
-  play(state) {
+  play(state, now = 0) {
     if (this.destroyed || !this.sprite) return false;
+    if ((state === 'idle' || state === 'walking') && this.currentState === 'attack' && now < this.actionUntil) return false;
     const animations = this.definition.visual?.animations || {};
     const requested = animations[state] || animations.idle;
     if (!requested || !this.scene.textures.exists(requested.key)) {
@@ -49,6 +49,8 @@ export default class MonsterRenderer {
       this.applyFrameScale();
       this.currentState = state;
     }
+    if (state === 'attack') this.actionUntil = now + (Number(this.definition.visual?.attackDurationMs) || 350);
+    if (state === 'death') this.actionUntil = Number.POSITIVE_INFINITY;
     return true;
   }
   setTransform(x, y) {
@@ -57,7 +59,9 @@ export default class MonsterRenderer {
     if (this.shadow) this.depthManager?.apply(this.shadow, y, 'shadow');
     if (this.sprite) this.depthManager?.apply(this.sprite, y, 'actor');
   }
-  update() {}
+  update(now = 0) {
+    if (this.currentState === 'attack' && now >= this.actionUntil) this.currentState = null;
+  }
   destroy() {
     if (this.destroyed) return;
     this.destroyed = true; this.sprite?.destroy(); this.shadow?.destroy();
