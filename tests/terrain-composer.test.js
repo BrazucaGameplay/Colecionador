@@ -31,7 +31,7 @@ test('shader compoe a textura costeira com alpha sobre terreno continuo',()=>{
  assert.ok(s.includes('float shoreV=.58+(radiusWorld-coastRadius)/360.0'));
  assert.ok(s.includes('float mirroredRepeat1D(float p)'));
  assert.ok(s.includes('float shoreU=mirroredRepeat1D((angle+3.141592654)*5.570423008)'));
- assert.ok(s.includes('equivale a cerca de 36 larguras de 360 unidades'));
+ assert.ok(s.includes('equivale a cerca de 35 larguras de 360 unidades'));
  assert.ok(!s.includes('float shoreU=fract(angle*.159154943+.5)'));
  assert.ok(s.includes('oceano no topo e grama na base'));
  assert.ok(!s.includes('float shoreV=.70-(radiusWorld-coastRadius)/360.0'));
