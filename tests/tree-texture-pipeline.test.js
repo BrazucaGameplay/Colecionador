@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createTreeTextureLayout,nextPowerOfTwo} from '../src/rendering/world/TreeTexturePipeline.js';
+import TreeTexturePipeline, {createTreeTextureLayout,nextPowerOfTwo} from '../src/rendering/world/TreeTexturePipeline.js';
 
 test('suporte das árvores usa dimensões POT e frames dentro dos limites',()=>{
  assert.equal(nextPowerOfTwo(256),256);assert.equal(nextPowerOfTwo(384),512);assert.equal(nextPowerOfTwo(640),1024);assert.throws(()=>nextPowerOfTwo(0),/Dimensão/);
