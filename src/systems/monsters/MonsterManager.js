@@ -277,7 +277,7 @@ export default class MonsterManager {
     const entry = this.entries.get(id);
     if (!entry) return false;
     entry.behavior?.destroy();
-    entry.renderer.destroy();
+    if (!this.factory?.release(entry)) entry.renderer?.destroy();
     this.activeEntries.delete(entry);
     this.combatEntries.delete(entry);
     this.updateTargetMembership(entry, false);

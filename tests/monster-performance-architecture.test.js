@@ -67,3 +67,24 @@ test('somente perseguição cria controlador e coleção de alvos estável', () 
   assert.equal(entry.behavior, null);
   assert.equal(manager.combatEntries.has(entry), true);
 });
+
+import WorldNavigation from '../src/world/WorldNavigation.js';
+
+test('consulta de área preserva a máscara e bloqueia obstáculos sem lista temporária', () => {
+  const navigation = new WorldNavigation(512, 512);
+  navigation.setWalkableGrid(new Uint8Array(navigation.cols * navigation.rows).fill(1));
+  assert.equal(navigation.isAreaWalkable(100, 100, 10), true);
+  navigation.addObstacle(100, 100, 12, 12);
+  assert.equal(navigation.isAreaWalkable(100, 100, 10), false);
+  assert.equal(navigation.isAreaWalkable(160, 160, 10), true);
+  assert.equal(navigation.isAreaWalkable(5, 5, 10), false);
+});
+
+test('consulta otimizada continua respeitando os nove pontos da área', () => {
+  const navigation = new WorldNavigation(240, 240);
+  const grid = new Uint8Array(navigation.cols * navigation.rows).fill(1);
+  grid[4 * navigation.cols + 4] = 0;
+  navigation.setWalkableGrid(grid);
+  assert.equal(navigation.isAreaWalkable(108, 108, 10), false);
+  assert.equal(navigation.isAreaWalkable(132, 132, 10), true);
+});

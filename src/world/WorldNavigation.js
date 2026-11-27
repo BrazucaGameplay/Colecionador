@@ -233,19 +233,49 @@ export default class WorldNavigation {
     });
   }
 
+  /**
+   * Consulta de área usada no caminho quente da IA dos monstros.
+   * Preserva os nove pontos de amostragem e a colisão elíptica, mas não
+   * materializa arrays, closures ou listas temporárias de obstáculos.
+   */
   isAreaWalkable(x, y, radius = 10) {
     if (x - radius < 0 || y - radius < 0 || x + radius > this.width || y + radius > this.height) return false;
-    const samples = [
-      [0, 0], [radius, 0], [-radius, 0], [0, radius], [0, -radius],
-      [radius * 0.7, radius * 0.7], [-radius * 0.7, radius * 0.7],
-      [radius * 0.7, -radius * 0.7], [-radius * 0.7, -radius * 0.7]
-    ];
-    if (samples.some(([dx, dy]) => !this.isTerrainWalkableAt(x + dx, y + dy))) return false;
-    return !this.getNearbyObstacles(x, y, radius).some(b => {
-      const dx = (x - b.x) / (b.radiusX + radius);
-      const dy = (y - b.y) / (b.radiusY + radius);
-      return dx * dx + dy * dy < 1;
-    });
+
+    const diagonal = radius * 0.7;
+    if (!this.isTerrainWalkableAt(x, y) ||
+        !this.isTerrainWalkableAt(x + radius, y) ||
+        !this.isTerrainWalkableAt(x - radius, y) ||
+        !this.isTerrainWalkableAt(x, y + radius) ||
+        !this.isTerrainWalkableAt(x, y - radius) ||
+        !this.isTerrainWalkableAt(x + diagonal, y + diagonal) ||
+        !this.isTerrainWalkableAt(x - diagonal, y + diagonal) ||
+        !this.isTerrainWalkableAt(x + diagonal, y - diagonal) ||
+        !this.isTerrainWalkableAt(x - diagonal, y - diagonal)) return false;
+
+    if (!this.obstacleGrid.size) return true;
+    const cellSize = this.obstacleGridCellSize;
+    const obstacleCols = Math.ceil(this.width / cellSize);
+    const reachX = this.maxObstacleRadiusX + radius;
+    const reachY = this.maxObstacleRadiusY + radius;
+    const minCol = Math.floor((x - reachX) / cellSize);
+    const maxCol = Math.floor((x + reachX) / cellSize);
+    const minRow = Math.floor((y - reachY) / cellSize);
+    const maxRow = Math.floor((y + reachY) / cellSize);
+
+    for (let row = minRow; row <= maxRow; row++) {
+      for (let col = minCol; col <= maxCol; col++) {
+        if (col < 0 || row < 0 || col >= obstacleCols) continue;
+        const bucket = this.obstacleGrid.get(row * obstacleCols + col);
+        if (!bucket) continue;
+        for (let i = 0; i < bucket.length; i++) {
+          const obstacle = bucket[i];
+          const dx = (x - obstacle.x) / (obstacle.radiusX + radius);
+          const dy = (y - obstacle.y) / (obstacle.radiusY + radius);
+          if (dx * dx + dy * dy < 1) return false;
+        }
+      }
+    }
+    return true;
   }
 
   nearestWalkable(col, row) {
