@@ -203,7 +203,7 @@ export default class GameUI extends Phaser.Scene {
     const rowY = y + 104 + 4 * 49;
     const toggle = this.addPanelObject(
       this.add.nineslice(x + width / 2, rowY, 'ui-menu-button', undefined,
-        width - 56, 43, 42, 42),
+        width - 56, 43, 42, 42, 18, 18),
       4020
     );
     this.performanceToggleText = this.addPanelText(x + width / 2, rowY,

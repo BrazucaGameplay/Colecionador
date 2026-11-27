@@ -36,7 +36,8 @@ test('toques na HUD são excluídos da navegação do mundo', async () => {
 
 test('o retrato usa o asset transparente sem círculo externo nem máscara', async () => {
   const [ui, monitor] = await Promise.all([read('../src/scenes/GameUI.js'), read('../src/ui/PerformanceMonitor.js')]);
-  assert.match(ui, /assets\/ui\/player-portrait\.webp/);
+  assert.match(ui, /const base = import\.meta\.env\.BASE_URL \+ 'assets\/ui\/'/);
+  assert.match(ui, /this\.load\.image\('player-portrait', base \+ 'player-portrait\.webp'\)/);
   assert.match(ui, /setDisplaySize\(64, 96\)/);
   assert.match(ui, /setPosition\(centerX, portraitY\)/);
   assert.doesNotMatch(ui, /portraitFrame|portraitMask|createGeometryMask|fillCircle\(centerX, portraitY/);
