@@ -1,4 +1,4 @@
-# Atualização 2.5.3 — Retrato transparente sem moldura
+# Atualização 2.5.4 — Correção da inicialização do retrato
 
 ## Produto e plataforma
 - **Implementado:** jogo web/PWA com Phaser 4 e Vite; configuração Capacitor Android permanece.
@@ -33,10 +33,14 @@
 
 ## Build e publicação
 - **Implementado:** scripts npm de build/teste, validação de layout e workflow GitHub Actions para build, auditoria, testes e GitHub Pages.
-- **Pendente:** execução do workflow do commit 2.5.3 e confirmação da publicação.
+- **Pendente:** execução do workflow do commit 2.5.4 e confirmação da publicação.
 
 ## Pendências e riscos
 - Conectar bestiário aos eventos reais de descoberta/derrota e persistir registros.
 - Implementar sistemas reais de waifus, inventário e casa antes de exibir conteúdo funcional nesses painéis.
 - Testar interação UI/mundo, resize, safe areas e desempenho em Android físico.
 - Confirmar build, auditoria npm e deploy do commit desta versão.
+
+## Correção 2.5.4
+- **Corrigido:** variável `height` não declarada durante a criação do retrato; agora a altura do viewport é capturada no escopo de `createHud()` e a posição é reutilizada para imagem e área de toque.
+- **Teste de regressão:** verifica a declaração da altura e impede o uso fora de escopo na criação do retrato.

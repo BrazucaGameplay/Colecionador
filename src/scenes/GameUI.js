@@ -43,12 +43,13 @@ export default class GameUI extends Phaser.Scene {
     });
 
     const centerX = this.scale.width / 2;
-    const portraitY = this.scale.height - 65;
+    const height = this.scale.height;
+    const portraitY = height - 81;
     // O asset já possui canal alpha: exibe a silhueta inteira sem moldura,
     // círculo, máscara ou fundo artificial.
-    this.portraitImage = this.add.image(centerX, height - 81, 'player-portrait')
+    this.portraitImage = this.add.image(centerX, portraitY, 'player-portrait')
       .setDisplaySize(64, 96).setDepth(3002);
-    this.portraitHit = this.add.zone(centerX, height - 81, 80, 108).setDepth(3004).setInteractive();
+    this.portraitHit = this.add.zone(centerX, portraitY, 80, 108).setDepth(3004).setInteractive();
     this.portraitHit.on('pointerdown', (pointer, localX, localY, event) => {
       event?.stopPropagation();
       this.openPanel('profile');
