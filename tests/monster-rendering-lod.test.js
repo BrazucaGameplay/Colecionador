@@ -34,7 +34,13 @@ function createRendererHarness() {
 
 test('monstro dormente usa somente a imagem estática, sem sombra extra', () => {
   const { renderer, created } = createRendererHarness();
-  assert.equal(created.images, 1);\n  assert.equal(renderer.sprite.scale, 0.72);\n  assert.equal(renderer.frameBox.width, 32 * 0.72);\n  for (const state of ['walking', 'attack', 'death']) {\n    renderer.play(state, 1000);\n    assert.equal(renderer.sprite.scale, 0.72, state + ' mantém o aumento de 50%');\n  }
+  assert.equal(created.images, 1);
+  assert.equal(renderer.sprite.scale, 0.72);
+  assert.equal(renderer.frameBox.width, 32 * 0.72);
+  for (const state of ['walking', 'attack', 'death']) {
+    renderer.play(state, 1000);
+    assert.equal(renderer.sprite.scale, 0.72, state + ' mantém o aumento de 50%');
+  }
   assert.equal(created.ellipses, 0);
   assert.equal(renderer.shadow, null);
   renderer.setInView(true);
@@ -47,6 +53,7 @@ test('sombra é criada sob demanda e reutilizada quando o monstro adormece', () 
   renderer.setShadowEnabled(true);
   const pooledShadow = renderer.shadow;
   assert.equal(created.ellipses, 1);
+  assert.deepEqual(created.shadowDimensions, { width: 39, height: 13.5 });
   assert.ok(pooledShadow);
   renderer.setShadowEnabled(true);
   assert.equal(created.ellipses, 1);
