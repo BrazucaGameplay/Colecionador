@@ -106,3 +106,14 @@ test('menu principal preserva a moldura inferior e identifica o controle como FP
   assert.doesNotMatch(menu, /DESEMPENHO|DESATIVADO|ATIVO/);
   assert.match(button, /setResolution\(3\)/);
 });
+
+
+test('perfil começa no retrato da HUD e permite avançar para os atributos', async () => {
+  const profile = await read('../src/ui/panels/ProfilePanel.js');
+  assert.match(profile, /'player-portrait'/);
+  assert.match(profile, /setPage\(0\)/);
+  assert.match(profile, /setPage\(1\)/);
+  assert.match(profile, /1 \/ 2/);
+  assert.match(profile, /row\.plus\.background\.setVisible/);
+  assert.match(profile, /row\.plus\.label\.setVisible/);
+});
