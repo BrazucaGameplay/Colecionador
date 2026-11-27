@@ -2,23 +2,36 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { setPortraitTexture } from '../src/ui/HUD/PortraitDisplay.js';
 
-test('trocar retrato reaplica tamanho fixo após mudar textura de resolução', () => {
+function mockImage(width, height) {
   const calls = [];
-  const image = {
+  return {
+    frame: { width, height },
+    scaleX: 1,
+    scaleY: 1,
+    calls,
     setTexture(key) { calls.push(['texture', key]); return this; },
-    setDisplaySize(width, height) { calls.push(['size', width, height]); return this; }
+    setScale(value) { this.scaleX = value; this.scaleY = value; calls.push(['scale', value]); return this; }
   };
+}
 
-  assert.equal(setPortraitTexture(image, 'skin-portrait-skin_2', 48, 72), true);
-  assert.deepEqual(calls, [
-    ['texture', 'skin-portrait-skin_2'],
-    ['size', 48, 72]
-  ]);
+test('mantém a proporção de retrato vertical sem distorcer a imagem', () => {
+  const image = mockImage(384, 768);
+  assert.equal(setPortraitTexture(image, 'skin-portrait-skin_2', 155, 255), true);
+  assert.equal(image.scaleX, image.scaleY);
+  assert.equal(384 * image.scaleX, 127.5);
+  assert.equal(768 * image.scaleY, 255);
 });
 
-test('não tenta alterar imagem quando chave de textura está ausente', () => {
-  let called = false;
-  const image = { setTexture() { called = true; }, setDisplaySize() { called = true; } };
+test('mantém proporção quadrada e limita ambas as dimensões', () => {
+  const image = mockImage(384, 384);
+  assert.equal(setPortraitTexture(image, 'skin-portrait-skin_1', 48, 72), true);
+  assert.equal(384 * image.scaleX, 48);
+  assert.equal(384 * image.scaleY, 48);
+});
+
+test('não tenta alterar imagem quando chave ou limites estão ausentes', () => {
+  const image = mockImage(384, 384);
   assert.equal(setPortraitTexture(image, '', 48, 72), false);
-  assert.equal(called, false);
+  assert.equal(setPortraitTexture(image, 'portrait', 0, 72), false);
+  assert.equal(image.calls.length, 0);
 });
