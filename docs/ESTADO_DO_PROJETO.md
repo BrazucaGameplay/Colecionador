@@ -2451,3 +2451,21 @@ falhou exclusivamente na asserção desatualizada, antes do build e deploy.
 A nova execução deve validar testes, build e publicação da versão 2.9.6.
 
 Versionamento: 2.9.5 → 2.9.6 (PATCH: alinhamento de teste com retorno suave da câmera).
+
+
+======================================================================
+ATUALIZAÇÃO DO TESTE DE CONTRATO DA CÂMERA — VERSÃO 2.9.7
+======================================================================
+
+A execução 978 identificou outra asserção legada, em
+ tests/game-camera-follow.test.js, que ainda exigia followPlayer() sem
+argumentos. O teste agora verifica a chamada real com
+followPlayer({ smoothReturn: true }), alinhando a expectativa com a
+integração de retorno gradual introduzida na versão 2.9.5.
+
+A versão 2.9.6 corrigiu somente a primeira asserção legada identificada;
+a execução seguinte encontrou esta segunda referência no teste de contrato
+da câmera. Nenhuma alteração adicional de runtime nesta versão. A versão
+2.9.7 precisa passar novamente por testes, build e deploy.
+
+Versionamento: 2.9.6 → 2.9.7 (PATCH: atualização do teste de contrato da câmera).
