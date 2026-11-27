@@ -8,18 +8,18 @@ export default class ProfilePanel {
     this.frame = new PanelFrame(scene, { title: 'PERFIL DO JOGADOR', width: 360, height: 520, variant: 'vertical', close });
     const { x, y, width, height } = this.frame;
     this.summary = this.frame.addText(x + width * 0.15, y + height * 0.235, '', {
-      fontSize: '11px', color: '#ffe5ad', wordWrap: { width: width * 0.70 }
+      fontSize: '13px', color: '#ffe5ad', wordWrap: { width: width * 0.70 }
     });
     this.rows = [];
     const keys = Object.keys(STAT_UPGRADES);
-    const rowGap = Math.min(31, height * 0.47 / Math.max(1, keys.length));
+    const rowGap = Math.min(34, height * 0.47 / Math.max(1, keys.length));
     keys.forEach((key, index) => {
       const rowY = y + height * 0.34 + index * rowGap;
       this.frame.addText(x + width * 0.15, rowY - 7, STAT_UPGRADES[key].label, {
-        fontSize: '11px', wordWrap: { width: width * 0.38 }
+        fontSize: '12px', wordWrap: { width: width * 0.38 }
       });
       const value = this.frame.addText(x + width * 0.56, rowY - 7, '', {
-        fontSize: '11px', fontStyle: 'bold', color: '#ffe6b5'
+        fontSize: '12px', fontStyle: 'bold', color: '#ffe6b5'
       });
       const plus = this.frame.addButton({
         x: x + width * 0.80, y: rowY + 1,
@@ -30,7 +30,7 @@ export default class ProfilePanel {
     });
     this.frame.addText(x + width * 0.15, y + height * 0.83,
       'Distribua os pontos disponíveis para evoluir os atributos.', {
-        fontSize: '9px', color: '#e8cda6', wordWrap: { width: width * 0.70 }
+        fontSize: '10px', color: '#e8cda6', wordWrap: { width: width * 0.70 }
       });
     this.refresh();
   }
