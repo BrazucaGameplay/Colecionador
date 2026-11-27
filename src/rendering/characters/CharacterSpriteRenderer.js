@@ -36,23 +36,51 @@ export function registerPlayerSpriteAnimations(scene) {
       if (!metadata || !texture || !Array.isArray(metadata.frames) || !metadata.frames.length) {
         console.warn('[CharacterAnimations] Pacote indisponível:', skin.id, item.id); complete = false; continue;
       }
-      const dirs = new Map();
-      for (const record of metadata.frames) {
-        const direction = Number(record.direction);
-        if (!Number.isInteger(direction) || direction < 0 || direction > 7) continue;
-        const frameName = `d${direction}-f${record.frame}`;
-        const pivotY = Number(record.pivotY ?? metadata.pivot?.y);
-        if (Number.isFinite(pivotY)) scene.playerFramePivots.set(`${item.key}:${frameName}`,Math.max(0,Math.min(1,pivotY)));
-        if (!texture.has(frameName)) texture.add(frameName,0,record.x,record.y,record.width,record.height);
-        if (!dirs.has(direction)) dirs.set(direction,[]);
-        dirs.get(direction).push({frame:frameName,index:Number(record.frame)||0});
-      }
-      for (let direction=0;direction<8;direction++) {
-        const frames=dirs.get(direction)||[];
-        if (!frames.length) { complete=false; continue; }
-        frames.sort((a,b)=>a.index-b.index);
-        const key=`${item.key}-d${direction}`;
-        if (!scene.anims.exists(key)) scene.anims.create({key,frames:frames.map(({frame})=>({key:item.key,frame})),frameRate:metadata.fps||12,repeat:item.loop?-1:0});
+      try {
+        const dirs = new Map();
+        for (const record of metadata.frames) {
+          const direction = Number(record.direction);
+          const frameIndex = Number(record.frame);
+          if (!Number.isInteger(direction) || direction < 0 || direction > 7 ||
+              !Number.isInteger(frameIndex) || frameIndex < 0 ||
+              !Number.isFinite(record.x) || !Number.isFinite(record.y) ||
+              record.width <= 0 || record.height <= 0 ||
+              record.x < 0 || record.y < 0) {
+            complete = false;
+            console.error('[CharacterAnimations] Quadro inválido:', skin.id, item.id, record);
+            continue;
+          }
+          const frameName = `d${direction}-f${frameIndex}`;
+          const pivotY = Number(record.pivotY ?? metadata.pivot?.y);
+          if (Number.isFinite(pivotY)) scene.playerFramePivots.set(`${item.key}:${frameName}`,Math.max(0,Math.min(1,pivotY)));
+          if (!texture.has(frameName)) texture.add(frameName,0,record.x,record.y,record.width,record.height);
+          if (!dirs.has(direction)) dirs.set(direction,[]);
+          dirs.get(direction).push({frame:frameName,index:frameIndex});
+        }
+        const expectedFrames = Number(metadata.frameCount);
+        for (let direction=0;direction<8;direction++) {
+          const frames=dirs.get(direction)||[];
+          const indexes = new Set(frames.map(frame=>frame.index));
+          if (!frames.length || indexes.size !== frames.length ||
+              (Number.isInteger(expectedFrames) && expectedFrames > 0 && frames.length !== expectedFrames)) {
+            complete=false;
+            console.error('[CharacterAnimations] Direção incompleta:', skin.id, item.id, {
+              direction, actual: frames.length, expected: expectedFrames
+            });
+            continue;
+          }
+          frames.sort((a,b)=>a.index-b.index);
+          const key=`${item.key}-d${direction}`;
+          if (!scene.anims.exists(key)) scene.anims.create({
+            key,
+            frames:frames.map(({frame})=>({key:item.key,frame})),
+            frameRate:metadata.fps||12,
+            repeat:item.loop?-1:0
+          });
+        }
+      } catch (error) {
+        complete = false;
+        console.error('[CharacterAnimations] Falha ao registrar atlas:', skin.id, item.id, error);
       }
     }
     if (complete) scene.characterAnimationsBySkin.set(skin.id,animations);
