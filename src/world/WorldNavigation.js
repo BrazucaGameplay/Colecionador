@@ -6,18 +6,6 @@ const DIRECTIONS = [
   [1, 1, Math.SQRT2], [1, -1, Math.SQRT2], [-1, 1, Math.SQRT2], [-1, -1, Math.SQRT2]
 ];
 const MAX_SEARCH_NODES = 12000;
-const MASK_SAMPLE_INSET = 14;
-const MASK_SAMPLE_DIAGONAL = MASK_SAMPLE_INSET * 0.7;
-const MASK_SAMPLE_OFFSETS = Object.freeze([
-  [0, 0],
-  [MASK_SAMPLE_INSET, 0], [-MASK_SAMPLE_INSET, 0],
-  [0, MASK_SAMPLE_INSET], [0, -MASK_SAMPLE_INSET],
-  [MASK_SAMPLE_DIAGONAL, MASK_SAMPLE_DIAGONAL],
-  [-MASK_SAMPLE_DIAGONAL, MASK_SAMPLE_DIAGONAL],
-  [MASK_SAMPLE_DIAGONAL, -MASK_SAMPLE_DIAGONAL],
-  [-MASK_SAMPLE_DIAGONAL, -MASK_SAMPLE_DIAGONAL]
-]);
-
 
 class MinHeap {
   constructor() { this.items = []; }
@@ -156,16 +144,18 @@ export default class WorldNavigation {
       return dx * dx + dy * dy <= this.circleMask.radius * this.circleMask.radius;
     }
     if (!this.alphaMask) return true;
-    const scaleX = this.maskWidth / this.width;
-    const scaleY = this.maskHeight / this.height;
-    for (let i = 0; i < MASK_SAMPLE_OFFSETS.length; i++) {
-      const offset = MASK_SAMPLE_OFFSETS[i];
-      const px = Math.floor((x + offset[0]) * scaleX);
-      const py = Math.floor((y + offset[1]) * scaleY);
-      if (px < 0 || py < 0 || px >= this.maskWidth || py >= this.maskHeight ||
-          this.alphaMask[py * this.maskWidth + px] !== 1) return false;
-    }
-    return true;
+    const inset = 14;
+    const offsets = [
+      [0, 0], [inset, 0], [-inset, 0], [0, inset], [0, -inset],
+      [inset * 0.7, inset * 0.7], [-inset * 0.7, inset * 0.7],
+      [inset * 0.7, -inset * 0.7], [-inset * 0.7, -inset * 0.7]
+    ];
+    return offsets.every(([dx, dy]) => {
+      const px = Math.floor((x + dx) * this.maskWidth / this.width);
+      const py = Math.floor((y + dy) * this.maskHeight / this.height);
+      return px >= 0 && py >= 0 && px < this.maskWidth && py < this.maskHeight &&
+        this.alphaMask[py * this.maskWidth + px] === 1;
+    });
   }
 
   findNearestWalkablePoint(x, y, radius = 10) {

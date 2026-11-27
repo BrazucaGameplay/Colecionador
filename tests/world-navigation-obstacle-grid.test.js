@@ -62,20 +62,3 @@ test('isWalkable e isAreaWalkable respeitam obstáculos próximos e ignoram os d
   assert.equal(navigation.isAreaWalkable(300, 300, 10), false);
   assert.equal(navigation.isAreaWalkable(500, 500, 10), true);
 });
-
-
-test('máscara alfa mantém as nove amostras sem alocar offsets por célula', () => {
-  const navigation = new WorldNavigation(96, 96);
-  const width = 96;
-  const height = 96;
-  const rgba = new Uint8ClampedArray(width * height * 4);
-  for (let i = 0; i < width * height; i++) rgba[i * 4 + 3] = 255;
-  navigation.setAlphaMask(rgba, width, height, 150);
-  assert.equal(navigation.isInsideIsland(48, 48), true);
-
-  const blockedX = Math.floor((48 + 14) * width / navigation.width);
-  const blockedY = Math.floor(48 * height / navigation.height);
-  rgba[(blockedY * width + blockedX) * 4 + 3] = 0;
-  navigation.setAlphaMask(rgba, width, height, 150);
-  assert.equal(navigation.isInsideIsland(48, 48), false);
-});

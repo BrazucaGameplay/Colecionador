@@ -9,7 +9,7 @@ test('Game renderiza a ilha inteira com uma única textura e preserva o mundo l�
   assert.match(game, /const ISLAND_DIAMETER = 4096/);
   assert.match(game, /this\.add\.image\([\s\S]*?'island-terrain'/);
   assert.match(game, /setDisplaySize\(this\.worldWidth, this\.worldHeight\)/);
-  assert.match(game, /createIslandNavigation\(\{/);
+  assert.match(game, /this\.navigation\.setAlphaMask\(pixels, maskSize, maskSize, threshold\)/);
   assert.doesNotMatch(game, /createIslandTerrain|setIslandMask\(/);
 });
 
@@ -26,19 +26,21 @@ test('Navegação continua usando máscara alfa pré-calculada, sem leitura por 
   const navigation = read('../src/world/WorldNavigation.js');
   assert.match(navigation, /setAlphaMask\(rgbaPixels, width, height, threshold = 150\)/);
   assert.match(navigation, /this\.walkableGrid = new Uint8Array/);
-  assert.match(navigation, /this\.alphaMask\[py \* this\.maskWidth \+ px\] !== 1/);
+  assert.match(navigation, /this\.alphaMask\[py \* this\.maskWidth \+ px\] === 1/);
 });
 
-test('a cena não depende de rede ou armazenamento para preparar a navegação', () => {
+test('Grade caminhável é persistida no IndexedDB e validada por versão, hash e dimensões', () => {
   const game = read('../src/scenes/Game.js');
-  const factory = read('../src/world/navigation/IslandNavigationFactory.js');
-  const extractor = read('../src/world/navigation/TerrainMaskExtractor.js');
-  assert.doesNotMatch(game, /await |fetch\(|indexedDB|WalkableGridCache|createIslandWalkableMask/);
-  assert.match(factory, /new WorldNavigation\(width, height\)/);
-  assert.match(factory, /extractTerrainPixels\(terrainSource/);
-  assert.match(factory, /navigation\.setAlphaMask/);
-  assert.match(extractor, /getImageData/);
-  assert.doesNotMatch(extractor, /fetch\(|indexedDB|localStorage/);
+  const cache = read('../src/world/WalkableGridCache.js');
+  assert.match(game, /await this\.createIslandWalkableMask\(\)/);
+  assert.match(game, /getTerrainContentHash\(terrainUrl\)/);
+  assert.match(game, /island-geometry-v1/);
+  assert.match(game, /grid-algorithm-/);
+  assert.match(game, /readWalkableGrid\(cacheId/);
+  assert.match(game, /writeWalkableGrid\(cacheId, this\.navigation\.walkableGrid\)/);
+  assert.match(cache, /indexedDB\.open\(DB_NAME, DB_VERSION\)/);
+  assert.match(cache, /crypto\.subtle\.digest\('SHA-256'/);
+  assert.match(cache, /algorithmVersion: WALKABLE_GRID_ALGORITHM_VERSION/);
   assert.match(game, /if \(!this\.initialized\) return/);
 });
 

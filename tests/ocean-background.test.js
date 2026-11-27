@@ -10,9 +10,7 @@ test('o terreno e o mundo jogável continuam em 4096 x 4096', () => {
   assert.match(game, /this\.worldWidth = ISLAND_DIAMETER/);
   assert.match(game, /this\.worldHeight = ISLAND_DIAMETER/);
   assert.match(game, /this\.physics\.world\.setBounds\(0, 0, this\.worldWidth, this\.worldHeight\)/);
-  assert.match(game, /createIslandNavigation\(\{/);
-  const factory = read('../src/world/navigation/IslandNavigationFactory.js');
-  assert.match(factory, /new WorldNavigation\(width, height\)/);
+  assert.match(game, /new WorldNavigation\(this\.worldWidth, this\.worldHeight\)/);
 });
 
 test('oceano mantém a margem costeira e expande a dimensão maior para a proporção da tela', () => {
