@@ -2113,3 +2113,23 @@ jogo é: JSON malformado gera aviso; JSON válido contendo array ou null é
 rejeitado silenciosamente e convertido em progresso vazio. O SaveManager
 preservou esse comportamento. A asserção foi corrigida para esperar um
 aviso, sem modificar o código de runtime ou o formato do save.
+
+
+======================================================================
+EXTRAÇÃO DO GAMESYSTEMSBOOTSTRAP — 27/11/2026 — VERSÃO 2.7.1
+======================================================================
+
+A inicialização dos sistemas de gameplay foi extraída de Game.js para
+src/systems/GameSystemsBootstrap.js. O módulo cria e coordena ProgressionSystem,
+MovementSystem, CombatSystem, MonsterCombatSystem, PerformanceMonitor e
+TouchInputController, além do marcador de destino.
+
+Game.js continua responsável pelo ciclo da cena e pelo update das entidades,
+mas delega a criação e a liberação dos sistemas ao bootstrap. WorldBootstrap,
+CameraController e SaveManager mantêm suas responsabilidades independentes.
+O esquema de toque, arraste, pinch zoom, combate, progressão e persistência
+foram preservados; nenhuma regra de gameplay foi intencionalmente alterada.
+
+O bootstrap valida dependências, impede inicialização duplicada e libera os
+listeners e objetos que criou no encerramento da cena. A validação automatizada
+e a publicação da versão 2.7.1 dependem da conclusão do GitHub Actions.
