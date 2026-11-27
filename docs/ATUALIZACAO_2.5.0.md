@@ -1,4 +1,4 @@
-# Atualização 2.5.0 — Interface sobre o mundo
+# Atualização 2.5.1 — Interface sobre o mundo
 
 ## Produto e plataforma
 - **Implementado:** jogo web/PWA com Phaser 4 e Vite; configuração Capacitor Android permanece.
@@ -33,7 +33,7 @@
 
 ## Build e publicação
 - **Implementado:** scripts npm de build/teste, validação de layout e workflow GitHub Actions para build, auditoria, testes e GitHub Pages.
-- **Pendente:** execução do workflow do commit 2.5.0 e confirmação da publicação.
+- **Pendente:** execução do workflow do commit 2.5.1 e confirmação da publicação.
 
 ## Pendências e riscos
 - Conectar bestiário aos eventos reais de descoberta/derrota e persistir registros.
