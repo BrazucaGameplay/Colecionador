@@ -88,3 +88,4 @@ test('HUD recupera o retrato clicável e ajusta as barras com margem interna', a
   assert.match(button, /Palatino Linotype/);
   assert.match(frame, /Palatino Linotype/);
 });
+\ntest('menu principal não contém a opção Perfil', async () => {\n  const menu = await read('../src/ui/panels/MenuPanel.js');\n  assert.doesNotMatch(menu, /\\['Perfil',\\s*'profile'\\]/);\n  assert.match(menu, /\\['Bestiário',\\s*'bestiary'\\]/);\n});\n
