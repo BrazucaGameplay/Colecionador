@@ -29,19 +29,23 @@ export default class StatusBars {
     this.frame.setPosition(screenWidth / 2, this.top + this.displayHeight / 2)
       .setDisplaySize(this.displayWidth, this.displayHeight);
 
-    // Interior tracks measured in the source artwork's 600 x 201 coordinate space.
-    this.hpX = this.left + 140 * this.scaleX;
+    // Fill is inset slightly so both colors sit inside the artwork's clear tracks.
+    this.hpX = this.left + 144 * this.scaleX;
     this.hpY = this.top + 78 * this.scaleY;
-    this.hpMaxWidth = 365 * this.scaleX;
-    this.hpHeight = 17 * this.scaleY;
-    this.energyX = this.left + 140 * this.scaleX;
+    this.hpMaxWidth = 352 * this.scaleX;
+    this.hpHeight = 14 * this.scaleY;
+    this.energyX = this.left + 144 * this.scaleX;
     this.energyY = this.top + 127 * this.scaleY;
-    this.energyMaxWidth = 365 * this.scaleX;
-    this.energyHeight = 20 * this.scaleY;
-    this.setValues(this.healthRatio, 1, this.energyRatio, 1);
+    this.energyMaxWidth = 352 * this.scaleX;
+    this.energyHeight = 16 * this.scaleY;
+    this.setValues(this.healthValue ?? 1, this.healthMaximum ?? 1, this.energyValue ?? 1, this.energyMaximum ?? 1);
   }
 
   setValues(health, maxHealth, energy, maxEnergy) {
+    this.healthValue = health;
+    this.healthMaximum = maxHealth;
+    this.energyValue = energy;
+    this.energyMaximum = maxEnergy;
     this.healthRatio = maxHealth > 0 ? Math.max(0, Math.min(1, health / maxHealth)) : 0;
     this.energyRatio = maxEnergy > 0 ? Math.max(0, Math.min(1, energy / maxEnergy)) : 0;
     if (!this.hpFill || !this.energyFill || !this.hpMaxWidth) return;
