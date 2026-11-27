@@ -69,9 +69,22 @@ test('os arquivos WebP enviados existem e são carregáveis', async () => {
     '../public/assets/ui/buttons/botao_sem_ornamento_central_300x100.webp',
     '../public/assets/ui/buttons/botao_sem_ornamento_central_400x100.webp',
     '../public/assets/ui/hud/moldura_hp_energia_sem_barras_600px.webp',
-    '../public/assets/ui/player-portrait.webp'
+    '../public/assets/characters/sprites/skin_01/perfil.webp',
+    '../public/assets/characters/sprites/skin_2/perfil.webp'
   ];
   for(const path of paths){const bytes=await readFile(new URL(path,import.meta.url));assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');}
+});
+
+test('retratos são carregados a partir da pasta de cada skin', async () => {
+  const [ui, catalog] = await Promise.all([
+    read('../src/scenes/GameUI.js'),
+    read('../src/rendering/characters/CharacterSkinCatalog.js')
+  ]);
+  assert.match(ui, /CHARACTER_SKINS/);
+  assert.ok(ui.includes('skin.portraitKey'));
+  assert.ok(ui.includes('skin.portrait'));
+  assert.ok(catalog.includes('skin_01/perfil.webp'));
+  assert.ok(catalog.includes('skin_2/perfil.webp'));
 });
 
 test('HUD recupera o retrato clicável e ajusta as barras com preenchimento integral', async () => {

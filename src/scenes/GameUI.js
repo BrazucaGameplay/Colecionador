@@ -6,6 +6,7 @@ import BestiaryPanel from '../ui/panels/BestiaryPanel.js';
 import WaifuPanel from '../ui/panels/WaifuPanel.js';
 import InventoryPanel from '../ui/panels/InventoryPanel.js';
 import HousePanel from '../ui/panels/HousePanel.js';
+import { CHARACTER_SKINS } from '../rendering/characters/CharacterSkinCatalog.js';
 
 const UI_ASSETS = [
   ['ui-panel-vertical', 'panels/painel_vertical_900x1350_transparente.webp'],
@@ -15,9 +16,7 @@ const UI_ASSETS = [
   ['ui-button-300', 'buttons/botao_sem_ornamento_central_300x100.webp'],
   ['ui-button-400', 'buttons/botao_sem_ornamento_central_400x100.webp'],
   ['ui-close-button', 'buttons/fechar_circular.svg'],
-  ['ui-hud-status', 'hud/moldura_hp_energia_sem_barras_600px.webp'],
-  ['player-portrait', 'player-portrait.webp'],
-  ['skin-portrait-skin_2', '../characters/sprites/skin_2/perfil.webp']
+  ['ui-hud-status', 'hud/moldura_hp_energia_sem_barras_600px.webp']
 ];
 
 export default class GameUI extends Phaser.Scene {
@@ -31,8 +30,11 @@ export default class GameUI extends Phaser.Scene {
   preload() {
     const base = import.meta.env.BASE_URL + 'assets/ui/';
     for (const [key, path] of UI_ASSETS) {
-      const url = path.startsWith('../') ? import.meta.env.BASE_URL + 'assets/' + path.slice(3) : base + path;
-      this.load.image(key, url + '?v=20261127-ui-art-v5');
+      this.load.image(key, base + path + '?v=20261127-ui-art-v5');
+    }
+    for (const skin of Object.values(CHARACTER_SKINS)) {
+      if (!skin.portraitKey || !skin.portrait) continue;
+      this.load.image(skin.portraitKey, import.meta.env.BASE_URL + skin.portrait + '?v=20261127-skin-portraits-v1');
     }
     this.load.on('loaderror', file => console.error('Falha ao carregar arte da interface:', file.key, file.src));
   }
@@ -58,6 +60,8 @@ export default class GameUI extends Phaser.Scene {
     const player = this.gameScene?.player;
     if (!player || !this.hud) return;
     this.hud.setPlayer(player);
+    const portraitKey = this.gameScene?.skinManager?.getSelectedDefinition?.()?.portraitKey;
+    if (portraitKey) this.hud.setPortrait(portraitKey);
     this.activePanel?.refresh?.();
   }
 

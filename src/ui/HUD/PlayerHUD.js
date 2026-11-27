@@ -24,6 +24,12 @@ export default class PlayerHUD {
     this.statusBars.setValues(player.health, player.maxHealth, player.energy, player.maxEnergy);
   }
 
+  setPortrait(textureKey) {
+    if (textureKey && this.scene?.textures?.exists(textureKey)) {
+      this.portrait?.setTexture(textureKey);
+    }
+  }
+
   layout() {
     if (!this.scene) return;
     this.menuButton?.setPosition(78, 30);

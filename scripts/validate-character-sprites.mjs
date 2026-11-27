@@ -6,6 +6,16 @@ const entries = await readdir(directory);
 const jsonFiles = entries.filter((name) => name.endsWith('.json')).sort();
 if (!jsonFiles.length) throw new Error('Nenhum metadata de spritesheet encontrado em ' + directory);
 
+const expectedSkin01Packages = [
+  'skin-basicas-dead.json',
+  'skin-basicas-idle.json',
+  'skin-basicas-running.json',
+  'skin-batalha-combate_dd.json'
+].sort();
+if (path.basename(directory) === 'skin_01' && JSON.stringify(jsonFiles) !== JSON.stringify(expectedSkin01Packages)) {
+  throw new Error('Skin 01 deve conter exatamente os quatro atlas idle, running, combat e dying. Encontrados: ' + jsonFiles.join(', '));
+}
+
 for (const jsonFile of jsonFiles) {
   const stem = jsonFile.slice(0, -5);
   await access(path.join(directory, stem + '.png'));

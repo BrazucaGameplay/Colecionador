@@ -9,8 +9,9 @@ export default class ProfilePanel {
     this.frame = new PanelFrame(scene, { title: '', width: 360, height: 520, variant: 'vertical', close });
     const { x, y, width, height } = this.frame;
 
-    // Página inicial: reutiliza a mesma imagem do retrato clicável da HUD.
-    this.portrait = scene.add.image(x + width * 0.5, y + height * 0.49, 'player-portrait')
+    // O retrato ativo é carregado da pasta da skin equipada.
+    const initialPortraitKey = this.gameScene?.skinManager?.getSelectedDefinition?.()?.portraitKey || 'player-portrait';
+    this.portrait = scene.add.image(x + width * 0.5, y + height * 0.49, initialPortraitKey)
       .setDisplaySize(width * 0.43, height * 0.49)
       .setScrollFactor(0).setDepth(4022);
     this.frame.objects.push(this.portrait);
@@ -58,7 +59,7 @@ export default class ProfilePanel {
     this.skinItems = [];
     (this.gameScene?.skinManager?.getCatalog?.() || []).forEach((skin,index) => {
       const rowY=y+height*(0.43+index*0.205);
-      const portraitKey=skin.id==='skin_2'?'skin-portrait-skin_2':'player-portrait';
+      const portraitKey = skin.portraitKey || 'player-portrait';
       const image=scene.add.image(x+width*0.27,rowY,portraitKey).setDisplaySize(width*0.19,height*0.17).setScrollFactor(0).setDepth(4022);
       this.frame.objects.push(image);
       const name=this.frame.addText(x+width*0.43,rowY-height*0.035,skin.name,{fontSize:'11px',fontStyle:'bold',color:'#fff0dc',align:'left'}).setOrigin(0,0.5);
@@ -125,8 +126,8 @@ export default class ProfilePanel {
   refresh() {
     const player = this.gameScene?.player;
     if (!player || !this.summary) return;
-    const selectedSkin=this.gameScene?.skinManager?.getSelectedSkin?.();
-    this.portrait.setTexture(selectedSkin==='skin_2'?'skin-portrait-skin_2':'player-portrait');
+    const portraitKey = this.gameScene?.skinManager?.getSelectedDefinition?.()?.portraitKey || 'player-portrait';
+    this.portrait.setTexture(portraitKey);
     const required = this.gameScene.progression?.getRequiredExperience(player.level) ?? 0;
     this.summary.setText('Nível ' + player.level + '  •  EXP ' + player.experience +
       '/' + required + '  •  Pontos: ' + player.statPoints);

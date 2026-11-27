@@ -4,26 +4,34 @@ import CharacterActionState, { ACTION_PRIORITY } from '../src/rendering/characte
 import Player from '../src/entities/Player.js';
 import MovementSystem from '../src/systems/MovementSystem.js';
 
-test('corrida e locomoção não substituem uma ação de combate protegida', () => {
+test('corrida não substitui uma ação de combate protegida', () => {
   const state = new CharacterActionState();
-  const attack = state.start('combat', { priority: ACTION_PRIORITY.combat, interruptible: true, lockMovement: true });
+  const attack = state.start('combat', {
+    priority: ACTION_PRIORITY.combat,
+    interruptible: true,
+    lockMovement: true
+  });
   assert.equal(attack.accepted, true);
-  assert.equal(state.canStart('running', { priority: ACTION_PRIORITY.locomotion }), false);
-  assert.equal(state.start('running', { priority: ACTION_PRIORITY.locomotion }).accepted, false);
+  assert.equal(state.canStart('running'), false);
+  assert.equal(state.start('running').accepted, false);
   assert.equal(state.activeAction, 'combat');
   assert.equal(state.blocksMovement, true);
 });
 
-test('ação superior pode interromper ação inferior quando permitido', () => {
+test('combate interrompe locomoção e morte interrompe combate', () => {
   const state = new CharacterActionState();
-  assert.equal(state.start('jump', { priority: ACTION_PRIORITY.jump, interruptible: true }).accepted, true);
-  assert.equal(state.start('combat', { priority: ACTION_PRIORITY.combat, interruptible: false }).accepted, true);
+  assert.equal(state.start('running', { loop: true }).accepted, true);
+  assert.equal(state.start('combat', { interruptible: false }).accepted, true);
   assert.equal(state.activeAction, 'combat');
-  assert.equal(state.start('death', { priority: ACTION_PRIORITY.death, interruptible: false, holdOnComplete: true, lockMovement: true }).accepted, true);
-  assert.equal(state.activeAction, 'death');
+  assert.equal(state.start('dying', {
+    interruptible: false,
+    holdOnComplete: true,
+    lockMovement: true
+  }).accepted, true);
+  assert.equal(state.activeAction, 'dying');
 });
 
-test('cada novo ataque reinicia a ação de combate mesmo com a mesma prioridade', () => {
+test('cada novo ataque reinicia a mesma animação de combate', () => {
   const state = new CharacterActionState();
   const first = state.start('combat', {
     priority: ACTION_PRIORITY.combat,
@@ -31,7 +39,7 @@ test('cada novo ataque reinicia a ação de combate mesmo com a mesma prioridade
     lockMovement: true
   });
   assert.equal(first.accepted, true);
-  const second = state.start('combatSlash', {
+  const second = state.start('combat', {
     priority: ACTION_PRIORITY.combat,
     interruptible: true,
     lockMovement: true,
@@ -39,22 +47,27 @@ test('cada novo ataque reinicia a ação de combate mesmo com a mesma prioridade
   });
   assert.equal(second.accepted, true);
   assert.notEqual(second.action.token, first.action.token);
-  assert.equal(state.activeAction, 'combatSlash');
+  assert.equal(state.activeAction, 'combat');
   assert.equal(state.blocksMovement, true);
 });
 
-test('animação não repetida termina uma única vez e mantém a pose de morte', () => {
+test('animação de morte mantém a pose após terminar', () => {
   const state = new CharacterActionState();
-  const death = state.start('death', { priority: ACTION_PRIORITY.death, interruptible: false, holdOnComplete: true, lockMovement: true });
+  const death = state.start('dying', {
+    priority: ACTION_PRIORITY.dying,
+    interruptible: false,
+    holdOnComplete: true,
+    lockMovement: true
+  });
   assert.deepEqual(state.complete(death.action.token), { matched: true, held: true });
-  assert.equal(state.activeAction, 'death');
+  assert.equal(state.activeAction, 'dying');
   assert.equal(state.blocksMovement, true);
   assert.deepEqual(state.complete(death.action.token + 1), { matched: false, held: false });
 });
 
 test('animação em loop não é finalizada por evento de conclusão', () => {
   const state = new CharacterActionState();
-  const run = state.start('running', { priority: ACTION_PRIORITY.locomotion, loop: true });
+  const run = state.start('running', { loop: true });
   assert.equal(state.complete(run.action.token).matched, false);
   assert.equal(state.activeAction, 'running');
 });

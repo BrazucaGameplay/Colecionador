@@ -41,7 +41,7 @@ export default class Game extends Phaser.Scene {
       onChange: ({ selectedSkin }) => {
         const result = this.characterRenderer?.setSkin(selectedSkin);
         if (!result?.changed) return result || { changed: false, reason: 'renderer-unavailable' };
-        this.persistProgress(); this.uiScene?.activePanel?.refresh?.(); return result;
+        this.persistProgress(); this.uiScene?.refreshHud(); return result;
       }
     });
     if (this.skinManager.getSelectedSkin() !== this.characterRenderer.skinId) this.characterRenderer.setSkin(this.skinManager.getSelectedSkin());

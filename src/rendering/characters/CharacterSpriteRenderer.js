@@ -3,9 +3,7 @@ import CharacterActionState from './CharacterActionState.js';
 import {
   CHARACTER_ANIMATIONS,
   getCharacterAnimationsForSkin,
-  COMBAT_ANIMATION_SEQUENCE,
   DEFAULT_CHARACTER_SCALE,
-  DEFAULT_FAST_MOVEMENT_ANIMATION,
   DEFAULT_IDLE_ANIMATION,
   DEFAULT_MOVEMENT_ANIMATION
 } from './CharacterAnimationCatalog.js';
@@ -69,11 +67,9 @@ export default class CharacterSpriteRenderer {
     this.y = y;
     this.direction = 0;
     this.moving = false;
-    this.movementMode = DEFAULT_MOVEMENT_ANIMATION;
     this.currentAnimation = null;
     this.actionState = new CharacterActionState();
     this.actionToken = null;
-    this.nextCombatVariant = 0;
     this.baseScale = scale;
     this.actionScaleMultiplier = 1.35;
     this.destroyed = false;
@@ -129,18 +125,9 @@ export default class CharacterSpriteRenderer {
     if (!this.actionState.activeAction) this.playLocomotion();
   }
 
-  setMovementMode(mode) {
-    if (mode !== DEFAULT_MOVEMENT_ANIMATION && mode !== DEFAULT_FAST_MOVEMENT_ANIMATION) {
-      throw new Error('Modo de movimento desconhecido: ' + mode);
-    }
-    if (this.movementMode === mode) return;
-    this.movementMode = mode;
-    if (this.moving && !this.actionState.activeAction) this.playLocomotion();
-  }
-
   playLocomotion(force = false) {
     if (this.destroyed || this.actionState.activeAction) return;
-    const id = this.moving ? this.movementMode : DEFAULT_IDLE_ANIMATION;
+    const id = this.moving ? DEFAULT_MOVEMENT_ANIMATION : DEFAULT_IDLE_ANIMATION;
     const animation = this.animations[id];
     const key = this.animationKey(animation);
     if (!key || !this.scene.anims.exists(key)) {
@@ -163,32 +150,27 @@ export default class CharacterSpriteRenderer {
 
   canStartAction(actionId) {
     const animation = this.animations[actionId];
-    if (!animation || ['idle', 'walking', 'running', 'runningVariant'].includes(actionId)) return false;
+    if (!animation || ['idle', 'running'].includes(actionId)) return false;
     return this.actionState.canStart(actionId, animation);
   }
 
   playAction(actionId, overrides = {}) {
     if (this.destroyed) return false;
-    // Alterna os dois golpes disponíveis quando o jogo solicita "combat".
-    const resolvedId = actionId === 'combat'
-      ? COMBAT_ANIMATION_SEQUENCE[this.nextCombatVariant % COMBAT_ANIMATION_SEQUENCE.length]
-      : actionId;
-    const animation = this.animations[resolvedId];
-    if (!animation || ['idle', 'walking', 'running'].includes(resolvedId)) {
-      console.warn('[CharacterAnimations] Ação desconhecida ou não acionável:', resolvedId);
+    const animation = this.animations[actionId];
+    if (!animation || ['idle', 'running'].includes(actionId)) {
+      console.warn('[CharacterAnimations] Ação desconhecida ou não acionável:', actionId);
       return false;
     }
     const key = this.animationKey(animation);
     if (!key || !this.scene.anims.exists(key)) {
-      console.warn('[CharacterAnimations] Pacote da ação indisponível:', resolvedId);
+      console.warn('[CharacterAnimations] Pacote da ação indisponível:', actionId);
       return false;
     }
     const { durationMs, ...actionOverrides } = overrides;
-    const isCombatCycle = actionId === 'combat';
-    const started = this.actionState.start(resolvedId, {
+    const started = this.actionState.start(actionId, {
       ...animation,
       ...actionOverrides,
-      ...(isCombatCycle ? {
+      ...(actionId === 'combat' ? {
         priority: this.animations.combat.priority,
         interruptible: true,
         lockMovement: true,
@@ -198,18 +180,14 @@ export default class CharacterSpriteRenderer {
     if (!started.accepted) return false;
     this.sprite.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     this.actionToken = started.action.token;
-    this.currentAnimation = resolvedId;
+    this.currentAnimation = actionId;
     this.sprite.setScale(this.baseScale * this.actionScaleMultiplier);
     const playConfig = {
       key,
-      // Phaser 4.2.1 só deriva a taxa de quadros pela duração quando
-      // frameRate é explicitamente null; sem isso, prevalece o FPS do clip.
       frameRate: Number.isFinite(durationMs) && durationMs > 0 ? null : undefined,
       repeat: animation.loop ? -1 : 0,
       ...(Number.isFinite(durationMs) && durationMs > 0 ? { duration: durationMs } : {})
     };
-    // A hit always begins at frame zero; the full clip is stretched/compressed
-    // to the exact cooldown interval calculated by CombatSystem.
     this.sprite.play(playConfig);
     if (!animation.loop) this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     return true;

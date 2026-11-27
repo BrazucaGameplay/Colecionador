@@ -1,37 +1,65 @@
 # Sistema de skins do protagonista
 
-## Estado
+## Contrato de animação
 
-A troca visual em runtime está integrada para skins `ready` cujos atlas foram
-carregados e validados. Skin 01 continua habilitada. Skin 02 permanece em
-preparação: os quatro JPGs são referências, não atlas de animação.
+Toda skin utilizável fornece exatamente quatro animações, cada uma em atlas PNG
+com metadados JSON:
 
-## Contrato
+| Estado | Identificador | Comportamento |
+|---|---|---|
+| Parado | `idle` | Loop |
+| Correndo | `running` | Loop |
+| Combate | `combat` | Ação não repetida; retorna à locomoção |
+| Morte | `dying` | Ação não repetida; mantém a pose final |
 
-Oito estados lógicos: idle, walking, running, dying, flirtyStrut, combat,
-combatSlash e jump. Walking/running podem compartilhar um atlas, portanto são
-sete pacotes PNG/JSON. Cada pacote precisa conter frames nas oito direções
-(0–7), FPS, dimensões e pivôs por quadro.
+Cada atlas deve conter as oito direções (0–7), FPS, dimensões dos quadros e
+pivôs por quadro. Não existem estados separados para caminhada, salto, golpe
+alternativo ou passo especial.
 
 ## Arquitetura
 
-- `CharacterSkinCatalog.js`: caminhos, retratos, disponibilidade e contrato.
-- `CharacterAnimationCatalog.js`: metadados comportamentais e fábrica por skin.
-- `SkinManager.js`: valida assets carregados e só confirma após aceite do renderer.
-- `CharacterSpriteRenderer.js`: registra atlas por skin e troca textura sem recriar Player.
-- `ProfilePanel.js`: catálogo, prévia, status e ação de equipar.
+- `CharacterSkinCatalog.js`: define as skins, os quatro atlas e o retrato.
+- `CharacterAnimationCatalog.js`: define o comportamento comum dos quatro estados.
+- `SkinManager.js`: valida os quatro atlas carregados e confirma a seleção.
+- `CharacterSpriteRenderer.js`: registra atlas por skin e troca a aparência sem recriar Player.
+- `GameUI.js`: carrega o retrato a partir da pasta de cada skin.
+- `PlayerHUD.js` e `ProfilePanel.js`: exibem o retrato da skin equipada.
 - `Game.js`: conecta renderer, seleção e persistência imediata.
+
+## Estrutura dos arquivos
+
+Cada skin mantém seu retrato e seus atlas no mesmo diretório:
+
+```text
+public/assets/characters/sprites/
+  skin_01/
+    perfil.webp
+    skin-basicas-idle.png
+    skin-basicas-idle.json
+    skin-basicas-running.png
+    skin-basicas-running.json
+    skin-batalha-combate_dd.png
+    skin-batalha-combate_dd.json
+    skin-basicas-dead.png
+    skin-basicas-dead.json
+  skin_2/
+    perfil.webp
+    parado.jpg
+    corrida.jpg
+    ataque.jpg
+    morte.jpg
+    (quatro atlas PNG/JSON ainda necessários)
+```
 
 ## Troca e persistência
 
-A troca é recusada durante ações ativas (ataque, salto ou morte), para não
-interromper clips. Ao aceitar, preserva posição, direção, escala, sombra,
-profundidade e movimento, retomando idle/corrida na nova aparência. O ID é
-salvo no registro existente. Saves antigos sem `selectedSkin` usam Skin 01.
-Player permanece independente da aparência.
+A troca é recusada durante uma ação ativa. Ao aceitar, preserva posição,
+direção, escala, sombra e profundidade, retomando parado ou correndo na nova
+aparência. O ID da skin é salvo no registro existente. Saves antigos sem
+`selectedSkin` continuam usando Skin 01.
 
-## Skin 02
+## Estado das skins
 
-`parado.jpg`, `corrida.jpg`, `ataque.jpg` e `morte.jpg` são referências;
-`perfil.webp` é usado apenas na interface. Habilitar somente quando os sete
-atlas PNG/JSON estiverem completos e validados nas oito direções.
+- **Skin 01:** pronta e selecionável.
+- **Skin 02:** em preparação. Os quatro JPGs são referências visuais, não
+  atlas de animação; o retrato `perfil.webp` já fica na pasta da skin.

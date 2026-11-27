@@ -118,29 +118,23 @@ test('profundidade respeita o ponto de apoio e desempata personagem acima da est
 });
 
 
-import { CHARACTER_ANIMATIONS, COMBAT_ANIMATION_SEQUENCE, DEFAULT_CHARACTER_SCALE, DEFAULT_IDLE_ANIMATION, DEFAULT_MOVEMENT_ANIMATION } from '../src/rendering/characters/CharacterAnimationCatalog.js';
+import { CHARACTER_ANIMATIONS, DEFAULT_CHARACTER_SCALE, DEFAULT_IDLE_ANIMATION, DEFAULT_MOVEMENT_ANIMATION } from '../src/rendering/characters/CharacterAnimationCatalog.js';
 
-test('o protagonista usa os pacotes de animação PNG/JSON versionados', () => {
+test('o protagonista possui exatamente quatro animações', () => {
   assert.equal(DEFAULT_IDLE_ANIMATION, 'idle');
-  assert.equal(DEFAULT_MOVEMENT_ANIMATION, 'walking');
-  for (const id of ['idle', 'walking', 'running', 'combat', 'combatSlash', 'jump', 'dying', 'flirtyStrut']) {
-    assert.ok(CHARACTER_ANIMATIONS[id], 'Animação ausente: ' + id);
-  }
-  assert.equal(CHARACTER_ANIMATIONS.walking, CHARACTER_ANIMATIONS.running);
+  assert.equal(DEFAULT_MOVEMENT_ANIMATION, 'running');
+  assert.deepEqual(Object.keys(CHARACTER_ANIMATIONS), ['idle', 'running', 'combat', 'dying']);
   assert.equal(CHARACTER_ANIMATIONS.idle.clip, 'Idle');
   assert.equal(CHARACTER_ANIMATIONS.running.clip, 'Running');
-  assert.equal(CHARACTER_ANIMATIONS.dying.clip, 'Dead');
-  assert.equal(CHARACTER_ANIMATIONS.flirtyStrut.clip, 'Flirty_Strut');
   assert.equal(CHARACTER_ANIMATIONS.combat.clip, 'Combate_dd');
-  assert.equal(CHARACTER_ANIMATIONS.combatSlash.clip, 'Right_Hand_Sword_Slash');
-  assert.equal(CHARACTER_ANIMATIONS.jump.clip, 'Salto');
+  assert.equal(CHARACTER_ANIMATIONS.dying.clip, 'Dead');
   assert.equal(CHARACTER_ANIMATIONS.idle.loop, true);
+  assert.equal(CHARACTER_ANIMATIONS.running.loop, true);
   assert.equal(CHARACTER_ANIMATIONS.combat.loop, false);
-  assert.equal(CHARACTER_ANIMATIONS.jump.loop, false);
   assert.equal(CHARACTER_ANIMATIONS.dying.returnToLocomotion, false);
 });
 
-test('cada pacote catalogado possui PNG e JSON correspondentes', async () => {
+test('cada um dos quatro pacotes possui PNG e JSON correspondentes', async () => {
   const { access } = await import('node:fs/promises');
   for (const animation of Object.values(CHARACTER_ANIMATIONS)) {
     await access(new URL(`../public/${animation.path}.png`, import.meta.url));
@@ -148,24 +142,10 @@ test('cada pacote catalogado possui PNG e JSON correspondentes', async () => {
   }
 });
 
-
 test('a escala visual padrão do protagonista foi aumentada sem alterar os quadros', () => {
   assert.equal(DEFAULT_CHARACTER_SCALE, 1.35);
   assert.ok(DEFAULT_CHARACTER_SCALE > 0.95);
 });
-
-test('o ataque alterna ciclicamente entre os três movimentos de combate', () => {
-  assert.deepEqual(COMBAT_ANIMATION_SEQUENCE, ['combat', 'jump', 'combatSlash']);
-  assert.equal(CHARACTER_ANIMATIONS.combat.clip, 'Combate_dd');
-  assert.equal(CHARACTER_ANIMATIONS.jump.clip, 'Salto');
-  assert.equal(CHARACTER_ANIMATIONS.combatSlash.clip, 'Right_Hand_Sword_Slash');
-  assert.equal(CHARACTER_ANIMATIONS.combat.priority, 70);
-  assert.equal(CHARACTER_ANIMATIONS.jump.priority, 40);
-  assert.equal(CHARACTER_ANIMATIONS.combatSlash.priority, 70);
-  const sequence = Array.from({ length: 6 }, (_, index) => COMBAT_ANIMATION_SEQUENCE[index % COMBAT_ANIMATION_SEQUENCE.length]);
-  assert.deepEqual(sequence, ['combat', 'jump', 'combatSlash', 'combat', 'jump', 'combatSlash']);
-});
-
 
 test('ações de combate compensam a escala menor dos atlas sem alterar a escala base', () => {
   const source = readFileSync(new URL('../src/rendering/characters/CharacterSpriteRenderer.js', import.meta.url), 'utf8');

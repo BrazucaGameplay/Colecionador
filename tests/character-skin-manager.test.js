@@ -17,9 +17,9 @@ test('skin 2 permanece indisponível até os atlas existirem',()=>{
  assert.equal(manager.getCatalog().find(s=>s.id==='skin_2').status,'preparation');
  assert.deepEqual(Object.keys(CHARACTER_SKINS.skin_2.references).sort(),['combat','dying','idle','running']);
 });
-test('contrato reserva oito estados lógicos por skin',()=>{
- assert.deepEqual(REQUIRED_SKIN_ANIMATIONS,['idle','walking','running','dying','flirtyStrut','combat','combatSlash','jump']);
- for(const skin of Object.values(CHARACTER_SKINS))for(const id of REQUIRED_SKIN_ANIMATIONS)assert.ok(skin.animations[id]);
+test('contrato exige exatamente quatro animações por skin',()=>{
+ assert.deepEqual(REQUIRED_SKIN_ANIMATIONS,['idle','running','combat','dying']);
+ for(const skin of Object.values(CHARACTER_SKINS))assert.deepEqual(Object.keys(skin.animations),REQUIRED_SKIN_ANIMATIONS);
 });
 test('seleção exige assets validados',()=>{
  const manager=new SkinManager({assetValidator:id=>id==='skin_01'});
@@ -37,10 +37,12 @@ test('seleção muda apenas após confirmação do renderer',()=>{
  assert.equal(manager.getSelectedSkin(),'skin_test');
 });
 
-test('fábrica de animações preserva os sete pacotes e separa as chaves por skin',()=>{
+test('fábrica de animações cria somente quatro pacotes por skin',()=>{
  const animations=getCharacterAnimationsForSkin(CHARACTER_SKINS.skin_01);
- assert.equal(animations.idle.key,'character-animation-idle');
- assert.equal(animations.walking.key,animations.running.key);
- assert.equal(new Set(Object.values(animations).map(item=>item.key)).size,7);
+ assert.deepEqual(Object.keys(animations),['idle','running','combat','dying']);
+ assert.equal(new Set(Object.values(animations).map(item=>item.key)).size,4);
  assert.ok(animations.idle.path.endsWith('/skin_01/skin-basicas-idle'));
+ assert.ok(animations.running.path.endsWith('/skin_01/skin-basicas-running'));
+ assert.ok(animations.combat.path.endsWith('/skin_01/skin-batalha-combate_dd'));
+ assert.ok(animations.dying.path.endsWith('/skin_01/skin-basicas-dead'));
 });

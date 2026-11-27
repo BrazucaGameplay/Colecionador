@@ -1,15 +1,9 @@
-/**
- * Pure action-priority state for the protagonist.
- * Rendering consumes this state; movement and combat remain independent.
- */
+/** Estado de prioridade das quatro animacoes do protagonista. */
 export const ACTION_PRIORITY = Object.freeze({
-  locomotion: 0,
-  special: 30,
-  jump: 40,
-  dodge: 60,
+  idle: 0,
+  running: 0,
   combat: 70,
-  hitstun: 80,
-  death: 100
+  dying: 100
 });
 
 export default class CharacterActionState {
@@ -21,20 +15,19 @@ export default class CharacterActionState {
   canStart(actionId, options = {}) {
     const priority = Number.isFinite(options.priority)
       ? options.priority
-      : (ACTION_PRIORITY[actionId] ?? ACTION_PRIORITY.special);
+      : (ACTION_PRIORITY[actionId] ?? ACTION_PRIORITY.idle);
     if (!this.current) return true;
-    if (options.restartExisting === true && this.current.interruptible && priority >= this.current.priority) return true;
+    if (options.restartExisting === true && this.current.interruptible &&
+        priority >= this.current.priority) return true;
     if (this.current.id === actionId) return false;
-    // A morte precisa prevalecer inclusive sobre ações protegidas, como ataque.
-    // Caso contrário, um golpe não-interrompível pode impedir a transição de morte.
-    if (actionId === 'death' || actionId === 'dying') return true;
+    if (actionId === 'dying') return true;
     return this.current.interruptible && priority > this.current.priority;
   }
 
   start(actionId, options = {}) {
     const priority = Number.isFinite(options.priority)
       ? options.priority
-      : (ACTION_PRIORITY[actionId] ?? ACTION_PRIORITY.special);
+      : (ACTION_PRIORITY[actionId] ?? ACTION_PRIORITY.idle);
     if (!this.canStart(actionId, { ...options, priority })) {
       return { accepted: false, reason: this.current?.id === actionId ? 'already-active' : 'lower-priority' };
     }
@@ -70,11 +63,6 @@ export default class CharacterActionState {
     return true;
   }
 
-  get blocksMovement() {
-    return Boolean(this.current?.lockMovement);
-  }
-
-  get activeAction() {
-    return this.current?.id ?? null;
-  }
+  get blocksMovement() { return Boolean(this.current?.lockMovement); }
+  get activeAction() { return this.current?.id ?? null; }
 }
