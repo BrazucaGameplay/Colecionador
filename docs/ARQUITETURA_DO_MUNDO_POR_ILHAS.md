@@ -196,7 +196,7 @@ Build bem-sucedido ou existência dos módulos não substitui esses testes.
 - Registrado que o terreno ativo é uma única imagem estática e que `IslandTerrainRenderer.js` foi removido por não possuir consumidores.
 - Separadas explicitamente as validações de árvore executadas no build das rotinas de instanciação em tempo de jogo.
 
-## 27/11/2026 — Primeira extração de inicialização (contratos de teste atualizados na 2.6.5)
+## 27/11/2026 — Primeira extração de inicialização (testes de oceano e resize atualizados na 2.6.6)
 - Criado `src/world/WorldBootstrap.js` para concentrar a preparação do mundo ativo: limites físicos, navegação, oceano, terreno, máscara caminhável/cache, profundidade, colisões e árvores validadas.
 - `Game.js` passou a coordenar a chamada de inicialização e receber o ponto de spawn.
 - A extração não implementa ainda o sistema de múltiplas ilhas; mantém a ilha única e os assets existentes.
