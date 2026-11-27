@@ -21,9 +21,9 @@ export default class StatusBars {
     if (!this.scene || !this.frame) return;
     const screenWidth = this.scene.scale.width;
     const screenHeight = this.scene.scale.height;
-    // Moldura 6% menor; os preenchimentos ultrapassam a pista e ficam
-    // parcialmente escondidos sob a ornamentação para não deixar frestas.
-    this.displayWidth = Math.min(300, screenWidth * 0.78);
+    // Painel deliberadamente compacto: cerca de 58% da largura da tela,
+    // preservando a proporção nativa de 600x201.
+    this.displayWidth = Math.min(220, screenWidth * 0.58);
     this.displayHeight = this.displayWidth * 201 / 600;
     this.left = (screenWidth - this.displayWidth) / 2;
     this.top = screenHeight - this.displayHeight - 6;
@@ -32,7 +32,8 @@ export default class StatusBars {
     this.frame.setPosition(screenWidth / 2, this.top + this.displayHeight / 2)
       .setDisplaySize(this.displayWidth, this.displayHeight);
 
-    // Coordenadas nativas da arte 600x201: sobreposição de ponta a ponta.
+    // Coordenadas nativas da arte 600x201: sobreposição integral,
+    // com as pontas dos preenchimentos escondidas sob a moldura.
     this.hpX = this.left + 128 * this.scaleX;
     this.hpY = this.top + 78 * this.scaleY;
     this.hpMaxWidth = 390 * this.scaleX;
