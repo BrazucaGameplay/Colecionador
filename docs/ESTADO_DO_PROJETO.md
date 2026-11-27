@@ -2116,7 +2116,7 @@ aviso, sem modificar o código de runtime ou o formato do save.
 
 
 ======================================================================
-EXTRAÇÃO DO GAMESYSTEMSBOOTSTRAP — 27/11/2026 — VERSÃO 2.7.2
+EXTRAÇÃO DO GAMESYSTEMSBOOTSTRAP — 27/11/2026 — VERSÃO 2.7.3
 ======================================================================
 
 A inicialização dos sistemas de gameplay foi extraída de Game.js para
@@ -2135,7 +2135,7 @@ listeners e objetos que criou no encerramento da cena. A validação automatizad
 e a publicação da versão 2.7.2 dependem da conclusão do GitHub Actions.
 
 
-CORREÇÃO DOS TESTES DE INTEGRAÇÃO — 27/11/2026 — VERSÃO 2.7.2
+CORREÇÃO DOS TESTES DE INTEGRAÇÃO — 27/11/2026 — VERSÃO 2.7.3
 
 A primeira execução da versão 2.7.1 falhou em uma asserção legada do teste
 game-ui-overlay: a verificação de exclusão de toques sobre a HUD ainda era
@@ -2144,3 +2144,14 @@ GameSystemsBootstrap.js, conforme a nova divisão de responsabilidades.
 O teste foi atualizado para verificar a localização atual da lógica e manter
 a garantia de que toques na HUD não geram destinos de movimento.
 Nenhuma regra de runtime foi alterada nesta correção.
+
+
+CORREÇÃO DOS TESTES DE RESPONSABILIDADE — 27/11/2026 — VERSÃO 2.7.3
+
+A execução da versão 2.7.2 identificou dois problemas nos testes após a
+extração: o teste da câmera ainda procurava o follow em Game.js, embora
+cameraController.followPlayer() agora esteja no GameSystemsBootstrap; e
+o arquivo de teste da HUD continha expressões regulares com escape incorreto.
+Os testes foram corrigidos para verificar as novas responsabilidades e
+preservar as verificações de toque sobre a HUD. Nenhuma lógica de runtime
+foi alterada nesta correção.

@@ -46,3 +46,13 @@ A primeira execução do CI falhou porque game-ui-overlay.test.js ainda
 esperava encontrar em Game.js o filtro de toques sobre a HUD. O filtro agora
 é propriedade de GameSystemsBootstrap; a asserção foi atualizada para
 verificar o novo módulo, sem alterar o comportamento de runtime.
+
+
+## Correção 2.7.3 — testes de câmera e HUD após extração
+
+O CI da 2.7.2 encontrou uma expectativa de teste de câmera que ainda
+procurava cameraController.followPlayer() em Game.js. A chamada pertence
+agora ao GameSystemsBootstrap, que também controla o callback de tap-to-move.
+O teste foi atualizado para consultar o módulo correto. Também foi corrigida
+a sintaxe das expressões regulares do teste de integração da HUD. Runtime
+permanece inalterado.
