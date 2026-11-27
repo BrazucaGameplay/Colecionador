@@ -34,10 +34,10 @@ export default class GameUI extends Phaser.Scene {
   }
 
   createHud() {
-    this.menuButton = this.add.nineslice(36, 36, 'ui-menu-button', undefined, 54, 42, 42, 42)
+    this.menuButton = this.add.nineslice(52, 36, 'ui-menu-button', undefined, 84, 34, 42, 42)
       .setDepth(3000);
-    this.menuButtonText = this.add.text(36, 36, '☰', {
-      fontFamily: 'Georgia, serif', fontSize: '24px', color: '#fff0c4',
+    this.menuButtonText = this.add.text(52, 36, '☰', {
+      fontFamily: 'Georgia, serif', fontSize: '22px', color: '#fff0c4',
       stroke: '#4b160d', strokeThickness: 3
     }).setOrigin(0.5).setDepth(3001);
     this.bindButton(this.menuButton, () => {
@@ -72,8 +72,8 @@ export default class GameUI extends Phaser.Scene {
     if (!this.menuButton) return;
     const width = this.scale.width;
     const height = this.scale.height;
-    this.menuButton.setPosition(36, 36);
-    this.menuButtonText.setPosition(36, 36);
+    this.menuButton.setPosition(52, 36);
+    this.menuButtonText.setPosition(52, 36);
     const centerX = width / 2;
     const portraitY = height - 105;
     this.portraitImage.setPosition(centerX, portraitY);
@@ -102,7 +102,7 @@ export default class GameUI extends Phaser.Scene {
     if (this.activePanel) return true;
     const width = this.scale.width;
     const height = this.scale.height;
-    return (x >= 8 && x <= 64 && y >= 8 && y <= 64) ||
+    return (x >= 8 && x <= 100 && y >= 8 && y <= 60) ||
       (x >= width / 2 - 58 && x <= width / 2 + 58 && y >= height - 164 && y <= height);
   }
 
@@ -163,9 +163,10 @@ export default class GameUI extends Phaser.Scene {
     }, 4020);
 
     const close = this.addPanelObject(
-      this.add.nineslice(x + width - 32, y + 34, 'ui-menu-button', undefined, 38, 30, 32, 32),
+      this.add.nineslice(x + width - 50, y + 34, 'ui-menu-button', undefined, 84, 28, 42, 42),
       4030
     );
+    this.addPanelText(x + width - 50, y + 23, '×', { fontFamily: 'Georgia, serif', fontSize: '22px', fontStyle: 'bold', color: '#fff0c4' }, 4031);
     this.bindButton(close, () => this.closePanel());
     return { x, y, width, height };
   }
