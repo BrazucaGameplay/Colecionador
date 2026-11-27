@@ -1,4 +1,7 @@
-// Adicione aqui os caminhos relativos à pasta public/.
-// Exemplo: 'assets/ui/loading/images/tela-01.webp'
-// Formatos recomendados: WebP ou AVIF; mantenha as artes em proporção vertical 2:3.
-export const LOADING_IMAGES = [];
+// Catálogo das artes finais da tela de carregamento.
+// Caminhos relativos à pasta public/. As imagens são exibidas em rotação.
+export const LOADING_IMAGES = [
+  'assets/ui/loading/images/ogra.webp',
+  'assets/ui/loading/images/ciclopesa.webp',
+  'assets/ui/loading/images/lamia.webp'
+];
