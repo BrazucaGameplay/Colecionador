@@ -43,6 +43,8 @@ test('HUD usa a moldura enviada e mantém preenchimentos dinâmicos', async () =
   assert.match(bars,/healthRatio/); assert.match(bars,/energyRatio/);
   assert.match(bars,/setSize\(this\.hpMaxWidth \* this\.healthRatio/);
   assert.match(bars,/setSize\(this\.energyMaxWidth \* this\.energyRatio/);
+  assert.match(bars,/Math\.min\(220, screenWidth \* 0\.58\)/);
+  assert.match(bars,/displayWidth \* 201 \/ 600/);
 });
 
 test('painéis usam molduras sem deformar a proporção original', async () => {
