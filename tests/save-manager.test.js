@@ -37,7 +37,7 @@ test('JSON malformado, array e null iniciam progresso vazio', () => {
     const manager=new SaveManager({key:'save',storage:storage({save:raw}),logger:log});
     assert.deepEqual(manager.load(),{});
   }
-  assert.equal(log.warnings.length,3);
+  assert.equal(log.warnings.length,1);
 });
 
 test('falha de storage é capturada e save retorna false', () => {

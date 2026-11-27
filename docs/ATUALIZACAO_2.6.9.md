@@ -15,3 +15,12 @@ nem implementa parse/serialização. Não foi introduzida migração de dados.
 Testes cobrem saves existentes, mesclagem, timestamp, JSON inválido,
 storage indisponível e integração de Game.js. A publicação depende da
 execução completa do CI e da verificação final do deploy.
+
+
+## Correção 2.7.0 — expectativa de aviso no save inválido
+
+O CI da 2.6.9 mostrou que a asserção de teste esperava três avisos para
+JSON malformado, array e null. A implementação original só registra aviso
+para erro de parse; array e null são convertidos silenciosamente em objeto
+vazio. O teste foi ajustado para refletir essa compatibilidade. Runtime e
+estrutura do save não foram alterados.

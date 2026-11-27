@@ -2103,3 +2103,13 @@ um monstro é derrotado ou a cena é encerrada. Player.toSaveData() não mudou.
 Nenhuma migração de save foi introduzida. Testes cobrem saves existentes,
 merge, timestamp, dados inválidos, storage indisponível e integração de Game.js.
 Build, testes e publicação precisam ser confirmados no workflow 2.6.9.
+
+
+CORREÇÃO DOS TESTES DO SAVEMANAGER — 27/11/2026 — VERSÃO 2.7.0
+
+O CI 2.6.9 executou 95 testes: 94 passaram e um teste recém-adicionado
+falhou por expectativa incorreta de avisos. O comportamento existente do
+jogo é: JSON malformado gera aviso; JSON válido contendo array ou null é
+rejeitado silenciosamente e convertido em progresso vazio. O SaveManager
+preservou esse comportamento. A asserção foi corrigida para esperar um
+aviso, sem modificar o código de runtime ou o formato do save.
