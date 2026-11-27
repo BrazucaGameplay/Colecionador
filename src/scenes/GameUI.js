@@ -44,14 +44,11 @@ export default class GameUI extends Phaser.Scene {
 
     const centerX = this.scale.width / 2;
     const portraitY = this.scale.height - 65;
-    // Raio 30% maior que o retrato anterior (26 -> 33,8 px).
-    this.portraitFrame = this.add.circle(centerX, portraitY, 33.8, 0x101b2d, 0.98)
-      .setStrokeStyle(2, 0xfbbf24).setDepth(3000);
-    this.portraitMaskShape = this.make.graphics({ x: 0, y: 0, add: false });
-    this.portraitMask = this.portraitMaskShape.createGeometryMask();
-    this.portraitImage = this.add.image(centerX, portraitY, 'player-portrait')
-      .setDisplaySize(45.2, 67.8).setDepth(3002).setMask(this.portraitMask);
-    this.portraitHit = this.add.zone(centerX, portraitY, 88, 88).setDepth(3004).setInteractive();
+    // O asset já possui canal alpha: exibe a silhueta inteira sem moldura,
+    // círculo, máscara ou fundo artificial.
+    this.portraitImage = this.add.image(centerX, height - 81, 'player-portrait')
+      .setDisplaySize(64, 96).setDepth(3002);
+    this.portraitHit = this.add.zone(centerX, height - 81, 80, 108).setDepth(3004).setInteractive();
     this.portraitHit.on('pointerdown', (pointer, localX, localY, event) => {
       event?.stopPropagation();
       this.openPanel('profile');
@@ -72,13 +69,9 @@ export default class GameUI extends Phaser.Scene {
     this.menuButton.setPosition(36, 36);
     this.menuButtonText.setPosition(36, 36);
     const centerX = width / 2;
-    const portraitY = height - 65;
-    this.portraitFrame.setPosition(centerX, portraitY);
+    const portraitY = height - 81;
     this.portraitImage.setPosition(centerX, portraitY);
     this.portraitHit.setPosition(centerX, portraitY);
-    this.portraitMaskShape.clear();
-    this.portraitMaskShape.fillStyle(0xffffff, 1);
-    this.portraitMaskShape.fillCircle(centerX, portraitY, 33.8);
     const barX = centerX - 64;
     const barY = height - 24;
     this.hpLabel.setPosition(barX - 22, barY - 6);
@@ -102,7 +95,7 @@ export default class GameUI extends Phaser.Scene {
     const width = this.scale.width;
     const height = this.scale.height;
     return (x >= 8 && x <= 64 && y >= 8 && y <= 64) ||
-      (x >= width / 2 - 104 && x <= width / 2 + 104 && y >= height - 116 && y <= height);
+      (x >= width / 2 - 52 && x <= width / 2 + 52 && y >= height - 138 && y <= height);
   }
 
   refreshHud() {
