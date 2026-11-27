@@ -71,7 +71,7 @@ jobs:
       - name: Validate sprite foot anchors in source and build
         run: |
           node scripts/validate-character-sprites.mjs public/assets/characters/sprites/skin_01
-          node scripts/validate-character-sprites.mjs dist/assets/characters/sprites/skin_01
+          node scripts/validate-character-sprites.mjs dist/assets/characters/sprites/skin_01\n          node scripts/validate-character-skin-atlas.mjs public/assets/characters/sprites/skin_2\n          node scripts/validate-character-skin-atlas.mjs dist/assets/characters/sprites/skin_2
       - name: Validate enabled monster sprite atlases in source and build
         run: |
           node scripts/validate-monster-sprites.mjs public/assets/monsters

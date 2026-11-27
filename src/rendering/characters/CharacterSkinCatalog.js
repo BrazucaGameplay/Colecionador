@@ -1,4 +1,4 @@
-/** Catalogo central das skins do protagonista: exatamente quatro animacoes por skin. */
+/** Catálogo central das skins do protagonista: exatamente quatro animações por skin. */
 export const REQUIRED_SKIN_ANIMATIONS = Object.freeze(['idle', 'running', 'combat', 'dying']);
 export const DEFAULT_CHARACTER_SKIN = 'skin_01';
 
@@ -21,17 +21,11 @@ export const CHARACTER_SKINS = Object.freeze({
   skin_2: Object.freeze({
     id: 'skin_2',
     name: 'Skin 02',
-    status: 'preparation',
-    selectable: false,
+    status: 'ready',
+    selectable: true,
     directory: 'assets/characters/sprites/skin_2/',
     portrait: 'assets/characters/sprites/skin_2/perfil.webp',
     portraitKey: 'skin-portrait-skin_2',
-    references: Object.freeze({
-      idle: 'assets/characters/sprites/skin_2/parado.jpg',
-      running: 'assets/characters/sprites/skin_2/corrida.jpg',
-      combat: 'assets/characters/sprites/skin_2/ataque.jpg',
-      dying: 'assets/characters/sprites/skin_2/morte.jpg'
-    }),
     animations: Object.freeze({
       idle: 'skin2-idle',
       running: 'skin2-running',
