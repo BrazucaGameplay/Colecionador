@@ -82,4 +82,16 @@ export function registerPlayerSpriteAnimations(scene) {
     }
     if (complete) scene.characterAnimationsBySkin.set(skin.id,animations);
   }
+  // Phaser mantém o registry entre cenas; os mapas locais da cena Preload não são compartilhados.
+  scene.registry?.set('characterAnimationsBySkin', scene.characterAnimationsBySkin);
+  scene.registry?.set('playerFramePivots', scene.playerFramePivots);
+}
+
+export function attachPlayerSpriteRegistry(scene) {
+  scene.characterAnimationsBySkin = scene.registry?.get('characterAnimationsBySkin') || new Map();
+  scene.playerFramePivots = scene.registry?.get('playerFramePivots') || new Map();
+  return {
+    characterAnimationsBySkin: scene.characterAnimationsBySkin,
+    playerFramePivots: scene.playerFramePivots
+  };
 }
