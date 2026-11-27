@@ -34,12 +34,13 @@ export default class PanelFrame {
     this.objects.push(this.background);
 
     const heading = scene.add.text(this.x + this.width / 2, this.y + this.height * 0.145, title || '', {
-      fontFamily: 'Georgia, serif',
-      fontSize: Math.max(13, Math.min(19, this.width * 0.038)) + 'px',
+      fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
+      fontSize: Math.max(15, Math.min(21, this.width * 0.041)) + 'px',
       fontStyle: 'bold',
-      color: '#ffe4a5',
+      color: '#ffe8b3',
       stroke: '#4b160d',
-      strokeThickness: 4,
+      strokeThickness: 3,
+      shadow: { offsetX: 1, offsetY: 2, color: '#210805', blur: 2, fill: true },
       align: 'center',
       wordWrap: { width: this.width * 0.66 }
     }).setOrigin(0.5).setScrollFactor(0).setDepth(4012);
@@ -57,13 +58,14 @@ export default class PanelFrame {
 
   addText(x, y, value, style = {}) {
     const object = this.scene.add.text(x, y, value, {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '13px',
+      fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
+      fontSize: '14px',
       color: '#fff0dc',
       wordWrap: { width: this.content.width },
       lineSpacing: 5,
       stroke: '#35110e',
       strokeThickness: 1,
+      shadow: { offsetX: 1, offsetY: 1, color: '#1c0806', blur: 1, fill: true },
       ...style
     }).setScrollFactor(0).setDepth(4022);
     this.objects.push(object);

@@ -7,12 +7,13 @@ export default class MenuButton {
     this.background = scene.add.image(x, y, texture)
       .setDisplaySize(width, height).setScrollFactor(0).setDepth(depth).setInteractive();
     this.label = scene.add.text(x, y, label, {
-      fontFamily: 'Georgia, serif',
-      fontSize: Math.max(10, Math.min(15, height * 0.34)) + 'px',
+      fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
+      fontSize: Math.max(12, Math.min(17, height * 0.40)) + 'px',
       fontStyle: 'bold',
-      color: '#fff0cf',
-      stroke: '#3a100b',
-      strokeThickness: 3,
+      color: '#fff2d2',
+      stroke: '#35100b',
+      strokeThickness: 2,
+      shadow: { offsetX: 1, offsetY: 2, color: '#1b0705', blur: 2, fill: true },
       align: 'center',
       wordWrap: { width: width * 0.78 }
     }).setOrigin(0.5).setScrollFactor(0).setDepth(depth + 1);
