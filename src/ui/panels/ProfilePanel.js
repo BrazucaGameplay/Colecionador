@@ -1,5 +1,6 @@
 import { STAT_UPGRADES } from '../../entities/Player.js';
 import PanelFrame from '../components/PanelFrame.js';
+import { setPortraitTexture } from '../HUD/PortraitDisplay.js';
 
 export default class ProfilePanel {
   constructor(scene, { close = () => {}, gameScene } = {}) {
@@ -136,7 +137,7 @@ export default class ProfilePanel {
     const player = this.gameScene?.player;
     if (!player || !this.summary) return;
     const portraitKey = this.gameScene?.skinManager?.getSelectedDefinition?.()?.portraitKey || 'player-portrait';
-    this.portrait.setTexture(portraitKey);
+    setPortraitTexture(this.portrait, portraitKey, this.frame.width * 0.43, this.frame.height * 0.49);
     const required = this.gameScene.progression?.getRequiredExperience(player.level) ?? 0;
     this.summary.setText('Nível ' + player.level + '  •  EXP ' + player.experience +
       '/' + required + '  •  Pontos: ' + player.statPoints);

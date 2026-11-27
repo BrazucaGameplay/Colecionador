@@ -1,5 +1,6 @@
 import MenuButton from '../components/MenuButton.js';
 import StatusBars from './StatusBars.js';
+import { setPortraitTexture } from './PortraitDisplay.js';
 
 export default class PlayerHUD {
   constructor(scene, { onMenu = () => {}, onProfile = () => {} } = {}) {
@@ -26,7 +27,7 @@ export default class PlayerHUD {
 
   setPortrait(textureKey) {
     if (textureKey && this.scene?.textures?.exists(textureKey)) {
-      this.portrait?.setTexture(textureKey);
+      setPortraitTexture(this.portrait, textureKey, 48, 72);
     }
   }
 
