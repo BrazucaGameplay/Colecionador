@@ -83,10 +83,10 @@ test('HUD recupera o retrato clicável e ajusta as barras com preenchimento inte
   assert.match(hud, /player-portrait/);
   assert.match(hud, /this\.statusBars\.top - 40/);
   assert.match(hud, /width: 132, height: 33/);
-  assert.match(bars, /128 \* this\.scaleX/);
-  assert.match(bars, /390 \* this\.scaleX/);
-  assert.match(bars, /21 \* this\.scaleY/);
-  assert.match(bars, /23 \* this\.scaleY/);
+  assert.match(bars, /116 \* this\.scaleX/);
+  assert.match(bars, /420 \* this\.scaleX/);
+  assert.match(bars, /24 \* this\.scaleY/);
+  assert.match(bars, /26 \* this\.scaleY/);
   assert.match(button, /Palatino Linotype/);
   assert.match(frame, /Palatino Linotype/);
 });
