@@ -19,7 +19,7 @@ export default class ProfilePanel {
     this.rows = [];
     const keys = Object.keys(STAT_UPGRADES);
     const rowStart = 0.315;
-    const rowEnd = 0.755;
+    const rowEnd = 0.735;
     const rowGap = keys.length > 1 ? height * (rowEnd - rowStart) / (keys.length - 1) : 0;
 
     keys.forEach((key, index) => {
@@ -53,13 +53,13 @@ export default class ProfilePanel {
       this.rows.push({ key, label, value, plus });
     });
 
-    this.footer = this.frame.addText(x + width * 0.5, y + height * 0.825,
-      'Distribua os pontos disponíveis para evoluir os atributos.', {
-        fontSize: '10px',
+    this.footer = this.frame.addText(x + width * 0.5, y + height * 0.795,
+      'Use os pontos disponíveis para evoluir os atributos.', {
+        fontSize: '9px',
         fontStyle: 'bold',
         color: '#f0d5ad',
         align: 'center',
-        wordWrap: { width: width * 0.66 },
+        wordWrap: { width: width * 0.70 },
         lineSpacing: 1
       }).setOrigin(0.5, 0.5);
 
