@@ -53,3 +53,37 @@ test('perfil reserva uma área horizontal ampla sem invadir o quadro', async () 
   assert.equal(PROFILE_PORTRAIT_FIT.height, 0.50);
   assert.ok(PROFILE_PORTRAIT_FIT.width < 0.86);
 });
+
+test('não reaplica textura, filtro ou escala quando o retrato não mudou', () => {
+  const calls = [];
+  const texture = { key: 'skin-portrait-skin_2', setFilter(value) { calls.push(['filter', value]); } };
+  const image = {
+    texture,
+    frame: { width: 2288, height: 1249 },
+    scaleX: 420 / 2288,
+    scaleY: 420 / 2288,
+    setTexture(key) { calls.push(['texture', key]); this.texture = texture; return this; },
+    setScale(value) { calls.push(['scale', value]); this.scaleX = value; this.scaleY = value; return this; }
+  };
+
+  assert.equal(setPortraitTexture(image, 'skin-portrait-skin_2', 420, 300), true);
+  assert.equal(setPortraitTexture(image, 'skin-portrait-skin_2', 420, 300), true);
+  assert.deepEqual(calls, []);
+});
+
+test('aplica textura e filtro apenas uma vez quando a skin realmente muda', () => {
+  const calls = [];
+  const image = {
+    texture: { key: 'skin-01', setFilter(value) { calls.push(['filter', value]); } },
+    frame: { width: 2288, height: 1249 },
+    scaleX: 0, scaleY: 0,
+    setTexture(key) { calls.push(['texture', key]); this.texture = { key, setFilter(value) { calls.push(['filter', value]); } }; return this; },
+    setScale(value) { calls.push(['scale', value]); this.scaleX = value; this.scaleY = value; return this; }
+  };
+
+  setPortraitTexture(image, 'skin-02', 420, 300);
+  setPortraitTexture(image, 'skin-02', 420, 300);
+  assert.equal(calls.filter(call => call[0] === 'texture').length, 1);
+  assert.equal(calls.filter(call => call[0] === 'filter').length, 1);
+  assert.equal(calls.filter(call => call[0] === 'scale').length, 1);
+});
