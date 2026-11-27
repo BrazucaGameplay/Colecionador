@@ -73,7 +73,7 @@ test('as artes WebP da interface e os novos retratos PNG existem e são carregá
   for(const path of paths){const bytes=await readFile(new URL(path,import.meta.url));assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');}
   for(const path of ['../public/assets/characters/sprites/skin_01/perfil.png','../public/assets/characters/sprites/skin_2/perfil.png']){
     const bytes=await readFile(new URL(path,import.meta.url));
-    assert.equal(bytes.toString('ascii',0,8),'\\x89PNG\\r\\n\\x1a\\n');
+    assert.deepEqual([...bytes.subarray(0,8)],[137,80,78,71,13,10,26,10]);
     assert.ok(bytes.readUInt32BE(16)>0 && bytes.readUInt32BE(20)>0,'o PNG deve ter dimensões válidas');
   }
 });
