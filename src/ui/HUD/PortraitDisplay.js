@@ -1,3 +1,5 @@
+export const PROFILE_PORTRAIT_FIT = Object.freeze({ width: 0.84, height: 0.50 });
+
 /**
  * Exibe retratos ilustrados em alta qualidade dentro de uma caixa sem deformar a arte.
  * A textura-fonte nunca é reamostrada nem alterada; somente a escala de exibição muda.

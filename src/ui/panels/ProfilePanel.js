@@ -1,6 +1,6 @@
 import { STAT_UPGRADES } from '../../entities/Player.js';
 import PanelFrame from '../components/PanelFrame.js';
-import { setPortraitTexture } from '../HUD/PortraitDisplay.js';
+import { setPortraitTexture, PROFILE_PORTRAIT_FIT } from '../HUD/PortraitDisplay.js';
 
 export default class ProfilePanel {
   constructor(scene, { close = () => {}, gameScene } = {}) {
@@ -15,7 +15,7 @@ export default class ProfilePanel {
     this.portrait = scene.add.image(x + width * 0.5, y + height * 0.49, initialPortraitKey)
       .setScrollFactor(0).setDepth(4022);
     // A arte é horizontal; prioriza largura e mantém escala uniforme dentro da área livre do quadro.
-    setPortraitTexture(this.portrait, initialPortraitKey, width * 0.80, height * 0.60);
+    setPortraitTexture(this.portrait, initialPortraitKey, width * PROFILE_PORTRAIT_FIT.width, height * PROFILE_PORTRAIT_FIT.height);
     this.frame.objects.push(this.portrait);
     this.portraitCaption = this.frame.addText(x + width * 0.5, y + height * 0.765, 'PERSONAGEM', {
       fontSize: '12px', fontStyle: 'bold', color: '#ffe8bd', align: 'center'
@@ -139,7 +139,7 @@ export default class ProfilePanel {
     const player = this.gameScene?.player;
     if (!player || !this.summary) return;
     const portraitKey = this.gameScene?.skinManager?.getSelectedDefinition?.()?.portraitKey || 'player-portrait';
-    setPortraitTexture(this.portrait, portraitKey, this.frame.width * 0.80, this.frame.height * 0.60);
+    setPortraitTexture(this.portrait, portraitKey, this.frame.width * PROFILE_PORTRAIT_FIT.width, this.frame.height * PROFILE_PORTRAIT_FIT.height);
     const required = this.gameScene.progression?.getRequiredExperience(player.level) ?? 0;
     this.summary.setText('Nível ' + player.level + '  •  EXP ' + player.experience +
       '/' + required + '  •  Pontos: ' + player.statPoints);
