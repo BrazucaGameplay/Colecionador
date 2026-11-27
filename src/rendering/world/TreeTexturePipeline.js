@@ -27,11 +27,11 @@ export default class TreeTexturePipeline{
  prepare(keys){
   if(!Array.isArray(keys)||!keys.length)throw new TypeError('Informe as texturas de árvores.');
   const profiles={},renderer=this.scene.game?.renderer||this.scene.sys?.game?.renderer;
-  const previous=renderer?.mipmapFilter;
+  const previous=renderer?.mipmapFilter, mipmapFilter=renderer?.gl?.LINEAR_MIPMAP_NEAREST;
   try{
-   // Árvores usam a imagem-fonte com filtro LINEAR, sem mipmaps que suavizam demais
-   // os detalhes nos níveis de zoom reduzidos. A configuração global é restaurada.
-   if(renderer?.gl)renderer.mipmapFilter=null;
+   // Usa mipmaps com seleção do nível mais próximo: mantém antialiasing
+   // dentro do nível, sem interpolar dois níveis e suavizar detalhes finos.
+   if(renderer?.gl && Number.isFinite(mipmapFilter))renderer.mipmapFilter=mipmapFilter;
    for(const key of keys){
     const original=this.scene.textures.get(key),source=original?.getSourceImage?.();
     if(!source?.width||!source?.height)throw new Error('Textura de árvore indisponível: '+key);
@@ -43,7 +43,7 @@ export default class TreeTexturePipeline{
     const texture=this.scene.textures.addCanvas(key,canvas);
     if(!texture)throw new Error('Não foi possível registrar a textura preparada: '+key);
     texture.add(TREE_FRAME,0,p.x,p.y,p.frameWidth,p.frameHeight);
-    profiles[key]=Object.freeze({sourceWidth:source.width,sourceHeight:source.height,canvasWidth:p.canvasWidth,canvasHeight:p.canvasHeight,frameWidth:p.frameWidth,frameHeight:p.frameHeight,mipmapsEnabled:false,minificationFilter:'LINEAR'});
+    profiles[key]=Object.freeze({sourceWidth:source.width,sourceHeight:source.height,canvasWidth:p.canvasWidth,canvasHeight:p.canvasHeight,frameWidth:p.frameWidth,frameHeight:p.frameHeight,mipmapsEnabled:Boolean(renderer?.gl && Number.isFinite(mipmapFilter)),minificationFilter:renderer?.gl && Number.isFinite(mipmapFilter)?'LINEAR_MIPMAP_NEAREST':'LINEAR'});
    }
   }finally{if(renderer)renderer.mipmapFilter=previous;}
   return Object.freeze(profiles);
