@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { registerPlayerSpriteAnimations } from '../src/rendering/characters/CharacterSpriteRenderer.js';
+import { registerPlayerSpriteAnimations } from '../src/rendering/characters/CharacterSpriteAssetLoader.js';
 import SkinManager from '../src/rendering/characters/SkinManager.js';
 import { CHARACTER_SKINS } from '../src/rendering/characters/CharacterSkinCatalog.js';
 
