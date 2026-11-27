@@ -10,7 +10,7 @@ export default class StatusBars {
     this.frame = this.scene.add.image(0, 0, 'ui-hud-status').setScrollFactor(0).setDepth(3001);
     // Preenchimentos acima da moldura, avançando sob as bordas douradas.
     this.hpFill = this.scene.add.rectangle(0, 0, 0, 1, 0xe33b45)
-      .setOrigin(0, 0.5).setScrollFactor(0).setDepth(3002);
+      .setOrigin(0, 0.5).setScrollFactor(0).setDepth(3000);
     this.energyFill = this.scene.add.rectangle(0, 0, 0, 1, 0x3288df)
       .setOrigin(0, 0.5).setScrollFactor(0).setDepth(3002);
     this.healthRatio = 1;
