@@ -195,3 +195,9 @@ Build bem-sucedido ou existência dos módulos não substitui esses testes.
 - Corrigida a descrição do estado implementado para refletir o código ativo de `Preload`, `Game`, `WorldNavigation` e `WorldObjectManager`.
 - Registrado que o terreno ativo é uma única imagem estática e que `IslandTerrainRenderer.js` foi removido por não possuir consumidores.
 - Separadas explicitamente as validações de árvore executadas no build das rotinas de instanciação em tempo de jogo.
+
+## 27/11/2026 — Primeira extração de inicialização
+- Criado `src/world/WorldBootstrap.js` para concentrar a preparação do mundo ativo: limites físicos, navegação, oceano, terreno, máscara caminhável/cache, profundidade, colisões e árvores validadas.
+- `Game.js` passou a coordenar a chamada de inicialização e receber o ponto de spawn.
+- A extração não implementa ainda o sistema de múltiplas ilhas; mantém a ilha única e os assets existentes.
+- Próximas etapas, sujeitas à confirmação do responsável: CameraController, SaveManager e GameSystemsBootstrap.

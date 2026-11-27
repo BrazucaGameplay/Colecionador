@@ -2028,3 +2028,21 @@ AJUSTE FINAL DE REFERÊNCIA LEGADA — 26/11/2026 — VERSÃO 2.4.77
 - Removido de Game.js o último comentário de runtime que ainda citava GLB.
 - O estado lógico do jogador permanece desacoplado do renderer visual.
 - Nenhuma lógica de jogo foi alterada; versão incrementada conforme o processo.
+
+
+======================================================================
+ATUALIZAÇÃO DE 27/11/2026 — VERSÃO 2.6.3
+======================================================================
+
+A branch main agora contém a extração inicial da montagem do mundo para
+src/world/WorldBootstrap.js. O módulo coordena dimensões e limites físicos,
+WorldNavigation, oceano, terreno, máscara caminhável/cache, profundidade,
+colisões e instanciação das árvores validadas. Game.js recebe o ponto de
+spawn e continua coordenando jogador, câmera, combate, movimento e interface.
+
+A ilha ativa permanece única, com terreno em imagem única de 4096 x 4096,
+layout independente de árvores e navegação derivada da máscara alfa. O
+catálogo de ilhas, conexões, pontes, portais e transições continuam planejados.
+CameraController, SaveManager e GameSystemsBootstrap ainda não foram extraídos.
+O resultado de build, testes, deploy e validação em Android deve ser conferido
+no workflow associado ao commit desta versão antes de declarar publicação.

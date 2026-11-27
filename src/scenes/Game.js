@@ -5,38 +5,21 @@ import CharacterSpriteRenderer from '../rendering/characters/CharacterSpriteRend
 import MonsterManager from '../systems/monsters/MonsterManager.js';
 import MonsterCombatSystem from '../systems/monsters/MonsterCombatSystem.js';
 import { ISLAND_01_MONSTER_SPAWNS } from '../world/spawn-layout/island-01.js';
-import WorldNavigation from '../world/WorldNavigation.js';
-import WorldDepthManager from '../world/WorldDepthManager.js';
-import WorldCollisionManager from '../world/WorldCollisionManager.js';
-import WorldObjectManager from '../world/WorldObjectManager.js';
-import { ISLAND_01_LAYOUT } from '../world/map-layout/island-01.js';
-import validatedTreeManifest from '../world/map-layout/island-01.validated.json';
 import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
 import ProgressionSystem from '../systems/ProgressionSystem.js';
 import PerformanceMonitor from '../ui/PerformanceMonitor.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
-import { ISLAND_SHAPE } from '../world/IslandShape.js';
-import { getTerrainContentHash, readWalkableGrid, writeWalkableGrid, WALKABLE_GRID_ALGORITHM_VERSION } from '../world/WalkableGridCache.js';
+import WorldBootstrap from '../world/WorldBootstrap.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.2, max: 0.6, default: 0.4 });
 const CAMERA_FOLLOW_LERP = 0.06;
 // Teste de escala: ilha circular com 4096 px de diâmetro.
-const ISLAND_DIAMETER = 4096;
-const ISLAND_RADIUS = ISLAND_DIAMETER / 2;
-// O oceano termina a mesma distância da costa em todos os lados.
-const OCEAN_MARGIN = 256;
-const OCEAN_RADIUS = ISLAND_SHAPE.baseRadius + OCEAN_MARGIN;
-// Buffer menor: mantém espaço para arraste no zoom mínimo sem ampliar demais o oceano.
-const OCEAN_PAN_BUFFER_FACTOR = 1.15;
 
 export default class Game extends Phaser.Scene {
   constructor() {
     super('Game');
-    this.worldObjects = [];
-    this.groundObject = null;
-    this.terrain = null;
   }
 
   async create() {
@@ -45,32 +28,8 @@ export default class Game extends Phaser.Scene {
     this.score = Math.max(0, Number(this.savedProgress.score) || 0);
 
 
-    const viewWidth = this.scale.width;
-    const viewHeight = this.scale.height;
-    this.worldWidth = ISLAND_DIAMETER;
-    this.worldHeight = ISLAND_DIAMETER;
-    const centerX = this.worldWidth / 2;
-    const centerY = this.worldHeight / 2;
-
-    this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
-    this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
-    this.createOceanBackground();
-    this.createGround();
-    await this.createIslandWalkableMask();
-    this.depthManager = new WorldDepthManager();
-    this.collisionManager = new WorldCollisionManager(this.navigation);
-    this.worldObjectManager = new WorldObjectManager(this, {
-      depthManager: this.depthManager,
-      collisionManager: this.collisionManager
-    });
-    const validatedTreeIds = new Set(validatedTreeManifest.treeIds);
-    const validatedTreeLayout = ISLAND_01_LAYOUT.filter(definition => validatedTreeIds.has(definition.id));
-    this.worldObjects = this.worldObjectManager.create(validatedTreeLayout);
-
-    const playerSpawn = this.navigation.findNearestWalkablePoint(centerX, centerY);
-    if (!playerSpawn) {
-      throw new Error('Não foi encontrado um ponto caminhável para iniciar o jogador.');
-    }
+    this.worldBootstrap = new WorldBootstrap(this);
+    const playerSpawn = await this.worldBootstrap.initialize();
 
     // Logical player state remains independent of its visual renderer.
     this.player = new Player({ x: playerSpawn.x, y: playerSpawn.y, speed: 220, saveData: this.savedProgress.player });
@@ -208,7 +167,7 @@ export default class Game extends Phaser.Scene {
 
     // A área de oceano acompanha a proporção real da tela, evitando revelar
     // o fundo preto acima/abaixo da textura em telas verticais.
-    this.updateOceanBounds(width, height);
+    this.worldBootstrap.updateOceanBounds(width, height);
     this.camera.setBounds(
       this.oceanBounds.x,
       this.oceanBounds.y,
@@ -219,146 +178,6 @@ export default class Game extends Phaser.Scene {
     const minZoom = this.getMinimumCameraZoom();
     if (this.camera.zoom < minZoom) this.camera.setZoom(minZoom);
     this.clampCameraToWorld();
-  }
-
-  /**
-   * Renderiza a ilha com um único Shader Game Object no WebGL.
-   * Os três materiais são escolhidos por regiões fixas, não por RNG.
-   */
-  createGround() {
-    const texture = this.textures.get('island-terrain');
-    const source = texture?.getSourceImage?.();
-    if (!source?.width || !source?.height) {
-      throw new Error('A imagem principal da ilha não foi carregada.');
-    }
-
-    // Um único Image estático representa todo o terreno; a textura original
-    // permanece na resolução WebP e é dimensionada apenas no espaço do mundo.
-    this.groundObject = this.add.image(
-      this.worldWidth / 2,
-      this.worldHeight / 2,
-      'island-terrain'
-    ).setOrigin(0.5).setDisplaySize(this.worldWidth, this.worldHeight).setDepth(-1000).setActive(false);
-
-    this.terrain = Object.freeze({
-      object: this.groundObject,
-      mode: 'single-image',
-      textureKey: 'island-terrain',
-      sourceWidth: source.width,
-      sourceHeight: source.height
-    });
-  }
-
-  async createIslandWalkableMask() {
-    const source = this.textures.get('island-terrain')?.getSourceImage?.();
-    if (!source?.width || !source?.height) {
-      throw new Error('Não foi possível gerar a navegação: imagem da ilha indisponível.');
-    }
-
-    const maskSize = Math.min(1024, source.width, source.height);
-    const threshold = 160;
-    const terrainUrl = import.meta.env.BASE_URL +
-      'assets/world/terrain/ilha_terreno.webp?v=20261126-ocean-seamless-512-v36';
-    const terrainHash = await getTerrainContentHash(terrainUrl);
-    const cacheId = terrainHash
-      ? [
-          'island-walkable',
-          'island-geometry-v1',
-          'grid-algorithm-' + WALKABLE_GRID_ALGORITHM_VERSION,
-          this.worldWidth + 'x' + this.worldHeight,
-          this.navigation.cols + 'x' + this.navigation.rows,
-          'cell-24',
-          'mask-' + maskSize,
-          'alpha-' + threshold,
-          'inset-14',
-          terrainHash
-        ].join(':')
-      : null;
-
-    if (cacheId) {
-      const cachedGrid = await readWalkableGrid(cacheId, this.navigation.cols * this.navigation.rows);
-      if (cachedGrid) {
-        this.navigation.setWalkableGrid(cachedGrid);
-        this.walkableGridCacheStatus = 'hit';
-        return;
-      }
-    }
-
-    // Cache ausente/inválido: gera a máscara exatamente pelo processo atual.
-    const canvas = document.createElement('canvas');
-    canvas.width = maskSize;
-    canvas.height = maskSize;
-    const context = canvas.getContext('2d', { willReadFrequently: true });
-    if (!context) throw new Error('Não foi possível criar a máscara alfa da ilha.');
-
-    try {
-      context.clearRect(0, 0, maskSize, maskSize);
-      context.imageSmoothingEnabled = true;
-      context.imageSmoothingQuality = 'high';
-      context.drawImage(source, 0, 0, maskSize, maskSize);
-      const pixels = context.getImageData(0, 0, maskSize, maskSize).data;
-      this.navigation.setAlphaMask(pixels, maskSize, maskSize, threshold);
-    } finally {
-      canvas.width = 0;
-      canvas.height = 0;
-    }
-
-    this.walkableGridCacheStatus = 'rebuilt';
-    this.walkableGridCacheSaved = cacheId
-      ? await writeWalkableGrid(cacheId, this.navigation.walkableGrid)
-      : false;
-  }
-
-  /**
-   * Oceano estático contínuo sob a ilha. A área é maior que os limites de
-   * câmera permitidos, inclusive no zoom mínimo, para nunca revelar o fundo
-   * da página ao arrastar ou afastar a câmera.
-   */
-  updateOceanBounds(viewWidth, viewHeight) {
-    const baseDiameter = OCEAN_RADIUS * 2;
-    const aspect = Math.max(0.1, viewWidth / Math.max(1, viewHeight));
-    // Preserva 256 unidades de mar além da costa em todos os lados.
-    // A dimensão maior cresce para acompanhar o formato da tela.
-    const width = Math.max(
-      (aspect >= 1 ? baseDiameter * aspect : baseDiameter) * OCEAN_PAN_BUFFER_FACTOR,
-      viewWidth / CAMERA_ZOOM.min * OCEAN_PAN_BUFFER_FACTOR
-    );
-    const height = Math.max(
-      (aspect >= 1 ? baseDiameter : baseDiameter / aspect) * OCEAN_PAN_BUFFER_FACTOR,
-      viewHeight / CAMERA_ZOOM.min * OCEAN_PAN_BUFFER_FACTOR
-    );
-    this.oceanBounds = Object.freeze({
-      x: ISLAND_SHAPE.centerX - width / 2,
-      y: ISLAND_SHAPE.centerY - height / 2,
-      width,
-      height
-    });
-
-    if (this.oceanBackground) {
-      this.oceanBackground
-        .setPosition(ISLAND_SHAPE.centerX, ISLAND_SHAPE.centerY)
-        .setSize(width, height);
-    }
-  }
-
-  createOceanBackground() {
-    const texture = this.textures.get('ocean-pattern');
-    if (!texture?.getSourceImage?.()) {
-      throw new Error('A textura original do oceano não foi carregada.');
-    }
-
-    // O mundo jogável continua em 4096 x 4096. Só a área visual do oceano
-    // é expandida para preencher a proporção do viewport, sem bordas pretas.
-    this.updateOceanBounds(this.scale.width, this.scale.height);
-    this.oceanBackground = this.add.tileSprite(
-      ISLAND_SHAPE.centerX,
-      ISLAND_SHAPE.centerY,
-      this.oceanBounds.width,
-      this.oceanBounds.height,
-      'ocean-pattern'
-    ).setOrigin(0.5).setDepth(-1200);
-
-    this.oceanBackground.setTilePosition(0, 0);
   }
 
   readSavedProgress() {
@@ -435,21 +254,12 @@ export default class Game extends Phaser.Scene {
     this.monsterManager?.destroy();
     this.playerBody?.destroy();
     this.characterRenderer?.destroy();
-    this.worldObjectManager?.destroy();
-    this.collisionManager?.destroy();
-    this.worldObjects.length = 0;
-    this.groundObject?.destroy();
-    this.groundObject = null;
-    this.terrain = null;
-    this.oceanBackground?.destroy();
-    this.oceanBackground = null;
+    this.worldBootstrap?.destroy();
+    this.worldBootstrap = null;
     this.touchInput = null;
     this.movement = null;
     this.playerBody = null;
     this.characterRenderer = null;
-    this.worldObjectManager = null;
-    this.collisionManager = null;
-    this.depthManager = null;
     this.player = null;
     this.progression = null;
     this.uiScene = null;
