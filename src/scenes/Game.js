@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import Player from '../entities/Player.js';
 import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
 import CharacterSpriteRenderer from '../rendering/characters/CharacterSpriteRenderer.js';
+import { attachPlayerSpriteRegistry } from '../rendering/characters/CharacterSpriteAssetLoader.js';
 import SkinManager from '../rendering/characters/SkinManager.js';
 import MonsterManager from '../systems/monsters/MonsterManager.js';
 import { ISLAND_01_MONSTER_SPAWNS } from '../world/spawn-layout/island-01.js';
@@ -20,6 +21,8 @@ export default class Game extends Phaser.Scene {
 
   async create() {
     this.initialized = false;
+    // Preload e Game são cenas distintas. Reanexar os dados registrados ao contexto desta cena.
+    attachPlayerSpriteRegistry(this);
     this.saveManager = new SaveManager({ key: SAVE_KEY });
     this.savedProgress = this.saveManager.load();
     this.score = Math.max(0, Number(this.savedProgress.score) || 0);
