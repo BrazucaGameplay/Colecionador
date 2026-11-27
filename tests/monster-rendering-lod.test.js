@@ -38,17 +38,23 @@ test('monstro dormente usa somente a imagem estática, sem sombra extra', () => 
   renderer.destroy();
 });
 
-test('sombra só é criada na faixa próxima e removida ao adormecer', () => {
+test('sombra é criada sob demanda e reutilizada quando o monstro adormece', () => {
   const { renderer, created } = createRendererHarness();
   renderer.setShadowEnabled(true);
+  const pooledShadow = renderer.shadow;
   assert.equal(created.ellipses, 1);
-  assert.ok(renderer.shadow);
+  assert.ok(pooledShadow);
   renderer.setShadowEnabled(true);
   assert.equal(created.ellipses, 1);
   renderer.setShadowEnabled(false);
-  assert.equal(renderer.shadow, null);
-  assert.equal(created.destroyed, 1);
+  assert.equal(renderer.shadow, pooledShadow);
+  assert.equal(renderer.shadow.visible, false);
+  assert.equal(created.destroyed, 0);
+  renderer.setShadowEnabled(true);
+  assert.equal(renderer.shadow, pooledShadow);
+  assert.equal(created.ellipses, 1);
   renderer.destroy();
+  assert.equal(created.destroyed, 2);
 });
 
 test('culling repetido não reaplica visibilidade sem mudança de estado', () => {
