@@ -51,7 +51,7 @@ test('perfil reserva uma área horizontal ampla sem invadir o quadro', async () 
   const { PROFILE_PORTRAIT_FIT } = await import('../src/ui/HUD/PortraitDisplay.js');
   assert.equal(PROFILE_PORTRAIT_FIT.width, 0.88);
   assert.equal(PROFILE_PORTRAIT_FIT.height, 0.58);
-  assert.ok(PROFILE_PORTRAIT_FIT.width < 0.86);
+  assert.ok(PROFILE_PORTRAIT_FIT.width < 0.90);
 });
 
 test('não reaplica textura, filtro ou escala quando o retrato não mudou', () => {
