@@ -2,12 +2,11 @@ import * as Phaser from 'phaser';
 import CharacterActionState from './CharacterActionState.js';
 import {
   CHARACTER_ANIMATIONS,
-  getCharacterAnimationsForSkin,
   DEFAULT_CHARACTER_SCALE,
   DEFAULT_IDLE_ANIMATION,
   DEFAULT_MOVEMENT_ANIMATION
 } from './CharacterAnimationCatalog.js';
-import { CHARACTER_SKINS, DEFAULT_CHARACTER_SKIN } from './CharacterSkinCatalog.js';
+import { DEFAULT_CHARACTER_SKIN } from './CharacterSkinCatalog.js';
 
 import { queuePlayerSpriteAssets, registerPlayerSpriteAnimations } from './CharacterSpriteAssetLoader.js';
 export { queuePlayerSpriteAssets, registerPlayerSpriteAnimations };
