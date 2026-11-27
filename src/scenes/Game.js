@@ -12,9 +12,8 @@ import PerformanceMonitor from '../ui/PerformanceMonitor.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 import WorldBootstrap from '../world/WorldBootstrap.js';
+import CameraController from '../systems/camera/CameraController.js';
 
-const CAMERA_ZOOM = Object.freeze({ min: 0.2, max: 0.6, default: 0.4 });
-const CAMERA_FOLLOW_LERP = 0.06;
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 
 export default class Game extends Phaser.Scene {
@@ -53,18 +52,8 @@ export default class Game extends Phaser.Scene {
       }
     });
 
-    this.camera = this.cameras.main;
-    // Zoom padrão próximo ao enquadramento de referência: o personagem fica
-    // legível no celular sem enquadrar a ilha inteira de uma vez.
-    // O enquadramento da captura de referência é o limite máximo de
-    // aproximação. O zoom inicial usa esse mesmo nível, sem permitir ampliar
-    // além da escala mostrada pelo usuário.
-    this.camera.setBounds(this.oceanBounds.x, this.oceanBounds.y, this.oceanBounds.width, this.oceanBounds.height);
-    this.camera.setZoom(Math.max(this.getMinimumCameraZoom(), CAMERA_ZOOM.default));
-    this.clampCameraToWorld();
-    // O primeiro enquadramento acompanha o ponto válido onde o jogador nasceu.
-    this.camera.startFollow(this.characterRenderer.sprite, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
-    this.cameraFollowActive = true;
+    this.cameraController = new CameraController(this);
+    this.camera = this.cameraController.initialize(this.characterRenderer.sprite);
 
     this.destinationMarker = this.add.circle(0, 0, 12, 0xfacc15, 0.18)
       .setStrokeStyle(2, 0xfacc15, 0.95)
@@ -86,29 +75,22 @@ export default class Game extends Phaser.Scene {
       getAttackers: () => this.monsterManager?.getCombatEntries() || []
     });
     this.performanceMonitor = new PerformanceMonitor(this);
-    this.createHudCamera();
+    this.cameraController.createHudCamera(this.performanceMonitor.layer);
     this.touchInput = new TouchInputController(this, {
       camera: this.camera,
-      getMinZoom: () => this.getMinimumCameraZoom(),
-      maxZoom: CAMERA_ZOOM.max,
-      clampCamera: () => this.clampCameraToWorld(),
+      getMinZoom: () => this.cameraController.getMinimumZoom(),
+      maxZoom: this.cameraController.getMaximumZoom(),
+      clampCamera: () => this.cameraController.clampToWorld(),
       isUiPointer: (x, y) => this.uiScene?.isUiPointer(x, y) || this.performanceMonitor?.containsScreenPoint(x, y) || false,
-      onPan: () => {
-        // O controlador já interrompeu o follow ao iniciar o arraste.
-        this.cameraFollowActive = false;
-      },
+      onPan: () => this.cameraController.handleManualPan(),
       onTap: (screenX, screenY) => {
         const target = this.camera.getWorldPoint(screenX, screenY);
         const accepted = this.movement.setDestination(target.x, target.y);
         if (accepted) {
           const destination = this.movement.destination;
           this.destinationMarker.setPosition(destination.x, destination.y).setVisible(true);
-          // Só reativa o follow após exploração manual. Não reinicia o
-          // interpolador em toques sucessivos enquanto a câmera já acompanha.
-          if (!this.cameraFollowActive) {
-            this.camera.startFollow(this.characterRenderer.sprite, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
-            this.cameraFollowActive = true;
-          }
+          // Retoma o follow somente depois de exploração manual.
+          this.cameraController.followPlayer();
         } else {
           this.destinationMarker.setVisible(false);
         }
@@ -121,63 +103,6 @@ export default class Game extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this._cooldown = 0;
     this.initialized = true;
-  }
-
-  getMinimumCameraZoom() {
-    return CAMERA_ZOOM.min;
-  }
-
-  clampCameraToWorld() {
-    const bounds = this.oceanBounds;
-    if (!this.camera || !bounds) return;
-    const visibleWidth = this.camera.width / this.camera.zoom;
-    const visibleHeight = this.camera.height / this.camera.zoom;
-    const maxScrollX = bounds.x + bounds.width - visibleWidth;
-    const maxScrollY = bounds.y + bounds.height - visibleHeight;
-
-    this.camera.scrollX = maxScrollX < bounds.x
-      ? bounds.x + (bounds.width - visibleWidth) / 2
-      : Phaser.Math.Clamp(this.camera.scrollX, bounds.x, maxScrollX);
-    this.camera.scrollY = maxScrollY < bounds.y
-      ? bounds.y + (bounds.height - visibleHeight) / 2
-      : Phaser.Math.Clamp(this.camera.scrollY, bounds.y, maxScrollY);
-  }
-
-  createHudCamera() {
-    // A HUD é renderizada por uma segunda câmera sem zoom nem scroll do mundo.
-    this.uiCamera = this.cameras.add(0, 0, this.scale.width, this.scale.height, false);
-    this.uiCamera.setZoom(1).setScroll(0, 0);
-    this.uiCamera.roundPixels = true;
-    // As duas camadas de interface ficam fora da câmera do mundo e são
-    // desenhadas somente pela câmera HUD, em escala 1:1.
-    this.camera.ignore(this.performanceMonitor.layer);
-    this.uiCamera.ignore(this.children.list.filter(child => child !== this.performanceMonitor.layer));
-    this.scale.on('resize', this.resizeHudCamera, this);
-  }
-
-  resizeHudCamera(gameSize) {
-    if (!this.uiCamera || !this.camera) return;
-    const width = gameSize?.width || this.scale.width;
-    const height = gameSize?.height || this.scale.height;
-
-    // Phaser pode redimensionar o canvas sem atualizar o viewport da câmera
-    // principal em alguns ciclos de resize do navegador mobile.
-    this.camera.setViewport(0, 0, width, height);
-    this.uiCamera.setViewport(0, 0, width, height);
-
-    // A área de oceano acompanha a proporção real da tela, evitando revelar
-    // o fundo preto acima/abaixo da textura em telas verticais.
-    this.worldBootstrap.updateOceanBounds(width, height);
-    this.camera.setBounds(
-      this.oceanBounds.x,
-      this.oceanBounds.y,
-      this.oceanBounds.width,
-      this.oceanBounds.height
-    );
-
-    const minZoom = this.getMinimumCameraZoom();
-    if (this.camera.zoom < minZoom) this.camera.setZoom(minZoom);
-    this.clampCameraToWorld();
   }
 
   readSavedProgress() {
@@ -241,11 +166,13 @@ export default class Game extends Phaser.Scene {
 
   shutdown() {
     if (this.player) this.persistProgress({ score: this.score, player: this.player.toSaveData() });
-    this.scale.off('resize', this.resizeHudCamera, this);
+
     this.performanceMonitor?.destroy();
     this.performanceMonitor = null;
     if (this.scene.isActive('GameUI')) this.scene.stop('GameUI');
-    if (this.uiCamera) this.cameras.remove(this.uiCamera);
+    this.cameraController?.destroy();
+    this.cameraController = null;
+    this.camera = null;
     this.uiCamera = null;
     this.touchInput?.destroy();
     this.combat?.destroy();

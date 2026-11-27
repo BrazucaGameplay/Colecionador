@@ -2046,3 +2046,26 @@ catálogo de ilhas, conexões, pontes, portais e transições continuam planejad
 CameraController, SaveManager e GameSystemsBootstrap ainda não foram extraídos.
 O resultado de build, testes, deploy e validação em Android deve ser conferido
 no workflow associado ao commit desta versão antes de declarar publicação.
+
+
+======================================================================
+EXTRAÇÃO DO CAMERA CONTROLLER — 27/11/2026 — VERSÃO 2.6.7
+======================================================================
+
+A lógica de câmera foi extraída de Game.js para
+src/systems/camera/CameraController.js. O módulo concentra:
+- inicialização da câmera principal e limites baseados em oceanBounds;
+- zoom mínimo 0.2x, padrão 0.4x e máximo 0.6x;
+- follow interpolado do sprite visual do protagonista (lerp 0.06);
+- clamp de scroll e centralização quando o viewport excede os limites;
+- câmera HUD independente, exclusão de camadas e resize responsivo;
+- encerramento dos listeners de resize e remoção da câmera HUD.
+
+Game.js mantém a coordenação do destino de movimento e da interface, mas
+delega ao CameraController o follow, clamp, limites de zoom e resize.
+TouchInputController continua responsável por interpretar toque, arraste e
+pinch, recebendo callbacks do CameraController sem alterar os gestos.
+
+Os valores e comportamentos existentes foram preservados intencionalmente.
+Build, testes e publicação da versão 2.6.7 devem ser confirmados no workflow;
+teste visual e em Android físico permanecem verificações distintas.
