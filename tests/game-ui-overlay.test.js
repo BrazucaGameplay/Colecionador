@@ -18,7 +18,7 @@ test('GameUI carrega todas as artes finais antes de criar a HUD', async () => {
   const ui = await read('../src/scenes/GameUI.js');
   for (const key of ['ui-panel-vertical','ui-panel-profile','ui-button-menu','ui-button-200','ui-button-300','ui-button-400','ui-hud-status']) assert.ok(ui.includes(key));
   assert.match(ui, /this\.load\.image/);
-  assert.match(ui, /v=20261127-ui-art-v1/);
+  assert.match(ui, /v=20261127-ui-art-v2/);
 });
 
 test('GameUI coordena painéis separados e mantém a simulação ativa', async () => {
@@ -39,7 +39,7 @@ test('toques na HUD e nos painéis não são enviados ao movimento do mundo', as
 
 test('HUD usa a moldura enviada e mantém preenchimentos dinâmicos', async () => {
   const [hud,bars]=await Promise.all([read('../src/ui/HUD/PlayerHUD.js'),read('../src/ui/HUD/StatusBars.js')]);
-  assert.match(hud,/ui-button-menu/); assert.match(bars,/ui-hud-status/);
+  assert.match(hud,/ui-button-menu/); assert.match(hud,/player-portrait/); assert.match(hud,/onProfile/); assert.match(bars,/ui-hud-status/);
   assert.match(bars,/healthRatio/); assert.match(bars,/energyRatio/);
   assert.match(bars,/setSize\(this\.hpMaxWidth \* this\.healthRatio/);
   assert.match(bars,/setSize\(this\.energyMaxWidth \* this\.energyRatio/);
@@ -68,7 +68,23 @@ test('os arquivos WebP enviados existem e são carregáveis', async () => {
     '../public/assets/ui/buttons/botao_sem_ornamento_central_200x100.webp',
     '../public/assets/ui/buttons/botao_sem_ornamento_central_300x100.webp',
     '../public/assets/ui/buttons/botao_sem_ornamento_central_400x100.webp',
-    '../public/assets/ui/hud/moldura_hp_energia_sem_barras_600px.webp'
+    '../public/assets/ui/hud/moldura_hp_energia_sem_barras_600px.webp',
+    '../public/assets/ui/player-portrait.webp'
   ];
   for(const path of paths){const bytes=await readFile(new URL(path,import.meta.url));assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');}
+});
+
+test('HUD recupera o retrato clicável e ajusta as barras com margem interna', async () => {
+  const [hud, bars, button, frame] = await Promise.all([
+    read('../src/ui/HUD/PlayerHUD.js'), read('../src/ui/HUD/StatusBars.js'),
+    read('../src/ui/components/MenuButton.js'), read('../src/ui/components/PanelFrame.js')
+  ]);
+  assert.match(hud, /onProfile/);
+  assert.match(hud, /player-portrait/);
+  assert.match(hud, /width: 132, height: 33/);
+  assert.match(bars, /146 \* this\.scaleX/);
+  assert.match(bars, /350 \* this\.scaleX/);
+  assert.match(bars, /13 \* this\.scaleY/);
+  assert.match(button, /Palatino Linotype/);
+  assert.match(frame, /Palatino Linotype/);
 });
