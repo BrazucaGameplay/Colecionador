@@ -2409,3 +2409,26 @@ a confirmação visual da ausência de tremulação ainda exige teste no jogo
 em navegador e Android físico, nos três níveis de zoom.
 
 Versionamento: 2.9.3 → 2.9.4 (PATCH: renderização suave em zoom fracionário).
+
+
+======================================================================
+RETORNO SUAVE DA CÂMERA AO JOGADOR — 27/11/2026 — VERSÃO 2.9.5
+======================================================================
+
+Quando o jogador arrasta a câmera e toca no mapa para definir um destino,
+o sistema retoma o acompanhamento do protagonista. O retorno agora usa
+interpolação própria de 0.025 nos dois eixos, em vez de reutilizar 0.06.
+Como valores menores de lerp fazem a câmera se aproximar mais gradualmente
+do alvo, isso reduz a velocidade do reenquadramento e evita a sensação de
+baque quando o protagonista está distante do centro da tela.
+
+O acompanhamento normal após a inicialização continua em 0.06. O novo
+valor de 0.025 é aplicado somente ao retorno após exploração manual; depois
+de retomar o follow, o Phaser mantém esse lerp durante o acompanhamento.
+Não foram alterados movimento do jogador, destino do toque, zoom, pan,
+pinch, arredondamento de pixels ou renderização dos assets.
+
+Testes atualizados para verificar o lerp inicial de 0.06 e o lerp de retorno
+de 0.025. Build, testes e publicação dependem do workflow desta versão.
+
+Versionamento: 2.9.4 → 2.9.5 (PATCH: retorno gradual da câmera ao jogador).

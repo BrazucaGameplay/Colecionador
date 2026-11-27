@@ -75,9 +75,13 @@ test('follow só é reiniciado após pan manual e HUD acompanha resize', () => {
   controller.initialize(sprite);
   controller.createHudCamera('monitor');
   assert.equal(f.hudCamera.roundPixels, true);
+  assert.equal(f.mainCamera.follow.lerpX, 0.06);
+  assert.equal(f.mainCamera.follow.lerpY, 0.06);
   controller.handleManualPan();
-  controller.followPlayer();
+  controller.followPlayer({ smoothReturn: true });
   assert.equal(f.mainCamera.follow.target, sprite);
+  assert.equal(f.mainCamera.follow.lerpX, 0.025);
+  assert.equal(f.mainCamera.follow.lerpY, 0.025);
   const resize = f.listeners.get('resize');
   resize.callback.call(resize.context, { width: 800, height: 600 });
   assert.deepEqual(f.mainCamera.viewport, { x: 0, y: 0, width: 800, height: 600 });

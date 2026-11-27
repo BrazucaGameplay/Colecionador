@@ -72,7 +72,7 @@ export default class GameSystemsBootstrap {
           const destination = scene.movement.destination;
           scene.destinationMarker.setPosition(destination.x, destination.y).setVisible(true);
           // Retoma o follow somente depois de exploração manual.
-          cameraController.followPlayer();
+          cameraController.followPlayer({ smoothReturn: true });
         } else {
           scene.destinationMarker.setVisible(false);
         }

@@ -1,5 +1,6 @@
 const CAMERA_ZOOM = Object.freeze({ min: 0.2, max: 0.6, default: 0.4 });
 const CAMERA_FOLLOW_LERP = 0.06;
+const CAMERA_RETURN_LERP = 0.025;
 
 /** Owns world-camera framing, follow, zoom limits and the screen-space HUD camera. */
 export default class CameraController {
@@ -33,9 +34,10 @@ export default class CameraController {
   getMinimumZoom() { return CAMERA_ZOOM.min; }
   getMaximumZoom() { return CAMERA_ZOOM.max; }
 
-  followPlayer() {
+  followPlayer({ smoothReturn = false } = {}) {
     if (!this.camera || !this.target || this.followActive) return;
-    this.camera.startFollow(this.target, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
+    const lerp = smoothReturn ? CAMERA_RETURN_LERP : CAMERA_FOLLOW_LERP;
+    this.camera.startFollow(this.target, false, lerp, lerp);
     this.followActive = true;
   }
 
