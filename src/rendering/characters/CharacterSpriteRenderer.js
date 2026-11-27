@@ -10,14 +10,16 @@ import {
 import { CHARACTER_SKINS, DEFAULT_CHARACTER_SKIN } from './CharacterSkinCatalog.js';
 
 const BASE = import.meta.env.BASE_URL;
+// Incrementado quando atlas/metadados mudam para impedir que o navegador reutilize pacotes antigos.
+const CHARACTER_ATLAS_CACHE_VERSION = '20261127-skin-atlas-v2';
 const uniqueEntries = animations => [...new Map(Object.values(animations).map(item => [item.key,item])).values()];
 
 export function queuePlayerSpriteAssets(loader) {
   for (const skin of Object.values(CHARACTER_SKINS)) {
     if (!skin.selectable || skin.status !== 'ready') continue;
     for (const item of uniqueEntries(getCharacterAnimationsForSkin(skin) || {})) {
-      loader.json(item.key + '-meta', BASE + item.path + '.json');
-      loader.image(item.key, BASE + item.path + '.png');
+      loader.json(item.key + '-meta', BASE + item.path + '.json?v=' + CHARACTER_ATLAS_CACHE_VERSION);
+      loader.image(item.key, BASE + item.path + '.png?v=' + CHARACTER_ATLAS_CACHE_VERSION);
     }
   }
 }
