@@ -33,12 +33,12 @@ test('a cena não depende de rede ou armazenamento para preparar a navegação',
   const game = read('../src/scenes/Game.js');
   const factory = read('../src/world/navigation/IslandNavigationFactory.js');
   const extractor = read('../src/world/navigation/TerrainMaskExtractor.js');
-  assert.doesNotMatch(game, /await |fetch\\(|indexedDB|WalkableGridCache|createIslandWalkableMask/);
-  assert.match(factory, /new WorldNavigation\\(width, height\\)/);
-  assert.match(factory, /extractTerrainPixels\\(terrainSource/);
+  assert.doesNotMatch(game, /await |fetch\(|indexedDB|WalkableGridCache|createIslandWalkableMask/);
+  assert.match(factory, /new WorldNavigation\(width, height\\)/);
+  assert.match(factory, /extractTerrainPixels\(terrainSource/);
   assert.match(factory, /navigation\.setAlphaMask/);
   assert.match(extractor, /getImageData/);
-  assert.doesNotMatch(extractor, /fetch\\(|indexedDB|localStorage/);
+  assert.doesNotMatch(extractor, /fetch\(|indexedDB|localStorage/);
   assert.match(game, /if \(!this\.initialized\) return/);
 });
 
