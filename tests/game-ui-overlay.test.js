@@ -117,3 +117,13 @@ test('perfil começa no retrato da HUD e permite avançar para os atributos', as
   assert.match(profile, /row\.plus\.background\.setVisible/);
   assert.match(profile, /row\.plus\.label\.setVisible/);
 });
+
+
+test('todos os painéis usam botão circular de fechar no canto superior direito', async () => {
+  const [frame, button] = await Promise.all([read('../src/ui/components/PanelFrame.js'), read('../src/ui/components/MenuButton.js')]);
+  assert.match(frame, /shape: 'circle'/);
+  assert.match(frame, /this\.width \* 0\.99/);
+  assert.match(frame, /this\.height \* 0\.075/);
+  assert.match(button, /scene\.add\.circle/);
+  assert.match(button, /0xffc65b/);
+});

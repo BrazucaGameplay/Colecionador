@@ -1,11 +1,14 @@
 /** Image-backed button; its text and touch interaction remain independent. */
 export default class MenuButton {
-  constructor(scene, { x, y, width = 220, height = 55, label = '', onClick = () => {}, depth = 4020, texture = 'ui-button-400' } = {}) {
+  constructor(scene, { x, y, width = 220, height = 55, label = '', onClick = () => {}, depth = 4020, texture = 'ui-button-400', shape = 'image' } = {}) {
     this.scene = scene;
     this.width = width;
     this.height = height;
-    this.background = scene.add.image(x, y, texture)
-      .setDisplaySize(width, height).setScrollFactor(0).setDepth(depth).setInteractive();
+    this.background = shape === 'circle'
+      ? scene.add.circle(x, y, Math.min(width, height) / 2, 0x650b08, 0.98)
+          .setStrokeStyle(Math.max(2, Math.min(width, height) * 0.075), 0xffc65b)
+      : scene.add.image(x, y, texture).setDisplaySize(width, height);
+    this.background.setScrollFactor(0).setDepth(depth).setInteractive();
     this.label = scene.add.text(x, y, label, {
       fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
       fontSize: Math.max(14, Math.min(21, height * 0.46)) + 'px',
