@@ -22,7 +22,6 @@ export default class Game extends Phaser.Scene {
     this.initialized = false;
     this.saveManager = new SaveManager({ key: SAVE_KEY });
     this.savedProgress = this.saveManager.load();
-    this.skinManager = new SkinManager({ selectedSkin: this.savedProgress.selectedSkin });
     this.score = Math.max(0, Number(this.savedProgress.score) || 0);
 
     this.worldBootstrap = new WorldBootstrap(this);
@@ -36,6 +35,16 @@ export default class Game extends Phaser.Scene {
       y: playerSpawn.y,
       depthManager: this.depthManager
     });
+    this.skinManager = new SkinManager({
+      selectedSkin: this.savedProgress.selectedSkin,
+      assetValidator: id => this.characterRenderer?.isSkinLoaded(id) ?? false,
+      onChange: ({ selectedSkin }) => {
+        const result = this.characterRenderer?.setSkin(selectedSkin);
+        if (!result?.changed) return result || { changed: false, reason: 'renderer-unavailable' };
+        this.persistProgress(); this.uiScene?.activePanel?.refresh?.(); return result;
+      }
+    });
+    if (this.skinManager.getSelectedSkin() !== this.characterRenderer.skinId) this.characterRenderer.setSkin(this.skinManager.getSelectedSkin());
 
     this.monsterManager = new MonsterManager(this, {
       navigation: this.navigation,
@@ -45,7 +54,7 @@ export default class Game extends Phaser.Scene {
       onKill: ({ experience = 0 } = {}) => {
         this.score += 1;
         this.progression.award(this.player, experience);
-        this.saveManager.save({ score: this.score, player: this.player.toSaveData(), selectedSkin: this.skinManager?.getSelectedSkin() });
+        this.persistProgress();
       }
     });
 
@@ -68,6 +77,11 @@ export default class Game extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this._cooldown = 0;
     this.initialized = true;
+  }
+
+  persistProgress() {
+    if (!this.player || !this.saveManager) return false;
+    return this.saveManager.save({score:this.score,player:this.player.toSaveData(),selectedSkin:this.skinManager?.getSelectedSkin()});
   }
 
   update(time, delta = 16.67) {
@@ -104,7 +118,7 @@ export default class Game extends Phaser.Scene {
   }
 
   shutdown() {
-    if (this.player) this.saveManager.save({ score: this.score, player: this.player.toSaveData(), selectedSkin: this.skinManager?.getSelectedSkin() });
+    this.persistProgress();
 
     if (this.scene.isActive('GameUI')) this.scene.stop('GameUI');
     this.cameraController?.destroy();

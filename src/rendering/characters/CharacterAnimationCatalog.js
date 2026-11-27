@@ -36,6 +36,22 @@ export const CHARACTER_ANIMATIONS = Object.freeze({
   })
 });
 
+export function getCharacterAnimationsForSkin(skin) {
+  if (!skin?.id || !skin?.directory || !skin?.animations) return null;
+  const result = {}, byBasename = new Map();
+  for (const [id, base] of Object.entries(CHARACTER_ANIMATIONS)) {
+    const basename = skin.animations[id];
+    if (!basename) return null;
+    if (!byBasename.has(basename)) byBasename.set(basename, Object.freeze({
+      ...base,
+      key: skin.id === 'skin_01' ? base.key : `character-animation-${skin.id}-${basename}`,
+      path: skin.directory + basename
+    }));
+    result[id] = byBasename.get(basename);
+  }
+  return Object.freeze(result);
+}
+
 // Ordem cíclica dos três movimentos usados pelo ataque automático.
 export const COMBAT_ANIMATION_SEQUENCE = Object.freeze([
   'combat',

@@ -2,59 +2,67 @@ import * as Phaser from 'phaser';
 import CharacterActionState from './CharacterActionState.js';
 import {
   CHARACTER_ANIMATIONS,
+  getCharacterAnimationsForSkin,
   COMBAT_ANIMATION_SEQUENCE,
   DEFAULT_CHARACTER_SCALE,
   DEFAULT_FAST_MOVEMENT_ANIMATION,
   DEFAULT_IDLE_ANIMATION,
   DEFAULT_MOVEMENT_ANIMATION
 } from './CharacterAnimationCatalog.js';
+import { CHARACTER_SKINS, DEFAULT_CHARACTER_SKIN } from './CharacterSkinCatalog.js';
 
 const BASE = import.meta.env.BASE_URL;
-const animationEntries = [...new Map(Object.values(CHARACTER_ANIMATIONS).map((item) => [item.key, item])).values()];
+const uniqueEntries = animations => [...new Map(Object.values(animations).map(item => [item.key,item])).values()];
 
 export function queuePlayerSpriteAssets(loader) {
-  for (const item of animationEntries) {
-    loader.json(item.key + '-meta', BASE + item.path + '.json');
-    loader.image(item.key, BASE + item.path + '.png');
+  for (const skin of Object.values(CHARACTER_SKINS)) {
+    if (!skin.selectable || skin.status !== 'ready') continue;
+    for (const item of uniqueEntries(getCharacterAnimationsForSkin(skin) || {})) {
+      loader.json(item.key + '-meta', BASE + item.path + '.json');
+      loader.image(item.key, BASE + item.path + '.png');
+    }
   }
 }
 
 export function registerPlayerSpriteAnimations(scene) {
-  for (const item of animationEntries) {
-    const metadata = scene.cache.json.get(item.key + '-meta');
-    const texture = scene.textures.get(item.key);
-    if (!metadata || !texture || !metadata.frames?.length) {
-      console.warn('[CharacterAnimations] Pacote indisponível:', item.id);
-      continue;
-    }
-    const byDirection = new Map();
-    scene.playerFramePivots ||= new Map();
-    for (const record of metadata.frames) {
-      const direction = Number(record.direction) || 0;
-      const frameName = `d${direction}-f${record.frame}`;
-      const pivotY = Number(record.pivotY ?? metadata.pivot?.y);
-      if (Number.isFinite(pivotY)) scene.playerFramePivots.set(`${item.key}:${frameName}`, Math.max(0, Math.min(1, pivotY)));
-      if (!texture.has(frameName)) texture.add(frameName, 0, record.x, record.y, record.width, record.height);
-      if (!byDirection.has(direction)) byDirection.set(direction, []);
-      byDirection.get(direction).push({ frame: frameName, index: record.frame });
-    }
-    for (const [direction, frames] of byDirection) {
-      frames.sort((a, b) => a.index - b.index);
-      const key = `${item.key}-d${direction}`;
-      if (!scene.anims.exists(key)) {
-        scene.anims.create({
-          key,
-          frames: frames.map(({ frame }) => ({ key: item.key, frame })),
-          frameRate: metadata.fps || 12,
-          repeat: item.loop ? -1 : 0
-        });
+  scene.characterAnimationsBySkin ||= new Map();
+  scene.playerFramePivots ||= new Map();
+  for (const skin of Object.values(CHARACTER_SKINS)) {
+    if (!skin.selectable || skin.status !== 'ready') continue;
+    const animations = getCharacterAnimationsForSkin(skin);
+    if (!animations) continue;
+    let complete = true;
+    for (const item of uniqueEntries(animations)) {
+      const metadata = scene.cache.json.get(item.key + '-meta');
+      const texture = scene.textures.get(item.key);
+      if (!metadata || !texture || !Array.isArray(metadata.frames) || !metadata.frames.length) {
+        console.warn('[CharacterAnimations] Pacote indisponível:', skin.id, item.id); complete = false; continue;
+      }
+      const dirs = new Map();
+      for (const record of metadata.frames) {
+        const direction = Number(record.direction);
+        if (!Number.isInteger(direction) || direction < 0 || direction > 7) continue;
+        const frameName = `d${direction}-f${record.frame}`;
+        const pivotY = Number(record.pivotY ?? metadata.pivot?.y);
+        if (Number.isFinite(pivotY)) scene.playerFramePivots.set(`${item.key}:${frameName}`,Math.max(0,Math.min(1,pivotY)));
+        if (!texture.has(frameName)) texture.add(frameName,0,record.x,record.y,record.width,record.height);
+        if (!dirs.has(direction)) dirs.set(direction,[]);
+        dirs.get(direction).push({frame:frameName,index:Number(record.frame)||0});
+      }
+      for (let direction=0;direction<8;direction++) {
+        const frames=dirs.get(direction)||[];
+        if (!frames.length) { complete=false; continue; }
+        frames.sort((a,b)=>a.index-b.index);
+        const key=`${item.key}-d${direction}`;
+        if (!scene.anims.exists(key)) scene.anims.create({key,frames:frames.map(({frame})=>({key:item.key,frame})),frameRate:metadata.fps||12,repeat:item.loop?-1:0});
       }
     }
+    if (complete) scene.characterAnimationsBySkin.set(skin.id,animations);
   }
 }
 
 export default class CharacterSpriteRenderer {
-  constructor(scene, { x, y, scale = DEFAULT_CHARACTER_SCALE, depthManager = scene.worldDepthManager } = {}) {
+  constructor(scene, { x, y, scale = DEFAULT_CHARACTER_SCALE, depthManager = scene.worldDepthManager, skinId = DEFAULT_CHARACTER_SKIN } = {}) {
     this.scene = scene;
     this.depthManager = depthManager;
     this.x = x;
@@ -69,16 +77,35 @@ export default class CharacterSpriteRenderer {
     this.baseScale = scale;
     this.actionScaleMultiplier = 1.35;
     this.destroyed = false;
+    this.skinId = DEFAULT_CHARACTER_SKIN;
+    this.animations = scene.characterAnimationsBySkin?.get(DEFAULT_CHARACTER_SKIN) || CHARACTER_ANIMATIONS;
     const scaleRatio = scale / 0.62;
     this.shadow = scene.add.ellipse(x, y - 2, 22 * scaleRatio, 9 * scaleRatio, 0x101522, 0.3);
     this.depthManager.apply(this.shadow, y, 'shadow');
-    const idle = CHARACTER_ANIMATIONS[DEFAULT_IDLE_ANIMATION];
+    const idle = this.animations[DEFAULT_IDLE_ANIMATION];
     const initialPivot = scene.playerFramePivots?.get(`${idle.key}:d0-f0`) ?? 0.9375;
     this.sprite = scene.add.sprite(x, y, idle.key, 'd0-f0')
       .setOrigin(0.5, initialPivot)
       .setScale(scale);
     this.depthManager.apply(this.sprite, y, 'actor');
     this.playLocomotion(true);
+    if (skinId !== DEFAULT_CHARACTER_SKIN) this.setSkin(skinId);
+  }
+
+  isSkinLoaded(id) { return Boolean(this.scene.characterAnimationsBySkin?.has(id)); }
+
+  setSkin(id) {
+    if (this.destroyed || !this.isSkinLoaded(id)) return {changed:false,reason:'skin-assets-unavailable'};
+    if (id === this.skinId) return {changed:false,reason:'already-selected'};
+    if (this.actionState.activeAction) return {changed:false,reason:'action-active'};
+    const animations=this.scene.characterAnimationsBySkin.get(id), idle=animations[DEFAULT_IDLE_ANIMATION];
+    if (!idle || !this.scene.anims.exists(`${idle.key}-d${this.direction}`)) return {changed:false,reason:'skin-animation-unavailable'};
+    this.skinId=id; this.animations=animations; this.sprite.stop();
+    this.sprite.setTexture(idle.key,`d${this.direction}-f0`);
+    const pivot=this.scene.playerFramePivots?.get(`${idle.key}:d${this.direction}-f0`) ?? 0.9375;
+    this.sprite.setOrigin(0.5,pivot).setScale(this.baseScale);
+    this.currentAnimation=null; this.playLocomotion(true); this.depthManager.apply(this.sprite,this.y,'actor');
+    return {changed:true,skinId:id};
   }
 
   animationKey(animation, direction = this.direction) {
@@ -114,7 +141,7 @@ export default class CharacterSpriteRenderer {
   playLocomotion(force = false) {
     if (this.destroyed || this.actionState.activeAction) return;
     const id = this.moving ? this.movementMode : DEFAULT_IDLE_ANIMATION;
-    const animation = CHARACTER_ANIMATIONS[id];
+    const animation = this.animations[id];
     const key = this.animationKey(animation);
     if (!key || !this.scene.anims.exists(key)) {
       console.warn('[CharacterAnimations] Animação não registrada:', id);
@@ -135,7 +162,7 @@ export default class CharacterSpriteRenderer {
   }
 
   canStartAction(actionId) {
-    const animation = CHARACTER_ANIMATIONS[actionId];
+    const animation = this.animations[actionId];
     if (!animation || ['idle', 'walking', 'running', 'runningVariant'].includes(actionId)) return false;
     return this.actionState.canStart(actionId, animation);
   }
@@ -146,7 +173,7 @@ export default class CharacterSpriteRenderer {
     const resolvedId = actionId === 'combat'
       ? COMBAT_ANIMATION_SEQUENCE[this.nextCombatVariant % COMBAT_ANIMATION_SEQUENCE.length]
       : actionId;
-    const animation = CHARACTER_ANIMATIONS[resolvedId];
+    const animation = this.animations[resolvedId];
     if (!animation || ['idle', 'walking', 'running'].includes(resolvedId)) {
       console.warn('[CharacterAnimations] Ação desconhecida ou não acionável:', resolvedId);
       return false;
@@ -162,7 +189,7 @@ export default class CharacterSpriteRenderer {
       ...animation,
       ...actionOverrides,
       ...(isCombatCycle ? {
-        priority: CHARACTER_ANIMATIONS.combat.priority,
+        priority: this.animations.combat.priority,
         interruptible: true,
         lockMovement: true,
         restartExisting: true

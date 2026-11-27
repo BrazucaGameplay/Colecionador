@@ -16,7 +16,8 @@ const UI_ASSETS = [
   ['ui-button-400', 'buttons/botao_sem_ornamento_central_400x100.webp'],
   ['ui-close-button', 'buttons/fechar_circular.svg'],
   ['ui-hud-status', 'hud/moldura_hp_energia_sem_barras_600px.webp'],
-  ['player-portrait', 'player-portrait.webp']
+  ['player-portrait', 'player-portrait.webp'],
+  ['skin-portrait-skin_2', '../characters/sprites/skin_2/perfil.webp']
 ];
 
 export default class GameUI extends Phaser.Scene {
@@ -29,7 +30,10 @@ export default class GameUI extends Phaser.Scene {
 
   preload() {
     const base = import.meta.env.BASE_URL + 'assets/ui/';
-    for (const [key, path] of UI_ASSETS) this.load.image(key, base + path + '?v=20261127-ui-art-v5');
+    for (const [key, path] of UI_ASSETS) {
+      const url = path.startsWith('../') ? import.meta.env.BASE_URL + 'assets/' + path.slice(3) : base + path;
+      this.load.image(key, url + '?v=20261127-skin-catalog-v1');
+    }
     this.load.on('loaderror', file => console.error('Falha ao carregar arte da interface:', file.key, file.src));
   }
 
