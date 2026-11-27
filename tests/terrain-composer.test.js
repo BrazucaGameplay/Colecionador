@@ -34,7 +34,7 @@ test('a cena não depende de rede ou armazenamento para preparar a navegação',
   const factory = read('../src/world/navigation/IslandNavigationFactory.js');
   const extractor = read('../src/world/navigation/TerrainMaskExtractor.js');
   assert.doesNotMatch(game, /await |fetch\(|indexedDB|WalkableGridCache|createIslandWalkableMask/);
-  assert.match(factory, /new WorldNavigation\(width, height\\)/);
+  assert.match(factory, /new WorldNavigation\(width, height\)/);
   assert.match(factory, /extractTerrainPixels\(terrainSource/);
   assert.match(factory, /navigation\.setAlphaMask/);
   assert.match(extractor, /getImageData/);
