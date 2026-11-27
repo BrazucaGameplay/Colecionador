@@ -81,6 +81,7 @@ test('HUD recupera o retrato clicável e ajusta as barras com margem interna', a
   ]);
   assert.match(hud, /onProfile/);
   assert.match(hud, /player-portrait/);
+  assert.match(hud, /this\.statusBars\.top - 40/);
   assert.match(hud, /width: 132, height: 33/);
   assert.match(bars, /146 \* this\.scaleX/);
   assert.match(bars, /350 \* this\.scaleX/);
@@ -88,4 +89,9 @@ test('HUD recupera o retrato clicável e ajusta as barras com margem interna', a
   assert.match(button, /Palatino Linotype/);
   assert.match(frame, /Palatino Linotype/);
 });
-\ntest('menu principal não contém a opção Perfil', async () => {\n  const menu = await read('../src/ui/panels/MenuPanel.js');\n  assert.doesNotMatch(menu, /\\['Perfil',\\s*'profile'\\]/);\n  assert.match(menu, /\\['Bestiário',\\s*'bestiary'\\]/);\n});\n
+
+test('menu principal não contém a opção Perfil', async () => {
+  const menu = await read('../src/ui/panels/MenuPanel.js');
+  assert.doesNotMatch(menu, /\\['Perfil',\\s*'profile'\\]/);
+  assert.match(menu, /\\['Bestiário',\\s*'bestiary'\\]/);
+});
