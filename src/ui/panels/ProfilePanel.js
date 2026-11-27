@@ -13,8 +13,8 @@ export default class ProfilePanel {
     // O retrato ativo é carregado da pasta da skin equipada.
     const initialPortraitKey = this.gameScene?.skinManager?.getSelectedDefinition?.()?.portraitKey || 'player-portrait';
     this.portrait = scene.add.image(x + width * 0.5, y + height * 0.49, initialPortraitKey)
-      .setDisplaySize(width * 0.43, height * 0.49)
       .setScrollFactor(0).setDepth(4022);
+    setPortraitTexture(this.portrait, initialPortraitKey, width * 0.43, height * 0.49);
     this.frame.objects.push(this.portrait);
     this.portraitCaption = this.frame.addText(x + width * 0.5, y + height * 0.765, 'PERSONAGEM', {
       fontSize: '12px', fontStyle: 'bold', color: '#ffe8bd', align: 'center'
@@ -68,7 +68,8 @@ export default class ProfilePanel {
     (this.gameScene?.skinManager?.getCatalog?.() || []).forEach((skin,index) => {
       const rowY=y+height*(0.43+index*0.205);
       const portraitKey = skin.portraitKey || 'player-portrait';
-      const image=scene.add.image(x+width*0.27,rowY,portraitKey).setDisplaySize(width*0.19,height*0.17).setScrollFactor(0).setDepth(4022);
+      const image=scene.add.image(x+width*0.27,rowY,portraitKey).setScrollFactor(0).setDepth(4022);
+      setPortraitTexture(image, portraitKey, width*0.19, height*0.17);
       this.frame.objects.push(image);
       const name=this.frame.addText(x+width*0.43,rowY-height*0.035,skin.name,{fontSize:'11px',fontStyle:'bold',color:'#fff0dc',align:'left'}).setOrigin(0,0.5);
       const status=this.frame.addText(x+width*0.43,rowY+height*0.025,'',{fontSize:'9px',color:'#f0d5ad',align:'left'}).setOrigin(0,0.5);
