@@ -1,11 +1,7 @@
 # Painéis da interface
 
-Envie aqui as imagens finais dos painéis.
+Artes finais atualmente integradas:
+- `painel_vertical_900x1350_transparente.webp` — moldura vertical para o painel de perfil.
+- `perfil_moldura_fundo_vermelho.webp` — moldura horizontal para o menu e painéis informativos.
 
-Padrão de integração:
-- Formato preferencial: WebP com transparência quando necessário.
-- Não achatar texto ou botões na arte do painel; os textos e controles permanecem separados no Phaser.
-- Nome sugerido para o painel-base: \`panel-frame.webp\`.
-- Informe a resolução original e as margens seguras para Nine Slice, se a imagem tiver bordas escaláveis.
-
-Os arquivos desta pasta ainda não são carregados pelo jogo.
+As imagens preservam a proporção original; não são esticadas para preencher o viewport. Textos, valores e controles são renderizados separadamente pelo Phaser.

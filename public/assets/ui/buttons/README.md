@@ -1,12 +1,9 @@
 # Botões da interface
 
-Envie aqui as imagens finais dos botões.
+Artes finais atualmente integradas:
+- `botao_menu_400x100_transparente.webp` — botão MENU da HUD.
+- `botao_sem_ornamento_central_200x100.webp` — controles compactos e fechar.
+- `botao_sem_ornamento_central_300x100.webp` — variante intermediária disponível.
+- `botao_sem_ornamento_central_400x100.webp` — navegação principal.
 
-Nomes sugeridos:
-- \`button-primary.webp\`
-- \`button-secondary.webp\`
-- \`button-close.webp\`
-- \`button-icon-menu.webp\`
-
-Preferir transparência real e manter o texto fora da imagem para permitir localização e redimensionamento.
-Os arquivos desta pasta ainda não são carregados pelo jogo.
+Os rótulos são renderizados pelo Phaser, separados das imagens. Os botões mantêm a proporção 4:1 ou 2:1 da arte correspondente.

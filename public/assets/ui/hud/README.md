@@ -1,12 +1,6 @@
 # HUD e barras de status
 
-Envie aqui as imagens finais da HUD, especialmente as molduras das barras de HP e energia.
+Arte final integrada:
+- `moldura_hp_energia_sem_barras_600px.webp` — moldura única com ícones de coração e energia.
 
-Nomes sugeridos:
-- \`hp-bar-frame.webp\`
-- \`hp-bar-fill.webp\`
-- \`energy-bar-frame.webp\`
-- \`energy-bar-fill.webp\`
-
-A área interna da barra deve permanecer transparente na moldura. O preenchimento será controlado pelo valor atual do jogador.
-Os arquivos desta pasta ainda não são carregados pelo jogo.
+O Phaser desenha os preenchimentos dinâmicos de HP e energia sobre as áreas internas da moldura. A HUD usa os valores atuais do jogador, sem substituir a lógica de status.
