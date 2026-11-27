@@ -13,6 +13,18 @@ for (const jsonFile of jsonFiles) {
   if (!Array.isArray(metadata.frames) || !metadata.frames.length) {
     throw new Error('Spritesheet sem quadros: ' + jsonFile);
   }
+  const directions = new Map();
+  for (const frame of metadata.frames) {
+    const direction = Number(frame.direction);
+    if (!Number.isInteger(direction) || direction < 0) throw new Error('Direção inválida: ' + jsonFile);
+    directions.set(direction, (directions.get(direction) || 0) + 1);
+  }
+  if (metadata.directionCount !== directions.size) throw new Error('Quantidade de direções divergente: ' + jsonFile);
+  const fw = Number(metadata.frameSize?.width), fh = Number(metadata.frameSize?.height);
+  for (const [direction, count] of directions) {
+    const columns = Math.ceil(Math.sqrt(count)), rows = Math.ceil(count / columns);
+    if (columns * fw > 2048 || rows * fh > 2048) throw new Error(`Página direcional excede 2048px em ${jsonFile}, direção ${direction}`);
+  }
   if (metadata.pivot?.mode !== 'per-frame-visible-bounds-grounded') {
     throw new Error('Pivô por quadro ausente: ' + jsonFile);
   }
