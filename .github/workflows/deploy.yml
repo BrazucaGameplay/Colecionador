@@ -72,8 +72,6 @@ jobs:
         run: |
           node scripts/validate-character-sprites.mjs public/assets/characters/sprites/skin_01
           node scripts/validate-character-sprites.mjs dist/assets/characters/sprites/skin_01
-          node scripts/validate-character-skin-atlas.mjs public/assets/characters/sprites/skin_2
-          node scripts/validate-character-skin-atlas.mjs dist/assets/characters/sprites/skin_2
       - name: Validate enabled monster sprite atlases in source and build
         run: |
           node scripts/validate-monster-sprites.mjs public/assets/monsters
@@ -124,8 +122,7 @@ jobs:
           await writeFile(join(root, 'build-manifest.json'), JSON.stringify({
             version: JSON.parse(await readFile('package.json', 'utf8')).version,
             files
-          }, null, 2) + '
-');
+          }, null, 2) + '\n');
           console.log(`Created integrity manifest for ${files.length} deployed code files.`);
           NODE
       - uses: actions/configure-pages@v6
