@@ -17,14 +17,14 @@ export default class GameUI extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('player-portrait', import.meta.env.BASE_URL + 'assets/ui/player-portrait.webp');
+    const base = import.meta.env.BASE_URL + 'assets/ui/';
+    this.load.atlas('ui-theme', base + 'ui-atlas.webp', base + 'ui-atlas.json?v=20261126-ui-gold-red-v1');
+    this.load.image('player-portrait', base + 'player-portrait.webp');
   }
 
   create() {
     this.gameScene = this.scene.get('Game');
     this.gameScene.uiScene = this;
-    // A UI recebe os toques primeiro, mas não bloqueia a cena inferior.
-    // Os controles interrompem a propagação e a HUD também é filtrada no mundo.
     this.input.setGlobalTopOnly(false);
     this.createHud();
     this.scale.on('resize', this.handleResize, this);
@@ -33,10 +33,11 @@ export default class GameUI extends Phaser.Scene {
   }
 
   createHud() {
-    this.menuButton = this.add.rectangle(36, 36, 48, 48, 0x101b2d, 0.94)
-      .setStrokeStyle(1.5, 0x8ba4c7).setDepth(3000);
+    this.menuButton = this.add.image(36, 36, 'ui-theme', 'slot')
+      .setDisplaySize(50, 52).setDepth(3000);
     this.menuButtonText = this.add.text(36, 36, '☰', {
-      fontFamily: 'Arial, sans-serif', fontSize: '25px', color: '#f8fafc'
+      fontFamily: 'Georgia, serif', fontSize: '24px', color: '#fff0c4',
+      stroke: '#4b160d', strokeThickness: 3
     }).setOrigin(0.5).setDepth(3001);
     this.bindButton(this.menuButton, () => {
       this.activePanel === 'menu' ? this.closePanel() : this.openPanel('menu');
@@ -44,9 +45,7 @@ export default class GameUI extends Phaser.Scene {
 
     const centerX = this.scale.width / 2;
     const height = this.scale.height;
-    const portraitY = height - 81;
-    // O asset já possui canal alpha: exibe a silhueta inteira sem moldura,
-    // círculo, máscara ou fundo artificial.
+    const portraitY = height - 105;
     this.portraitImage = this.add.image(centerX, portraitY, 'player-portrait')
       .setDisplaySize(64, 96).setDepth(3002);
     this.portraitHit = this.add.zone(centerX, portraitY, 80, 108).setDepth(3004).setInteractive();
@@ -54,12 +53,17 @@ export default class GameUI extends Phaser.Scene {
       event?.stopPropagation();
       this.openPanel('profile');
     });
-    this.hpLabel = this.add.text(0, 0, 'HP', { fontSize: '9px', fontStyle: 'bold', color: '#fecaca' }).setDepth(3003);
-    this.enLabel = this.add.text(0, 0, 'EN', { fontSize: '9px', fontStyle: 'bold', color: '#bfdbfe' }).setDepth(3003);
-    this.hpTrack = this.add.rectangle(0, 0, 128, 7, 0x451a1a).setOrigin(0, 0.5).setDepth(3001);
-    this.hpFill = this.add.rectangle(0, 0, 128, 7, 0xef4444).setOrigin(0, 0.5).setDepth(3002);
-    this.enTrack = this.add.rectangle(0, 0, 128, 7, 0x172554).setOrigin(0, 0.5).setDepth(3001);
-    this.enFill = this.add.rectangle(0, 0, 128, 7, 0x3b82f6).setOrigin(0, 0.5).setDepth(3002);
+
+    this.hpLabel = this.add.text(0, 0, 'HP', {
+      fontFamily: 'Georgia, serif', fontSize: '10px', fontStyle: 'bold', color: '#ffe2c5'
+    }).setDepth(3003);
+    this.enLabel = this.add.text(0, 0, 'EN', {
+      fontFamily: 'Georgia, serif', fontSize: '10px', fontStyle: 'bold', color: '#dcecff'
+    }).setDepth(3003);
+    this.hpBarArt = this.add.image(0, 0, 'ui-theme', 'health').setDepth(3001);
+    this.enBarArt = this.add.image(0, 0, 'ui-theme', 'energy').setDepth(3001);
+    this.hpEmpty = this.add.rectangle(0, 0, 0, 7, 0x28050b, 0.78).setOrigin(0, 0.5).setDepth(3002);
+    this.enEmpty = this.add.rectangle(0, 0, 0, 7, 0x06142c, 0.78).setOrigin(0, 0.5).setDepth(3002);
     this.layoutHud();
   }
 
@@ -70,17 +74,19 @@ export default class GameUI extends Phaser.Scene {
     this.menuButton.setPosition(36, 36);
     this.menuButtonText.setPosition(36, 36);
     const centerX = width / 2;
-    const portraitY = height - 81;
+    const portraitY = height - 105;
     this.portraitImage.setPosition(centerX, portraitY);
     this.portraitHit.setPosition(centerX, portraitY);
-    const barX = centerX - 64;
-    const barY = height - 24;
+
+    const barX = centerX - 72;
+    const barY = height - 25;
     this.hpLabel.setPosition(barX - 22, barY - 6);
     this.enLabel.setPosition(barX - 22, barY + 7);
-    this.hpTrack.setPosition(barX, barY);
-    this.hpFill.setPosition(barX, barY);
-    this.enTrack.setPosition(barX, barY + 13);
-    this.enFill.setPosition(barX, barY + 13);
+    this.hpBarArt.setPosition(centerX + 5, barY).setDisplaySize(150, 20);
+    this.enBarArt.setPosition(centerX + 5, barY + 16).setDisplaySize(150, 20);
+    this.hpEmpty.setPosition(barX + 19, barY).setSize(0, 7);
+    this.enEmpty.setPosition(barX + 19, barY + 16).setSize(0, 7);
+    this.refreshHud();
   }
 
   bindButton(object, callback) {
@@ -96,24 +102,27 @@ export default class GameUI extends Phaser.Scene {
     const width = this.scale.width;
     const height = this.scale.height;
     return (x >= 8 && x <= 64 && y >= 8 && y <= 64) ||
-      (x >= width / 2 - 52 && x <= width / 2 + 52 && y >= height - 138 && y <= height);
+      (x >= width / 2 - 58 && x <= width / 2 + 58 && y >= height - 164 && y <= height);
   }
 
   refreshHud() {
     const player = this.gameScene?.player;
-    if (!player || !this.hpFill) return;
+    if (!player || !this.hpEmpty) return;
     const hp = player.maxHealth > 0 ? Phaser.Math.Clamp(player.health / player.maxHealth, 0, 1) : 0;
     const energy = player.maxEnergy > 0 ? Phaser.Math.Clamp(player.energy / player.maxEnergy, 0, 1) : 0;
-    this.hpFill.setSize(128 * hp, 7);
-    this.enFill.setSize(128 * energy, 7);
+    const barX = this.scale.width / 2 - 72 + 19;
+    const barY = this.scale.height - 25;
+    const innerWidth = 112;
+    this.hpEmpty.setPosition(barX + innerWidth * hp, barY).setSize(innerWidth * (1 - hp), 7);
+    this.enEmpty.setPosition(barX + innerWidth * energy, barY + 16).setSize(innerWidth * (1 - energy), 7);
     if (this.activePanel === 'profile') this.refreshProfile();
   }
 
   openPanel(panel) {
     this.closePanel();
     this.activePanel = panel;
-    const shade = this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0x020617, 0.38)
-      .setOrigin(0).setDepth(4000).setInteractive();
+    const shade = this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0x02040b, 0.62)
+      .setOrigin(0).setDepth(3990).setInteractive();
     shade.on('pointerdown', (pointer, localX, localY, event) => {
       event?.stopPropagation();
       this.closePanel();
@@ -132,95 +141,138 @@ export default class GameUI extends Phaser.Scene {
 
   addPanelText(x, y, value, style = {}, depth = 4020) {
     return this.addPanelObject(this.add.text(x, y, value, {
-      fontFamily: 'Arial, sans-serif', fontSize: '14px', color: '#e2e8f0', ...style
+      fontFamily: 'Trebuchet MS, Arial, sans-serif',
+      fontSize: '14px',
+      color: '#fff0d5',
+      stroke: '#35100b',
+      strokeThickness: 2,
+      ...style
     }), depth);
   }
 
   addPanelFrame(x, y, width, height, title) {
     const frame = this.addPanelObject(
-      this.add.rectangle(x, y, width, height, 0x101827, 0.98)
-        .setOrigin(0).setStrokeStyle(1.5, 0x64748b), 4010
+      this.add.nineslice(x + width / 2, y + height / 2, 'ui-theme', 'panel',
+        width, height, 72, 72, 62, 62),
+      4010
     );
     frame.setInteractive();
     frame.on('pointerdown', (pointer, localX, localY, event) => event?.stopPropagation());
-    this.addPanelText(x + 18, y + 15, title, { fontSize: '18px', fontStyle: 'bold', color: '#f8fafc' });
+
+    this.addPanelText(x + width / 2, y + 34, title, {
+      fontFamily: 'Georgia, serif', fontSize: '19px', fontStyle: 'bold',
+      color: '#ffe0a0', stroke: '#4a1009', strokeThickness: 4
+    }, 4020);
+
     const close = this.addPanelObject(
-      this.add.rectangle(x + width - 24, y + 24, 34, 34, 0x334155).setStrokeStyle(1, 0x94a3b8), 4030
+      this.add.image(x + width - 32, y + 34, 'ui-theme', 'close').setDisplaySize(34, 38),
+      4030
     );
-    this.addPanelText(x + width - 32, y + 11, '×', { fontSize: '25px', color: '#fff' }, 4031);
     this.bindButton(close, () => this.closePanel());
+    return { x, y, width, height };
   }
 
   createMenuPanel() {
-    const width = Math.min(290, this.scale.width - 24);
-    const x = 12, y = 72, height = 318;
+    const width = Math.min(330, this.scale.width - 20);
+    const x = 10;
+    const y = 70;
+    const height = 370;
     this.addPanelFrame(x, y, width, height, 'MENU');
-    [['Bestiário', 'bestiary'], ['Waifus', 'waifus'], ['Inventário', 'inventory'], ['Casa', 'house']]
-      .forEach(([label, key], index) => {
-        const rowY = y + 62 + index * 46;
-        const button = this.addPanelObject(
-          this.add.rectangle(x + width / 2, rowY, width - 28, 38, 0x1e293b).setStrokeStyle(1, 0x475569), 4020
-        );
-        this.addPanelText(x + 28, rowY - 10, label, { fontSize: '14px', fontStyle: 'bold', color: '#f8fafc' }, 4021);
-        this.bindButton(button, () => this.openPanel(key));
-      });
+
+    const entries = [
+      ['Bestiário', 'bestiary'],
+      ['Waifus', 'waifus'],
+      ['Inventário', 'inventory'],
+      ['Casa', 'house']
+    ];
+    entries.forEach(([label, key], index) => {
+      const rowY = y + 104 + index * 49;
+      const button = this.addPanelObject(
+        this.add.nineslice(x + width / 2, rowY, 'ui-theme', 'button',
+          width - 56, 43, 48, 48),
+        4020
+      );
+      this.bindButton(button, () => this.openPanel(key));
+      this.addPanelText(x + width / 2, rowY, label, {
+        fontFamily: 'Georgia, serif', fontSize: this.scale.width < 390 ? '13px' : '15px',
+        fontStyle: 'bold', color: '#fff0bd', stroke: '#4b0d08', strokeThickness: 3
+      }, 4022);
+    });
 
     const monitor = this.gameScene.performanceMonitor;
     const enabled = Boolean(monitor?.enabled);
-    const rowY = y + 62 + 4 * 46;
+    const rowY = y + 104 + 4 * 49;
     const toggle = this.addPanelObject(
-      this.add.rectangle(x + width / 2, rowY, width - 28, 38, enabled ? 0x164e35 : 0x1e293b)
-        .setStrokeStyle(1, enabled ? 0x4ade80 : 0x64748b), 4020
+      this.add.nineslice(x + width / 2, rowY, 'ui-theme', 'button',
+        width - 56, 43, 48, 48),
+      4020
     );
-    this.performanceToggleText = this.addPanelText(x + 28, rowY - 10,
+    this.performanceToggleText = this.addPanelText(x + width / 2, rowY,
       'Desempenho / DPS: ' + (enabled ? 'ATIVO' : 'DESATIVADO'),
-      { fontSize: this.scale.width < 390 ? '11px' : '13px', fontStyle: 'bold', color: '#f8fafc' }, 4021);
+      { fontFamily: 'Georgia, serif', fontSize: this.scale.width < 390 ? '10px' : '12px',
+        fontStyle: 'bold', color: enabled ? '#ffe08a' : '#e6c7b4' }, 4022);
     this.bindButton(toggle, () => {
       const next = !Boolean(monitor?.enabled);
       monitor?.setEnabled(next);
       this.performanceToggleText?.setText('Desempenho / DPS: ' + (next ? 'ATIVO' : 'DESATIVADO'));
-      toggle.setFillStyle(next ? 0x164e35 : 0x1e293b);
-      toggle.setStrokeStyle(1, next ? 0x4ade80 : 0x64748b);
+      this.performanceToggleText?.setColor(next ? '#ffe08a' : '#e6c7b4');
     });
   }
 
   createInfoPanel(key) {
     const content = PANEL_COPY[key];
     if (!content) return;
-    const width = Math.min(430, this.scale.width - 24);
-    const height = Math.min(250, this.scale.height - 32);
+    const width = Math.min(440, this.scale.width - 24);
+    const height = Math.min(270, this.scale.height - 32);
     const x = (this.scale.width - width) / 2;
     const y = (this.scale.height - height) / 2;
     this.addPanelFrame(x, y, width, height, content.title);
-    this.addPanelText(x + 20, y + 72, content.status, { fontSize: '13px', fontStyle: 'bold', color: '#fbbf24' });
-    this.addPanelText(x + 20, y + 103, content.body, {
+    this.addPanelText(x + 24, y + 88, content.status, {
+      fontFamily: 'Georgia, serif', fontSize: '14px', fontStyle: 'bold',
+      color: '#ffd77d'
+    });
+    this.addPanelText(x + 24, y + 120, content.body, {
       fontSize: this.scale.width < 390 ? '11px' : '13px',
-      color: '#cbd5e1', wordWrap: { width: width - 40 }, lineSpacing: 5
+      color: '#fff0df', wordWrap: { width: width - 48 }, lineSpacing: 5
     });
   }
 
   createProfilePanel() {
-    const width = Math.min(440, this.scale.width - 24);
-    const height = Math.min(560, this.scale.height - 24);
+    const width = Math.min(470, this.scale.width - 20);
+    const height = Math.min(620, this.scale.height - 20);
     const x = (this.scale.width - width) / 2;
     const y = (this.scale.height - height) / 2;
     this.addPanelFrame(x, y, width, height, 'PERFIL DO JOGADOR');
-    this.profileSummary = this.addPanelText(x + 18, y + 52, '', { fontSize: '12px', color: '#cbd5e1' });
+
+    this.profileSummary = this.addPanelText(x + 22, y + 78, '', {
+      fontFamily: 'Georgia, serif', fontSize: this.scale.width < 390 ? '10px' : '12px',
+      color: '#ffe2ae'
+    });
+    const divider = this.addPanelObject(
+      this.add.image(x + width / 2, y + 105, 'ui-theme', 'divider').setDisplaySize(width - 78, 24),
+      4020
+    );
     this.profileRows = [];
     const keys = Object.keys(STAT_UPGRADES);
-    const rowHeight = Math.max(22, (height - 126) / keys.length);
+    const rowHeight = (height - 174) / keys.length;
     keys.forEach((key, index) => {
-      const rowY = y + 91 + index * rowHeight;
-      this.addPanelText(x + 18, rowY - 8, STAT_UPGRADES[key].label, {
-        fontSize: this.scale.width < 390 ? '10px' : '12px'
-      });
-      const value = this.addPanelText(x + width - 62, rowY - 8, '', {
-        fontSize: '11px', fontStyle: 'bold', color: '#fff'
-      });
+      const rowY = y + 137 + index * rowHeight;
+      this.addPanelText(x + 24, rowY, STAT_UPGRADES[key].label, {
+        fontSize: this.scale.width < 390 ? '10px' : '12px',
+        color: '#ffedcf'
+      }, 4022);
+      const value = this.addPanelText(x + width - 78, rowY, '', {
+        fontSize: this.scale.width < 390 ? '10px' : '12px',
+        fontStyle: 'bold', color: '#fff7e8'
+      }, 4022);
       const plus = this.addPanelObject(
-        this.add.rectangle(x + width - 28, rowY, 25, 22, 0x166534).setStrokeStyle(1, 0x86efac), 4030
+        this.add.nineslice(x + width - 30, rowY + 1, 'ui-theme', 'button', 30, 27, 24, 24),
+        4030
       );
-      this.addPanelText(x + width - 33, rowY - 10, '+', { fontSize: '18px', color: '#fff' }, 4031);
+      this.addPanelText(x + width - 30, rowY - 1, '+', {
+        fontFamily: 'Georgia, serif', fontSize: '17px', fontStyle: 'bold',
+        color: '#fff0bd'
+      }, 4031);
       this.bindButton(plus, () => {
         if (this.gameScene.player.allocateStat(key)) {
           this.gameScene.persistProgress({
@@ -232,14 +284,16 @@ export default class GameUI extends Phaser.Scene {
       this.profileRows.push({ key, value, plus });
       if (index < keys.length - 1) {
         this.addPanelObject(
-          this.add.rectangle(x + 14, rowY + rowHeight / 2 - 2, width - 28, 1, 0x334155).setOrigin(0), 4015
+          this.add.rectangle(x + 20, rowY + rowHeight / 2, width - 40, 1, 0xd6a64b, 0.28).setOrigin(0),
+          4015
         );
       }
     });
-    this.addPanelText(x + 18, y + height - 25,
-      '3 pontos por nível • evolua os atributos disponíveis', {
-        fontSize: this.scale.width < 390 ? '8px' : '10px', color: '#94a3b8'
-      });
+    this.addPanelText(x + 22, y + height - 30,
+      'Pontos de atributo: distribua para evoluir seu personagem', {
+        fontSize: this.scale.width < 390 ? '8px' : '10px',
+        color: '#e7cda7'
+      }, 4022);
     this.refreshProfile();
   }
 
@@ -253,7 +307,6 @@ export default class GameUI extends Phaser.Scene {
     );
     for (const row of this.profileRows || []) {
       row.value.setText(STAT_UPGRADES[row.key].format(player.stats[row.key]));
-      row.plus.setFillStyle(player.statPoints > 0 ? 0x166534 : 0x334155);
       row.plus.setAlpha(player.statPoints > 0 ? 1 : 0.5);
     }
   }
@@ -264,6 +317,7 @@ export default class GameUI extends Phaser.Scene {
     this.activePanel = null;
     this.profileSummary = null;
     this.profileRows = [];
+    this.performanceToggleText = null;
   }
 
   handleResize() {
