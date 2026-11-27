@@ -32,7 +32,10 @@ test('slime usa os quatro WebP finais já existentes no repositório', () => {
     'assets/monsters/slime/slime_ataque_frame_02(1).webp',
     'assets/monsters/slime/slime_morte_frame_02.webp'
   ]);
-  assert.equal(slime.visual.scale, 0.72);\n  assert.equal(slime.visual.shadowScale, 1.5);\n  assert.equal(slime.collision.radius, 18);\n  assert.deepEqual(slime.drops, []);
+  assert.equal(slime.visual.scale, 0.72);
+  assert.equal(slime.visual.shadowScale, 1.5);
+  assert.equal(slime.collision.radius, 18);
+  assert.deepEqual(slime.drops, []);
   assert.deepEqual(slime.stats, {
     attack: 1, defense: 1, penetration: 1, attackSpeed: 1,
     movementSpeed: 1, maxHealth: 1, maxEnergy: 1,
@@ -46,7 +49,8 @@ test('ilha usa um único limite global de 100 slimes com surgimento em toda a á
   assert.equal(zone.x, 2048);
   assert.equal(zone.y, 2048);
   assert.equal(zone.radius, 2010);
-  assert.equal(zone.maxAlive, 100);\n  assert.equal(zone.collisionRadius, 18);
+  assert.equal(zone.maxAlive, 100);
+  assert.equal(zone.collisionRadius, 18);
   assert.equal(zone.minPlayerDistance, 0);
   assert.equal(zone.respawnMs, 1000);
   assert.equal(zone.spawnIntervalMs, 1000);
