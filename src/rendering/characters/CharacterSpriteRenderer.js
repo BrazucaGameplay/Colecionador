@@ -55,7 +55,10 @@ export function loadPlayerSpriteAnimation(scene,id){
 }
 export default class CharacterSpriteRenderer{
  constructor(scene,{x,y,scale=DEFAULT_CHARACTER_SCALE,depthManager=scene.worldDepthManager}={}){
-  this.scene=scene;this.depthManager=depthManager;this.x=x;this.y=y;this.direction=0;this.moving=false;this.movementMode=DEFAULT_MOVEMENT_ANIMATION;this.currentAnimation=null;this.actionState=new CharacterActionState();this.actionToken=null;this.nextCombatVariant=0;this.pendingActionLoads=new Set();this.baseScale=scale;this.actionScaleMultiplier=1.35;this.destroyed=false;
+  this.scene=scene;this.depthManager=depthManager;this.x=x;this.y=y;this.direction=0;this.moving=false;this.movementMode=DEFAULT_MOVEMENT_ANIMATION;this.currentAnimation=null;this.actionState=new CharacterActionState();this.actionToken=null;this.nextCombatVariant=0;this.pendingActionLoads = new Set();
+  this.baseScale = scale;
+  this.actionScaleMultiplier = 1.35;
+  this.destroyed = false;
   const ratio=scale/.62;this.shadow=scene.add.ellipse(x,y-2,22*ratio,9*ratio,0x101522,.3);this.depthManager.apply(this.shadow,y,'shadow');
   const idle=CHARACTER_ANIMATIONS[DEFAULT_IDLE_ANIMATION],key=textureKey(idle,0),pivot=scene.playerFramePivots?.get(key+':f0')??.9375;
   this.sprite=scene.add.sprite(x,y,key,'f0').setOrigin(.5,pivot).setScale(scale);this.depthManager.apply(this.sprite,y,'actor');this.playLocomotion(true);
@@ -82,7 +85,7 @@ export default class CharacterSpriteRenderer{
   const {durationMs,...actionOverrides}=overrides,isCombat=actionId==='combat';
   const started=this.actionState.start(resolved,{...animation,...actionOverrides,...(isCombat?{priority:CHARACTER_ANIMATIONS.combat.priority,interruptible:true,lockMovement:true,restartExisting:true}:{})});
   if(!started.accepted)return false;
-  this.sprite.off(Phaser.Animations.Events.ANIMATION_COMPLETE,this.onActionComplete,this);this.actionToken=started.action.token;this.currentAnimation=resolved;this.sprite.setScale(this.baseScale*this.actionScaleMultiplier);
+  this.sprite.off(Phaser.Animations.Events.ANIMATION_COMPLETE,this.onActionComplete,this);this.actionToken=started.action.token;this.currentAnimation=resolved;this.sprite.setScale(this.baseScale * this.actionScaleMultiplier);
   this.sprite.play({key,frameRate:Number.isFinite(durationMs)&&durationMs>0?null:undefined,repeat:animation.loop?-1:0,...(Number.isFinite(durationMs)&&durationMs>0?{duration:durationMs}:{})});
   if(!animation.loop)this.sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE,this.onActionComplete,this);return true;
  }
