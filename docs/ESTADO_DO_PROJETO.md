@@ -2200,3 +2200,64 @@ Versão anterior: 2.8.5. Nova versão: 2.9.0 (funcionalidade visual nova).
 Validação de build/testes e publicação precisam ser confirmadas pelo
 workflow associado ao commit 2.9.0. Teste visual em Android físico continua
 pendente.
+
+
+======================================================================
+ARTES DA TELA DE CARREGAMENTO ATIVADAS — 27/11/2026 — VERSÃO 2.9.1
+======================================================================
+
+Auditoria do repositório na branch main confirmou que as três imagens já
+haviam sido enviadas pelo usuário em commit próprio:
+- public/assets/ui/loading/images/ogra.webp
+- public/assets/ui/loading/images/ciclopesa.webp
+- public/assets/ui/loading/images/lamia.webp
+
+O commit de upload das imagens é 589a85ca69b514544dbb73ce38ac97fb44cf5fed
+("Add files via upload"). Os arquivos existem no GitHub, com tamanhos
+respectivos de 110492, 100452 e 126762 bytes. A execução Deploy 964,
+associada a esse commit, terminou com conclusão success.
+
+A auditoria encontrou a causa da tela não exibir as imagens: apesar dos
+três arquivos já estarem presentes, src/loading/loading-images.js ainda
+exportava um array vazio. O catálogo foi atualizado para registrar as três
+artes existentes. O README da pasta também foi corrigido para refletir que
+as imagens já estão presentes e ativas.
+
+Versão anterior: 2.9.0. Nova versão: 2.9.1 (PATCH: ativação de assets
+existentes e correção da documentação).
+
+Estado funcional:
+- HTML de carregamento independente do canvas Phaser: implementado.
+- Barra ligada ao progresso do carregador Phaser: implementada.
+- Fechamento do overlay após Game.create() concluir a inicialização:
+  implementado.
+- Rotação das três artes em intervalo de sete segundos: configurada no
+  controlador e catálogo atualizado.
+- Imagens armazenadas no GitHub: confirmado.
+- Teste visual em navegador e Android físico: ainda requer validação.
+- Build/deploy da versão 2.9.1: aguarda execução do workflow deste commit.
+
+Recap do jogo com base na estrutura atual do repositório:
+- Produto/plataforma: jogo web baseado em Vite, com integração Capacitor
+  para Android; publicação em loja exige validações adicionais.
+- Mundo/conteúdo: mundo em ilha com bootstrap próprio, terreno, vegetação e
+  pontos de surgimento de monstros presentes no código.
+- Gameplay: jogador, movimentação por toque, combate, monstros, progressão,
+  persistência e HUD têm implementações no código; conteúdo de waifus e
+  sistemas futuros devem ser avaliados por seus módulos próprios antes de
+  serem considerados completos.
+- Arquitetura: Phaser 4, JavaScript ES modules, cenas Boot/Preload/Game/
+  GameUI, sistemas separados para mundo, câmera, personagem, monstros,
+  combate, persistência e entrada.
+- Assets: artes da tela em WebP, terreno e vegetação em WebP, carregadores
+  dedicados para sprites do jogador e monstros. As três artes desta tela
+  estão agora registradas no catálogo.
+- Interface/mobile: overlay HTML responsivo com barra inferior, HUD em cena
+  própria e controles por toque; validação em aparelhos físicos permanece
+  pendente.
+- Build/publicação: Vite build, testes Node e workflow GitHub Actions Deploy.
+  O workflow 964 do commit de upload das imagens concluiu com sucesso; o
+  workflow da versão 2.9.1 precisa ser confirmado separadamente.
+- Pendências/riscos: testar visualmente a alternância, recorte e leitura da
+  barra em orientação vertical/horizontal, confirmar build e deploy da
+  versão 2.9.1 e validar APK/Android físico.
