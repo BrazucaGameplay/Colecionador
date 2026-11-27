@@ -26,7 +26,7 @@ test('Navegação continua usando máscara alfa pré-calculada, sem leitura por 
   const navigation = read('../src/world/WorldNavigation.js');
   assert.match(navigation, /setAlphaMask\(rgbaPixels, width, height, threshold = 150\)/);
   assert.match(navigation, /this\.walkableGrid = new Uint8Array/);
-  assert.match(navigation, /this\.alphaMask\[py \* this\.maskWidth \+ px\] === 1/);
+  assert.match(navigation, /this\.alphaMask\[py \* this\.maskWidth \+ px\] !== 1/);
 });
 
 test('a cena não depende de rede ou armazenamento para preparar a navegação', () => {
