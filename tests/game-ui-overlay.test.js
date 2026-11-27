@@ -50,11 +50,13 @@ test('HUD e painéis não dependem das imagens antigas', async () => {
   assert.match(sources[4], /MenuButton/);
 });
 
-test('todos os painéis compartilham a moldura e liberam seus objetos', async () => {
+test('todos os painéis usam a moldura compartilhada e liberam seus objetos', async () => {
   const names = ['MenuPanel', 'ProfilePanel', 'BestiaryPanel', 'WaifuPanel', 'InventoryPanel', 'HousePanel'];
   const sources = await Promise.all(names.map(name => read('../src/ui/panels/' + name + '.js')));
-  for (const source of sources) assert.match(source, /destroy\(\)/);
   for (const source of sources) assert.match(source, /PanelFrame|InfoPanel/);
+  const shared = await read('../src/ui/panels/InfoPanel.js');
+  assert.match(shared, /destroy\(\)/);
+  assert.match(await read('../src/ui/components/PanelFrame.js'), /destroy\(\)/);
 });
 
 test('as pastas de arte estão documentadas e separadas por função', async () => {
