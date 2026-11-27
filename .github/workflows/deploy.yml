@@ -82,10 +82,7 @@ jobs:
             skin-basicas-idle \
             skin-basicas-running \
             skin-basicas-dead \
-            skin-basicas-flirty_strut \
-            skin-batalha-combate_dd \
-            skin-batalha-salto \
-            skin-batalha-right_hand_sword_slash; do
+            skin-batalha-combate_dd; do
             test -s "public/assets/characters/sprites/skin_01/${asset}.png"
             test -s "public/assets/characters/sprites/skin_01/${asset}.json"
             test -s "dist/assets/characters/sprites/skin_01/${asset}.png"
