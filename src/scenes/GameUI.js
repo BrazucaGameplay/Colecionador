@@ -27,7 +27,7 @@ export default class GameUI extends Phaser.Scene {
 
   preload() {
     const base = import.meta.env.BASE_URL + 'assets/ui/';
-    for (const [key, path] of UI_ASSETS) this.load.image(key, base + path + '?v=20261127-ui-art-v1');
+    for (const [key, path] of UI_ASSETS) this.load.image(key, base + path + '?v=20261127-ui-art-v2');
     this.load.on('loaderror', file => console.error('Falha ao carregar arte da interface:', file.key, file.src));
   }
 
@@ -36,7 +36,8 @@ export default class GameUI extends Phaser.Scene {
     this.gameScene.uiScene = this;
     this.input.setGlobalTopOnly(false);
     this.hud = new PlayerHUD(this, {
-      onMenu: () => this.activePanel?.key === 'menu' ? this.closePanel() : this.openPanel('menu')
+      onMenu: () => this.activePanel?.key === 'menu' ? this.closePanel() : this.openPanel('menu'),
+      onProfile: () => this.openPanel('profile')
     });
     this.scale.on('resize', this.handleResize, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
