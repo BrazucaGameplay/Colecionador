@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import SkinManager from '../src/rendering/characters/SkinManager.js';
 import {CHARACTER_SKINS,DEFAULT_CHARACTER_SKIN,REQUIRED_SKIN_ANIMATIONS} from '../src/rendering/characters/CharacterSkinCatalog.js';
+import {getCharacterAnimationsForSkin} from '../src/rendering/characters/CharacterAnimationCatalog.js';
 
 const testCatalog={...CHARACTER_SKINS,skin_test:{...CHARACTER_SKINS.skin_01,id:'skin_test',name:'Skin de teste'}};
 test('skin original é padrão e pronta',()=>{
@@ -34,4 +35,12 @@ test('seleção muda apenas após confirmação do renderer',()=>{
  const manager=new SkinManager({catalog:testCatalog,assetValidator:()=>true,onChange:()=>({changed:true})});
  assert.equal(manager.selectSkin('skin_test').changed,true);
  assert.equal(manager.getSelectedSkin(),'skin_test');
+});
+
+test('fábrica de animações preserva os sete pacotes e separa as chaves por skin',()=>{
+ const animations=getCharacterAnimationsForSkin(CHARACTER_SKINS.skin_01);
+ assert.equal(animations.idle.key,'character-animation-idle');
+ assert.equal(animations.walking.key,animations.running.key);
+ assert.equal(new Set(Object.values(animations).map(item=>item.key)).size,7);
+ assert.ok(animations.idle.path.endsWith('/skin_01/skin-basicas-idle'));
 });
