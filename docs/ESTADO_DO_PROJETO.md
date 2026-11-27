@@ -2432,3 +2432,22 @@ Testes atualizados para verificar o lerp inicial de 0.06 e o lerp de retorno
 de 0.025. Build, testes e publicação dependem do workflow desta versão.
 
 Versionamento: 2.9.4 → 2.9.5 (PATCH: retorno gradual da câmera ao jogador).
+
+
+======================================================================
+ATUALIZAÇÃO DA EXPECTATIVA DE TESTE DO RETORNO DE CÂMERA — VERSÃO 2.9.6
+======================================================================
+
+A primeira execução do workflow 977 da versão 2.9.5 encontrou uma asserção
+legada em tests/game-systems-bootstrap.test.js. O teste ainda exigia a chamada
+sem argumentos cameraController.followPlayer(), mas a integração passou a
+solicitar explicitamente followPlayer({ smoothReturn: true }) no toque que
+retoma o acompanhamento. A asserção foi atualizada para verificar o novo
+contrato. Nenhuma alteração adicional de runtime foi feita nesta versão.
+
+A alteração funcional de retorno gradual permanece: lerp 0.025 somente ao
+retomar o follow após pan manual; follow inicial em 0.06. O workflow 977
+falhou exclusivamente na asserção desatualizada, antes do build e deploy.
+A nova execução deve validar testes, build e publicação da versão 2.9.6.
+
+Versionamento: 2.9.5 → 2.9.6 (PATCH: alinhamento de teste com retorno suave da câmera).

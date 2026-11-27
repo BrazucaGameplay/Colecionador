@@ -26,7 +26,7 @@ test('Game mantém o ciclo de atualização e o tap-to-move após a extração',
   assert.match(bootstrap, /new TouchInputController\(scene/);
   assert.match(bootstrap, /onTap: \(screenX, screenY\)/);
   assert.match(bootstrap, /scene\.movement\.setDestination\(target\.x, target\.y\)/);
-  assert.match(bootstrap, /cameraController\.followPlayer\(\)/);
+  assert.match(bootstrap, /cameraController\.followPlayer\(\{ smoothReturn: true \}\)/);
 });
 
 test('GameSystemsBootstrap libera os recursos que inicializa', () => {
