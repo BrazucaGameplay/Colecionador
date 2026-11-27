@@ -3,7 +3,7 @@ import PanelFrame from '../components/PanelFrame.js';
 export default class MenuPanel {
   constructor(scene, { close = () => {}, openPanel = () => {} } = {}) {
     this.scene = scene;
-    this.frame = new PanelFrame(scene, { title: 'MENU PRINCIPAL', width: 520, height: 390, variant: 'wide', close });
+    this.frame = new PanelFrame(scene, { title: 'MENU PRINCIPAL', width: 600, height: 460, variant: 'wide', close });
     const { x, y, width, height } = this.frame;
     const entries = [
       ['Bestiário', 'bestiary'],
@@ -12,10 +12,10 @@ export default class MenuPanel {
       ['Casa', 'house']
     ];
 
-    const buttonWidth = Math.min(190, width * 0.37);
+    const buttonWidth = Math.min(200, width * 0.37);
     const buttonHeight = buttonWidth / 4;
     const columns = [x + width * 0.32, x + width * 0.68];
-    const rows = [y + height * 0.39, y + height * 0.62];
+    const rows = [y + height * 0.39, y + height * 0.61];
 
     entries.forEach(([label, key], index) => {
       const row = Math.floor(index / 2);
@@ -31,19 +31,14 @@ export default class MenuPanel {
     });
 
     const monitor = scene.scene.get('Game')?.performanceMonitor;
-    const enabled = Boolean(monitor?.enabled);
-    const performanceWidth = Math.min(230, width * 0.56);
     this.monitorButton = this.frame.addButton({
       x: x + width / 2,
       y: y + height * 0.805,
-      width: performanceWidth,
-      height: performanceWidth / 4,
-      label: 'DESEMPENHO\n' + (enabled ? 'ATIVO' : 'DESATIVADO'),
-      onClick: () => {
-        const next = !Boolean(monitor?.enabled);
-        monitor?.setEnabled(next);
-        this.monitorButton?.setText('DESEMPENHO\n' + (next ? 'ATIVO' : 'DESATIVADO'));
-      }
+      width: Math.min(150, width * 0.30),
+      height: Math.min(40, width * 0.08),
+      label: 'FPS',
+      texture: 'ui-button-200',
+      onClick: () => monitor?.setEnabled(!Boolean(monitor?.enabled))
     });
   }
 

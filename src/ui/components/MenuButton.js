@@ -8,7 +8,7 @@ export default class MenuButton {
       .setDisplaySize(width, height).setScrollFactor(0).setDepth(depth).setInteractive();
     this.label = scene.add.text(x, y, label, {
       fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
-      fontSize: Math.max(14, Math.min(19, height * 0.44)) + 'px',
+      fontSize: Math.max(14, Math.min(21, height * 0.46)) + 'px',
       fontStyle: 'bold',
       color: '#fff2d2',
       stroke: '#35100b',
@@ -16,7 +16,7 @@ export default class MenuButton {
       shadow: { offsetX: 1, offsetY: 1, color: '#1b0705', blur: 1, fill: true },
       align: 'center',
       wordWrap: { width: width * 0.78 }
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(depth + 1).setResolution(2);
+    }).setOrigin(0.5).setScrollFactor(0).setDepth(depth + 1).setResolution(3);
     this.pointerHandler = (pointer, localX, localY, event) => {
       event?.stopPropagation();
       onClick();

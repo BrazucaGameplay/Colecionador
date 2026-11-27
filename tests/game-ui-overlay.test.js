@@ -96,3 +96,13 @@ test('menu principal não contém a opção Perfil', async () => {
   assert.doesNotMatch(menu, /\['Perfil',\s*'profile'\]/);
   assert.match(menu, /\['Bestiário',\s*'bestiary'\]/);
 });
+
+
+test('menu principal preserva a moldura inferior e identifica o controle como FPS', async () => {
+  const menu = await read('../src/ui/panels/MenuPanel.js');
+  const button = await read('../src/ui/components/MenuButton.js');
+  assert.match(menu, /width: 600, height: 460/);
+  assert.match(menu, /label: 'FPS'/);
+  assert.doesNotMatch(menu, /DESEMPENHO|DESATIVADO|ATIVO/);
+  assert.match(button, /setResolution\(3\)/);
+});

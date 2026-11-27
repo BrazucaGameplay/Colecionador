@@ -43,7 +43,7 @@ export default class PanelFrame {
       shadow: { offsetX: 1, offsetY: 1, color: '#210805', blur: 1, fill: true },
       align: 'center',
       wordWrap: { width: this.width * 0.66 }
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(4012).setResolution(2);
+    }).setOrigin(0.5).setScrollFactor(0).setDepth(4012).setResolution(3);
     this.objects.push(heading);
 
     this.closeButton = new MenuButton(scene, {
@@ -67,7 +67,7 @@ export default class PanelFrame {
       strokeThickness: 1,
       shadow: { offsetX: 1, offsetY: 1, color: '#1c0806', blur: 1, fill: true },
       ...style
-    }).setScrollFactor(0).setDepth(4022).setResolution(2);
+    }).setScrollFactor(0).setDepth(4022).setResolution(3);
     this.objects.push(object);
     return object;
   }
