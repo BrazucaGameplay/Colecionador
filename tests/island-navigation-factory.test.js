@@ -66,7 +66,8 @@ test('factory entrega navegação com a grade derivada da textura', () => {
   });
   assert.ok(navigation.walkableGrid instanceof Uint8Array);
   assert.equal(navigation.walkableGrid.length, navigation.cols * navigation.rows);
-  assert.ok(navigation.walkableGrid.every(value => value === 1));
+  assert.equal(navigation.walkableGrid[5], 1);
+  assert.equal(navigation.walkableGrid[0], 0);
 });
 
 test('factory rejeita textura inválida sem iniciar qualquer acesso externo', () => {
