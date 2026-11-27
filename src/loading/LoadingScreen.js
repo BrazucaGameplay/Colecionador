@@ -21,7 +21,7 @@ export default class LoadingScreen {
     window.addEventListener('colecionador:game-ready', this.onReady, { once: true });
     this.showNextImage();
     if (this.images.length > 1) {
-      this.rotationTimer = window.setInterval(() => this.showNextImage(), 7000);
+      this.rotationTimer = window.setInterval(() => this.showNextImage(), 2000);
     }
   }
 
