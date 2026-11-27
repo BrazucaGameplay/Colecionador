@@ -28,7 +28,7 @@ export default class GameUI extends Phaser.Scene {
 
   preload() {
     const base = import.meta.env.BASE_URL + 'assets/ui/';
-    for (const [key, path] of UI_ASSETS) this.load.image(key, base + path + '?v=20261127-ui-art-v3');
+    for (const [key, path] of UI_ASSETS) this.load.image(key, base + path + '?v=20261127-ui-art-v4');
     this.load.on('loaderror', file => console.error('Falha ao carregar arte da interface:', file.key, file.src));
   }
 
