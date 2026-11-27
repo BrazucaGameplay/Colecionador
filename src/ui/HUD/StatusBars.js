@@ -8,6 +8,7 @@ export default class StatusBars {
 
   create() {
     this.frame = this.scene.add.image(0, 0, 'ui-hud-status').setScrollFactor(0).setDepth(3001);
+    // Preenchimentos acima da moldura, avançando sob as bordas douradas.
     this.hpFill = this.scene.add.rectangle(0, 0, 0, 1, 0xe33b45)
       .setOrigin(0, 0.5).setScrollFactor(0).setDepth(3002);
     this.energyFill = this.scene.add.rectangle(0, 0, 0, 1, 0x3288df)
@@ -20,7 +21,9 @@ export default class StatusBars {
     if (!this.scene || !this.frame) return;
     const screenWidth = this.scene.scale.width;
     const screenHeight = this.scene.scale.height;
-    this.displayWidth = Math.min(320, screenWidth * 0.82);
+    // Moldura 6% menor; os preenchimentos ultrapassam a pista e ficam
+    // parcialmente escondidos sob a ornamentação para não deixar frestas.
+    this.displayWidth = Math.min(300, screenWidth * 0.78);
     this.displayHeight = this.displayWidth * 201 / 600;
     this.left = (screenWidth - this.displayWidth) / 2;
     this.top = screenHeight - this.displayHeight - 6;
@@ -29,15 +32,15 @@ export default class StatusBars {
     this.frame.setPosition(screenWidth / 2, this.top + this.displayHeight / 2)
       .setDisplaySize(this.displayWidth, this.displayHeight);
 
-    // Preenchimento com margem uniforme dentro dos trilhos da arte (600 x 201).
-    this.hpX = this.left + 146 * this.scaleX;
+    // Coordenadas nativas da arte 600x201: sobreposição de ponta a ponta.
+    this.hpX = this.left + 128 * this.scaleX;
     this.hpY = this.top + 78 * this.scaleY;
-    this.hpMaxWidth = 350 * this.scaleX;
-    this.hpHeight = 13 * this.scaleY;
-    this.energyX = this.left + 146 * this.scaleX;
+    this.hpMaxWidth = 390 * this.scaleX;
+    this.hpHeight = 21 * this.scaleY;
+    this.energyX = this.left + 128 * this.scaleX;
     this.energyY = this.top + 127 * this.scaleY;
-    this.energyMaxWidth = 350 * this.scaleX;
-    this.energyHeight = 15 * this.scaleY;
+    this.energyMaxWidth = 390 * this.scaleX;
+    this.energyHeight = 23 * this.scaleY;
     this.setValues(this.healthRatio, 1, this.energyRatio, 1);
   }
 
