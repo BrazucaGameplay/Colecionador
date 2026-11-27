@@ -2080,3 +2080,26 @@ src/systems/camera/CameraController.js, os testes de oceano/resize foram
 atualizados para consultar o novo módulo. Nenhum comportamento de runtime
 foi alterado nesta correção. A nova execução de CI/deploy é necessária para
 validar a extração e confirmar a publicação da versão 2.6.8.
+
+
+======================================================================
+EXTRAÇÃO DO SAVEMANAGER — 27/11/2026 — VERSÃO 2.6.9
+======================================================================
+
+A persistência foi extraída de Game.js para
+src/systems/persistence/SaveManager.js. O módulo concentra leitura,
+desserialização, validação básica, mesclagem incremental e gravação do
+progresso no localStorage.
+
+Compatibilidade preservada:
+- chave existente: colecionador-save-v1;
+- estrutura de topo: score, player e at;
+- estrutura de Player: level, experience, statPoints, stats, health e energy;
+- timestamp continua sendo atualizado no campo at;
+- falhas de leitura ou escrita são capturadas e registradas, sem encerrar o jogo.
+
+Game.js agora instancia SaveManager, consome load() e solicita save() quando
+um monstro é derrotado ou a cena é encerrada. Player.toSaveData() não mudou.
+Nenhuma migração de save foi introduzida. Testes cobrem saves existentes,
+merge, timestamp, dados inválidos, storage indisponível e integração de Game.js.
+Build, testes e publicação precisam ser confirmados no workflow 2.6.9.

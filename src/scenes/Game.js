@@ -13,6 +13,7 @@ import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 import WorldBootstrap from '../world/WorldBootstrap.js';
 import CameraController from '../systems/camera/CameraController.js';
+import SaveManager from '../systems/persistence/SaveManager.js';
 
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 
@@ -23,7 +24,8 @@ export default class Game extends Phaser.Scene {
 
   async create() {
     this.initialized = false;
-    this.savedProgress = this.readSavedProgress();
+    this.saveManager = new SaveManager({ key: SAVE_KEY });
+    this.savedProgress = this.saveManager.load();
     this.score = Math.max(0, Number(this.savedProgress.score) || 0);
 
 
@@ -48,7 +50,7 @@ export default class Game extends Phaser.Scene {
       onKill: ({ experience = 0 } = {}) => {
         this.score += 1;
         this.progression.award(this.player, experience);
-        this.persistProgress({ score: this.score, player: this.player.toSaveData() });
+        this.saveManager.save({ score: this.score, player: this.player.toSaveData() });
       }
     });
 
@@ -105,32 +107,6 @@ export default class Game extends Phaser.Scene {
     this.initialized = true;
   }
 
-  readSavedProgress() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
-      return saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {};
-    } catch (error) {
-      console.warn('Save inválido; usando progresso inicial.', error);
-      return {};
-    }
-  }
-
-  persistProgress(patch = {}) {
-    this.savedProgress = {
-      ...(this.savedProgress || {}),
-      ...patch,
-      at: Date.now()
-    };
-    try {
-      localStorage.setItem(SAVE_KEY, JSON.stringify(this.savedProgress));
-      return true;
-    } catch (error) {
-      console.warn('Não foi possível salvar o progresso neste dispositivo.', error);
-      return false;
-    }
-  }
-
-
   update(time, delta = 16.67) {
     if (!this.initialized) return;
     const updateStartedAt = performance.now();
@@ -165,7 +141,7 @@ export default class Game extends Phaser.Scene {
   }
 
   shutdown() {
-    if (this.player) this.persistProgress({ score: this.score, player: this.player.toSaveData() });
+    if (this.player) this.saveManager.save({ score: this.score, player: this.player.toSaveData() });
 
     this.performanceMonitor?.destroy();
     this.performanceMonitor = null;
@@ -173,6 +149,8 @@ export default class Game extends Phaser.Scene {
     this.cameraController?.destroy();
     this.cameraController = null;
     this.camera = null;
+    this.saveManager = null;
+    this.savedProgress = null;
     this.uiCamera = null;
     this.touchInput?.destroy();
     this.combat?.destroy();
