@@ -7,12 +7,28 @@ import WaifuPanel from '../ui/panels/WaifuPanel.js';
 import InventoryPanel from '../ui/panels/InventoryPanel.js';
 import HousePanel from '../ui/panels/HousePanel.js';
 
+const UI_ASSETS = [
+  ['ui-panel-vertical', 'panels/painel_vertical_900x1350_transparente.webp'],
+  ['ui-panel-profile', 'panels/perfil_moldura_fundo_vermelho.webp'],
+  ['ui-button-menu', 'buttons/botao_menu_400x100_transparente.webp'],
+  ['ui-button-200', 'buttons/botao_sem_ornamento_central_200x100.webp'],
+  ['ui-button-300', 'buttons/botao_sem_ornamento_central_300x100.webp'],
+  ['ui-button-400', 'buttons/botao_sem_ornamento_central_400x100.webp'],
+  ['ui-hud-status', 'hud/moldura_hp_energia_sem_barras_600px.webp']
+];
+
 export default class GameUI extends Phaser.Scene {
   constructor() {
     super('GameUI');
     this.activePanel = null;
     this.panelShade = null;
     this.refreshElapsed = 0;
+  }
+
+  preload() {
+    const base = import.meta.env.BASE_URL + 'assets/ui/';
+    for (const [key, path] of UI_ASSETS) this.load.image(key, base + path + '?v=20261127-ui-art-v1');
+    this.load.on('loaderror', file => console.error('Falha ao carregar arte da interface:', file.key, file.src));
   }
 
   create() {
@@ -46,7 +62,6 @@ export default class GameUI extends Phaser.Scene {
       event?.stopPropagation();
       this.closePanel();
     });
-
     const close = () => this.closePanel();
     const panels = {
       menu: () => new MenuPanel(this, { close, openPanel: name => this.openPanel(name) }),

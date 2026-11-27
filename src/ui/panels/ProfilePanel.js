@@ -5,24 +5,33 @@ export default class ProfilePanel {
   constructor(scene, { close = () => {}, gameScene } = {}) {
     this.scene = scene;
     this.gameScene = gameScene;
-    this.frame = new PanelFrame(scene, { title: 'PERFIL DO JOGADOR', width: 440, height: 520, close });
+    this.frame = new PanelFrame(scene, { title: 'PERFIL DO JOGADOR', width: 360, height: 520, variant: 'vertical', close });
     const { x, y, width, height } = this.frame;
-    this.summary = this.frame.addText(x + 22, y + 76, '');
+    this.summary = this.frame.addText(x + width * 0.15, y + height * 0.235, '', {
+      fontSize: '11px', color: '#ffe5ad', wordWrap: { width: width * 0.70 }
+    });
     this.rows = [];
     const keys = Object.keys(STAT_UPGRADES);
-    const rowHeight = Math.min(43, (height - 164) / Math.max(1, keys.length));
+    const rowGap = Math.min(31, height * 0.47 / Math.max(1, keys.length));
     keys.forEach((key, index) => {
-      const rowY = y + 126 + index * rowHeight;
-      this.frame.addText(x + 24, rowY, STAT_UPGRADES[key].label, { fontSize: '12px' });
-      const value = this.frame.addText(x + width - 94, rowY, '', { fontStyle: 'bold' });
+      const rowY = y + height * 0.34 + index * rowGap;
+      this.frame.addText(x + width * 0.15, rowY - 7, STAT_UPGRADES[key].label, {
+        fontSize: '11px', wordWrap: { width: width * 0.38 }
+      });
+      const value = this.frame.addText(x + width * 0.56, rowY - 7, '', {
+        fontSize: '11px', fontStyle: 'bold', color: '#ffe6b5'
+      });
       const plus = this.frame.addButton({
-        x: x + width - 38, y: rowY + 7, width: 34, height: 30, label: '+',
-        onClick: () => this.allocate(key)
+        x: x + width * 0.80, y: rowY + 1,
+        width: Math.max(26, width * 0.12), height: Math.max(16, width * 0.06),
+        label: '+', texture: 'ui-button-200', onClick: () => this.allocate(key)
       });
       this.rows.push({ key, value, plus });
     });
-    this.frame.addText(x + 22, y + height - 34,
-      'Distribua os pontos disponíveis para evoluir os atributos.', { fontSize: '10px', color: '#c9b99f' });
+    this.frame.addText(x + width * 0.15, y + height * 0.83,
+      'Distribua os pontos disponíveis para evoluir os atributos.', {
+        fontSize: '9px', color: '#e8cda6', wordWrap: { width: width * 0.70 }
+      });
     this.refresh();
   }
 
@@ -41,7 +50,7 @@ export default class ProfilePanel {
       '/' + required + '  •  Pontos: ' + player.statPoints);
     for (const row of this.rows) {
       row.value.setText(STAT_UPGRADES[row.key].format(player.stats[row.key]));
-      row.plus.background?.setAlpha(player.statPoints > 0 ? 1 : 0.45);
+      row.plus.setAlpha(player.statPoints > 0 ? 1 : 0.45);
     }
   }
 
