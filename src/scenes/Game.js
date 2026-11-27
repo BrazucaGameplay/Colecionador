@@ -14,7 +14,6 @@ import validatedTreeManifest from '../world/map-layout/island-01.validated.json'
 import MovementSystem from '../systems/MovementSystem.js';
 import CombatSystem from '../systems/CombatSystem.js';
 import ProgressionSystem from '../systems/ProgressionSystem.js';
-import PlayerStatusUI from '../ui/PlayerStatusUI.js';
 import PerformanceMonitor from '../ui/PerformanceMonitor.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
@@ -92,7 +91,6 @@ export default class Game extends Phaser.Scene {
         this.score += 1;
         this.progression.award(this.player, experience);
         this.persistProgress({ score: this.score, player: this.player.toSaveData() });
-        this.statusUI?.refresh();
       }
     });
 
@@ -128,9 +126,6 @@ export default class Game extends Phaser.Scene {
       player: this.player,
       getAttackers: () => this.monsterManager?.getCombatEntries() || []
     });
-    this.statusUI = new PlayerStatusUI(this, this.player, this.progression, {
-      onChange: () => this.persistProgress({ score: this.score, player: this.player.toSaveData() })
-    });
     this.performanceMonitor = new PerformanceMonitor(this);
     this.createHudCamera();
     this.touchInput = new TouchInputController(this, {
@@ -138,7 +133,7 @@ export default class Game extends Phaser.Scene {
       getMinZoom: () => this.getMinimumCameraZoom(),
       maxZoom: CAMERA_ZOOM.max,
       clampCamera: () => this.clampCameraToWorld(),
-      isUiPointer: (x, y) => this.statusUI?.isUiPointer(x, y) || this.performanceMonitor?.containsScreenPoint(x, y) || false,
+      isUiPointer: (x, y) => this.uiScene?.isUiPointer(x, y) || this.performanceMonitor?.containsScreenPoint(x, y) || false,
       onPan: () => {
         // O controlador já interrompeu o follow ao iniciar o arraste.
         this.cameraFollowActive = false;
@@ -160,6 +155,9 @@ export default class Game extends Phaser.Scene {
         }
       }
     });
+
+    // Game permanece ativo enquanto a interface é exibida em cena própria.
+    this.scene.launch('GameUI');
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this._cooldown = 0;
@@ -193,10 +191,8 @@ export default class Game extends Phaser.Scene {
     this.uiCamera.roundPixels = true;
     // As duas camadas de interface ficam fora da câmera do mundo e são
     // desenhadas somente pela câmera HUD, em escala 1:1.
-    this.camera.ignore([this.statusUI.uiLayer, this.performanceMonitor.layer]);
-    this.uiCamera.ignore(this.children.list.filter(
-      child => child !== this.statusUI.uiLayer && child !== this.performanceMonitor.layer
-    ));
+    this.camera.ignore(this.performanceMonitor.layer);
+    this.uiCamera.ignore(this.children.list.filter(child => child !== this.performanceMonitor.layer));
     this.scale.on('resize', this.resizeHudCamera, this);
   }
 
@@ -402,7 +398,6 @@ export default class Game extends Phaser.Scene {
     this.combat?.update(this.time.now);
     this.movement?.update(delta);
     this.player?.update(delta, this.time.now);
-    this.statusUI?.refresh();
     this.playerBody?.sync();
 
     this.characterRenderer?.setTransform(this.player.x, this.player.y);
@@ -430,7 +425,7 @@ export default class Game extends Phaser.Scene {
     this.scale.off('resize', this.resizeHudCamera, this);
     this.performanceMonitor?.destroy();
     this.performanceMonitor = null;
-    this.statusUI?.destroy();
+    if (this.scene.isActive('GameUI')) this.scene.stop('GameUI');
     if (this.uiCamera) this.cameras.remove(this.uiCamera);
     this.uiCamera = null;
     this.touchInput?.destroy();
@@ -457,7 +452,7 @@ export default class Game extends Phaser.Scene {
     this.depthManager = null;
     this.player = null;
     this.progression = null;
-    this.statusUI = null;
+    this.uiScene = null;
     this.monsterManager = null;
   }
 }

@@ -2,8 +2,8 @@ import * as Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT } from './config.js';
 import Boot from './scenes/Boot.js';
 import Preload from './scenes/Preload.js';
-import Menu from './scenes/Menu.js';
 import Game from './scenes/Game.js';
+import GameUI from './scenes/GameUI.js';
 
 const config = {
   type: Phaser.AUTO,
@@ -24,7 +24,7 @@ const config = {
     default: 'arcade',
     arcade: { gravity: { y: 0 }, debug: false }
   },
-  scene: [Boot, Preload, Menu, Game]
+  scene: [Boot, Preload, Game, GameUI]
 };
 
 new Phaser.Game(config);

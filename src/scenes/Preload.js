@@ -39,6 +39,6 @@ export default class Preload extends Phaser.Scene {
     const graphics = this.make.graphics({ add: false });
     graphics.fillStyle(0xffffff, 0); graphics.fillRect(0, 0, 2, 2); graphics.generateTexture('player', 2, 2); graphics.destroy();
     registerPlayerSpriteAnimations(this);
-    this.scene.start('Menu');
+    this.scene.start('Game');
   }
 }
