@@ -34,7 +34,7 @@ export default class GameUI extends Phaser.Scene {
   }
 
   createHud() {
-    this.menuButton = this.add.nineslice(52, 36, 'ui-menu-button', undefined, 84, 34, 42, 42)
+    this.menuButton = this.add.nineslice(52, 36, 'ui-menu-button', undefined, 84, 34, 42, 42, 16, 16)
       .setDepth(3000);
     this.menuButtonText = this.add.text(52, 36, '☰', {
       fontFamily: 'Georgia, serif', fontSize: '22px', color: '#fff0c4',
@@ -163,7 +163,7 @@ export default class GameUI extends Phaser.Scene {
     }, 4020);
 
     const close = this.addPanelObject(
-      this.add.nineslice(x + width - 50, y + 34, 'ui-menu-button', undefined, 84, 28, 42, 42),
+      this.add.nineslice(x + width - 50, y + 34, 'ui-menu-button', undefined, 84, 28, 42, 42, 14, 14),
       4030
     );
     this.addPanelText(x + width - 50, y + 23, '×', { fontFamily: 'Georgia, serif', fontSize: '22px', fontStyle: 'bold', color: '#fff0c4' }, 4031);
@@ -188,7 +188,7 @@ export default class GameUI extends Phaser.Scene {
       const rowY = y + 104 + index * 49;
       const button = this.addPanelObject(
         this.add.nineslice(x + width / 2, rowY, 'ui-menu-button', undefined,
-          width - 56, 43, 42, 42),
+          width - 56, 43, 42, 42, 18, 18),
         4020
       );
       this.bindButton(button, () => this.openPanel(key));
@@ -265,7 +265,7 @@ export default class GameUI extends Phaser.Scene {
         fontStyle: 'bold', color: '#fff7e8'
       }, 4022);
       const plus = this.addPanelObject(
-        this.add.nineslice(x + width - 30, rowY + 1, 'ui-menu-button', undefined, 30, 27, 24, 24),
+        this.add.nineslice(x + width - 30, rowY + 1, 'ui-menu-button', undefined, 48, 28, 24, 24, 12, 12),
         4030
       );
       this.addPanelText(x + width - 30, rowY - 1, '+', {

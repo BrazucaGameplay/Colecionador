@@ -48,8 +48,18 @@ test('o retrato usa o asset transparente sem círculo externo nem máscara', asy
 test('a criação do retrato não usa altura fora do escopo', async () => {
   const ui = await read('../src/scenes/GameUI.js');
   assert.match(ui, /const height = this\.scale\.height;/);
-  assert.match(ui, /const portraitY = height - 81;/);
+  assert.match(ui, /const portraitY = height - 105;/);
   assert.match(ui, /add\.image\(centerX, portraitY, 'player-portrait'\)/);
   assert.match(ui, /add\.zone\(centerX, portraitY, 80, 108\)/);
   assert.doesNotMatch(ui, /add\.image\(centerX, height - 81/);
+});
+
+test('a interface carrega e utiliza as molduras ornamentadas', async () => {
+  const ui = await read('../src/scenes/GameUI.js');
+  assert.match(ui, /ui-panel-frame\.webp/);
+  assert.match(ui, /ui-menu-button\.webp/);
+  assert.match(ui, /add\.nineslice\([^\n]*ui-panel-frame/);
+  assert.match(ui, /add\.nineslice\([^\n]*ui-menu-button/);
+  assert.match(ui, /fontFamily: 'Georgia, serif'/);
+  assert.match(ui, /0xd6a642/);
 });

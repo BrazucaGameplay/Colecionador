@@ -1,4 +1,4 @@
-# Atualização 2.5.4 — Correção da inicialização do retrato
+# Atualização 2.5.5 — Interface ornamentada em vermelho e dourado
 
 ## Produto e plataforma
 - **Implementado:** jogo web/PWA com Phaser 4 e Vite; configuração Capacitor Android permanece.
@@ -44,3 +44,12 @@
 ## Correção 2.5.4
 - **Corrigido:** variável `height` não declarada durante a criação do retrato; agora a altura do viewport é capturada no escopo de `createHud()` e a posição é reutilizada para imagem e área de toque.
 - **Teste de regressão:** verifica a declaração da altura e impede o uso fora de escopo na criação do retrato.
+
+## Atualização 2.5.5 — Identidade visual dos painéis
+- **Implementado:** moldura principal vermelho-rubi com ornamentos dourados, reutilizada por Nine Slice para manter os cantos sem deformação em diferentes tamanhos.
+- **Implementado:** botões horizontais com acabamento vermelho/dourado e cantos preservados por Nine Slice.
+- **Implementado:** menu principal, painel de perfil, botões de fechar e controles de atributo com o mesmo tema.
+- **Implementado:** tipografia serifada nos títulos e destaques; barras HP/EN com contorno dourado e preenchimento dinâmico preservado.
+- **Assets:** `public/assets/ui/ui-panel-frame.webp` e `public/assets/ui/ui-menu-button.webp`, ambos com transparência e carregados pela cena GameUI.
+- **Desempenho:** arte estática e reutilizável; não foram adicionados filtros ou animações contínuas.
+- **Validação:** testes cobrem carregamento dos assets e uso das molduras Nine Slice; build e publicação ainda precisam ser confirmados.
