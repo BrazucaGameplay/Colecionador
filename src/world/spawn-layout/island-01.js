@@ -9,7 +9,7 @@ export const ISLAND_01_MONSTER_SPAWNS = Object.freeze([
     x: 2048,
     y: 2048,
     radius: 2010,
-    maxAlive: 50,
+    maxAlive: 100,
     minPlayerDistance: 0,
     collisionRadius: 12,
     respawnMs: 1000,

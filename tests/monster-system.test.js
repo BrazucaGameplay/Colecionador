@@ -39,21 +39,21 @@ test('slime usa os quatro WebP finais já existentes no repositório', () => {
     healthRegen: 1, energyRegen: 1
   });
 });
-test('ilha usa um único limite global de 50 slimes com surgimento em toda a área', () => {
+test('ilha usa um único limite global de 100 slimes com surgimento em toda a área', () => {
   assert.equal(ISLAND_01_MONSTER_SPAWNS.length, 1);
   const [zone] = ISLAND_01_MONSTER_SPAWNS;
   assert.equal(zone.id, 'slime-island');
   assert.equal(zone.x, 2048);
   assert.equal(zone.y, 2048);
   assert.equal(zone.radius, 2010);
-  assert.equal(zone.maxAlive, 50);
+  assert.equal(zone.maxAlive, 100);
   assert.equal(zone.minPlayerDistance, 0);
   assert.equal(zone.respawnMs, 1000);
   assert.equal(zone.spawnIntervalMs, 1000);
   assert.equal(zone.retryMs, 1000);
 });
 
-test('Spawner cria no máximo um slime por segundo até atingir 50 vivos', () => {
+test('Spawner cria no máximo um slime por segundo até atingir 100 vivos', () => {
   const alive = [];
   const created = [];
   const zone = ISLAND_01_MONSTER_SPAWNS[0];
@@ -77,10 +77,10 @@ test('Spawner cria no máximo um slime por segundo até atingir 50 vivos', () =>
   assert.equal(created.length, 1);
   spawner.update(1000);
   assert.equal(created.length, 2);
-  for (let now = 2000; now <= 49000; now += 1000) spawner.update(now);
-  assert.equal(created.length, 50);
-  spawner.update(50000);
-  assert.equal(created.length, 50);
+  for (let now = 2000; now <= 99000; now += 1000) spawner.update(now);
+  assert.equal(created.length, 100);
+  spawner.update(100000);
+  assert.equal(created.length, 100);
 });
 
 test('Spawner respeita população máxima e agenda respawn após morte', () => {
