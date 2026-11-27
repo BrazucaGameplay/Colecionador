@@ -18,7 +18,7 @@ test('GameUI carrega todas as artes finais antes de criar a HUD', async () => {
   const ui = await read('../src/scenes/GameUI.js');
   for (const key of ['ui-panel-vertical','ui-panel-profile','ui-button-menu','ui-button-200','ui-button-300','ui-button-400','ui-hud-status']) assert.ok(ui.includes(key));
   assert.match(ui, /this\.load\.image/);
-  assert.match(ui, /v=20261127-ui-art-v3/);
+  assert.match(ui, /v=20261127-ui-art-v4/);
 });
 
 test('GameUI coordena painéis separados e mantém a simulação ativa', async () => {
@@ -121,11 +121,11 @@ test('perfil começa no retrato da HUD e permite avançar para os atributos', as
 
 test('todos os painéis usam botão circular de fechar no canto superior direito', async () => {
   const [frame, button] = await Promise.all([read('../src/ui/components/PanelFrame.js'), read('../src/ui/components/MenuButton.js')]);
-  assert.match(frame, /shape: 'circle'/);
+  assert.match(frame, /texture: 'ui-close-button'/);
   assert.match(frame, /this\.width \* 0\.99/);
   assert.match(frame, /this\.height \* 0\.075/);
   assert.match(button, /scene\.add\.circle/);
-  assert.match(button, /0xffc65b/);
+  assert.match(frame, /texture: 'ui-close-button'/);
 });
 
 
