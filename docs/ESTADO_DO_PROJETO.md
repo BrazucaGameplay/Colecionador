@@ -2031,7 +2031,7 @@ AJUSTE FINAL DE REFERÊNCIA LEGADA — 26/11/2026 — VERSÃO 2.4.77
 
 
 ======================================================================
-ATUALIZAÇÃO DE 27/11/2026 — VERSÃO 2.6.4
+ATUALIZAÇÃO DE 27/11/2026 — VERSÃO 2.6.5
 ======================================================================
 
 A branch main agora contém a extração inicial da montagem do mundo para

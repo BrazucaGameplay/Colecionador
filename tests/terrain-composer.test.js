@@ -4,13 +4,15 @@ import { readFileSync } from 'node:fs';
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 
-test('Game renderiza a ilha inteira com uma única textura e preserva o mundo lógico', () => {
+test('WorldBootstrap monta a ilha com uma textura e mantém a navegação por máscara alfa', () => {
+  const bootstrap = read('../src/world/WorldBootstrap.js');
   const game = read('../src/scenes/Game.js');
-  assert.match(game, /const ISLAND_DIAMETER = 4096/);
-  assert.match(game, /this\.add\.image\([\s\S]*?'island-terrain'/);
-  assert.match(game, /setDisplaySize\(this\.worldWidth, this\.worldHeight\)/);
-  assert.match(game, /this\.navigation\.setAlphaMask\(pixels, maskSize, maskSize, threshold\)/);
-  assert.doesNotMatch(game, /createIslandTerrain|setIslandMask\(/);
+  assert.match(bootstrap, /const ISLAND_DIAMETER = 4096/);
+  assert.match(bootstrap, /scene\.add\.image\([\s\S]*?'island-terrain'/);
+  assert.match(bootstrap, /setDisplaySize\(scene\.worldWidth, scene\.worldHeight\)/);
+  assert.match(bootstrap, /scene\.navigation\.setAlphaMask\(pixels, maskSize, maskSize, threshold\)/);
+  assert.match(game, /new WorldBootstrap\(this\)/);
+  assert.doesNotMatch(bootstrap, /createIslandTerrain|setIslandMask\(/);
 });
 
 test('Preload carrega a textura única do terreno e mantém oceano e vegetação', () => {
@@ -30,14 +32,15 @@ test('Navegação continua usando máscara alfa pré-calculada, sem leitura por 
 });
 
 test('Grade caminhável é persistida no IndexedDB e validada por versão, hash e dimensões', () => {
+  const bootstrap = read('../src/world/WorldBootstrap.js');
   const game = read('../src/scenes/Game.js');
   const cache = read('../src/world/WalkableGridCache.js');
-  assert.match(game, /await this\.createIslandWalkableMask\(\)/);
-  assert.match(game, /getTerrainContentHash\(terrainUrl\)/);
-  assert.match(game, /island-geometry-v1/);
-  assert.match(game, /grid-algorithm-/);
-  assert.match(game, /readWalkableGrid\(cacheId/);
-  assert.match(game, /writeWalkableGrid\(cacheId, this\.navigation\.walkableGrid\)/);
+  assert.match(bootstrap, /await createIslandWalkableMask\(scene\)/);
+  assert.match(bootstrap, /getTerrainContentHash\(terrainUrl\)/);
+  assert.match(bootstrap, /island-geometry-v1/);
+  assert.match(bootstrap, /grid-algorithm-/);
+  assert.match(bootstrap, /readWalkableGrid\(cacheId/);
+  assert.match(bootstrap, /writeWalkableGrid\(cacheId, scene\.navigation\.walkableGrid\)/);
   assert.match(cache, /indexedDB\.open\(DB_NAME, DB_VERSION\)/);
   assert.match(cache, /crypto\.subtle\.digest\('SHA-256'/);
   assert.match(cache, /algorithmVersion: WALKABLE_GRID_ALGORITHM_VERSION/);
