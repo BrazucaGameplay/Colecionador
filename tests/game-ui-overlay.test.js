@@ -112,8 +112,8 @@ test('perfil começa no retrato da HUD e permite avançar para os atributos', as
   const profile = await read('../src/ui/panels/ProfilePanel.js');
   assert.match(profile, /'player-portrait'/);
   assert.match(profile, /setPage\(0\)/);
-  assert.match(profile, /setPage\(1\)/);
-  assert.match(profile, /1 \/ 2/);
+  assert.match(profile, /setPage\(this\.page \+ 1\)/);
+  assert.match(profile, /1 \/ 3/);
   assert.match(profile, /row\.plus\.background\.setVisible/);
   assert.match(profile, /row\.plus\.label\.setVisible/);
 });
