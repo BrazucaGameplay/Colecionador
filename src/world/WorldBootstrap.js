@@ -167,18 +167,18 @@ async function createIslandWalkableMask(scene) {
       : false;
   }
 
-function updateOceanBounds(viewWidth, viewHeight)(scene) {
+function updateOceanBounds(scene, viewWidth, viewHeight) {
     const baseDiameter = OCEAN_RADIUS * 2;
     const aspect = Math.max(0.1, viewWidth / Math.max(1, viewHeight));
     // Preserva 256 unidades de mar além da costa em todos os lados.
     // A dimensão maior cresce para acompanhar o formato da tela.
     const width = Math.max(
       (aspect >= 1 ? baseDiameter * aspect : baseDiameter) * OCEAN_PAN_BUFFER_FACTOR,
-      viewWidth / CAMERA_ZOOM.min * OCEAN_PAN_BUFFER_FACTOR
+      viewWidth / MIN_CAMERA_ZOOM * OCEAN_PAN_BUFFER_FACTOR
     );
     const height = Math.max(
       (aspect >= 1 ? baseDiameter : baseDiameter / aspect) * OCEAN_PAN_BUFFER_FACTOR,
-      viewHeight / CAMERA_ZOOM.min * OCEAN_PAN_BUFFER_FACTOR
+      viewHeight / MIN_CAMERA_ZOOM * OCEAN_PAN_BUFFER_FACTOR
     );
     scene.oceanBounds = Object.freeze({
       x: ISLAND_SHAPE.centerX - width / 2,
