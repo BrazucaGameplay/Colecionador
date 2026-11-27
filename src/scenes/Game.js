@@ -38,7 +38,7 @@ export default class Game extends Phaser.Scene {
     this.terrain = null;
   }
 
-  async create() {
+  create() {
     this.initialized = false;
     this.savedProgress = this.readSavedProgress();
     this.score = Math.max(0, Number(this.savedProgress.score) || 0);
