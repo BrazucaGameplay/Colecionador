@@ -5,7 +5,6 @@ import CharacterSpriteRenderer from '../rendering/characters/CharacterSpriteRend
 import MonsterManager from '../systems/monsters/MonsterManager.js';
 import MonsterCombatSystem from '../systems/monsters/MonsterCombatSystem.js';
 import { ISLAND_01_MONSTER_SPAWNS } from '../world/spawn-layout/island-01.js';
-import WorldNavigation from '../world/WorldNavigation.js';
 import WorldDepthManager from '../world/WorldDepthManager.js';
 import WorldCollisionManager from '../world/WorldCollisionManager.js';
 import WorldObjectManager from '../world/WorldObjectManager.js';
