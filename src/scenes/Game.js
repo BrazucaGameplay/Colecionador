@@ -259,7 +259,6 @@ export default class Game extends Phaser.Scene {
     const threshold = 160;
     const terrainUrl = import.meta.env.BASE_URL +
       'assets/world/terrain/ilha_terreno.webp?v=20261126-ocean-seamless-512-v36';
-    this.initializationPhase = 'calculando hash SHA-256 do terreno';
     const terrainHash = await getTerrainContentHash(terrainUrl);
     const cacheId = terrainHash
       ? [
@@ -277,7 +276,6 @@ export default class Game extends Phaser.Scene {
       : null;
 
     if (cacheId) {
-      this.initializationPhase = 'lendo grade caminhável do IndexedDB';
       const cachedGrid = await readWalkableGrid(cacheId, this.navigation.cols * this.navigation.rows);
       if (cachedGrid) {
         this.navigation.setWalkableGrid(cachedGrid);
