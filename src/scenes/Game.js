@@ -259,7 +259,8 @@ export default class Game extends Phaser.Scene {
     const threshold = 160;
     const terrainUrl = import.meta.env.BASE_URL +
       'assets/world/terrain/ilha_terreno.webp?v=20261126-ocean-seamless-512-v36';
-    this.initializationPhase = 'calculando hash SHA-256 do terreno';\n    const terrainHash = await getTerrainContentHash(terrainUrl);
+    this.initializationPhase = 'calculando hash SHA-256 do terreno';
+    const terrainHash = await getTerrainContentHash(terrainUrl);
     const cacheId = terrainHash
       ? [
           'island-walkable',
