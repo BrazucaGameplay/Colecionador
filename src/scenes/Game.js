@@ -104,6 +104,7 @@ export default class Game extends Phaser.Scene {
       this.characterRenderer?.setDirection(this.player.facing.x, this.player.facing.y);
     }
     this.characterRenderer?.update(delta, this.camera);
+    this.cameraController?.update(delta);
 
     if (!this.movement?.destination) this.destinationMarker?.setVisible(false);
 

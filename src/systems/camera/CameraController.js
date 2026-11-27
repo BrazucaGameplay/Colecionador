@@ -1,6 +1,6 @@
 const CAMERA_ZOOM = Object.freeze({ min: 0.2, max: 0.6, default: 0.4 });
 const CAMERA_FOLLOW_LERP = 0.06;
-const CAMERA_RETURN_LERP = 0.025;
+const CAMERA_RETURN_SPEED = 2.0; // exponential smoothing rate per second
 
 /** Owns world-camera framing, follow, zoom limits and the screen-space HUD camera. */
 export default class CameraController {
@@ -11,6 +11,7 @@ export default class CameraController {
     this.uiCamera = null;
     this.target = null;
     this.followActive = false;
+    this.manualFollow = false;
   }
 
   initialize(target) {
@@ -36,12 +37,35 @@ export default class CameraController {
 
   followPlayer({ smoothReturn = false } = {}) {
     if (!this.camera || !this.target || this.followActive) return;
-    const lerp = smoothReturn ? CAMERA_RETURN_LERP : CAMERA_FOLLOW_LERP;
-    this.camera.startFollow(this.target, false, lerp, lerp);
+    if (smoothReturn) {
+      // startFollow immediately rewrites scrollX/scrollY to the target position.
+      // Keep the current view and ease it toward the player in update() instead.
+      this.camera.stopFollow();
+      this.manualFollow = true;
+      this.followActive = true;
+      return;
+    }
+    this.manualFollow = false;
+    this.camera.startFollow(this.target, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
     this.followActive = true;
   }
 
-  handleManualPan() { this.followActive = false; }
+  update(delta = 16.67) {
+    if (!this.manualFollow || !this.camera || !this.target) return;
+    const elapsed = Math.max(0, Number(delta) || 0);
+    if (elapsed === 0) return;
+    const alpha = 1 - Math.exp(-CAMERA_RETURN_SPEED * elapsed / 1000);
+    const desiredX = this.target.x - this.camera.width / 2;
+    const desiredY = this.target.y - this.camera.height / 2;
+    this.camera.scrollX += (desiredX - this.camera.scrollX) * alpha;
+    this.camera.scrollY += (desiredY - this.camera.scrollY) * alpha;
+    this.clampToWorld();
+  }
+
+  handleManualPan() {
+    this.followActive = false;
+    this.manualFollow = false;
+  }
 
   clampToWorld() {
     const bounds = this.scene?.oceanBounds;
@@ -93,6 +117,7 @@ export default class CameraController {
     this.camera = null;
     this.target = null;
     this.followActive = false;
+    this.manualFollow = false;
     this.scene = null;
   }
 }

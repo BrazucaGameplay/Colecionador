@@ -9,6 +9,7 @@ function createCamera() {
     setBounds(x, y, width, height) { this.bounds = { x, y, width, height }; return this; },
     setZoom(value) { this.zoom = value; return this; },
     startFollow(target, roundPixels, lerpX, lerpY) { this.follow = { target, roundPixels, lerpX, lerpY }; },
+    stopFollow() { this.follow = null; },
     ignore(items) { this.ignored.push(items); },
     setViewport(x, y, width, height) { this.viewport = { x, y, width, height }; },
     setScroll() { return this; }
@@ -78,10 +79,21 @@ test('follow só é reiniciado após pan manual e HUD acompanha resize', () => {
   assert.equal(f.mainCamera.follow.lerpX, 0.06);
   assert.equal(f.mainCamera.follow.lerpY, 0.06);
   controller.handleManualPan();
+  f.mainCamera.scrollX = 100;
+  f.mainCamera.scrollY = 50;
+  sprite.x = 600;
+  sprite.y = 500;
   controller.followPlayer({ smoothReturn: true });
-  assert.equal(f.mainCamera.follow.target, sprite);
-  assert.equal(f.mainCamera.follow.lerpX, 0.025);
-  assert.equal(f.mainCamera.follow.lerpY, 0.025);
+  assert.equal(f.mainCamera.follow, null, 'o retorno suave não deve ativar startFollow');
+  assert.equal(controller.manualFollow, true);
+  controller.update(16.67);
+  assert.ok(f.mainCamera.scrollX > 100 && f.mainCamera.scrollX < 400,
+    'a câmera deve avançar parcialmente, sem saltar para o jogador');
+  assert.ok(f.mainCamera.scrollY > 50 && f.mainCamera.scrollY < 350,
+    'o eixo vertical também deve interpolar gradualmente');
+  for (let i = 0; i < 180; i++) controller.update(16.67);
+  assert.ok(Math.abs(f.mainCamera.scrollX - 400) < 1);
+  assert.ok(Math.abs(f.mainCamera.scrollY - 350) < 1);
   const resize = f.listeners.get('resize');
   resize.callback.call(resize.context, { width: 800, height: 600 });
   assert.deepEqual(f.mainCamera.viewport, { x: 0, y: 0, width: 800, height: 600 });

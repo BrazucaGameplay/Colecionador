@@ -9,6 +9,7 @@ const bootstrap = read('../src/systems/GameSystemsBootstrap.js');
 test('Game delega a câmera ao CameraController e segue o sprite visual', () => {
   assert.match(game, /cameraController\.initialize\(this\.characterRenderer\.sprite\)/);
   assert.match(bootstrap, /cameraController\.followPlayer\(\{ smoothReturn: true \}\)/);
+  assert.match(game, /cameraController\?\.update\(delta\)/);
   assert.doesNotMatch(game, /startFollow\(this\.playerBody\.object/);
   assert.doesNotMatch(game, /\.startFollow\(/);
 });
