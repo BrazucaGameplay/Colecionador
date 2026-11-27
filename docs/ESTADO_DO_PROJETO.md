@@ -2261,3 +2261,40 @@ Recap do jogo com base na estrutura atual do repositório:
 - Pendências/riscos: testar visualmente a alternância, recorte e leitura da
   barra em orientação vertical/horizontal, confirmar build e deploy da
   versão 2.9.1 e validar APK/Android físico.
+
+
+======================================================================
+AJUSTE DO INTERVALO DAS ARTES DE CARREGAMENTO — 27/11/2026 — VERSÃO 2.9.2
+======================================================================
+
+A rotação automática das artes da tela de carregamento foi alterada de
+7.000 ms para 2.000 ms em src/loading/LoadingScreen.js.
+O sistema continua alternando apenas enquanto o overlay HTML está visível,
+e interrompe o temporizador quando o jogo termina a inicialização.
+
+Artes ativas confirmadas na branch main:
+- public/assets/ui/loading/images/ogra.webp
+- public/assets/ui/loading/images/ciclopesa.webp
+- public/assets/ui/loading/images/lamia.webp
+Catálogo: src/loading/loading-images.js.
+
+Recap do estado atual:
+- Produto/plataforma: jogo web com Vite e integração Capacitor Android;
+  preparação e publicação na Play Store requerem validações próprias.
+- Mundo: ilha jogável e bootstrap do mundo presentes; expansão de conteúdo
+  permanece incremental.
+- Gameplay: jogador, movimento por toque, câmera, monstros, combate,
+  progressão e persistência possuem implementações no código.
+- Arquitetura: Phaser 4, JavaScript ES modules, cenas Boot/Preload/Game/
+  GameUI, sistemas separados para mundo, câmera, personagem, monstros,
+  combate e persistência.
+- Assets: terreno, vegetação, sprites e três artes WebP da tela de
+  carregamento estão no repositório; as três artes estão catalogadas.
+- Interface/mobile: overlay HTML independente com progresso real do
+  carregador Phaser, arte alternada e barra inferior; validação em Android
+  físico continua necessária.
+- Build/publicação: Vite, testes Node e GitHub Actions Deploy.
+- Pendências: confirmar workflow da versão 2.9.2 e testar visualmente o
+  intervalo de 2 segundos em navegador e Android.
+
+Versão anterior: 2.9.1. Nova versão: 2.9.2 (PATCH: ajuste de intervalo).
