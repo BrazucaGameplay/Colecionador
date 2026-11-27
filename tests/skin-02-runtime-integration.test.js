@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { registerPlayerSpriteAnimations } from '../src/rendering/characters/CharacterSpriteAssetLoader.js';
+import { registerPlayerSpriteAnimations, attachPlayerSpriteRegistry } from '../src/rendering/characters/CharacterSpriteAssetLoader.js';
 import SkinManager from '../src/rendering/characters/SkinManager.js';
 import { CHARACTER_SKINS } from '../src/rendering/characters/CharacterSkinCatalog.js';
 
@@ -26,7 +26,13 @@ test('Skin 02 registra as quatro animações reais e fica selecionável no runti
     });
   }
 
+  const registryValues = new Map();
+  const sharedRegistry = {
+    set(key, value) { registryValues.set(key, value); },
+    get(key) { return registryValues.get(key); }
+  };
   const scene = {
+    registry: sharedRegistry,
     characterAnimationsBySkin: new Map(),
     playerFramePivots: new Map(),
     cache: { json: { get: key => metadataByKey.get(key) } },
@@ -44,9 +50,16 @@ test('Skin 02 registra as quatro animações reais e fica selecionável no runti
   assert.equal(createdAnimations.size, 32,
     'quatro animações × oito direções devem produzir 32 animações Phaser');
 
+  // Simula a cena Game, que é outra instância, lendo o registry compartilhado.
+  const gameScene = { registry: sharedRegistry };
+  attachPlayerSpriteRegistry(gameScene);
+  assert.notEqual(gameScene, scene, 'Preload e Game precisam ser instâncias distintas');
+  assert.equal(gameScene.characterAnimationsBySkin, scene.characterAnimationsBySkin);
+  assert.equal(gameScene.playerFramePivots, scene.playerFramePivots);
+
   const manager = new SkinManager({
     selectedSkin: 'skin_01',
-    assetValidator: id => scene.characterAnimationsBySkin.has(id)
+    assetValidator: id => gameScene.characterAnimationsBySkin.has(id)
   });
   assert.equal(manager.isSelectable('skin_2'), true,
     'SkinManager precisa reconhecer Skin 02 como disponível após o registro');
