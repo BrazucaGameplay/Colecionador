@@ -6,7 +6,8 @@ export default class PerformanceMonitor {
     this.scene = scene;
     this.elapsed = 0;
     this.interval = 500;
-    this.layer = scene.add.layer().setDepth(2100);
+    this.enabled = false;
+    this.layer = scene.add.layer().setDepth(2100).setVisible(false);
     const { height } = scene.scale;
     this.panel = scene.add.rectangle(10, height - 10, 246, 150, 0x07111f, 0.94)
       .setOrigin(0, 1).setStrokeStyle(1, 0x94a3b8, 0.9).setScrollFactor(0);
@@ -27,12 +28,20 @@ export default class PerformanceMonitor {
     this.text.setPosition(18, height - 143);
   }
 
+  setEnabled(enabled) {
+    this.enabled = Boolean(enabled);
+    this.layer?.setVisible(this.enabled);
+    return this.enabled;
+  }
+
   containsScreenPoint(x, y) {
+    if (!this.enabled) return false;
     const height = this.scene?.scale.height || 0;
     return x >= 10 && x <= 256 && y >= height - 160 && y <= height - 10;
   }
 
   update(deltaMs, sceneUpdateMs, monsterMetrics = null) {
+    if (!this.enabled) return;
     this.elapsed += Math.max(0, deltaMs || 0);
     if (this.elapsed < this.interval) return;
     this.elapsed = 0;

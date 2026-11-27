@@ -33,3 +33,15 @@ test('toques na HUD são excluídos da navegação do mundo', async () => {
   assert.match(ui, /isUiPointer\(x, y\)/);
   assert.match(ui, /event\?\.stopPropagation\(\)/);
 });
+
+
+test('o retrato usa o asset enviado e o círculo cresce 30%', async () => {
+  const [ui, monitor] = await Promise.all([read('../src/scenes/GameUI.js'), read('../src/ui/PerformanceMonitor.js')]);
+  assert.match(ui, /assets\/ui\/player-portrait\.webp/);
+  assert.match(ui, /33\.8/);
+  assert.match(ui, /setDisplaySize\(45\.2, 67\.8\)/);
+  assert.match(ui, /createGeometryMask/);
+  assert.match(monitor, /setEnabled\(enabled\)/);
+  assert.match(monitor, /if \(!this\.enabled\) return/);
+  assert.match(ui, /Desempenho \/ DPS:/);
+});

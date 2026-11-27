@@ -16,6 +16,10 @@ export default class GameUI extends Phaser.Scene {
     this.refreshElapsed = 0;
   }
 
+  preload() {
+    this.load.image('player-portrait', import.meta.env.BASE_URL + 'assets/ui/player-portrait.webp');
+  }
+
   create() {
     this.gameScene = this.scene.get('Game');
     this.gameScene.uiScene = this;
@@ -40,10 +44,14 @@ export default class GameUI extends Phaser.Scene {
 
     const centerX = this.scale.width / 2;
     const portraitY = this.scale.height - 65;
-    this.portraitFrame = this.add.circle(centerX, portraitY, 26, 0x101b2d, 0.96)
-      .setStrokeStyle(1.5, 0x94a3b8).setDepth(3000);
-    this.portrait = this.add.graphics().setDepth(3002);
-    this.portraitHit = this.add.zone(centerX, portraitY, 64, 64).setDepth(3004).setInteractive();
+    // Raio 30% maior que o retrato anterior (26 -> 33,8 px).
+    this.portraitFrame = this.add.circle(centerX, portraitY, 33.8, 0x101b2d, 0.98)
+      .setStrokeStyle(2, 0xfbbf24).setDepth(3000);
+    this.portraitMaskShape = this.make.graphics({ x: 0, y: 0, add: false });
+    this.portraitMask = this.portraitMaskShape.createGeometryMask();
+    this.portraitImage = this.add.image(centerX, portraitY, 'player-portrait')
+      .setDisplaySize(45.2, 67.8).setDepth(3002).setMask(this.portraitMask);
+    this.portraitHit = this.add.zone(centerX, portraitY, 88, 88).setDepth(3004).setInteractive();
     this.portraitHit.on('pointerdown', (pointer, localX, localY, event) => {
       event?.stopPropagation();
       this.openPanel('profile');
@@ -66,12 +74,11 @@ export default class GameUI extends Phaser.Scene {
     const centerX = width / 2;
     const portraitY = height - 65;
     this.portraitFrame.setPosition(centerX, portraitY);
+    this.portraitImage.setPosition(centerX, portraitY);
     this.portraitHit.setPosition(centerX, portraitY);
-    this.portrait.clear();
-    this.portrait.fillStyle(0xe2e8f0, 1);
-    this.portrait.fillCircle(centerX, portraitY - 9, 7);
-    this.portrait.fillRoundedRect(centerX - 10, portraitY, 20, 20, 7);
-    this.portrait.fillTriangle(centerX - 14, portraitY + 5, centerX, portraitY - 1, centerX + 14, portraitY + 5);
+    this.portraitMaskShape.clear();
+    this.portraitMaskShape.fillStyle(0xffffff, 1);
+    this.portraitMaskShape.fillCircle(centerX, portraitY, 33.8);
     const barX = centerX - 64;
     const barY = height - 24;
     this.hpLabel.setPosition(barX - 22, barY - 6);
@@ -95,7 +102,7 @@ export default class GameUI extends Phaser.Scene {
     const width = this.scale.width;
     const height = this.scale.height;
     return (x >= 8 && x <= 64 && y >= 8 && y <= 64) ||
-      (x >= width / 2 - 92 && x <= width / 2 + 92 && y >= height - 108 && y <= height);
+      (x >= width / 2 - 104 && x <= width / 2 + 104 && y >= height - 116 && y <= height);
   }
 
   refreshHud() {
@@ -151,18 +158,36 @@ export default class GameUI extends Phaser.Scene {
   }
 
   createMenuPanel() {
-    const width = Math.min(276, this.scale.width - 24);
-    const x = 12, y = 72, height = 264;
+    const width = Math.min(290, this.scale.width - 24);
+    const x = 12, y = 72, height = 318;
     this.addPanelFrame(x, y, width, height, 'MENU');
     [['Bestiário', 'bestiary'], ['Waifus', 'waifus'], ['Inventário', 'inventory'], ['Casa', 'house']]
       .forEach(([label, key], index) => {
-        const rowY = y + 66 + index * 47;
+        const rowY = y + 62 + index * 46;
         const button = this.addPanelObject(
-          this.add.rectangle(x + width / 2, rowY, width - 28, 39, 0x1e293b).setStrokeStyle(1, 0x475569), 4020
+          this.add.rectangle(x + width / 2, rowY, width - 28, 38, 0x1e293b).setStrokeStyle(1, 0x475569), 4020
         );
         this.addPanelText(x + 28, rowY - 10, label, { fontSize: '14px', fontStyle: 'bold', color: '#f8fafc' }, 4021);
         this.bindButton(button, () => this.openPanel(key));
       });
+
+    const monitor = this.gameScene.performanceMonitor;
+    const enabled = Boolean(monitor?.enabled);
+    const rowY = y + 62 + 4 * 46;
+    const toggle = this.addPanelObject(
+      this.add.rectangle(x + width / 2, rowY, width - 28, 38, enabled ? 0x164e35 : 0x1e293b)
+        .setStrokeStyle(1, enabled ? 0x4ade80 : 0x64748b), 4020
+    );
+    this.performanceToggleText = this.addPanelText(x + 28, rowY - 10,
+      'Desempenho / DPS: ' + (enabled ? 'ATIVO' : 'DESATIVADO'),
+      { fontSize: this.scale.width < 390 ? '11px' : '13px', fontStyle: 'bold', color: '#f8fafc' }, 4021);
+    this.bindButton(toggle, () => {
+      const next = !Boolean(monitor?.enabled);
+      monitor?.setEnabled(next);
+      this.performanceToggleText?.setText('Desempenho / DPS: ' + (next ? 'ATIVO' : 'DESATIVADO'));
+      toggle.setFillStyle(next ? 0x164e35 : 0x1e293b);
+      toggle.setStrokeStyle(1, next ? 0x4ade80 : 0x64748b);
+    });
   }
 
   createInfoPanel(key) {
