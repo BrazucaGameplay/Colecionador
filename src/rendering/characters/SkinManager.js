@@ -50,11 +50,18 @@ export default class SkinManager {
       return { changed: false, selectedSkin: this.selectedSkin, reason: 'already-selected' };
     }
     const previousSkin = this.selectedSkin;
-    const result = this.onChange({ previousSkin, selectedSkin: id });
-    if (result?.changed === false) {
-      return { changed: false, selectedSkin: this.selectedSkin, reason: result.reason || 'renderer-rejected' };
-    }
     this.selectedSkin = id;
+    let result;
+    try {
+      result = this.onChange({ previousSkin, selectedSkin: id });
+    } catch (error) {
+      this.selectedSkin = previousSkin;
+      throw error;
+    }
+    if (result?.changed === false) {
+      this.selectedSkin = previousSkin;
+      return { changed: false, selectedSkin: previousSkin, reason: result.reason || 'renderer-rejected' };
+    }
     return { changed: true, previousSkin, selectedSkin: id };
   }
 

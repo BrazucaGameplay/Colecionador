@@ -31,6 +31,18 @@ test('renderer pode recusar troca sem alterar seleção',()=>{
  assert.equal(manager.selectSkin('skin_test').reason,'action-active');
  assert.equal(manager.getSelectedSkin(),DEFAULT_CHARACTER_SKIN);
 });
+test('a nova skin já está selecionada durante o callback de persistência',()=>{
+ let manager;
+ let observed;
+ manager=new SkinManager({
+  catalog:testCatalog,
+  assetValidator:()=>true,
+  onChange:({selectedSkin})=>{observed=manager.getSelectedSkin();return{changed:true};}
+ });
+ assert.equal(manager.selectSkin('skin_test').changed,true);
+ assert.equal(observed,'skin_test');
+ assert.equal(manager.getSelectedSkin(),'skin_test');
+});
 test('seleção muda apenas após confirmação do renderer',()=>{
  const manager=new SkinManager({catalog:testCatalog,assetValidator:()=>true,onChange:()=>({changed:true})});
  assert.equal(manager.selectSkin('skin_test').changed,true);
