@@ -2069,3 +2069,14 @@ pinch, recebendo callbacks do CameraController sem alterar os gestos.
 Os valores e comportamentos existentes foram preservados intencionalmente.
 Build, testes e publicação da versão 2.6.7 devem ser confirmados no workflow;
 teste visual e em Android físico permanecem verificações distintas.
+
+
+CORREÇÃO DOS TESTES DE CÂMERA — 27/11/2026 — VERSÃO 2.6.8
+
+A execução inicial da versão 2.6.7 identificou referências de teste que
+continuavam procurando CAMERA_ZOOM, resizeHudCamera e limites de câmera
+dentro de Game.js. Como esses contratos passaram para
+src/systems/camera/CameraController.js, os testes de oceano/resize foram
+atualizados para consultar o novo módulo. Nenhum comportamento de runtime
+foi alterado nesta correção. A nova execução de CI/deploy é necessária para
+validar a extração e confirmar a publicação da versão 2.6.8.

@@ -19,3 +19,12 @@ Os valores e comportamentos existentes foram preservados intencionalmente.
 Foram adicionados testes para limites, zoom, follow, HUD e resize. A execução
 de CI e a publicação precisam ser verificadas no workflow desta versão;
 não se considera teste visual ou Android concluído apenas pelo build.
+
+
+
+## Correção de testes — versão 2.6.8
+
+A primeira execução do CI encontrou asserções de ocean-background.test.js
+ainda vinculadas à implementação anterior em Game.js. As verificações de
+zoom, limites, resize e HUD foram atualizadas para o novo CameraController.
+A correção altera somente os testes e os metadados/documentação de versão.

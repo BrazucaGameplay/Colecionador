@@ -15,7 +15,7 @@ test('o terreno e o mundo jogável continuam em 4096 x 4096', () => {
 
 test('oceano mantém a margem costeira e expande a dimensão maior para a proporção da tela', () => {
   const bootstrap = read('../src/world/WorldBootstrap.js');
-  const game = read('../src/scenes/Game.js');
+  const camera = read('../src/systems/camera/CameraController.js');
   const method = bootstrap.slice(bootstrap.indexOf('function updateOceanBounds('), bootstrap.indexOf('function createOceanBackground('));
   assert.match(bootstrap, /const OCEAN_MARGIN = 256/);
   assert.match(bootstrap, /const OCEAN_RADIUS = ISLAND_SHAPE\.baseRadius \+ OCEAN_MARGIN/);
@@ -25,17 +25,16 @@ test('oceano mantém a margem costeira e expande a dimensão maior para a propor
   assert.match(method, /viewHeight \/ MIN_CAMERA_ZOOM \* OCEAN_PAN_BUFFER_FACTOR/);
   assert.match(bootstrap, /scene\.add\.tileSprite\(/);
   assert.match(bootstrap, /'ocean-pattern'/);
-  assert.match(game, /camera\.setBounds\(\s*this\.oceanBounds\.x/);
+  assert.match(camera, /this\.camera\.setBounds\(bounds\.x, bounds\.y, bounds\.width, bounds\.height\)/);
 });
 
 test('resize atualiza viewport das duas câmeras e redimensiona o oceano', () => {
-  const game = read('../src/scenes/Game.js');
-  const method = game.slice(game.indexOf('  resizeHudCamera('), game.indexOf('  readSavedProgress() {'));
-  assert.match(method, /this\.camera\.setViewport\(0, 0, width, height\)/);
-  assert.match(method, /this\.uiCamera\.setViewport\(0, 0, width, height\)/);
-  assert.match(method, /this\.worldBootstrap\.updateOceanBounds\(width, height\)/);
-  assert.match(method, /this\.camera\.setBounds\(/);
-  assert.match(method, /this\.getMinimumCameraZoom\(\)/);
+  const camera = read('../src/systems/camera/CameraController.js');
+  assert.match(camera, /this\.camera\.setViewport\(0, 0, width, height\)/);
+  assert.match(camera, /this\.uiCamera\.setViewport\(0, 0, width, height\)/);
+  assert.match(camera, /scene\.worldBootstrap\.updateOceanBounds\(width, height\)/);
+  assert.match(camera, /this\.camera\.setBounds\(bounds\.x, bounds\.y, bounds\.width, bounds\.height\)/);
+  assert.match(camera, /this\.getMinimumZoom\(\)/);
 });
 
 test('oceano permanece em um único TileSprite, sem processamento por frame', () => {
@@ -46,16 +45,16 @@ test('oceano permanece em um único TileSprite, sem processamento por frame', ()
 
 test('limites visuais do oceano reservam espaço para arraste no zoom mínimo', () => {
   const bootstrap = read('../src/world/WorldBootstrap.js');
-  const game = read('../src/scenes/Game.js');
+  const camera = read('../src/systems/camera/CameraController.js');
   assert.match(bootstrap, /const OCEAN_PAN_BUFFER_FACTOR = 1\.15/);
   assert.match(bootstrap, /viewWidth \/ MIN_CAMERA_ZOOM \* OCEAN_PAN_BUFFER_FACTOR/);
   assert.match(bootstrap, /viewHeight \/ MIN_CAMERA_ZOOM \* OCEAN_PAN_BUFFER_FACTOR/);
-  assert.match(game, /return CAMERA_ZOOM\.min/);
+  assert.match(camera, /getMinimumZoom\(\) \{ return CAMERA_ZOOM\.min; \}/);
   assert.match(bootstrap, /\* OCEAN_PAN_BUFFER_FACTOR/);
 });
 
 test('limites de zoom usam mínimo 0.2x, inicial 0.4x e máximo 0.6x', () => {
-  const game = read('../src/scenes/Game.js');
-  assert.match(game, /CAMERA_ZOOM = Object\.freeze\(\{ min: 0\.2, max: 0\.6, default: 0\.4 \}\)/);
-  assert.match(game, /this\.camera\.setZoom\(Math\.max\(this\.getMinimumCameraZoom\(\), CAMERA_ZOOM\.default\)\)/);
+  const camera = read('../src/systems/camera/CameraController.js');
+  assert.match(camera, /CAMERA_ZOOM = Object\.freeze\(\{ min: 0\.2, max: 0\.6, default: 0\.4 \}\)/);
+  assert.match(camera, /this\.camera\.setZoom\(Math\.max\(this\.getMinimumZoom\(\), CAMERA_ZOOM\.default\)\)/);
 });
