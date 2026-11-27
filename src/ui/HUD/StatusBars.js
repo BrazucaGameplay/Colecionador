@@ -29,15 +29,15 @@ export default class StatusBars {
     this.frame.setPosition(screenWidth / 2, this.top + this.displayHeight / 2)
       .setDisplaySize(this.displayWidth, this.displayHeight);
 
-    // Interior tracks measured in the source artwork's 600 x 201 coordinate space.
-    this.hpX = this.left + 140 * this.scaleX;
+    // Preenchimento com margem uniforme dentro dos trilhos da arte (600 x 201).
+    this.hpX = this.left + 146 * this.scaleX;
     this.hpY = this.top + 78 * this.scaleY;
-    this.hpMaxWidth = 365 * this.scaleX;
-    this.hpHeight = 17 * this.scaleY;
-    this.energyX = this.left + 140 * this.scaleX;
+    this.hpMaxWidth = 350 * this.scaleX;
+    this.hpHeight = 13 * this.scaleY;
+    this.energyX = this.left + 146 * this.scaleX;
     this.energyY = this.top + 127 * this.scaleY;
-    this.energyMaxWidth = 365 * this.scaleX;
-    this.energyHeight = 20 * this.scaleY;
+    this.energyMaxWidth = 350 * this.scaleX;
+    this.energyHeight = 15 * this.scaleY;
     this.setValues(this.healthRatio, 1, this.energyRatio, 1);
   }
 
