@@ -18,6 +18,13 @@ export default class ProfilePanel {
     this.portraitCaption = this.frame.addText(x + width * 0.5, y + height * 0.765, 'PERSONAGEM', {
       fontSize: '12px', fontStyle: 'bold', color: '#ffe8bd', align: 'center'
     }).setOrigin(0.5);
+    // Atalho explícito: a seleção de skins não fica escondida atrás da navegação por páginas.
+    this.skinShortcutButton = this.frame.addButton({
+      x: x + width * 0.5, y: y + height * 0.815,
+      width: width * 0.42, height: Math.max(22, width * 0.075),
+      label: 'ESCOLHER SKIN', texture: 'ui-button-300',
+      onClick: () => this.setPage(2)
+    });
 
     // Segunda página: mantém a tela atual de atributos.
     this.summary = this.frame.addText(x + width * 0.15, y + height * 0.235, '', {
@@ -98,6 +105,8 @@ export default class ProfilePanel {
     const showSkins = this.page === 2;
     this.portrait.setVisible(showPortrait);
     this.portraitCaption.setVisible(showPortrait);
+    this.skinShortcutButton.background.setVisible(showPortrait);
+    this.skinShortcutButton.label.setVisible(showPortrait);
     this.summary.setVisible(showStats);
     this.footer.setVisible(showStats);
     this.skinHeading.setVisible(showSkins);
@@ -154,6 +163,7 @@ export default class ProfilePanel {
     this.footer = null;
     this.portrait = null;
     this.portraitCaption = null;
+    this.skinShortcutButton = null;
     this.previousButton = null;
     this.nextButton = null;
     this.pageIndicator = null;
