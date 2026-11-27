@@ -18,7 +18,7 @@ import PerformanceMonitor from '../ui/PerformanceMonitor.js';
 import TouchInputController from '../systems/input/TouchInputController.js';
 import { SAVE_KEY } from '../config.js';
 import { ISLAND_SHAPE } from '../world/IslandShape.js';
-import { getTerrainContentHash, readWalkableGrid, writeWalkableGrid, WALKABLE_GRID_ALGORITHM_VERSION } from '../world/WalkableGridCache.js';
+import { createIslandNavigation } from '../world/navigation/IslandNavigationFactory.js';
 
 const CAMERA_ZOOM = Object.freeze({ min: 0.2, max: 0.6, default: 0.4 });
 const CAMERA_FOLLOW_LERP = 0.06;
@@ -53,10 +53,13 @@ export default class Game extends Phaser.Scene {
     const centerY = this.worldHeight / 2;
 
     this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
-    this.navigation = new WorldNavigation(this.worldWidth, this.worldHeight);
+    this.navigation = createIslandNavigation({
+      width: this.worldWidth,
+      height: this.worldHeight,
+      terrainSource: this.textures.get('island-terrain')?.getSourceImage?.()
+    });
     this.createOceanBackground();
     this.createGround();
-    await this.createIslandWalkableMask();
     this.depthManager = new WorldDepthManager();
     this.collisionManager = new WorldCollisionManager(this.navigation);
     this.worldObjectManager = new WorldObjectManager(this, {
@@ -249,65 +252,6 @@ export default class Game extends Phaser.Scene {
     });
   }
 
-  async createIslandWalkableMask() {
-    const source = this.textures.get('island-terrain')?.getSourceImage?.();
-    if (!source?.width || !source?.height) {
-      throw new Error('Não foi possível gerar a navegação: imagem da ilha indisponível.');
-    }
-
-    const maskSize = Math.min(1024, source.width, source.height);
-    const threshold = 160;
-    const terrainUrl = import.meta.env.BASE_URL +
-      'assets/world/terrain/ilha_terreno.webp?v=20261126-ocean-seamless-512-v36';
-    const terrainHash = await getTerrainContentHash(terrainUrl);
-    const cacheId = terrainHash
-      ? [
-          'island-walkable',
-          'island-geometry-v1',
-          'grid-algorithm-' + WALKABLE_GRID_ALGORITHM_VERSION,
-          this.worldWidth + 'x' + this.worldHeight,
-          this.navigation.cols + 'x' + this.navigation.rows,
-          'cell-24',
-          'mask-' + maskSize,
-          'alpha-' + threshold,
-          'inset-14',
-          terrainHash
-        ].join(':')
-      : null;
-
-    if (cacheId) {
-      const cachedGrid = await readWalkableGrid(cacheId, this.navigation.cols * this.navigation.rows);
-      if (cachedGrid) {
-        this.navigation.setWalkableGrid(cachedGrid);
-        this.walkableGridCacheStatus = 'hit';
-        return;
-      }
-    }
-
-    // Cache ausente/inválido: gera a máscara exatamente pelo processo atual.
-    const canvas = document.createElement('canvas');
-    canvas.width = maskSize;
-    canvas.height = maskSize;
-    const context = canvas.getContext('2d', { willReadFrequently: true });
-    if (!context) throw new Error('Não foi possível criar a máscara alfa da ilha.');
-
-    try {
-      context.clearRect(0, 0, maskSize, maskSize);
-      context.imageSmoothingEnabled = true;
-      context.imageSmoothingQuality = 'high';
-      context.drawImage(source, 0, 0, maskSize, maskSize);
-      const pixels = context.getImageData(0, 0, maskSize, maskSize).data;
-      this.navigation.setAlphaMask(pixels, maskSize, maskSize, threshold);
-    } finally {
-      canvas.width = 0;
-      canvas.height = 0;
-    }
-
-    this.walkableGridCacheStatus = 'rebuilt';
-    this.walkableGridCacheSaved = cacheId
-      ? await writeWalkableGrid(cacheId, this.navigation.walkableGrid)
-      : false;
-  }
 
   /**
    * Oceano estático contínuo sob a ilha. A área é maior que os limites de
