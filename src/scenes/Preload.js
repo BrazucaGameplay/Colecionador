@@ -10,27 +10,33 @@ const WORLD_ASSETS = [
   ['tree-ancestral', 'assets/world/vegetation/arvore_ancestral_toca_webp_640.webp']
 ];
 
+function notifyLoading(progress, message) {
+  window.dispatchEvent(new CustomEvent('colecionador:loading-progress', {
+    detail: { progress, message }
+  }));
+}
+
 export default class Preload extends Phaser.Scene {
   constructor() { super('Preload'); }
   preload() {
-    const { width, height } = this.scale;
     const loadStartedAt = performance.now();
     this.registry.set('assetLoadPercent', 0);
     this.registry.set('assetLoadDurationMs', 0);
-    this.add.rectangle(width / 2, height / 2, 300, 20, 0x222222).setOrigin(0.5);
-    const fill = this.add.rectangle(width / 2 - 140, height / 2, 0, 12, 0x22c55e).setOrigin(0, 0.5);
-    const label = this.add.text(width / 2, height / 2 + 40, 'Carregando mundo... 0%', { fontSize: '16px', color: '#ffffff' }).setOrigin(0.5);
+    notifyLoading(0, 'Preparando recursos...');
     this.load.on('progress', progress => {
       const percent = Math.round(progress * 100);
       this.registry.set('assetLoadPercent', percent);
-      fill.width = 280 * progress;
-      label.setText('Carregando mundo... ' + percent + '%');
+      notifyLoading(progress, 'Carregando recursos do mundo...');
     });
     this.load.once(Phaser.Loader.Events.COMPLETE, () => {
       this.registry.set('assetLoadPercent', 100);
       this.registry.set('assetLoadDurationMs', performance.now() - loadStartedAt);
+      notifyLoading(1, 'Finalizando...');
     });
-    this.load.on('loaderror', file => { console.error('Falha ao carregar asset final:', file.key, file.src); label.setText('Falha ao carregar recursos do jogo.'); });
+    this.load.on('loaderror', file => {
+      console.error('Falha ao carregar asset final:', file.key, file.src);
+      notifyLoading(this.load.progress, 'Verificando recursos...');
+    });
     for (const [key, url] of WORLD_ASSETS) this.load.image(key, import.meta.env.BASE_URL + url + '?v=20261126-ocean-seamless-512-v36');
     queuePlayerSpriteAssets(this.load);
     queueMonsterAssets(this.load);

@@ -77,6 +77,7 @@ export default class Game extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this._cooldown = 0;
     this.initialized = true;
+    window.dispatchEvent(new CustomEvent('colecionador:game-ready'));
   }
 
   persistProgress() {

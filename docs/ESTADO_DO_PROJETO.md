@@ -2155,3 +2155,48 @@ o arquivo de teste da HUD continha expressões regulares com escape incorreto.
 Os testes foram corrigidos para verificar as novas responsabilidades e
 preservar as verificações de toque sobre a HUD. Nenhuma lógica de runtime
 foi alterada nesta correção.
+
+
+======================================================================
+TELA DE CARREGAMENTO HTML INDEPENDENTE — 27/11/2026 — VERSÃO 2.9.0
+======================================================================
+
+Foi criada uma camada HTML/CSS de carregamento independente do canvas
+Phaser, exibida imediatamente pelo index.html antes da inicialização do
+motor. O overlay permanece sobre o jogo até Game.create() concluir a
+inicialização do mundo, do jogador, da câmera e dos sistemas principais.
+
+Arquivos:
+- index.html: estrutura semântica inicial do overlay, visível antes do JS.
+- src/loading/LoadingScreen.js: controlador DOM, rotação de artes, progresso
+  e transição de saída.
+- src/loading/loading-screen.css: apresentação responsiva, camada de arte,
+  fundo desfocado, identidade visual e barra inferior.
+- src/loading/loading-images.js: catálogo explícito das imagens que serão
+  alternadas.
+- public/assets/ui/loading/images/: pasta de destino das artes finais,
+  acompanhada de instruções e especificações no README.md.
+
+Comportamento implementado:
+- O overlay é uma camada HTML independente do Phaser, não uma cena gráfica.
+- O percentual é atualizado pelos eventos reais do carregador Phaser.
+- A tela permanece visível durante a inicialização assíncrona do mundo.
+- O overlay desaparece quando Game.create() termina e os sistemas do jogo
+  estão inicializados.
+- As artes são alternadas a cada sete segundos; imagens inválidas são
+  ignoradas.
+- Em orientação vertical, a ilustração é exibida inteira; em orientação
+  horizontal, o espaço lateral recebe a mesma arte desfocada.
+- A barra e os textos são HTML/CSS e não fazem parte das imagens.
+
+Estado das artes:
+- A pasta de imagens foi criada, mas está vazia nesta versão.
+- O arquivo de referência enviado durante a definição visual não foi
+  incluído como arte final. As imagens definitivas devem ser enviadas para
+  public/assets/ui/loading/images/ e registradas em
+  src/loading/loading-images.js.
+
+Versão anterior: 2.8.5. Nova versão: 2.9.0 (funcionalidade visual nova).
+Validação de build/testes e publicação precisam ser confirmadas pelo
+workflow associado ao commit 2.9.0. Teste visual em Android físico continua
+pendente.

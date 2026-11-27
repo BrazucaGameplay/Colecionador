@@ -1,9 +1,13 @@
 import * as Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT } from './config.js';
+import LoadingScreen from './loading/LoadingScreen.js';
 import Boot from './scenes/Boot.js';
 import Preload from './scenes/Preload.js';
 import Game from './scenes/Game.js';
 import GameUI from './scenes/GameUI.js';
+
+// A camada HTML é exibida antes da criação do canvas Phaser.
+new LoadingScreen();
 
 const config = {
   type: Phaser.AUTO,
