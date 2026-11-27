@@ -49,8 +49,8 @@ test('preserva a fonte 2288x1249 e usa filtro linear para ilustração detalhada
 
 test('perfil reserva uma área horizontal ampla sem invadir o quadro', async () => {
   const { PROFILE_PORTRAIT_FIT } = await import('../src/ui/HUD/PortraitDisplay.js');
-  assert.equal(PROFILE_PORTRAIT_FIT.width, 0.84);
-  assert.equal(PROFILE_PORTRAIT_FIT.height, 0.50);
+  assert.equal(PROFILE_PORTRAIT_FIT.width, 0.88);
+  assert.equal(PROFILE_PORTRAIT_FIT.height, 0.58);
   assert.ok(PROFILE_PORTRAIT_FIT.width < 0.86);
 });
 
