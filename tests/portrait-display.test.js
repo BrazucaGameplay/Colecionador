@@ -9,6 +9,7 @@ function mockImage(width, height) {
     scaleX: 1,
     scaleY: 1,
     calls,
+    texture: { setFilter(value) { calls.push(['filter', value]); } },
     setTexture(key) { calls.push(['texture', key]); return this; },
     setScale(value) { this.scaleX = value; this.scaleY = value; calls.push(['scale', value]); return this; }
   };
@@ -34,4 +35,14 @@ test('não tenta alterar imagem quando chave ou limites estão ausentes', () => 
   assert.equal(setPortraitTexture(image, '', 48, 72), false);
   assert.equal(setPortraitTexture(image, 'portrait', 0, 72), false);
   assert.equal(image.calls.length, 0);
+});
+
+test('preserva a fonte 2288x1249 e usa filtro linear para ilustração detalhada', () => {
+  const image = mockImage(2288, 1249);
+  assert.equal(setPortraitTexture(image, 'skin-portrait-skin_2', 420, 300), true);
+  assert.equal(image.scaleX, image.scaleY);
+  assert.equal(2288 * image.scaleX, 420);
+  assert.ok(Math.abs(1249 * image.scaleY - 229.2745) < 0.01);
+  assert.deepEqual(image.calls.find(call => call[0] === 'filter'), ['filter', 0]);
+  assert.deepEqual(image.calls[0], ['texture', 'skin-portrait-skin_2']);
 });

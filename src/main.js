@@ -15,9 +15,17 @@ const config = {
   width: GAME_WIDTH,
   height: GAME_HEIGHT,
   backgroundColor: '#0b0f1a',
+  // Arte ilustrada (não pixel art): manter interpolação linear e subpixel.
+  render: {
+    antialias: true,
+    antialiasGL: true,
+    pixelArt: false,
+    roundPixels: false
+  },
   scale: {
     mode: Phaser.Scale.RESIZE,
     autoCenter: Phaser.Scale.CENTER_BOTH,
+    autoRound: false,
     width: GAME_WIDTH,
     height: GAME_HEIGHT
   },
