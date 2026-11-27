@@ -60,7 +60,7 @@ test('todos os painéis compartilham a moldura e liberam seus objetos', async ()
   assert.match(await read('../src/ui/components/PanelFrame.js'),/destroy\(\)/);
 });
 
-test('os arquivos WebP enviados existem e são carregáveis', async () => {
+test('as artes WebP da interface e os novos retratos PNG existem e são carregáveis', async () => {
   const paths=[
     '../public/assets/ui/panels/painel_vertical_900x1350_transparente.webp',
     '../public/assets/ui/panels/perfil_moldura_fundo_vermelho.webp',
@@ -69,10 +69,13 @@ test('os arquivos WebP enviados existem e são carregáveis', async () => {
     '../public/assets/ui/buttons/botao_sem_ornamento_central_300x100.webp',
     '../public/assets/ui/buttons/botao_sem_ornamento_central_400x100.webp',
     '../public/assets/ui/hud/moldura_hp_energia_sem_barras_600px.webp',
-    '../public/assets/characters/sprites/skin_01/perfil.webp',
-    '../public/assets/characters/sprites/skin_2/perfil.webp'
   ];
   for(const path of paths){const bytes=await readFile(new URL(path,import.meta.url));assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');}
+  for(const path of ['../public/assets/characters/sprites/skin_01/perfil.png','../public/assets/characters/sprites/skin_2/perfil.png']){
+    const bytes=await readFile(new URL(path,import.meta.url));
+    assert.deepEqual([...bytes.subarray(0,8)],[137,80,78,71,13,10,26,10]);
+    assert.ok(bytes.readUInt32BE(16)>0 && bytes.readUInt32BE(20)>0,'o PNG deve ter dimensões válidas');
+  }
 });
 
 test('retratos são carregados a partir da pasta de cada skin', async () => {
@@ -83,8 +86,8 @@ test('retratos são carregados a partir da pasta de cada skin', async () => {
   assert.match(ui, /CHARACTER_SKINS/);
   assert.ok(ui.includes('skin.portraitKey'));
   assert.ok(ui.includes('skin.portrait'));
-  assert.ok(catalog.includes('skin_01/perfil.webp'));
-  assert.ok(catalog.includes('skin_2/perfil.webp'));
+  assert.ok(catalog.includes('skin_01/perfil.png'));
+  assert.ok(catalog.includes('skin_2/perfil.png'));
 });
 
 test('HUD recupera o retrato clicável e ajusta as barras com preenchimento integral', async () => {

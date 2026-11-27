@@ -9,7 +9,7 @@ export const CHARACTER_SKINS = Object.freeze({
     status: 'ready',
     selectable: true,
     directory: 'assets/characters/sprites/skin_01/',
-    portrait: 'assets/characters/sprites/skin_01/perfil.webp',
+    portrait: 'assets/characters/sprites/skin_01/perfil.png',
     portraitKey: 'player-portrait',
     animations: Object.freeze({
       idle: 'skin-basicas-idle',
@@ -24,7 +24,7 @@ export const CHARACTER_SKINS = Object.freeze({
     status: 'ready',
     selectable: true,
     directory: 'assets/characters/sprites/skin_2/',
-    portrait: 'assets/characters/sprites/skin_2/perfil.webp',
+    portrait: 'assets/characters/sprites/skin_2/perfil.png',
     portraitKey: 'skin-portrait-skin_2',
     animations: Object.freeze({
       idle: 'skin2-idle',

@@ -16,7 +16,7 @@ test('skin 2 possui quatro atlas e fica selecionável após validação',()=>{
  assert.equal(manager.isSelectable('skin_2'),false);
  assert.equal(CHARACTER_SKINS.skin_2.status,'ready');
  assert.deepEqual(Object.keys(CHARACTER_SKINS.skin_2.animations).sort(),['combat','dying','idle','running']);
- assert.equal(CHARACTER_SKINS.skin_2.portrait,'assets/characters/sprites/skin_2/perfil.webp');
+ assert.equal(CHARACTER_SKINS.skin_2.portrait,'assets/characters/sprites/skin_2/perfil.png');
 });
 test('contrato exige exatamente quatro animações por skin',()=>{
  assert.deepEqual(REQUIRED_SKIN_ANIMATIONS,['idle','running','combat','dying']);

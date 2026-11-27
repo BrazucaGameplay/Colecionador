@@ -28,12 +28,12 @@ alternativo ou passo especial.
 
 ## Estrutura dos arquivos
 
-Cada skin mantém seu retrato e seus atlas no mesmo diretório:
+Cada skin mantém seu retrato PNG transparente e seus atlas no mesmo diretório:
 
 ```text
 public/assets/characters/sprites/
   skin_01/
-    perfil.webp
+    perfil.png
     skin-basicas-idle.png
     skin-basicas-idle.json
     skin-basicas-running.png
@@ -43,7 +43,7 @@ public/assets/characters/sprites/
     skin-basicas-dead.png
     skin-basicas-dead.json
   skin_2/
-    perfil.webp
+    perfil.png
     parado.jpg
     corrida.jpg
     ataque.jpg
@@ -62,4 +62,4 @@ aparência. O ID da skin é salvo no registro existente. Saves antigos sem
 
 - **Skin 01:** pronta e selecionável.
 - **Skin 02:** em preparação. Os quatro JPGs são referências visuais, não
-  atlas de animação; o retrato `perfil.webp` já fica na pasta da skin.
+  atlas de animação; o retrato `perfil.png` já fica na pasta da skin.
