@@ -18,7 +18,8 @@ export default class GameUI extends Phaser.Scene {
 
   preload() {
     const base = import.meta.env.BASE_URL + 'assets/ui/';
-    this.load.atlas('ui-theme', base + 'ui-atlas.webp', base + 'ui-atlas.json?v=20261126-ui-gold-red-v1');
+    this.load.image('ui-panel-frame', base + 'ui-panel-frame.webp?v=20261126-ui-gold-red-v1');
+    this.load.image('ui-menu-button', base + 'ui-menu-button.webp?v=20261126-ui-gold-red-v1');
     this.load.image('player-portrait', base + 'player-portrait.webp');
   }
 
@@ -33,8 +34,8 @@ export default class GameUI extends Phaser.Scene {
   }
 
   createHud() {
-    this.menuButton = this.add.image(36, 36, 'ui-theme', 'slot')
-      .setDisplaySize(50, 52).setDepth(3000);
+    this.menuButton = this.add.nineslice(36, 36, 'ui-menu-button', undefined, 54, 42, 42, 42)
+      .setDepth(3000);
     this.menuButtonText = this.add.text(36, 36, '☰', {
       fontFamily: 'Georgia, serif', fontSize: '24px', color: '#fff0c4',
       stroke: '#4b160d', strokeThickness: 3
@@ -60,10 +61,10 @@ export default class GameUI extends Phaser.Scene {
     this.enLabel = this.add.text(0, 0, 'EN', {
       fontFamily: 'Georgia, serif', fontSize: '10px', fontStyle: 'bold', color: '#dcecff'
     }).setDepth(3003);
-    this.hpBarArt = this.add.image(0, 0, 'ui-theme', 'health').setDepth(3001);
-    this.enBarArt = this.add.image(0, 0, 'ui-theme', 'energy').setDepth(3001);
-    this.hpEmpty = this.add.rectangle(0, 0, 0, 7, 0x28050b, 0.78).setOrigin(0, 0.5).setDepth(3002);
-    this.enEmpty = this.add.rectangle(0, 0, 0, 7, 0x06142c, 0.78).setOrigin(0, 0.5).setDepth(3002);
+    this.hpTrack = this.add.rectangle(0, 0, 128, 10, 0x390a10, 0.96).setStrokeStyle(1, 0xd6a642).setDepth(3001);
+    this.hpFill = this.add.rectangle(0, 0, 128, 6, 0xef4444).setOrigin(0, 0.5).setDepth(3002);
+    this.enTrack = this.add.rectangle(0, 0, 128, 10, 0x081a3b, 0.96).setStrokeStyle(1, 0xd6a642).setDepth(3001);
+    this.enFill = this.add.rectangle(0, 0, 128, 6, 0x3b82f6).setOrigin(0, 0.5).setDepth(3002);
     this.layoutHud();
   }
 
@@ -82,10 +83,10 @@ export default class GameUI extends Phaser.Scene {
     const barY = height - 25;
     this.hpLabel.setPosition(barX - 22, barY - 6);
     this.enLabel.setPosition(barX - 22, barY + 7);
-    this.hpBarArt.setPosition(centerX + 5, barY).setDisplaySize(150, 20);
-    this.enBarArt.setPosition(centerX + 5, barY + 16).setDisplaySize(150, 20);
-    this.hpEmpty.setPosition(barX + 19, barY).setSize(0, 7);
-    this.enEmpty.setPosition(barX + 19, barY + 16).setSize(0, 7);
+    this.hpTrack.setPosition(barX + 5, barY);
+    this.hpFill.setPosition(barX - 59, barY);
+    this.enTrack.setPosition(barX + 5, barY + 16);
+    this.enFill.setPosition(barX - 59, barY + 16);
     this.refreshHud();
   }
 
@@ -107,14 +108,11 @@ export default class GameUI extends Phaser.Scene {
 
   refreshHud() {
     const player = this.gameScene?.player;
-    if (!player || !this.hpEmpty) return;
+    if (!player || !this.hpFill) return;
     const hp = player.maxHealth > 0 ? Phaser.Math.Clamp(player.health / player.maxHealth, 0, 1) : 0;
     const energy = player.maxEnergy > 0 ? Phaser.Math.Clamp(player.energy / player.maxEnergy, 0, 1) : 0;
-    const barX = this.scale.width / 2 - 72 + 19;
-    const barY = this.scale.height - 25;
-    const innerWidth = 112;
-    this.hpEmpty.setPosition(barX + innerWidth * hp, barY).setSize(innerWidth * (1 - hp), 7);
-    this.enEmpty.setPosition(barX + innerWidth * energy, barY + 16).setSize(innerWidth * (1 - energy), 7);
+    this.hpFill.setSize(128 * hp, 6);
+    this.enFill.setSize(128 * energy, 6);
     if (this.activePanel === 'profile') this.refreshProfile();
   }
 
@@ -152,8 +150,8 @@ export default class GameUI extends Phaser.Scene {
 
   addPanelFrame(x, y, width, height, title) {
     const frame = this.addPanelObject(
-      this.add.nineslice(x + width / 2, y + height / 2, 'ui-theme', 'panel',
-        width, height, 72, 72, 62, 62),
+      this.add.nineslice(x + width / 2, y + height / 2, 'ui-panel-frame', undefined,
+        width, height, 58, 58, 48, 48),
       4010
     );
     frame.setInteractive();
@@ -165,7 +163,7 @@ export default class GameUI extends Phaser.Scene {
     }, 4020);
 
     const close = this.addPanelObject(
-      this.add.image(x + width - 32, y + 34, 'ui-theme', 'close').setDisplaySize(34, 38),
+      this.add.nineslice(x + width - 32, y + 34, 'ui-menu-button', undefined, 38, 30, 32, 32),
       4030
     );
     this.bindButton(close, () => this.closePanel());
@@ -188,8 +186,8 @@ export default class GameUI extends Phaser.Scene {
     entries.forEach(([label, key], index) => {
       const rowY = y + 104 + index * 49;
       const button = this.addPanelObject(
-        this.add.nineslice(x + width / 2, rowY, 'ui-theme', 'button',
-          width - 56, 43, 48, 48),
+        this.add.nineslice(x + width / 2, rowY, 'ui-menu-button', undefined,
+          width - 56, 43, 42, 42),
         4020
       );
       this.bindButton(button, () => this.openPanel(key));
@@ -203,8 +201,8 @@ export default class GameUI extends Phaser.Scene {
     const enabled = Boolean(monitor?.enabled);
     const rowY = y + 104 + 4 * 49;
     const toggle = this.addPanelObject(
-      this.add.nineslice(x + width / 2, rowY, 'ui-theme', 'button',
-        width - 56, 43, 48, 48),
+      this.add.nineslice(x + width / 2, rowY, 'ui-menu-button', undefined,
+        width - 56, 43, 42, 42),
       4020
     );
     this.performanceToggleText = this.addPanelText(x + width / 2, rowY,
@@ -249,7 +247,7 @@ export default class GameUI extends Phaser.Scene {
       color: '#ffe2ae'
     });
     const divider = this.addPanelObject(
-      this.add.image(x + width / 2, y + 105, 'ui-theme', 'divider').setDisplaySize(width - 78, 24),
+      this.add.rectangle(x + width / 2, y + 105, width - 80, 1, 0xd6a642, 0.45).setDepth(4020),
       4020
     );
     this.profileRows = [];
@@ -266,7 +264,7 @@ export default class GameUI extends Phaser.Scene {
         fontStyle: 'bold', color: '#fff7e8'
       }, 4022);
       const plus = this.addPanelObject(
-        this.add.nineslice(x + width - 30, rowY + 1, 'ui-theme', 'button', 30, 27, 24, 24),
+        this.add.nineslice(x + width - 30, rowY + 1, 'ui-menu-button', undefined, 30, 27, 24, 24),
         4030
       );
       this.addPanelText(x + width - 30, rowY - 1, '+', {
