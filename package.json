@@ -1,6 +1,6 @@
 {
   "name": "colecionador",
-  "version": "2.8.3",
+  "version": "2.8.4",
   "private": true,
   "type": "module",
   "packageManager": "npm@11.20.0",
