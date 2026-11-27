@@ -35,15 +35,15 @@ export default class PanelFrame {
 
     const heading = scene.add.text(this.x + this.width / 2, this.y + this.height * 0.145, title || '', {
       fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
-      fontSize: Math.max(15, Math.min(21, this.width * 0.041)) + 'px',
+      fontSize: Math.max(17, Math.min(23, this.width * 0.043)) + 'px',
       fontStyle: 'bold',
       color: '#ffe8b3',
       stroke: '#4b160d',
-      strokeThickness: 3,
-      shadow: { offsetX: 1, offsetY: 2, color: '#210805', blur: 2, fill: true },
+      strokeThickness: 2,
+      shadow: { offsetX: 1, offsetY: 1, color: '#210805', blur: 1, fill: true },
       align: 'center',
       wordWrap: { width: this.width * 0.66 }
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(4012);
+    }).setOrigin(0.5).setScrollFactor(0).setDepth(4012).setResolution(2);
     this.objects.push(heading);
 
     this.closeButton = new MenuButton(scene, {
@@ -67,7 +67,7 @@ export default class PanelFrame {
       strokeThickness: 1,
       shadow: { offsetX: 1, offsetY: 1, color: '#1c0806', blur: 1, fill: true },
       ...style
-    }).setScrollFactor(0).setDepth(4022);
+    }).setScrollFactor(0).setDepth(4022).setResolution(2);
     this.objects.push(object);
     return object;
   }
