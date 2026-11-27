@@ -5,7 +5,8 @@ export default class PlayerHUD {
   constructor(scene, { onMenu = () => {} } = {}) {
     this.scene = scene;
     this.menuButton = new MenuButton(scene, {
-      x: 54, y: 34, width: 92, height: 42, label: 'MENU', onClick: onMenu, depth: 3000
+      x: 70, y: 28, width: 120, height: 30, label: 'MENU',
+      onClick: onMenu, depth: 3000, texture: 'ui-button-menu'
     });
     this.statusBars = new StatusBars(scene);
     this.layout();
@@ -17,7 +18,7 @@ export default class PlayerHUD {
 
   layout() {
     if (!this.scene) return;
-    this.menuButton?.setPosition(54, 34);
+    this.menuButton?.setPosition(70, 28);
     this.statusBars?.layout();
   }
 

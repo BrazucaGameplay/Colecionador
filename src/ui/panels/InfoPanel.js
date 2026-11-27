@@ -3,13 +3,14 @@ import PanelFrame from '../components/PanelFrame.js';
 export default class InfoPanel {
   constructor(scene, { title, status, description, close = () => {} } = {}) {
     this.scene = scene;
-    this.frame = new PanelFrame(scene, { title, width: 440, height: 270, close });
-    const { x, y, width } = this.frame;
-    this.frame.addText(x + 24, y + 94, status || '', {
-      fontFamily: 'Georgia, serif', fontSize: '14px', fontStyle: 'bold', color: '#f1cf88'
+    this.frame = new PanelFrame(scene, { title, width: 560, height: 420, variant: 'wide', close });
+    const { x, y, width, height } = this.frame;
+    this.frame.addText(x + width * 0.15, y + height * 0.34, status || '', {
+      fontFamily: 'Georgia, serif', fontSize: '15px', fontStyle: 'bold',
+      color: '#ffe0a0', wordWrap: { width: width * 0.70 }
     });
-    this.frame.addText(x + 24, y + 132, description || '', {
-      fontSize: '12px', wordWrap: { width: width - 48 }
+    this.frame.addText(x + width * 0.15, y + height * 0.49, description || '', {
+      fontSize: '12px', wordWrap: { width: width * 0.70 }
     });
   }
 

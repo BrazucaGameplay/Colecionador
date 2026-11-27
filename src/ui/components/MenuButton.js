@@ -1,14 +1,20 @@
-/** Reusable vector button placeholder; later replace its background with supplied texture. */
+/** Image-backed button; its text and touch interaction remain independent. */
 export default class MenuButton {
-  constructor(scene, { x, y, width = 220, height = 42, label = '', onClick = () => {}, depth = 4020 } = {}) {
+  constructor(scene, { x, y, width = 220, height = 55, label = '', onClick = () => {}, depth = 4020, texture = 'ui-button-400' } = {}) {
     this.scene = scene;
     this.width = width;
     this.height = height;
-    this.background = scene.add.rectangle(x, y, width, height, 0x33251f, 0.98)
-      .setStrokeStyle(2, 0xb99154, 1).setScrollFactor(0).setDepth(depth).setInteractive();
+    this.background = scene.add.image(x, y, texture)
+      .setDisplaySize(width, height).setScrollFactor(0).setDepth(depth).setInteractive();
     this.label = scene.add.text(x, y, label, {
-      fontFamily: 'Georgia, serif', fontSize: '14px', fontStyle: 'bold',
-      color: '#f8e8c8', stroke: '#21130e', strokeThickness: 2
+      fontFamily: 'Georgia, serif',
+      fontSize: Math.max(10, Math.min(15, height * 0.34)) + 'px',
+      fontStyle: 'bold',
+      color: '#fff0cf',
+      stroke: '#3a100b',
+      strokeThickness: 3,
+      align: 'center',
+      wordWrap: { width: width * 0.78 }
     }).setOrigin(0.5).setScrollFactor(0).setDepth(depth + 1);
     this.pointerHandler = (pointer, localX, localY, event) => {
       event?.stopPropagation();
@@ -24,6 +30,11 @@ export default class MenuButton {
 
   setText(value) {
     this.label?.setText(value);
+  }
+
+  setAlpha(value) {
+    this.background?.setAlpha(value);
+    this.label?.setAlpha(value);
   }
 
   containsScreenPoint(x, y) {
