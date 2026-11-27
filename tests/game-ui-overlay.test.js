@@ -14,57 +14,57 @@ test('a inicialização não depende mais da cena Menu', async () => {
   assert.equal(oldMenu, '');
 });
 
-test('GameUI é uma camada separada e não pausa a simulação', async () => {
+test('GameUI coordena painéis separados e mantém a simulação ativa', async () => {
   const [game, ui] = await Promise.all([read('../src/scenes/Game.js'), read('../src/scenes/GameUI.js')]);
   assert.match(game, /scene\.launch\('GameUI'\)/);
-  assert.doesNotMatch(game, /PlayerStatusUI|statusUI/);
   assert.doesNotMatch(game, /scene\.(pause|sleep)\(/);
-  assert.match(ui, /setGlobalTopOnly\(false\)/);
-  assert.doesNotMatch(ui, /scene\.(pause|sleep|stop)\(/);
-  for (const label of ['Bestiário', 'Waifus', 'Inventário', 'Casa']) assert.ok(ui.includes(label));
-  assert.match(ui, /openPanel\('profile'\)/);
-  assert.match(ui, /this\.hpFill\.setSize/);
-  assert.match(ui, /this\.enFill\.setSize/);
+  for (const name of ['PlayerHUD', 'MenuPanel', 'ProfilePanel', 'BestiaryPanel', 'WaifuPanel', 'InventoryPanel', 'HousePanel']) {
+    assert.ok(ui.includes(name));
+  }
+  assert.match(ui, /this\.hud\.setPlayer/);
 });
 
-test('toques na HUD são excluídos da navegação do mundo', async () => {
-  const [bootstrap, ui] = await Promise.all([
+test('toques na HUD e nos painéis não são enviados ao movimento do mundo', async () => {
+  const [bootstrap, ui, hud] = await Promise.all([
     read('../src/systems/GameSystemsBootstrap.js'),
-    read('../src/scenes/GameUI.js')
+    read('../src/scenes/GameUI.js'),
+    read('../src/ui/HUD/PlayerHUD.js')
   ]);
   assert.match(bootstrap, /scene\.uiScene\?\.isUiPointer\(x, y\)/);
-  assert.match(bootstrap, /scene\.performanceMonitor\?\.containsScreenPoint\(x, y\)/);
   assert.match(ui, /isUiPointer\(x, y\)/);
-  assert.match(ui, /event\?\.stopPropagation\(\)/);
+  assert.match(ui, /Boolean\(this\.activePanel\)/);
+  assert.match(hud, /containsScreenPoint/);
 });
 
-test('o retrato usa o asset transparente sem círculo externo nem máscara', async () => {
-  const [ui, monitor] = await Promise.all([read('../src/scenes/GameUI.js'), read('../src/ui/PerformanceMonitor.js')]);
-  assert.match(ui, /const base = import\.meta\.env\.BASE_URL \+ 'assets\/ui\/'/);
-  assert.match(ui, /this\.load\.image\('player-portrait', base \+ 'player-portrait\.webp'\)/);
-  assert.match(ui, /setDisplaySize\(64, 96\)/);
-  assert.match(ui, /setPosition\(centerX, portraitY\)/);
-  assert.doesNotMatch(ui, /portraitFrame|portraitMask|createGeometryMask|fillCircle\(centerX, portraitY/);
-  assert.match(monitor, /setEnabled\(enabled\)/);
-  assert.match(monitor, /if \(!this\.enabled\) return/);
-  assert.match(ui, /Desempenho \/ DPS:/);
+test('HUD e painéis não dependem das imagens antigas', async () => {
+  const paths = [
+    '../src/scenes/GameUI.js', '../src/ui/HUD/PlayerHUD.js',
+    '../src/ui/HUD/StatusBars.js', '../src/ui/components/MenuButton.js',
+    '../src/ui/components/PanelFrame.js'
+  ];
+  const sources = await Promise.all(paths.map(read));
+  const source = sources.join('\n');
+  assert.doesNotMatch(source, /ui-panel-frame|ui-menu-button|player-portrait|assets\/ui\//);
+  assert.match(sources[2], /setValues/);
+  assert.match(sources[3], /pointerdown/);
+  assert.match(sources[4], /MenuButton/);
 });
 
-test('a criação do retrato não usa altura fora do escopo', async () => {
-  const ui = await read('../src/scenes/GameUI.js');
-  assert.match(ui, /const height = this\.scale\.height;/);
-  assert.match(ui, /const portraitY = height - 105;/);
-  assert.match(ui, /add\.image\(centerX, portraitY, 'player-portrait'\)/);
-  assert.match(ui, /add\.zone\(centerX, portraitY, 80, 108\)/);
-  assert.doesNotMatch(ui, /add\.image\(centerX, height - 81/);
+test('todos os painéis compartilham a moldura e liberam seus objetos', async () => {
+  const names = ['MenuPanel', 'ProfilePanel', 'BestiaryPanel', 'WaifuPanel', 'InventoryPanel', 'HousePanel'];
+  const sources = await Promise.all(names.map(name => read('../src/ui/panels/' + name + '.js')));
+  for (const source of sources) assert.match(source, /destroy\(\)/);
+  for (const source of sources) assert.match(source, /PanelFrame|InfoPanel/);
 });
 
-test('a interface carrega e utiliza as molduras ornamentadas', async () => {
-  const ui = await read('../src/scenes/GameUI.js');
-  assert.match(ui, /ui-panel-frame\.webp/);
-  assert.match(ui, /ui-menu-button\.webp/);
-  assert.match(ui, /add\.nineslice\([^\n]*ui-panel-frame/);
-  assert.match(ui, /add\.nineslice\([^\n]*ui-menu-button/);
-  assert.match(ui, /fontFamily: 'Georgia, serif'/);
-  assert.match(ui, /0xd6a642/);
+test('as pastas de arte estão documentadas e separadas por função', async () => {
+  const docs = await Promise.all([
+    read('../public/assets/ui/panels/README.md'),
+    read('../public/assets/ui/buttons/README.md'),
+    read('../public/assets/ui/hud/README.md')
+  ]);
+  assert.match(docs[0], /panel-frame\.webp/);
+  assert.match(docs[1], /button-primary\.webp/);
+  assert.match(docs[2], /hp-bar-frame\.webp/);
+  assert.match(docs[2], /energy-bar-frame\.webp/);
 });
