@@ -25,6 +25,8 @@ export default class Preload extends Phaser.Scene{
  create(){
   this.registry.set('treeTextureProfiles',new TreeTexturePipeline(this).prepare(TREE_TEXTURE_KEYS));
   const graphics=this.make.graphics({add:false});graphics.fillStyle(0xffffff,0);graphics.fillRect(0,0,2,2);graphics.generateTexture('player',2,2);graphics.destroy();
-  registerPlayerSpriteAnimations(this);this.scene.start('Game');
+  // A cena Game é outra instância: publicar os mapas no registry compartilhado antes de iniciá-la.
+  registerPlayerSpriteAnimations(this);
+  this.scene.start('Game');
  }
 }
