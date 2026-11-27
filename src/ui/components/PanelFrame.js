@@ -46,14 +46,14 @@ export default class PanelFrame {
     }).setOrigin(0.5).setScrollFactor(0).setDepth(4012).setResolution(3);
     this.objects.push(heading);
 
-    const closeDiameter = Math.max(36, Math.min(46, this.width * 0.075));
+    const closeDiameter = Math.max(42, Math.min(58, this.width * 0.15));
     this.closeButton = new MenuButton(scene, {
-      // Botão circular sobre o canto superior direito da moldura, fora da área do título.
-      x: this.x + this.width * 0.99,
-      y: this.y + this.height * 0.075,
+      // Posição e acabamento seguem o botão circular dourado/vermelho da arte de referência.
+      x: this.x + this.width * 0.875,
+      y: this.y + this.height * 0.155,
       width: closeDiameter,
       height: closeDiameter,
-      label: '×', onClick: close, depth: 4020, shape: 'circle'
+      label: '', onClick: close, depth: 4020, texture: 'ui-close-button'
     });
     this.objects.push(this.closeButton);
   }

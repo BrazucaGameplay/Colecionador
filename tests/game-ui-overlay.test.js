@@ -127,3 +127,21 @@ test('todos os painéis usam botão circular de fechar no canto superior direito
   assert.match(button, /scene\.add\.circle/);
   assert.match(button, /0xffc65b/);
 });
+
+
+test('perfil não exibe título e todos os painéis usam o botão circular da arte de referência', async () => {
+  const [profile, frame, ui, closeAsset] = await Promise.all([
+    read('../src/ui/panels/ProfilePanel.js'),
+    read('../src/ui/components/PanelFrame.js'),
+    read('../src/scenes/GameUI.js'),
+    read('../public/assets/ui/buttons/fechar_circular.svg')
+  ]);
+  assert.match(profile, /title: ''/);
+  assert.match(frame, /x: this\.x \+ this\.width \* 0\.875/);
+  assert.match(frame, /y: this\.y \+ this\.height \* 0\.155/);
+  assert.match(frame, /texture: 'ui-close-button'/);
+  assert.match(ui, /ui-close-button/);
+  assert.match(ui, /v=20261127-ui-art-v4/);
+  assert.match(closeAsset, /<svg/);
+  assert.match(closeAsset, /url\(#red\)/);
+});

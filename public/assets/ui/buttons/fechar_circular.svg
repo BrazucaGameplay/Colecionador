@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <defs>
+    <radialGradient id="red" cx="38%" cy="28%" r="78%">
+      <stop offset="0" stop-color="#ff4b35"/>
+      <stop offset=".42" stop-color="#d20d08"/>
+      <stop offset="1" stop-color="#590000"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff7a4"/>
+      <stop offset=".2" stop-color="#ffdc4a"/>
+      <stop offset=".48" stop-color="#a94a00"/>
+      <stop offset=".68" stop-color="#fff07a"/>
+      <stop offset="1" stop-color="#8d3000"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fffbd0"/>
+      <stop offset=".32" stop-color="#ffdf57"/>
+      <stop offset="1" stop-color="#c45a00"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dy="3"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".8"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <circle cx="80" cy="80" r="73" fill="#310500" stroke="#5d1b00" stroke-width="4"/>
+    <circle cx="80" cy="78" r="69" fill="url(#gold)" stroke="#fff0a0" stroke-width="2"/>
+    <circle cx="80" cy="78" r="62" fill="#6d2200" stroke="#9a3d00" stroke-width="3"/>
+    <circle cx="80" cy="77" r="57" fill="url(#red)" stroke="#ffd85a" stroke-width="3"/>
+    <path d="M39 48 C53 27 103 23 124 51" fill="none" stroke="#ffb49a" stroke-width="4" opacity=".28" stroke-linecap="round"/>
+    <path d="M52 47 L69 64 L52 81 L63 92 L80 75 L97 92 L108 81 L91 64 L108 47 L97 36 L80 53 L63 36 Z"
+      fill="#6b2100" stroke="#5a1700" stroke-width="5" stroke-linejoin="round" transform="translate(0 3)"/>
+    <path d="M52 44 L69 61 L52 78 L63 89 L80 72 L97 89 L108 78 L91 61 L108 44 L97 33 L80 50 L63 33 Z"
+      fill="url(#shine)" stroke="#fff5a0" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M55 44 L68 57 M95 85 L105 76" fill="none" stroke="#fffbd0" stroke-width="2" opacity=".7" stroke-linecap="round"/>
+  </g>
+</svg>

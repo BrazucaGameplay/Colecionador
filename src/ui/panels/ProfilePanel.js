@@ -6,7 +6,7 @@ export default class ProfilePanel {
     this.scene = scene;
     this.gameScene = gameScene;
     this.page = 0;
-    this.frame = new PanelFrame(scene, { title: 'PERFIL DO JOGADOR', width: 360, height: 520, variant: 'vertical', close });
+    this.frame = new PanelFrame(scene, { title: '', width: 360, height: 520, variant: 'vertical', close });
     const { x, y, width, height } = this.frame;
 
     // Página inicial: reutiliza a mesma imagem do retrato clicável da HUD.
