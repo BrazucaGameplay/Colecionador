@@ -74,18 +74,25 @@ test('os arquivos WebP enviados existem e são carregáveis', async () => {
   for(const path of paths){const bytes=await readFile(new URL(path,import.meta.url));assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');}
 });
 
-test('HUD recupera o retrato clicável e ajusta as barras com margem interna', async () => {
+test('HUD recupera o retrato clicável e ajusta as barras com preenchimento integral', async () => {
   const [hud, bars, button, frame] = await Promise.all([
     read('../src/ui/HUD/PlayerHUD.js'), read('../src/ui/HUD/StatusBars.js'),
     read('../src/ui/components/MenuButton.js'), read('../src/ui/components/PanelFrame.js')
   ]);
   assert.match(hud, /onProfile/);
   assert.match(hud, /player-portrait/);
+  assert.match(hud, /this\.statusBars\.top - 40/);
   assert.match(hud, /width: 132, height: 33/);
-  assert.match(bars, /146 \* this\.scaleX/);
-  assert.match(bars, /350 \* this\.scaleX/);
-  assert.match(bars, /13 \* this\.scaleY/);
+  assert.match(bars, /128 \* this\.scaleX/);
+  assert.match(bars, /390 \* this\.scaleX/);
+  assert.match(bars, /21 \* this\.scaleY/);
+  assert.match(bars, /23 \* this\.scaleY/);
   assert.match(button, /Palatino Linotype/);
   assert.match(frame, /Palatino Linotype/);
 });
-\ntest('menu principal não contém a opção Perfil', async () => {\n  const menu = await read('../src/ui/panels/MenuPanel.js');\n  assert.doesNotMatch(menu, /\\['Perfil',\\s*'profile'\\]/);\n  assert.match(menu, /\\['Bestiário',\\s*'bestiary'\\]/);\n});\n
+
+test('menu principal não contém a opção Perfil', async () => {
+  const menu = await read('../src/ui/panels/MenuPanel.js');
+  assert.doesNotMatch(menu, /\['Perfil',\s*'profile'\]/);
+  assert.match(menu, /\['Bestiário',\s*'bestiary'\]/);
+});
