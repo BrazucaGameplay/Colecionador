@@ -2469,3 +2469,31 @@ da câmera. Nenhuma alteração adicional de runtime nesta versão. A versão
 2.9.7 precisa passar novamente por testes, build e deploy.
 
 Versionamento: 2.9.6 → 2.9.7 (PATCH: atualização do teste de contrato da câmera).
+
+======================================================================
+ATUALIZACAO DE RENDERIZACAO — 27/11/2026 (VERSAO 2.9.9)
+======================================================================
+
+IMPLEMENTADO:
+- TreeTexturePipeline prepara as tres texturas de vegetacao antes da
+  montagem do mundo, usando suporte POT e frame recortado.
+- Pixels de borda sao estendidos para reduzir artefatos nos mipmaps.
+- No WebGL, LINEAR_MIPMAP_LINEAR e aplicado somente durante a criacao
+  das texturas das arvores; o filtro anterior do renderer e restaurado.
+- WorldObjectManager usa as dimensoes do frame util para calcular escala.
+- A camera permanece continua; nao foi ativado roundPixels nem
+  arredondamento do scroll em zoom fracionario.
+
+VALIDACAO:
+- Testes de dimensoes POT, proporcao e margem adicionados.
+- Teste do WorldObjectManager atualizado para o frame recortado.
+- Build, testes, auditoria e deploy dependem do workflow 2.9.9.
+- Validacao visual Android e medicao de memoria GPU permanecem pendentes.
+
+ESTADO:
+- Implementado: pipeline de preparacao e integracao das texturas.
+- Implementado: mipmaps especificos para as arvores em WebGL.
+- Pendente: confirmar ausencia perceptivel de shimmer nos zooms 0.2,
+  0.4 e 0.6 em aparelho Android.
+- Pendente: avaliar memoria e fallback Canvas em aparelhos reais.
+

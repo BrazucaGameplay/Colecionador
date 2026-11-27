@@ -9,12 +9,12 @@ function createHarness() {
   const depths = [];
   const scene = {
     textures: {
-      get: () => ({ getSourceImage: () => ({ width: 256, height: 256 }) })
+      get: () => ({ frames: { tree: { width: 252, height: 252 } }, getSourceImage: () => ({ width: 256, height: 256 }) })
     },
     add: {
-      image: (x, y, key) => {
+      image: (x, y, key, frame) => {
         const image = {
-          x, y, key, active: true, visible: true, scale: 1, depth: 0,
+          x, y, key, frame, active: true, visible: true, scale: 1, depth: 0,
           setOrigin(originX, originY) { this.originX = originX; this.originY = originY; return this; },
           setActive(value) { this.active = value; return this; },
           setScale(value) { this.scale = value; return this; },
