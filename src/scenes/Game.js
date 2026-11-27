@@ -277,7 +277,8 @@ export default class Game extends Phaser.Scene {
       : null;
 
     if (cacheId) {
-      this.initializationPhase = 'lendo grade caminhável do IndexedDB';\n      const cachedGrid = await readWalkableGrid(cacheId, this.navigation.cols * this.navigation.rows);
+      this.initializationPhase = 'lendo grade caminhável do IndexedDB';
+      const cachedGrid = await readWalkableGrid(cacheId, this.navigation.cols * this.navigation.rows);
       if (cachedGrid) {
         this.navigation.setWalkableGrid(cachedGrid);
         this.walkableGridCacheStatus = 'hit';
