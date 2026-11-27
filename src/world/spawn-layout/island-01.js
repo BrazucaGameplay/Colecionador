@@ -11,7 +11,7 @@ export const ISLAND_01_MONSTER_SPAWNS = Object.freeze([
     radius: 2010,
     maxAlive: 100,
     minPlayerDistance: 0,
-    collisionRadius: 12,
+    collisionRadius: 18,
     respawnMs: 1000,
     retryMs: 1000,
     spawnIntervalMs: 1000,

@@ -7,7 +7,7 @@ function createRendererHarness() {
   const makeObject = () => ({
     frame: { realWidth: 32, realHeight: 32, width: 32, height: 32 },
     texture: { key: 'idle' }, visible: true,
-    setOrigin() { return this; }, setScale() { return this; },
+    setOrigin() { return this; }, setScale(value) { this.scale = value; return this; },
     setVisible(value) { this.visible = value; return this; },
     setTexture(key) { this.texture.key = key; return this; },
     setPosition(x, y) { this.x = x; this.y = y; return this; },
@@ -17,12 +17,16 @@ function createRendererHarness() {
     textures: { exists: () => true },
     add: {
       image() { created.images++; return makeObject(); },
-      ellipse() { created.ellipses++; return makeObject(); }
+      ellipse(x, y, width, height) {
+        created.ellipses++;
+        created.shadowDimensions = { width, height };
+        return makeObject();
+      }
     }
   };
   const monster = { x: 100, y: 200 };
   const definition = { visual: {
-    enabled: true, scale: 1, originX: 0.5, originY: 0.92,
+    enabled: true, scale: 0.72, shadowScale: 1.5, originX: 0.5, originY: 0.92,
     animations: { idle: { key: 'idle' }, walking: { key: 'walk' }, attack: { key: 'attack' }, death: { key: 'death' } }
   }};
   return { renderer: new MonsterRenderer(scene, monster, definition, { apply() {} }), created };
@@ -30,7 +34,7 @@ function createRendererHarness() {
 
 test('monstro dormente usa somente a imagem estática, sem sombra extra', () => {
   const { renderer, created } = createRendererHarness();
-  assert.equal(created.images, 1);
+  assert.equal(created.images, 1);\n  assert.equal(renderer.sprite.scale, 0.72);\n  assert.equal(renderer.frameBox.width, 32 * 0.72);\n  for (const state of ['walking', 'attack', 'death']) {\n    renderer.play(state, 1000);\n    assert.equal(renderer.sprite.scale, 0.72, state + ' mantém o aumento de 50%');\n  }
   assert.equal(created.ellipses, 0);
   assert.equal(renderer.shadow, null);
   renderer.setInView(true);

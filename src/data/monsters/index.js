@@ -14,9 +14,9 @@ export const MONSTER_DEFINITIONS = Object.freeze({
       healthRegen: 1, energyRegen: 1
     }),
     experience: 25, drops: Object.freeze([]),
-    collision: Object.freeze({ radius: 12 }), deathDurationMs: 600,
+    collision: Object.freeze({ radius: 18 }), deathDurationMs: 600,
     visual: Object.freeze({
-      enabled: true, scale: 0.48, originX: 0.5, originY: 0.92,
+      enabled: true, scale: 0.72, shadowScale: 1.5, originX: 0.5, originY: 0.92,
       animations: slimeAnimations
     })
   })

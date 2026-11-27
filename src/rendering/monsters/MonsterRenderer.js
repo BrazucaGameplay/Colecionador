@@ -88,7 +88,11 @@ export default class MonsterRenderer {
       return;
     }
     if (!this.shadow) {
-      this.shadow = this.scene.add.ellipse(this.monster.x, this.monster.y - 2, 26, 9, 0x101522, 0.24);
+      const shadowScale = Math.max(0, Number(this.definition.visual?.shadowScale) || 1);
+      this.shadow = this.scene.add.ellipse(
+        this.monster.x, this.monster.y - 2,
+        26 * shadowScale, 9 * shadowScale, 0x101522, 0.24
+      );
       this.depthManager?.apply(this.shadow, this.monster.y, 'shadow');
     }
     this.shadow.setVisible(this.inView && this.currentState !== 'death');
