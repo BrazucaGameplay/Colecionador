@@ -11,29 +11,38 @@ export default class MenuPanel {
       ['Inventário', 'inventory'],
       ['Casa', 'house']
     ];
-    const buttonWidth = Math.min(190, width * 0.36);
+
+    const buttonWidth = Math.min(190, width * 0.37);
     const buttonHeight = buttonWidth / 4;
-    const columns = [x + width * 0.33, x + width * 0.67];
+    const columns = [x + width * 0.32, x + width * 0.68];
     const rows = [y + height * 0.39, y + height * 0.62];
 
     entries.forEach(([label, key], index) => {
       const row = Math.floor(index / 2);
       const column = index % 2;
       this.frame.addButton({
-        x: columns[column], y: rows[row], width: buttonWidth, height: buttonHeight,
-        label, onClick: () => openPanel(key)
+        x: columns[column],
+        y: rows[row],
+        width: buttonWidth,
+        height: buttonHeight,
+        label,
+        onClick: () => openPanel(key)
       });
     });
 
     const monitor = scene.scene.get('Game')?.performanceMonitor;
     const enabled = Boolean(monitor?.enabled);
+    const performanceWidth = Math.min(250, width * 0.58);
     this.monitorButton = this.frame.addButton({
-      x: x + width / 2, y: y + height * 0.82, width: buttonWidth, height: buttonHeight,
-      label: 'Desempenho: ' + (enabled ? 'ATIVO' : 'DESATIVADO'),
+      x: x + width / 2,
+      y: y + height * 0.825,
+      width: performanceWidth,
+      height: performanceWidth / 4,
+      label: 'DESEMPENHO\n' + (enabled ? 'ATIVO' : 'DESATIVADO'),
       onClick: () => {
         const next = !Boolean(monitor?.enabled);
         monitor?.setEnabled(next);
-        this.monitorButton?.setText('Desempenho: ' + (next ? 'ATIVO' : 'DESATIVADO'));
+        this.monitorButton?.setText('DESEMPENHO\n' + (next ? 'ATIVO' : 'DESATIVADO'));
       }
     });
   }
