@@ -2348,8 +2348,8 @@ RECAP INTEGRAL DO ESTADO DO JOGO
   WorldBootstrap, CameraController, GameSystemsBootstrap, SaveManager,
   sistemas de movimento, combate, progressão, input, monstros, renderização
   e navegação.
-- Câmera: roundPixels habilitado na câmera principal e na HUD; follow
-  interpolado mantido em 0.06.
+- Câmera: roundPixels desabilitado na câmera do mundo devido ao zoom
+  fracionário e mantido na HUD (zoom 1); follow interpolado em 0.06.
 
 5. Assets
 - Implementado: terreno, oceano, vegetação, sprites do protagonista,
@@ -2373,12 +2373,39 @@ RECAP INTEGRAL DO ESTADO DO JOGO
   o workflow disparado pelo commit desta atualização concluir com sucesso.
 
 8. Pendências e riscos
-- Validar visualmente se roundPixels elimina ou reduz a tremulação das
-  árvores durante o movimento em diferentes zooms.
+- Validar visualmente a estabilidade do terreno e das árvores durante o
+  movimento da câmera nos zooms 0.2x, 0.4x e 0.6x.
 - Confirmar o workflow Deploy desta versão.
 - Testar em Android físico; FPS estável isoladamente não comprova
   estabilidade de rasterização nem ausência de shimmering.
 - Continuar a expansão multi-ilhas e os sistemas de conteúdo ainda
   planejados, sem declará-los implementados.
 
-Versionamento: 2.9.2 → 2.9.3 (PATCH: estabilização de pixels da câmera).
+Versionamento: 2.9.2 → 2.9.3 (PATCH: ajuste inicial de pixels da câmera).
+
+
+======================================================================
+CORREÇÃO DE RENDERIZAÇÃO COM ZOOM FRACIONÁRIO — 27/11/2026 — VERSÃO 2.9.4
+======================================================================
+
+A auditoria da câmera identificou incompatibilidade entre roundPixels e a
+faixa de zoom do jogo. A câmera do mundo trabalha em zoom fracionário
+(0.2x, 0.4x e 0.6x); a documentação oficial do Phaser alerta que o
+arredondamento de posição ainda pode produzir jitter quando o zoom não é
+inteiro. Como o projeto utiliza artes pintadas em alta resolução, e não
+pixel art, o arredondamento foi desabilitado na câmera principal e no
+parâmetro roundPixels do startFollow.
+
+A câmera da HUD permanece com roundPixels=true: ela usa zoom 1 e elementos
+fixos à tela, sem o mesmo problema de amostragem do mundo.
+
+A interpolação 0.06, os limites de zoom, o movimento por destino, o pan,
+o pinch zoom, as posições do terreno/árvores e a resolução dos assets não
+foram alterados. Os testes agora verificam roundPixels=false na câmera do
+mundo e roundPixels=true na HUD.
+
+Esta alteração corrige a configuração incompatível identificada no código;
+a confirmação visual da ausência de tremulação ainda exige teste no jogo
+em navegador e Android físico, nos três níveis de zoom.
+
+Versionamento: 2.9.3 → 2.9.4 (PATCH: renderização suave em zoom fracionário).

@@ -43,8 +43,8 @@ test('inicializa zoom padrão 0.4x, limites 0.2x–0.6x e follow no sprite visua
   assert.equal(controller.initialize(sprite), f.mainCamera);
   assert.equal(f.mainCamera.zoom, 0.4);
   assert.deepEqual(f.mainCamera.bounds, f.scene.oceanBounds);
-  assert.equal(f.mainCamera.roundPixels, true);
-  assert.deepEqual(f.mainCamera.follow, { target: sprite, roundPixels: true, lerpX: 0.06, lerpY: 0.06 });
+  assert.equal(f.mainCamera.roundPixels, false);
+  assert.deepEqual(f.mainCamera.follow, { target: sprite, roundPixels: false, lerpX: 0.06, lerpY: 0.06 });
   assert.equal(controller.getMinimumZoom(), 0.2);
   assert.equal(controller.getMaximumZoom(), 0.6);
   controller.destroy();
@@ -74,6 +74,7 @@ test('follow só é reiniciado após pan manual e HUD acompanha resize', () => {
   const sprite = {};
   controller.initialize(sprite);
   controller.createHudCamera('monitor');
+  assert.equal(f.hudCamera.roundPixels, true);
   controller.handleManualPan();
   controller.followPlayer();
   assert.equal(f.mainCamera.follow.target, sprite);
