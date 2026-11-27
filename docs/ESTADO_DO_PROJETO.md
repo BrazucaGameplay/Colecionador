@@ -2116,7 +2116,7 @@ aviso, sem modificar o código de runtime ou o formato do save.
 
 
 ======================================================================
-EXTRAÇÃO DO GAMESYSTEMSBOOTSTRAP — 27/11/2026 — VERSÃO 2.7.1
+EXTRAÇÃO DO GAMESYSTEMSBOOTSTRAP — 27/11/2026 — VERSÃO 2.7.2
 ======================================================================
 
 A inicialização dos sistemas de gameplay foi extraída de Game.js para
@@ -2132,4 +2132,15 @@ foram preservados; nenhuma regra de gameplay foi intencionalmente alterada.
 
 O bootstrap valida dependências, impede inicialização duplicada e libera os
 listeners e objetos que criou no encerramento da cena. A validação automatizada
-e a publicação da versão 2.7.1 dependem da conclusão do GitHub Actions.
+e a publicação da versão 2.7.2 dependem da conclusão do GitHub Actions.
+
+
+CORREÇÃO DOS TESTES DE INTEGRAÇÃO — 27/11/2026 — VERSÃO 2.7.2
+
+A primeira execução da versão 2.7.1 falhou em uma asserção legada do teste
+game-ui-overlay: a verificação de exclusão de toques sobre a HUD ainda era
+procurada em Game.js. A implementação foi transferida para
+GameSystemsBootstrap.js, conforme a nova divisão de responsabilidades.
+O teste foi atualizado para verificar a localização atual da lógica e manter
+a garantia de que toques na HUD não geram destinos de movimento.
+Nenhuma regra de runtime foi alterada nesta correção.

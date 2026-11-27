@@ -26,7 +26,7 @@ vazio. O teste foi ajustado para refletir essa compatibilidade. Runtime e
 estrutura do save não foram alterados.
 
 
-## Atualização 2.7.1 — extração do GameSystemsBootstrap
+## Atualização 2.7.2 — correção do teste de integração do GameSystemsBootstrap
 
 A criação e a liberação dos sistemas de progressão, movimento, combate,
 combate dos monstros, monitor de desempenho e entrada por toque foram
@@ -40,3 +40,9 @@ SaveManager não foram alterados nesta etapa.
 
 O objetivo foi reduzir a quantidade de responsabilidades de inicialização
 em Game.js sem modificar regras, parâmetros ou controles existentes.
+
+
+A primeira execução do CI falhou porque game-ui-overlay.test.js ainda
+esperava encontrar em Game.js o filtro de toques sobre a HUD. O filtro agora
+é propriedade de GameSystemsBootstrap; a asserção foi atualizada para
+verificar o novo módulo, sem alterar o comportamento de runtime.
