@@ -13,7 +13,8 @@ export default class PlayerHUD {
     this.statusBars = new StatusBars(scene);
     // Silhueta transparente centralizada logo acima das barras.
     this.portrait = scene.add.image(0, 0, 'player-portrait')
-      .setDisplaySize(48, 72).setScrollFactor(0).setDepth(3004).setInteractive();
+      .setScrollFactor(0).setDepth(3004).setInteractive();
+    setPortraitTexture(this.portrait, 'player-portrait', 48, 72);
     this.portrait.on('pointerdown', (pointer, localX, localY, event) => {
       event?.stopPropagation();
       this.onProfile();
