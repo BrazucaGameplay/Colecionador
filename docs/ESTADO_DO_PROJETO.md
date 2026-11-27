@@ -2298,3 +2298,87 @@ Recap do estado atual:
   intervalo de 2 segundos em navegador e Android.
 
 Versão anterior: 2.9.1. Nova versão: 2.9.2 (PATCH: ajuste de intervalo).
+
+
+
+======================================================================
+CORREÇÃO DE ESTABILIDADE DE PIXELS DA CÂMERA — 27/11/2026 — VERSÃO 2.9.3
+======================================================================
+
+A câmera principal agora usa roundPixels=true em
+src/systems/camera/CameraController.js. A configuração é aplicada durante
+a inicialização da câmera, antes do follow, e também é passada como true
+ao startFollow(). A câmera da HUD já utilizava roundPixels=true e permanece
+inalterada.
+
+O acompanhamento continua usando interpolação 0.06 nos dois eixos, zoom
+mínimo 0.2x, padrão 0.4x e máximo 0.6x. O movimento por destino, arraste
+manual, pinch zoom, limites do mundo e exclusão da camada HUD não foram
+alterados.
+
+O teste tests/camera-controller.test.js agora verifica explicitamente
+roundPixels=true na câmera principal e no parâmetro do follow.
+
+RECAP INTEGRAL DO ESTADO DO JOGO
+
+1. Produto e plataforma
+- Implementado: RPG 2D de ação com estética anime, Phaser 4, JavaScript ES
+  modules e Vite; publicação web/PWA pelo GitHub Pages e integração
+  Capacitor para Android.
+- Parcial/não validado: APK/Play Store e comportamento final em aparelhos
+  Android dependem de sincronização, compilação e teste físico.
+
+2. Mundo e conteúdo
+- Implementado: uma ilha jogável, terreno ilustrado, oceano, vegetação
+  posicionada como objetos independentes, navegação e validação do layout
+  de árvores.
+- Planejado: múltiplas ilhas, pontes, portais, mapa-mundi e transições com
+  carregamento de uma ilha por vez.
+
+3. Gameplay
+- Implementado: jogador, movimento por toque com destino, arraste da câmera,
+  pinch zoom, combate de ação, monstros com spawn e perseguição escalonada,
+  progressão, atributos, vida/energia e persistência local.
+- Parcial: o conteúdo atual de monstros é limitado ao que está integrado
+  no runtime; waifus, harem, catálogo amplo de monstros e sistemas futuros
+  não devem ser considerados concluídos sem integração efetiva.
+
+4. Arquitetura
+- Implementado: Phaser 4, Vite, cenas Boot/Preload/Menu/Game e HUD,
+  WorldBootstrap, CameraController, GameSystemsBootstrap, SaveManager,
+  sistemas de movimento, combate, progressão, input, monstros, renderização
+  e navegação.
+- Câmera: roundPixels habilitado na câmera principal e na HUD; follow
+  interpolado mantido em 0.06.
+
+5. Assets
+- Implementado: terreno, oceano, vegetação, sprites do protagonista,
+  atlas/animações integrados e assets de monstros utilizados pelo Preload.
+  As artes ogra.webp, ciclopesa.webp e lamia.webp estão catalogadas na
+  tela HTML de carregamento.
+- Nenhum asset foi substituído nesta atualização.
+
+6. Interface e experiência mobile
+- Implementado: menu, HUD, monitor de desempenho, tela HTML de carregamento
+  com progresso e rotação de artes a cada 2 segundos; controles por toque.
+- Parcial/não validado: orientação, legibilidade, suavidade visual e
+  estabilidade precisam de conferência em navegador e Android físico.
+
+7. Build e publicação
+- Implementado: scripts npm de testes e build, validação de layout de
+  árvores antes de dev/build, workflow Deploy com verificação de versão,
+  auditoria de dependências, testes, build, integridade dos arquivos e
+  conferência do conteúdo publicado.
+- A publicação da versão 2.9.3 somente será considerada confirmada após
+  o workflow disparado pelo commit desta atualização concluir com sucesso.
+
+8. Pendências e riscos
+- Validar visualmente se roundPixels elimina ou reduz a tremulação das
+  árvores durante o movimento em diferentes zooms.
+- Confirmar o workflow Deploy desta versão.
+- Testar em Android físico; FPS estável isoladamente não comprova
+  estabilidade de rasterização nem ausência de shimmering.
+- Continuar a expansão multi-ilhas e os sistemas de conteúdo ainda
+  planejados, sem declará-los implementados.
+
+Versionamento: 2.9.2 → 2.9.3 (PATCH: estabilização de pixels da câmera).

@@ -5,7 +5,7 @@ import CameraController from '../src/systems/camera/CameraController.js';
 function createCamera() {
   return {
     width: 400, height: 300, zoom: 1, scrollX: 0, scrollY: 0,
-    bounds: null, follow: null, ignored: [],
+    bounds: null, follow: null, ignored: [], roundPixels: false,
     setBounds(x, y, width, height) { this.bounds = { x, y, width, height }; return this; },
     setZoom(value) { this.zoom = value; return this; },
     startFollow(target, roundPixels, lerpX, lerpY) { this.follow = { target, roundPixels, lerpX, lerpY }; },
@@ -43,7 +43,8 @@ test('inicializa zoom padrão 0.4x, limites 0.2x–0.6x e follow no sprite visua
   assert.equal(controller.initialize(sprite), f.mainCamera);
   assert.equal(f.mainCamera.zoom, 0.4);
   assert.deepEqual(f.mainCamera.bounds, f.scene.oceanBounds);
-  assert.deepEqual(f.mainCamera.follow, { target: sprite, roundPixels: false, lerpX: 0.06, lerpY: 0.06 });
+  assert.equal(f.mainCamera.roundPixels, true);
+  assert.deepEqual(f.mainCamera.follow, { target: sprite, roundPixels: true, lerpX: 0.06, lerpY: 0.06 });
   assert.equal(controller.getMinimumZoom(), 0.2);
   assert.equal(controller.getMaximumZoom(), 0.6);
   controller.destroy();

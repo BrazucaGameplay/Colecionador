@@ -21,6 +21,7 @@ export default class CameraController {
     this.target = target;
     this.camera = scene.cameras.main;
     this.camera.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+    this.camera.roundPixels = true;
     this.camera.setZoom(Math.max(this.getMinimumZoom(), CAMERA_ZOOM.default));
     this.clampToWorld();
     this.followPlayer();
@@ -32,7 +33,7 @@ export default class CameraController {
 
   followPlayer() {
     if (!this.camera || !this.target || this.followActive) return;
-    this.camera.startFollow(this.target, false, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
+    this.camera.startFollow(this.target, true, CAMERA_FOLLOW_LERP, CAMERA_FOLLOW_LERP);
     this.followActive = true;
   }
 
