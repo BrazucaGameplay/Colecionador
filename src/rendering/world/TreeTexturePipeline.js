@@ -26,10 +26,12 @@ export default class TreeTexturePipeline{
  constructor(scene){if(!scene?.textures?.get||!scene?.textures?.addCanvas)throw new TypeError('TreeTexturePipeline precisa do TextureManager do Phaser.');this.scene=scene;}
  prepare(keys){
   if(!Array.isArray(keys)||!keys.length)throw new TypeError('Informe as texturas de árvores.');
-  const profiles={},renderer=this.scene.game?.renderer||this.scene.sys?.game?.renderer,gl=renderer?.gl,filter=gl?.LINEAR_MIPMAP_LINEAR;
-  const mipmaps=Boolean(gl&&Number.isFinite(filter)),previous=renderer?.mipmapFilter;
+  const profiles={},renderer=this.scene.game?.renderer||this.scene.sys?.game?.renderer;
+  const previous=renderer?.mipmapFilter;
   try{
-   if(mipmaps)renderer.mipmapFilter=filter;
+   // Árvores usam a imagem-fonte com filtro LINEAR, sem mipmaps que suavizam demais
+   // os detalhes nos níveis de zoom reduzidos. A configuração global é restaurada.
+   if(renderer?.gl)renderer.mipmapFilter=null;
    for(const key of keys){
     const original=this.scene.textures.get(key),source=original?.getSourceImage?.();
     if(!source?.width||!source?.height)throw new Error('Textura de árvore indisponível: '+key);
@@ -41,9 +43,9 @@ export default class TreeTexturePipeline{
     const texture=this.scene.textures.addCanvas(key,canvas);
     if(!texture)throw new Error('Não foi possível registrar a textura preparada: '+key);
     texture.add(TREE_FRAME,0,p.x,p.y,p.frameWidth,p.frameHeight);
-    profiles[key]=Object.freeze({sourceWidth:source.width,sourceHeight:source.height,canvasWidth:p.canvasWidth,canvasHeight:p.canvasHeight,frameWidth:p.frameWidth,frameHeight:p.frameHeight,mipmapsEnabled:mipmaps,minificationFilter:mipmaps?'LINEAR_MIPMAP_LINEAR':'LINEAR'});
+    profiles[key]=Object.freeze({sourceWidth:source.width,sourceHeight:source.height,canvasWidth:p.canvasWidth,canvasHeight:p.canvasHeight,frameWidth:p.frameWidth,frameHeight:p.frameHeight,mipmapsEnabled:false,minificationFilter:'LINEAR'});
    }
-  }finally{if(renderer&&mipmaps)renderer.mipmapFilter=previous;}
+  }finally{if(renderer)renderer.mipmapFilter=previous;}
   return Object.freeze(profiles);
  }
 }
