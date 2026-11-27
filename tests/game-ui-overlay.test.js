@@ -18,7 +18,7 @@ test('GameUI carrega todas as artes finais antes de criar a HUD', async () => {
   const ui = await read('../src/scenes/GameUI.js');
   for (const key of ['ui-panel-vertical','ui-panel-profile','ui-button-menu','ui-button-200','ui-button-300','ui-button-400','ui-hud-status']) assert.ok(ui.includes(key));
   assert.match(ui, /this\.load\.image/);
-  assert.match(ui, /v=20261127-ui-art-v2/);
+  assert.match(ui, /v=20261127-ui-art-v3/);
 });
 
 test('GameUI coordena painéis separados e mantém a simulação ativa', async () => {
@@ -88,3 +88,4 @@ test('HUD recupera o retrato clicável e ajusta as barras com margem interna', a
   assert.match(button, /Palatino Linotype/);
   assert.match(frame, /Palatino Linotype/);
 });
+\ntest('menu principal não contém a opção Perfil', async () => {\n  const menu = await read('../src/ui/panels/MenuPanel.js');\n  assert.doesNotMatch(menu, /\\['Perfil',\\s*'profile'\\]/);\n  assert.match(menu, /\\['Bestiário',\\s*'bestiary'\\]/);\n});\n
