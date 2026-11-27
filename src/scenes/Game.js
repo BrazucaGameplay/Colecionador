@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import Player from '../entities/Player.js';
 import PlayerBodyAdapter from '../entities/PlayerBodyAdapter.js';
 import CharacterSpriteRenderer from '../rendering/characters/CharacterSpriteRenderer.js';
+import SkinManager from '../rendering/characters/SkinManager.js';
 import MonsterManager from '../systems/monsters/MonsterManager.js';
 import { ISLAND_01_MONSTER_SPAWNS } from '../world/spawn-layout/island-01.js';
 import { SAVE_KEY } from '../config.js';
@@ -21,6 +22,7 @@ export default class Game extends Phaser.Scene {
     this.initialized = false;
     this.saveManager = new SaveManager({ key: SAVE_KEY });
     this.savedProgress = this.saveManager.load();
+    this.skinManager = new SkinManager({ selectedSkin: this.savedProgress.selectedSkin });
     this.score = Math.max(0, Number(this.savedProgress.score) || 0);
 
     this.worldBootstrap = new WorldBootstrap(this);
@@ -43,7 +45,7 @@ export default class Game extends Phaser.Scene {
       onKill: ({ experience = 0 } = {}) => {
         this.score += 1;
         this.progression.award(this.player, experience);
-        this.saveManager.save({ score: this.score, player: this.player.toSaveData() });
+        this.saveManager.save({ score: this.score, player: this.player.toSaveData(), selectedSkin: this.skinManager?.getSelectedSkin() });
       }
     });
 
@@ -102,7 +104,7 @@ export default class Game extends Phaser.Scene {
   }
 
   shutdown() {
-    if (this.player) this.saveManager.save({ score: this.score, player: this.player.toSaveData() });
+    if (this.player) this.saveManager.save({ score: this.score, player: this.player.toSaveData(), selectedSkin: this.skinManager?.getSelectedSkin() });
 
     if (this.scene.isActive('GameUI')) this.scene.stop('GameUI');
     this.cameraController?.destroy();
@@ -111,6 +113,8 @@ export default class Game extends Phaser.Scene {
     this.gameSystemsBootstrap?.destroy();
     this.gameSystemsBootstrap = null;
     this.saveManager = null;
+    this.skinManager?.destroy();
+    this.skinManager = null;
     this.savedProgress = null;
     this.uiCamera = null;
     this.monsterManager?.destroy();
