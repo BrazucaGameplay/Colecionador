@@ -10,17 +10,15 @@ export default class ProfilePanel {
     this.frame = new PanelFrame(scene, { title: '', width: 360, height: 520, variant: 'vertical', close });
     const { x, y, width, height } = this.frame;
 
-    // O retrato ativo é carregado da pasta da skin equipada.
+    // Usa diretamente o PNG integral da skin selecionada, sem recorte ou conversão.
     const initialPortraitKey = this.gameScene?.skinManager?.getSelectedDefinition?.()?.portraitKey || 'player-portrait';
-    this.portrait = scene.add.image(x + width * 0.5, y + height * 0.49, initialPortraitKey)
+    this.portrait = scene.add.image(x + width * 0.5, y + height * 0.45, initialPortraitKey)
       .setScrollFactor(0).setDepth(4022);
-    // A arte é horizontal; prioriza largura e mantém escala uniforme dentro da área livre do quadro.
     setPortraitTexture(this.portrait, initialPortraitKey, width * PROFILE_PORTRAIT_FIT.width, height * PROFILE_PORTRAIT_FIT.height);
     this.frame.objects.push(this.portrait);
     this.portraitCaption = this.frame.addText(x + width * 0.5, y + height * 0.765, 'PERSONAGEM', {
       fontSize: '12px', fontStyle: 'bold', color: '#ffe8bd', align: 'center'
     }).setOrigin(0.5);
-    // Atalho explícito: a seleção de skins não fica escondida atrás da navegação por páginas.
     this.skinShortcutButton = this.frame.addButton({
       x: x + width * 0.5, y: y + height * 0.815,
       width: width * 0.42, height: Math.max(22, width * 0.075),
@@ -28,7 +26,6 @@ export default class ProfilePanel {
       onClick: () => this.setPage(2)
     });
 
-    // Segunda página: mantém a tela atual de atributos.
     this.summary = this.frame.addText(x + width * 0.15, y + height * 0.235, '', {
       fontSize: '13px', fontStyle: 'bold', color: '#ffe8bd', align: 'center',
       wordWrap: { width: width * 0.70 }

@@ -97,7 +97,9 @@ test('HUD recupera o retrato clicável e ajusta as barras com preenchimento inte
   ]);
   assert.match(hud, /onProfile/);
   assert.match(hud, /player-portrait/);
-  assert.match(hud, /this\.statusBars\.top - 40/);
+  assert.match(hud, /this\.statusBars\.top - HUD_PORTRAIT_CENTER_OFFSET_Y/);
+  assert.match(hud, /HUD_PORTRAIT_MAX_WIDTH = 72/);
+  assert.match(hud, /HUD_PORTRAIT_MAX_HEIGHT = 96/);
   assert.match(hud, /width: 132, height: 33/);
   assert.match(bars, /116 \* this\.scaleX/);
   assert.match(bars, /420 \* this\.scaleX/);

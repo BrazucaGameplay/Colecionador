@@ -1,8 +1,8 @@
-export const PROFILE_PORTRAIT_FIT = Object.freeze({ width: 0.84, height: 0.50 });
+export const PROFILE_PORTRAIT_FIT = Object.freeze({ width: 0.88, height: 0.58 });
 
 /**
- * Exibe arte de perfil sem distorcer nem reprocessar a textura a cada atualização do HUD.
- * setTexture e setFilter só são executados quando a chave realmente muda.
+ * Exibe o PNG original sem distorção, mantendo uma única textura carregada.
+ * O tamanho de exibição é calculado a partir do frame original, sem gerar cópias.
  */
 export function setPortraitTexture(image, textureKey, maxWidth, maxHeight) {
   if (!image || !textureKey || !(maxWidth > 0) || !(maxHeight > 0)) return false;
@@ -10,8 +10,9 @@ export function setPortraitTexture(image, textureKey, maxWidth, maxHeight) {
   const textureChanged = image.texture?.key !== textureKey;
   if (textureChanged) {
     image.setTexture(textureKey);
+    // LINEAR preserva a aparência ilustrada; não reprocessamos a imagem nem
+    // criamos versões reduzidas. O dimensionamento permanece uniforme.
     const texture = image.texture;
-    // LINEAR = 0 no Phaser 4; só definir o filtro ao trocar a textura.
     if (typeof texture?.setFilter === 'function') texture.setFilter(0);
   }
 
