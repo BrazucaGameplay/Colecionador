@@ -12,7 +12,7 @@ export default class StatusBars {
     this.hpFill = this.scene.add.rectangle(0, 0, 0, 1, 0xe33b45)
       .setOrigin(0, 0.5).setScrollFactor(0).setDepth(3000);
     this.energyFill = this.scene.add.rectangle(0, 0, 0, 1, 0x3288df)
-      .setOrigin(0, 0.5).setScrollFactor(0).setDepth(3002);
+      .setOrigin(0, 0.5).setScrollFactor(0).setDepth(3000);
     this.healthRatio = 1;
     this.energyRatio = 1;
   }
@@ -34,14 +34,14 @@ export default class StatusBars {
 
     // Coordenadas nativas da arte 600x201: sobreposição integral,
     // com as pontas dos preenchimentos escondidas sob a moldura.
-    this.hpX = this.left + 128 * this.scaleX;
+    this.hpX = this.left + 116 * this.scaleX;
     this.hpY = this.top + 78 * this.scaleY;
-    this.hpMaxWidth = 390 * this.scaleX;
-    this.hpHeight = 21 * this.scaleY;
-    this.energyX = this.left + 128 * this.scaleX;
+    this.hpMaxWidth = 420 * this.scaleX;
+    this.hpHeight = 24 * this.scaleY;
+    this.energyX = this.left + 116 * this.scaleX;
     this.energyY = this.top + 127 * this.scaleY;
-    this.energyMaxWidth = 390 * this.scaleX;
-    this.energyHeight = 23 * this.scaleY;
+    this.energyMaxWidth = 420 * this.scaleX;
+    this.energyHeight = 26 * this.scaleY;
     this.setValues(this.healthRatio, 1, this.energyRatio, 1);
   }
 
