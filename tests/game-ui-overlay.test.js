@@ -1,86 +1,63 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
-const read = path => readFile(new URL(path, import.meta.url), 'utf8');
+import HtmlGameUI from '../src/ui/HtmlGameUI.js';
+import { installFakeDom, findByClass } from './helpers/fake-dom.js';
 
-test('a inicialização mantém as cenas Game e GameUI separadas', async () => {
-  const [main, preload] = await Promise.all([read('../src/main.js'), read('../src/scenes/Preload.js')]);
-  assert.match(main, /scene: \[Boot, Preload, Game, GameUI\]/);
-  assert.match(preload, /scene\.start\('Game'\)/);
-});
+test('retrato HUD é clicável, atualiza fallback e bloqueia apenas sua região', () => {
+  const dom = installFakeDom();
+  try {
+    let opened = 0;
+    const game = {
+      skinManager: { getSelectedDefinition: () => ({
+        portrait: 'assets/characters/sprites/skin_01/perfil.png'
+      }) }
+    };
+    const scene = { scale: { width: 960, height: 540 }, scene: { get: () => game } };
+    const ui = new HtmlGameUI(scene, { openProfile: () => opened++ });
 
-test('GameUI mantém somente os elementos centrais da HUD no canvas Phaser', async () => {
-  const [ui, hud] = await Promise.all([read('../src/scenes/GameUI.js'), read('../src/ui/HUD/PlayerHUD.js')]);
-  assert.match(ui, /new HtmlGameUI/);
-  assert.match(ui, /new PlayerHUD/);
-  assert.match(ui, /ui-button-menu/);
-  assert.match(ui, /ui-hud-status/);
-  assert.doesNotMatch(ui, /new ProfilePanel|new MenuPanel|new BestiaryPanel/);
-  assert.doesNotMatch(hud, /scene\.add\.image\(0, 0, 'player-portrait'\)/);
-  assert.match(hud, /new StatusBars/);
-});
+    assert.equal(ui.portraitButton.hidden, false);
+    assert.ok(ui.portraitImage.src.endsWith('/assets/characters/sprites/skin_01/perfil.png'));
+    ui.portraitImage.dispatch('error');
+    assert.equal(ui.portraitFallback.hidden, false);
+    ui.portraitImage.dispatch('load');
+    assert.equal(ui.portraitFallback.hidden, true);
 
-test('camada HTML bloqueia interação com o mundo e acompanha o redimensionamento', async () => {
-  const [ui, bootstrap, html] = await Promise.all([
-    read('../src/scenes/GameUI.js'), read('../src/systems/GameSystemsBootstrap.js'),
-    read('../src/ui/HtmlGameUI.js')
-  ]);
-  assert.match(ui, /htmlUI\?\.isUiPointer/);
-  assert.match(ui, /this\.htmlUI\?\.layout\(\)/);
-  assert.match(bootstrap, /scene\.uiScene\?\.isUiPointer\(x, y\)/);
-  assert.match(html, /pointer-events: true|pointerdown/);
-  assert.match(html, /aria-modal/);
-  assert.match(html, /closePanel/);
-});
-
-test('painéis e retratos usam HTML nativo sem carregar as imagens de perfil no Phaser', async () => {
-  const [ui, html, css] = await Promise.all([
-    read('../src/scenes/GameUI.js'), read('../src/ui/HtmlGameUI.js'),
-    read('../src/ui/html-game-ui.css')
-  ]);
-  assert.doesNotMatch(ui, /CHARACTER_SKINS|skin\.portrait/);
-  assert.match(html, /document\.createElement\(tag\)/);
-  assert.match(html, /skin\.portrait/);
-  assert.match(html, /assets\/ui\/panels/);
-  assert.match(css, /object-fit: contain/);
-  assert.match(css, /aspect-ratio/);
-});
-
-test('menu e painéis informativos permanecem disponíveis; perfil mostra somente o retrato', async () => {
-  const html = await read('../src/ui/HtmlGameUI.js');
-  for (const value of ['bestiary','waifus','inventory','house','profile','getSelectedDefinition','this.portrait.src']) {
-    assert.ok(html.includes(value), 'faltou integração: ' + value);
+    assert.equal(ui.isUiPointer(480, 406), true);
+    assert.equal(ui.isUiPointer(100, 100), false);
+    ui.portraitButton.click();
+    assert.equal(opened, 1);
+    ui.destroy();
+    assert.equal(dom.root.children.length, 0);
+  } finally {
+    dom.restore();
   }
-  const start = html.indexOf('  buildProfile() {');
-  const end = html.indexOf('\n  refresh() {', start);
-  const builder = html.slice(start, end);
-  assert.match(builder, /html-game-ui__profile-portrait/);
-  assert.match(builder, /this\.statsPage = element/);
-  assert.match(builder, /this\.skillsPage = element/);
-  assert.match(builder, /imageButton\('‹', UI\.button200/);
-  assert.match(builder, /imageButton\('›', UI\.button200/);
-  assert.match(builder, /html-game-ui__profile-controls/);
-  assert.match(html, /this\.setPage\(this\.page \+ 1\)/);
-  assert.match(html, /this\.game\?\.skillManager\?\.equip\?\.\(id\)/);
-  assert.match(html, /STAT_UPGRADES/);
-  assert.match(html, /allocateStat\(key\)/);
 });
 
-test('retratos HTML acompanham troca de skin e a HUD continua clicável', async () => {
-  const [html, hud, game] = await Promise.all([
-    read('../src/ui/HtmlGameUI.js'), read('../src/ui/HUD/PlayerHUD.js'),
-    read('../src/scenes/Game.js')
-  ]);
-  assert.match(html, /getSelectedDefinition/);
-  assert.match(html, /this\.portraitImage\.src/);
-  assert.match(html, /openProfile/);
-  assert.match(hud, /onMenu/);
-  assert.match(game, /uiScene\?\.refreshHud/);
-});
+test('menu abre painéis informativos e o toque fora ou o X fecha o overlay', () => {
+  const dom = installFakeDom();
+  try {
+    const game = { skinManager: { getSelectedDefinition: () => ({ portrait: '' }) } };
+    const scene = { scale: { width: 960, height: 540 }, scene: { get: () => game } };
+    const ui = new HtmlGameUI(scene);
 
-test('HTML panels and profile portraits are disposed when closed or the UI scene shuts down', async () => {
-  const [html, ui] = await Promise.all([read('../src/ui/HtmlGameUI.js'), read('../src/scenes/GameUI.js')]);
-  assert.match(html, /this\.root\?\.remove\(\)/);
-  assert.match(html, /this\.node\?\.remove\(\)/);
-  assert.match(ui, /this\.htmlUI\?\.destroy\(\)/);
+    ui.openPanel('menu');
+    assert.equal(ui.isUiPointer(20, 20), true);
+    const menu = findByClass(ui.activePanel.node, 'html-game-ui__menu-grid');
+    assert.ok(menu);
+    menu.children[0].click();
+    assert.equal(ui.activePanel.key, 'bestiary');
+    assert.match(ui.activePanel.node.textContent + ui.activePanel.content.children.map(n => n.textContent).join(' '), /BESTIÁRIO/);
+
+    const shade = dom.root.querySelector('.html-game-ui__shade');
+    shade.dispatch('pointerdown', { target: shade });
+    assert.equal(ui.activePanel, null);
+    assert.equal(ui.isUiPointer(20, 20), false);
+
+    ui.openPanel('inventory');
+    findByClass(ui.activePanel.node, 'html-game-ui__close').click();
+    assert.equal(ui.activePanel, null);
+    ui.destroy();
+  } finally {
+    dom.restore();
+  }
 });
