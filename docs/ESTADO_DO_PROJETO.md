@@ -2634,3 +2634,46 @@ Validacao pendente:
 
 Ajuste de consistencia: o lockfile foi sincronizado em todos os seus
 campos-raiz de versao; a versao final desta entrega e 2.10.14.
+
+
+======================================================================
+ATUALIZAÇÃO 27/11/2026 — CORREÇÃO DOS PAINÉIS E RETRATOS HTML
+======================================================================
+
+Versão do jogo: 2.10.15.
+
+IMPLEMENTADO NO CÓDIGO:
+- Painel de perfil: lista de atributos limitada aos cinco atributos exibidos
+  nesta página (ataque, defesa, penetração, velocidade de ataque e
+  velocidade de movimento). Atributos de regeneração e capacidades máximas
+  deixam de ser inseridos fora do layout e sobrepor o cabeçalho.
+- Retratos HTML: silhueta passou a ser um elemento de fallback separado da
+  imagem do personagem. Ela aparece somente enquanto a imagem não carrega
+  ou quando ocorre erro; não fica mais desenhada por trás da transparência
+  da arte do personagem.
+- Retrato HUD e miniaturas de skins usam o mesmo comportamento de fallback.
+- Tipografia atualizada para pilha nativa system-ui/Roboto, com pesos leves
+  nos rótulos e texto auxiliar, e peso médio nos valores.
+- Página inicial do perfil: botão de skins reduzido para evitar quebra de
+  linha e sobreposição com a navegação inferior.
+
+VALIDAÇÃO VISUAL:
+- As capturas Android de 27/11/2026 mostram os problemas anteriores:
+  texto de regeneração sem posicionamento CSS, rótulo do botão quebrado,
+  silhueta desenhada atrás da arte transparente e fundo quadrado no retrato
+  da HUD.
+- A correção foi feita no código; validação visual no aparelho após o deploy
+  permanece pendente.
+
+PLATAFORMA E ARQUITETURA:
+- Mantidos Phaser 4, Vite, JavaScript, camada de painéis HTML/CSS e HUD
+  híbrida (botão MENU e barras no Phaser).
+- Mundo, câmera, movimentação, combate, progressão e assets de jogo não
+  foram alterados.
+- Distribuição continua PWA/web via GitHub Pages; suporte Android via
+  navegador/PWA e Capacitor permanece conforme a configuração existente.
+
+PENDÊNCIAS:
+- Confirmar o resultado visual no navegador Android após publicação.
+- A geração de APK e testes em aparelho instalado não fazem parte desta
+  alteração e continuam pendentes.
