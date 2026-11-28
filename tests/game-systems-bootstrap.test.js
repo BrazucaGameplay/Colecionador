@@ -77,7 +77,7 @@ function harness() {
     handleManualPan: () => cameraCalls.push(['pan']),
     followPlayer: options => cameraCalls.push(['follow', options])
   };
-  return { scene, player, target, monsterManager, characterRenderer, camera, cameraController, inputHandlers, scaleHandlers, marker, attacks, actions, cameraCalls };
+  return { scene, player, target, monsterManager, characterRenderer, camera, cameraController, inputHandlers, scaleHandlers, marker, monitorLayer, attacks, actions, cameraCalls };
 }
 
 test('bootstrap conecta combate, progressão e tap-to-move e libera listeners ao encerrar', () => {
