@@ -1,3 +1,9 @@
+# 28/11/2026 — Correção dos imports do bootstrap após reorganização (2.13.8)
+
+- Corrigidos os imports de movimento e progressão no `GameSystemsBootstrap` para os novos diretórios de domínio.
+- A correção elimina referências aos caminhos antigos que causavam falha na etapa de testes automatizados.
+- Versão PATCH 2.13.8 e lockfile sincronizado.
+
 # 28/11/2026 — Catálogos de personagens separados em data (2.13.7)
 
 - Movidos os catálogos de skins e animações do protagonista para `src/data/characters/`, separando definições de personagem do renderer.
