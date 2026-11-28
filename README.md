@@ -49,3 +49,6 @@ O build web e o deploy PWA não substituem a sincronização, compilação e val
 - [Plano de arquitetura e desenvolvimento](docs/PLANO_ARQUITETURA_E_DESENVOLVIMENTO.txt) — princípios técnicos e roteiro.
 - [Processo obrigatório de atualização](docs/PROCESSO_OBRIGATORIO_DE_ATUALIZACAO.md) — versionamento, auditoria e critérios de publicação.
 - [Guia de sprites de monstros](docs/GUIA_DE_SPRITES_DE_MONSTROS.md) — contrato dos atlas PNG/JSON.
+
+- [Acordo de trabalho](docs/ACORDO_DE_TRABALHO.md) — divisão entre tarefas do assistente e etapas do usuário.
+- [Arquitetura de cartas HTML](docs/ARQUITETURA_CARTAS_HTML.md) — contrato visual e navegação de cartas de monstros, Boss e waifus.

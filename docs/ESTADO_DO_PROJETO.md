@@ -3,8 +3,8 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.10.28  
-**Atualizado em:** 28/11/2026 (estado encontrado na branch)
+**Versão do código-base consultado:** 2.10.29  
+**Atualizado em:** 27/11/2026 (estado encontrado na branch)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
 
@@ -30,7 +30,7 @@
 
 ### O que falta ou não está confirmado
 - Sistema de habilidades reais/equipáveis: a tela Skills existe, mas o catálogo e o gerenciador de habilidades ainda não estão integrados.
-- Sistemas de waifus, vínculos, presentes, inventário completo e casa. O catálogo-base do bestiário está preparado; UI, descoberta persistente e conteúdo Boss ainda faltam.
+- Sistemas de waifus, vínculos, presentes, inventário completo e casa. O catálogo-base do bestiário e os diretórios/documentação das cartas estão preparados; componente HTML, tela funcional, descoberta persistente e conteúdo Boss ainda faltam.
 - Catálogo/carregador de ilhas, conexões, pontes, portais e transições entre ilhas.
 - Validação visual final e de desempenho em dispositivos Android reais.
 - Build nativo/APK, instalação e publicação na Play Store.
@@ -81,13 +81,15 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 
 - Monstros comuns: Slime é a única espécie atualmente registrada; é uma bola azul simples e não necessita animação direcional. Outras espécies poderão ter animações próprias ou usar imagens estáticas. O sistema de spawn, perseguição simples e combate básico já existe.
 - Boss: catálogo vazio preparado; entidades, IA, habilidades e renderização 8-way ainda não implementados.
-- Bestiário: projeção de catálogo separada em Monstros/Boss preparada; interface, descoberta e persistência ainda pendentes.
+- Bestiário: projeção de catálogo separada em Monstros/Boss preparada; diretórios finais de cartas e contrato HTML documentados; interface funcional, descoberta e persistência ainda pendentes.
 - Raios atuais preservados: ataque 2 m, perseguição 10 m, ocioso 30 m, ativação 50 m.
 - Detalhes e contratos: [Arquitetura de monstros e Boss](ARQUITETURA_MONSTROS_E_BOSSES.md).
 
 ## Documentos relacionados
 
 - [Arquitetura de monstros e Boss](ARQUITETURA_MONSTROS_E_BOSSES.md) — contratos de conteúdo, status, atividade, IA, assets e bestiário.
+- [Arquitetura de cartas HTML](ARQUITETURA_CARTAS_HTML.md) — integridade das artes e fluxo galeria/visualização/status.
+- [Acordo de trabalho](ACORDO_DE_TRABALHO.md) — divisão permanente de responsabilidades e limites.
 - [Arquitetura do mundo por ilhas](ARQUITETURA_DO_MUNDO_POR_ILHAS.md) — decisão e plano de transição entre ilhas.
 - [Sistema de skins](SISTEMA_DE_SKINS.md) — contrato de atlas e seleção.
 - [Plano de arquitetura e desenvolvimento](PLANO_ARQUITETURA_E_DESENVOLVIMENTO.txt) — princípios técnicos, sem duplicar o estado atual.

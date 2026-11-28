@@ -78,7 +78,13 @@ O catálogo deriva das definições estáticas, nunca da população ativa do ma
 
 Cada conteúdo pode declarar ID, nome, descrição, categoria, caminho da carta oficial e referência à definição. As cartas serão assets finais do projeto. Não gerar imagens provisórias nem inventar caminhos. Se a carta não existe, a UI futura deve omiti-la ou mostrar estado bloqueado usando componente visual aprovado.
 
-## 6. Organização de código-alvo
+## 6. Contrato visual e HTML das cartas
+
+Cartas de monstros comuns, Boss e waifus usam o mesmo grupo de apresentação HTML, com componente visual compartilhado e dados de domínio separados. A arte oficial deve permanecer intacta: preservar pixels, resolução e proporção; não cortar, esticar, filtrar, recomprimir ou sobrepor texto. O bestiário se adapta à imagem por dimensionamento proporcional integral (contain). A proporção 2:3 é o padrão visual, sem forçar conversão do arquivo original.
+
+Fluxo aprovado: galeria de cartas → toque abre a carta ampliada → seta avança para status do mesmo conteúdo; seta de retorno volta à arte e X fecha. Status deve vir dos dados reais, sem valores inventados. Caminhos finais e contrato detalhado: [ARQUITETURA_CARTAS_HTML.md](ARQUITETURA_CARTAS_HTML.md).
+
+## 7. Organização de código-alvo
 
 Módulos futuros não devem ser importados pelo runtime antes de implementados e testados.
 
@@ -112,7 +118,7 @@ tests/
   bestiary-*.test.js
 ```
 
-## 7. Contratos de dados conceituais
+## 8. Contratos de dados conceituais
 
 Espécie comum:
 
@@ -152,7 +158,7 @@ Boss:
 
 Exemplos são contratos, não conteúdo jogável. Zeros/nulls não são valores de balanceamento.
 
-## 8. Desempenho e ciclo de vida
+## 9. Desempenho e ciclo de vida
 
 - Não criar timer, tween, Arcade Body ou callback por monstro inativo.
 - Separar culling visual de ativação de IA: estar na câmera não ativa simulação.
@@ -163,7 +169,7 @@ Exemplos são contratos, não conteúdo jogável. Zeros/nulls não são valores 
 - Entrada/saída de atividade deve ser idempotente e liberar controladores/listeners.
 - Garantir que `movementSpeed` do status seja aplicado ao movimento real da entidade.
 
-## 9. Critérios para novos conteúdos
+## 10. Critérios para novos conteúdos
 
 - ID estável, sem duplicatas; todas as nove chaves numéricas.
 - Assets referenciados existem e são validados no build.
@@ -174,7 +180,7 @@ Exemplos são contratos, não conteúdo jogável. Zeros/nulls não são valores 
 - Bestiário apresenta uma carta por definição e mantém descoberta após reiniciar.
 - Build e testes de carga validam o pacote final.
 
-## 10. Estado real na versão 2.10.27
+## 11. Estado real na versão 2.10.28
 
 **Já existe:** entidade lógica Monster, catálogo comum com Slime (única espécie registrada), spawner por zona, perseguição simples, combate básico, renderer e loader por estado; raios documentados na seção 3.
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## 27/11/2026 — Acordo de trabalho e estrutura de cartas HTML (2.10.29)
+
+- Registrada a divisão permanente de responsabilidades: o assistente prepara arquitetura, código, documentação e estrutura; o usuário fornece assets/ações que dependem de seus arquivos, aparelho, permissões ou aprovação.
+- Documentados limites contra assets fictícios, alterações não autorizadas de imagens e declarações de conclusão sem evidência.
+- Criada a estrutura final `public/assets/cards/` para cartas de monstros, Boss e waifus, com local específico para a carta oficial do Slime.
+- Definido o contrato comum de apresentação HTML: imagem original integral, proporção e resolução preservadas, layout responsivo adaptado à arte, navegação carta ampliada/status.
+- A carta enviada do Slime ainda deve ser colocada pelo usuário em `public/assets/cards/monsters/slime/card.png`; nenhum arquivo de imagem foi inventado ou substituído.
+- A mecânica de bestiário permanece não implementada; esta atualização prepara documentação e diretórios, não declara a interface funcional.
+
 ## 28/11/2026 — Regra de animação opcional por espécie (2.10.28)
 
 - Registrado que a animação de monstros comuns é opcional e definida individualmente por espécie; monstros sem animação usam imagem estática.
