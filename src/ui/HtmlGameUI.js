@@ -215,10 +215,24 @@ class HtmlPanel {
 
   buildInfo() {
     if (this.key === 'bestiary') {
-      this.addText(this.content, 'html-game-ui__info-title', 'BESTIÁRIO');
       this.cardGalleryHost = element('div', 'html-game-ui__card-gallery-host');
-      this.content.append(this.cardGalleryHost);
+      this.cardGalleryHost.id = 'bestiary-card-gallery';
       this.cardGallery = new CardGallery(this.cardGalleryHost);
+      this.categoryArrow = element('button', 'html-game-ui__card-category-arrow', '›');
+      this.categoryArrow.type = 'button';
+      this.categoryArrow.setAttribute('aria-label', 'Mostrar Boss');
+      this.categoryArrow.setAttribute('aria-controls', 'bestiary-card-gallery');
+      this.categoryArrow.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        const next = this.cardGallery.category === 'monsters' ? 'bosses' : 'monsters';
+        this.cardGallery.setCategory(next);
+        const showingBosses = next === 'bosses';
+        this.categoryArrow.textContent = showingBosses ? '‹' : '›';
+        this.categoryArrow.setAttribute('aria-label', showingBosses ? 'Voltar aos monstros' : 'Mostrar Boss');
+        this.categoryArrow.className = 'html-game-ui__card-category-arrow' + (showingBosses ? ' is-reversed' : '');
+      });
+      this.content.append(this.cardGalleryHost, this.categoryArrow);
       return;
     }
     const [title, status, description] = INFO[this.key] || INFO.bestiary;

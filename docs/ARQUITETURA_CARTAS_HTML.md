@@ -25,11 +25,11 @@ public/assets/cards/
 IDs estáveis, minúsculos, sem espaços/acentos. Spritesheets de gameplay não pertencem a esse diretório. A origem principal das cartas de waifus permanece no repositório separado; este repositório recebe cópia final somente quando necessária para o bundle.
 
 ## Navegação aprovada
-1. Galeria em grade responsiva com três colunas e pelo menos duas linhas visíveis em telas mobile; uma carta por definição cadastrada.
+1. Galeria em grade responsiva com três colunas e pelo menos duas linhas visíveis em telas mobile; uma carta por definição cadastrada. Não há abas superiores: uma seta no rodapé do painel desliza entre Monstros e Boss, retornando com seta oposta.
 2. O painel do bestiário usa a moldura vertical já existente para disponibilizar área útil maior. A grade e o painel se adaptam ao viewport, nunca o arquivo da carta.
 3. Toque/clique abre a carta selecionada dentro do mesmo painel; tocar na carta executa rotação 3D horizontal para alternar frente e verso. Não existe uma etapa separada por botão “Ver status”.
 4. O verso apresenta somente os dados reais. Monstros e Boss usam as nove chaves documentadas em `ARQUITETURA_MONSTROS_E_BOSSES.md`. Não inventar valores.
-5. O botão de retorno restaura a grade; as abas Monstros/Boss e o X permanecem disponíveis.
+5. O botão de retorno restaura a grade; a seta inferior alterna categorias e o X permanece disponível.
 
 ## Implementação
 - HTML semântico, botões acessíveis e imagem com texto alternativo.

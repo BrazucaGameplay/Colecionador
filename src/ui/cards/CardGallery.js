@@ -35,26 +35,22 @@ export default class CardGallery {
     this.render();
   }
 
-  render() {
+  render(transition = '') {
     if (!this.container) return;
     this.container.replaceChildren();
-    this.container.className = 'html-game-ui__card-gallery';
-    const tabs = node('div', 'html-game-ui__card-tabs');
-    tabs.append(
-      button('MONSTROS', 'html-game-ui__card-tab' + (this.category === 'monsters' ? ' is-active' : ''), () => this.setCategory('monsters')),
-      button('BOSS', 'html-game-ui__card-tab' + (this.category === 'bosses' ? ' is-active' : ''), () => this.setCategory('bosses'))
-    );
-    this.container.append(tabs);
+    this.container.className = 'html-game-ui__card-gallery' + (transition ? ' ' + transition : '');
     if (this.page === 'gallery') this.renderGrid();
     else this.renderDetail();
   }
 
   setCategory(category) {
+    if (category === this.category) return;
+    const transition = category === 'bosses' ? 'is-entering-from-right' : 'is-entering-from-left';
     this.category = category;
     this.selected = null;
     this.flipped = false;
     this.page = 'gallery';
-    this.render();
+    this.render(transition);
   }
 
   renderGrid() {

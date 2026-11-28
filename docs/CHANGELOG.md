@@ -1,3 +1,11 @@
+## 28/11/2026 — Correção estrutural do painel do bestiário (2.10.31)
+
+- Corrigido o posicionamento da galeria usando a área interna da moldura como referência; a grade fica contida e centralizada no painel.
+- Removidos do DOM as abas superiores Monstros/Boss e o título Bestiário.
+- Adicionada seta inferior com transição horizontal para alternar entre Monstros e Boss e seta inversa para retornar.
+- Mantida a proporção integral das cartas, grade de três colunas por duas linhas visíveis, rotação da carta e botão X.
+- Testes verificam ausência dos elementos removidos e navegação pelas categorias.
+
 ## 28/11/2026 — Slime como piloto do fluxo de cartas (2.10.29)
 
 - Slime declara sua carta oficial no catálogo (`bestiary.cardAsset`).
