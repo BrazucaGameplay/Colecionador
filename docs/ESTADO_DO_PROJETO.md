@@ -3,7 +3,7 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.10.26  
+**Versão do código-base consultado:** 2.10.27  
 **Atualizado em:** 28/11/2026 (estado encontrado na branch)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
@@ -30,7 +30,7 @@
 
 ### O que falta ou não está confirmado
 - Sistema de habilidades reais/equipáveis: a tela Skills existe, mas o catálogo e o gerenciador de habilidades ainda não estão integrados.
-- Sistemas de waifus, vínculos, presentes, inventário completo, bestiário funcional e casa.
+- Sistemas de waifus, vínculos, presentes, inventário completo e casa. O catálogo-base do bestiário está preparado; UI, descoberta persistente e conteúdo Boss ainda faltam.
 - Catálogo/carregador de ilhas, conexões, pontes, portais e transições entre ilhas.
 - Validação visual final e de desempenho em dispositivos Android reais.
 - Build nativo/APK, instalação e publicação na Play Store.
@@ -55,7 +55,7 @@
 | Mundo | `src/world/WorldBootstrap.js`, `WorldNavigation.js`, layout e managers de objetos, profundidade e colisão |
 | Câmera/input | `CameraController.js`, `TouchInputController.js` |
 | Personagem | `Player.js`, `PlayerBodyAdapter.js`, `CharacterSpriteRenderer.js`, `SkinManager.js` |
-| Gameplay | MovementSystem, CombatSystem, ProgressionSystem, MonsterManager e MonsterCombatSystem |
+| Gameplay | MovementSystem, CombatSystem, ProgressionSystem, MonsterManager e MonsterCombatSystem; catálogo de Boss/bestiário preparado |
 | Persistência | `src/systems/persistence/SaveManager.js`; chave legada `colecionador-save-v1` preservada |
 | UI | `GameUI.js`, `HtmlGameUI.js`, CSS da interface, HUD Phaser e `ProfileImageFitter.js` |
 | Assets | `public/assets/`; catálogos e validadores em `src/rendering/` e `scripts/` |
@@ -77,8 +77,17 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 4. Planejar a segunda ilha somente após critérios e assets aprovados para a primeira transição.
 5. Completar as integrações de waifus, inventário, bestiário e drops conforme o design aprovado.
 
+## Conteúdo hostil
+
+- Monstros comuns: entidade, catálogo Slime, spawner, perseguição simples, combate básico e renderização já existem. Direções de animação 4-way ainda pendentes.
+- Boss: catálogo vazio preparado; entidades, IA, habilidades e renderização 8-way ainda não implementados.
+- Bestiário: projeção de catálogo separada em Monstros/Boss preparada; interface, descoberta e persistência ainda pendentes.
+- Raios atuais preservados: ataque 2 m, perseguição 10 m, ocioso 30 m, ativação 50 m.
+- Detalhes e contratos: [Arquitetura de monstros e Boss](ARQUITETURA_MONSTROS_E_BOSSES.md).
+
 ## Documentos relacionados
 
+- [Arquitetura de monstros e Boss](ARQUITETURA_MONSTROS_E_BOSSES.md) — contratos de conteúdo, status, atividade, IA, assets e bestiário.
 - [Arquitetura do mundo por ilhas](ARQUITETURA_DO_MUNDO_POR_ILHAS.md) — decisão e plano de transição entre ilhas.
 - [Sistema de skins](SISTEMA_DE_SKINS.md) — contrato de atlas e seleção.
 - [Plano de arquitetura e desenvolvimento](PLANO_ARQUITETURA_E_DESENVOLVIMENTO.txt) — princípios técnicos, sem duplicar o estado atual.
