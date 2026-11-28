@@ -354,7 +354,7 @@ class HtmlPanel {
   destroy() {
     this.profileImageFitter?.destroy();
     this.profileImageFitter = null;
-    this.statRows?.length = 0;
+    if (this.statRows) this.statRows.length = 0;
     this.node?.remove();
     this.node = null;
     this.owner = null;

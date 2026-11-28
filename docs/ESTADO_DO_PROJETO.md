@@ -2986,3 +2986,11 @@ Estado integral:
 - Pendências: implementar catálogo e runtime de habilidades antes de
   habilitar equipar real; testar visualmente no Android; APK/Play Store
   não concluídos.
+
+
+Correção de auditoria 2.10.24:
+- Ajustada a limpeza do array statRows para sintaxe JavaScript válida
+  (atribuição direta após verificação), evitando optional chaining
+  em alvo de atribuição.
+- Versão 2.10.23 não deve ser considerada pronta para deploy; a versão
+  2.10.24 contém a correção antes de validar publicação.
