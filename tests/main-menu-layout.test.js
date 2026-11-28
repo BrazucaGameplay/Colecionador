@@ -5,16 +5,15 @@ import { readFileSync } from 'node:fs';
 const css = readFileSync(new URL('../src/ui/html-game-ui.css', import.meta.url), 'utf8');
 
 test('menu principal respeita a área segura e preserva a moldura inteira', () => {
-  const shade = css.match(/\.html-game-ui__shade \{([\s\S]*?)\n\}/)?.[1] || '';
   const menu = css.match(/\.html-game-ui__panel--menu \{([\s\S]*?)\n\}/)?.[1] || '';
-  const art = css.match(/\.html-game-ui__panel-art \{([\s\S]*?)\n\}/)?.[1] || '';
+  const menuArt = css.match(/\.html-game-ui__panel--menu \.html-game-ui__panel-art \{([\s\S]*?)\n\}/)?.[1] || '';
 
-  assert.match(shade, /box-sizing:\s*border-box/);
-  assert.match(shade, /env\(safe-area-inset-top\)/);
-  assert.match(shade, /env\(safe-area-inset-bottom\)/);
   assert.match(menu, /width:\s*min\(560px/);
+  assert.match(menu, /env\(safe-area-inset-top\)/);
+  assert.match(menu, /env\(safe-area-inset-bottom\)/);
   assert.match(menu, /aspect-ratio:\s*1383\s*\/\s*947/);
-  assert.match(art, /object-fit:\s*contain/);
+  assert.match(menu, /max-height:\s*calc\(100% - 16px\)/);
+  assert.match(menuArt, /object-fit:\s*contain/);
 });
 
 test('FPS ocupa uma cápsula inferior lateral e deixa livre o centro da navegação', () => {
