@@ -38,10 +38,9 @@
 .html-game-ui__shade {
   position: absolute;
   inset: 0;
-  box-sizing: border-box;
   display: grid;
   place-items: center;
-  padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
   background: rgba(5, 9, 20, .72);
   pointer-events: auto;
   touch-action: manipulation;
@@ -61,23 +60,25 @@
   aspect-ratio: 956 / 1406;
 }
 .html-game-ui__panel--wide {
-  width: min(560px, calc(100vw - 40px), calc((100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 64px) * 1383 / 947));
+  width: min(600px, calc(100vw - 24px), calc((100dvh - 24px) * 1383 / 947));
   aspect-ratio: 1383 / 947;
-  max-height: calc(100% - 16px);
 }
 .html-game-ui__panel--menu {
   width: min(560px, calc(100vw - 40px), calc((100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 64px) * 1383 / 947));
   aspect-ratio: 1383 / 947;
+  max-height: calc(100% - 16px);
   overflow: visible;
+}
+.html-game-ui__panel--menu .html-game-ui__panel-art {
+  object-fit: contain;
+  object-position: center;
 }
 .html-game-ui__panel-art {
   position: absolute;
   inset: 0;
-  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center;
+  object-fit: fill;
   pointer-events: none;
 }
 .html-game-ui__close {
@@ -833,7 +834,7 @@
 }
 @media (max-height: 620px) {
   .html-game-ui__panel--menu {
-    width: min(520px, calc(100vw - 36px), calc((100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 48px) * 1383 / 947));
+    width: min(520px, calc(100vw - 36px), calc((100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 72px) * 1383 / 947));
   }
   .html-game-ui__panel--menu .html-game-ui__menu-grid {
     top: 30%;
