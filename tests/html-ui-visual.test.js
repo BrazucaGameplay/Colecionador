@@ -62,7 +62,8 @@ test('perfil percorre Personagem, Status e Skills e executa ações reais do Pla
     assert.equal(panel.profilePortraitFallback.hidden, true);
     assert.ok(panel.portrait.style.width.endsWith('px'));
 
-    panel.nextPage.click();
+    panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 320, clientY: 220 });
+    panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 220, clientY: 220 });
     assert.equal(panel.page, 1);
     assert.equal(panel.profilePortraitFrame.hidden, true);
     assert.equal(panel.statsPage.hidden, false);
@@ -73,7 +74,8 @@ test('perfil percorre Personagem, Status e Skills e executa ações reais do Pla
     assert.equal(player.statPoints, 0);
     assert.equal(saves, 1);
 
-    panel.nextPage.click();
+    panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 320, clientY: 220 });
+    panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 220, clientY: 220 });
     assert.equal(panel.page, 2);
     assert.equal(panel.skillsPage.hidden, false);
     assert.equal(panel.skillSlots.children.length, 3);
@@ -82,7 +84,8 @@ test('perfil percorre Personagem, Status e Skills e executa ações reais do Pla
     equip.click();
     assert.equal(equipped, true);
     assert.match(panel.skillSlots.children[0].children[1].textContent, /Fogo/);
-    assert.equal(panel.nextPage.disabled, true);
+    findByClass(panel.node, 'html-game-ui__panel-back').click();
+    assert.equal(panel.page, 1, 'o botão global retorna à página anterior');
 
     findByClass(panel.node, 'html-game-ui__close').click();
     assert.equal(ui.activePanel, null);
