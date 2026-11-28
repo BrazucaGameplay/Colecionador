@@ -379,10 +379,7 @@
 
 
 /* Controles do painel de perfil: mesma moldura ornamental dos demais botões. */
-.html-game-ui__panel--vertical .html-game-ui__close {
-  top: calc(15.5% - clamp(42px, 15%, 58px) / 2);
-  right: 5%;
-}
+
 
 
 
