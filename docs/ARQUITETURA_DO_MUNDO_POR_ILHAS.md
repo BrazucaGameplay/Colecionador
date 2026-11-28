@@ -2,7 +2,7 @@
 
 **Projeto:** Conquistador de Waifu's  
 **Status:** Direção aprovada; implementação incremental pendente  
-**Data:** 25/11/2026  
+**Data:** 28/11/2026  
 **Branch de referência:** main
 
 ## 1. Decisão de produto
@@ -13,9 +13,7 @@ Não será construído um continente contínuo nem um mundo aberto gigantesco. O
 
 ## 2. Direção visual
 
-A direção escolhida é um mundo com aparência tridimensional: volumes reconhecíveis, relevo, sombras, iluminação, perspectiva isométrica e objetos com profundidade visual. O termo **2.5D** descreve a direção visual pretendida, não uma decisão de migrar imediatamente o jogo para um motor 3D.
-
-O projeto atual usa Phaser 4. A implementação inicial deve privilegiar recursos 2D/isométricos do Phaser (sprites, imagens, camadas, profundidade, sombras e efeitos) e só introduzir renderização 3D/Three.js se um protótipo técnico demonstrar benefício real em qualidade, desempenho e manutenção. Three.js não faz parte das dependências atuais nem possui integração com o runtime. Sua eventual adoção exige protótipo técnico comparativo.
+A direção visual aprovada é um mundo 2D com composição de profundidade/2.5D: volumes, relevo, sombras, iluminação e perspectiva isométrica construídos com assets e recursos 2D do Phaser 4. Isso não autoriza migrar o runtime para um motor 3D. GLB/Three.js foram abandonados no jogo; qualquer mudança dessa decisão exige nova aprovação explícita e protótipo técnico comparativo.
 
 A ilha deve parecer um ambiente tridimensional construído, e não uma simples imagem plana com objetos colados. Entretanto, o terreno e os objetos podem continuar sendo assets 2D renderizados com perspectiva e iluminação coerentes.
 
@@ -112,17 +110,17 @@ Isso é uma arquitetura-alvo, não uma afirmação de que tais módulos já exis
 
 ## 8. Relação com o código existente
 
-Estado atualizado em 26/11/2026:
+Estado atualizado em 28/11/2026:
 
 - `Preload` carrega o oceano em `ocean-pattern`, o terreno em `island-terrain` e as texturas de árvores a partir de `public/assets/world/`.
-- `Game.createGround()` instancia uma única imagem estática de terreno, `ilha_terreno.webp`, dimensionada para o mundo de 4096 x 4096. O caminho ativo não usa shader nem o módulo legado `IslandTerrainRenderer.js`.
+- `WorldBootstrap` instancia uma única imagem estática de terreno, `ilha_terreno.webp`, dimensionada para o mundo de 4096 x 4096; os limites do oceano são calculados em `OceanBounds.js` conforme viewport e zoom mínimo.
 - O layout de árvores está em `src/world/map-layout/island-01.js`; os spawns de monstros ficam em `src/world/spawn-layout/island-01.js`.
 - `WorldObjectManager` instancia as árvores; `WorldDepthManager` e `WorldCollisionManager` tratam profundidade e obstáculos.
-- `WorldNavigation` constrói a máscara caminhável a partir do alfa do terreno, pré-calcula a grade e usa cache persistente versionado em IndexedDB quando o hash do terreno pode ser obtido.
+- `WorldNavigation` constrói a máscara caminhável a partir do alfa do terreno, pré-calcula a grade e usa cache persistente versionado em IndexedDB quando o hash do terreno pode ser obtido. `CameraController` e `GameSystemsBootstrap` coordenam câmera e sistemas de gameplay fora de `Game`.
 - `scripts/validate-tree-layout.mjs` valida posições no build e gera `island-01.validated.json`, que limita as árvores instanciadas às posições aprovadas.
 - O mundo ainda é uma única ilha; catálogo, conexões, pontes, portais e transições entre ilhas não estão implementados.
 
-A implementação atual usa um PNG de terreno completo como base visual, objetos ambientais independentes e navegação calculada/cacheada a partir da máscara alfa.
+A implementação atual usa uma imagem WebP de terreno completo como base visual, objetos ambientais independentes e navegação calculada/cacheada a partir da máscara alfa.
 
 ## 9. Plano incremental
 
