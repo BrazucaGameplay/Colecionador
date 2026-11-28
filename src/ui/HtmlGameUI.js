@@ -5,6 +5,9 @@ import { STAT_UPGRADES } from '../entities/Player.js';
 
 const BASE = import.meta.env?.BASE_URL ?? '/';
 const asset = path => BASE + path;
+const WAIFU_CARD_ASSETS = Object.freeze({
+  'slime-maiden': 'assets/cards/waifus/carta.slime.webp'
+});
 const UI = Object.freeze({
   vertical: asset('assets/ui/panels/painel_vertical_900x1350_transparente.webp'),
   wide: asset('assets/ui/panels/perfil_moldura_fundo_vermelho.webp'),
@@ -180,7 +183,7 @@ class HtmlPanel {
     this.game = owner.gameScene;
     this.key = key;
     this.page = 0;
-    this.node = element('section', 'html-game-ui__panel ' + (key === 'profile' ? 'html-game-ui__panel--vertical' : key === 'bestiary' ? 'html-game-ui__panel--bestiary' : key === 'menu' ? 'html-game-ui__panel--wide html-game-ui__panel--menu' : 'html-game-ui__panel--wide'));
+    this.node = element('section', 'html-game-ui__panel ' + (key === 'profile' ? 'html-game-ui__panel--vertical' : key === 'bestiary' ? 'html-game-ui__panel--bestiary' : key === 'menu' ? 'html-game-ui__panel--wide html-game-ui__panel--menu' : key === 'waifus' ? 'html-game-ui__panel--wide html-game-ui__panel--waifus' : 'html-game-ui__panel--wide'));
     this.node.setAttribute('role', 'dialog');
     this.node.setAttribute('aria-modal', 'true');
     this.node.setAttribute('aria-label', key === 'profile' ? 'Perfil do personagem' : key === 'menu' ? 'Menu principal' : (INFO[key]?.[0] || 'Painel'));
@@ -250,6 +253,14 @@ class HtmlPanel {
   }
 
   buildInfo() {
+    if (this.key === 'waifus') {
+      this.waifuGalleryHost = element('div', 'html-game-ui__waifu-gallery-host');
+      this.waifuGrid = element('div', 'html-game-ui__waifu-grid');
+      this.waifuGalleryHost.append(this.waifuGrid);
+      this.content.append(this.waifuGalleryHost);
+      this.renderWaifuCollection();
+      return;
+    }
     if (this.key === 'bestiary') {
       this.cardGalleryHost = element('div', 'html-game-ui__card-gallery-host');
       this.cardGalleryHost.id = 'bestiary-card-gallery';
@@ -261,6 +272,31 @@ class HtmlPanel {
     this.addText(this.content, 'html-game-ui__info-title', title);
     this.addText(this.content, 'html-game-ui__info-status', status);
     this.addText(this.content, 'html-game-ui__info-description', description);
+  }
+
+  renderWaifuCollection() {
+    if (!this.waifuGrid) return;
+    this.waifuGrid.replaceChildren();
+    const collection = Array.isArray(this.game?.waifuCollection) ? this.game.waifuCollection : [];
+    const cards = collection.filter(item => item && WAIFU_CARD_ASSETS[item.waifuId]);
+    if (!cards.length) {
+      this.waifuGrid.append(element('p', 'html-game-ui__waifu-empty', 'Nenhuma carta obtida ainda.'));
+      return;
+    }
+    for (const acquisition of cards) {
+      const card = element('div', 'html-game-ui__waifu-tile');
+      const image = element('img', 'html-game-ui__waifu-image');
+      image.src = asset(WAIFU_CARD_ASSETS[acquisition.waifuId]);
+      image.alt = 'Carta original de ' + (acquisition.name || 'waifu');
+      image.draggable = false;
+      image.addEventListener('error', () => {
+        card.replaceChildren(element('span', 'html-game-ui__waifu-error', 'Falha ao carregar a carta.'));
+      }, { once: true });
+      card.append(image);
+      const caption = element('span', 'html-game-ui__waifu-name', acquisition.name || 'Waifu');
+      card.append(caption);
+      this.waifuGrid.append(card);
+    }
   }
 
   buildProfile() {
@@ -447,6 +483,11 @@ class HtmlPanel {
 
   refresh() {
     if (!this.node?.isConnected && !this.node?.parentNode) return;
+    if (this.key === 'waifus') {
+      this.renderWaifuCollection();
+      this.updateBackButton();
+      return;
+    }
     if (this.key !== 'profile') return;
     const skin = this.owner.getSelectedSkin();
     const portrait = skin?.portrait ? asset(skin.portrait) : '';

@@ -99,3 +99,36 @@ test('perfil percorre Personagem, Status e Skills e executa ações reais do Pla
     dom.restore();
   }
 });
+
+
+test('painel Waifus exibe apenas cartas adquiridas sem moldura individual', () => {
+  const dom = installFakeDom();
+  try {
+    const game = {
+      waifuCollection: [{
+        waifuId: 'slime-maiden',
+        name: 'Donzela Slime',
+        quality: 'D',
+        level: 1
+      }]
+    };
+    const scene = {
+      scale: { width: 960, height: 540 },
+      scene: { get: name => name === 'Game' ? game : null }
+    };
+    const ui = new HtmlGameUI(scene);
+    ui.openPanel('waifus');
+    const panel = ui.activePanel;
+    const image = findByClass(panel.waifuGrid, 'html-game-ui__waifu-image');
+    assert.ok(image);
+    assert.ok(image.src.endsWith('/assets/cards/waifus/carta.slime.webp'));
+    assert.equal(findByClass(panel.waifuGrid, 'html-game-ui__waifu-name').textContent, 'Donzela Slime');
+    assert.equal(findByClass(panel.waifuGrid, 'html-game-ui__waifu-empty'), null);
+    assert.match(panel.node.className, /html-game-ui__panel--wide/);
+    assert.match(panel.node.className, /html-game-ui__panel--waifus/);
+    ui.destroy();
+    assert.equal(dom.root.children.length, 0);
+  } finally {
+    dom.restore();
+  }
+});
