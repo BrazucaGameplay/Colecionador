@@ -397,6 +397,46 @@
   display: block;
   contain: layout paint;
 }
+
+/* Perfil: gesto horizontal explícito, sem competir com o scroll vertical do navegador. */
+.html-game-ui__panel--vertical .html-game-ui__panel-content,
+.html-game-ui__panel--vertical .html-game-ui__profile-portrait-frame {
+  touch-action: pan-y;
+}
+.html-game-ui__swipe-hints {
+  position: absolute;
+  z-index: 4;
+  left: 4%;
+  right: 4%;
+  top: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+  user-select: none;
+  color: #ffe6a3;
+  text-shadow: 0 1px 3px #3a0907, 0 0 9px #f4a52e;
+}
+.html-game-ui__swipe-arrow {
+  display: block;
+  width: 24px;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: clamp(30px, 8vw, 42px);
+  font-weight: 700;
+  line-height: 1;
+  opacity: .82;
+  animation: profile-swipe-nudge 1.35s ease-in-out infinite;
+}
+.html-game-ui__swipe-arrow--left { animation-direction: alternate; }
+.html-game-ui__swipe-arrow--right { animation-direction: alternate-reverse; }
+@keyframes profile-swipe-nudge {
+  from { transform: translateX(-3px); opacity: .58; }
+  to { transform: translateX(3px); opacity: .95; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .html-game-ui__swipe-arrow { animation: none; }
+}
 .html-game-ui__panel--vertical .html-game-ui__profile-portrait {
   position: absolute;
   display: block;
