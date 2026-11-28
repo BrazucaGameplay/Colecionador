@@ -2695,3 +2695,62 @@ por load/error e lista de cinco atributos na página 2 do perfil.
 A falha era de expectativas antigas dos testes, não uma falha de instalação
 ou compilação. A nova execução completa do workflow ainda precisa confirmar
 os testes e o build para que a publicação possa ocorrer.
+
+
+======================================================================
+10. CORRECAO DA INTERFACE HTML E AUDITORIA — 28/11/2026
+======================================================================
+
+Estado consultado na branch main antes desta correção:
+- Versão declarada em package.json e package-lock.json: 2.10.16.
+- A interface HTML está em src/ui/HtmlGameUI.js e
+  src/ui/html-game-ui.css; a renderização do mundo e as barras centrais
+  continuam sob responsabilidade das cenas/sistemas Phaser.
+- Os painéis HTML incluem Menu, Perfil, Bestiário, Waifus, Inventário e Casa.
+  Os painéis informativos de Bestiário, Waifus, Inventário e Casa exibem
+  explicitamente que suas integrações ainda estão pendentes.
+- Retrato da HUD, retrato do perfil e miniaturas de skins são elementos
+  HTML img. Os fallbacks de silhueta são spans separados, ocultados no
+  evento load e exibidos no evento error.
+- A página de atributos do perfil cria cinco linhas: ataque, defesa,
+  penetração, velocidade de ataque e velocidade de movimento.
+- A tipografia CSS usa system-ui/Roboto/Segoe UI; rótulos e rodapé usam
+  peso 300, valores peso 500 e resumo peso 500 após a regra de refinamento.
+
+Falha encontrada na validação:
+- O teste tests/html-ui-visual.test.js ainda exigia peso 800 no resumo,
+  embora o CSS final aplicasse peso 500.
+- Duas expressões regulares desse teste estavam escapadas em excesso,
+  fazendo a validação procurar uma barra invertida literal antes dos
+  seletores CSS e da classe de fallback.
+- O teste também precisava verificar a estrutura real de fallback
+  independente nos três contextos: HUD, perfil e miniaturas.
+
+Correção aplicada:
+- Atualizar os testes para refletir o CSS e o DOM efetivamente implementados,
+  sem remover verificações de tipografia, transparência ou fallback.
+- Confirmar explicitamente o peso 500 do resumo e peso 300 dos textos leves.
+- Confirmar a presença do fallback separado e sua associação ao retrato.
+- Incrementar a versão para 2.10.17 e sincronizar package-lock.json.
+
+Estado de validação:
+- A falha anterior impedia o job build e fazia o job deploy ser ignorado.
+- A nova execução do workflow associada ao commit desta correção ainda
+  precisa concluir para confirmar testes, build e publicação.
+- A inspeção estática do código não substitui a validação visual no Android.
+- Não declarar a versão como publicada até confirmar o workflow do commit
+  final e verificar o conteúdo servido pelo GitHub Pages.
+
+Resumo do produto e arquitetura:
+- RPG 2D de ação com estética anime, Phaser 4, JavaScript e Vite.
+- Distribuição web/PWA pelo GitHub Pages; Capacitor está declarado para
+  preparação Android, mas o teste em aparelho real permanece pendente.
+- O mundo atual usa a cena Game, câmera e navegação próprias; ilhas
+  independentes e transições continuam em desenvolvimento/planejamento
+  conforme as seções anteriores.
+- A interface de painéis e retratos foi migrada para HTML/CSS sobre o
+  contêiner do jogo; HUD de status e mundo permanecem no Phaser.
+- Skin selecionada e atributos são conectados ao estado do personagem.
+  Waifus, inventário, bestiário funcional e casa não devem ser tratados
+  como sistemas completos enquanto suas integrações não existirem.
+- Controles de toque e câmera devem ser preservados por esta correção.
