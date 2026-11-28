@@ -72,12 +72,12 @@ export default class Game extends Phaser.Scene {
             quality: drop.quality,
             level: 1,
             obtainedAt: Date.now(),
-            sourceSpeciesId: monster.definition.id
+            sourceSpeciesId: monster.definition.id,
+            instanceId: `waifu-${Date.now()}-${this.waifuCollection.length}`
           });
           this.waifuCollection.push(acquisition);
-          this.waifuCollection[this.waifuCollection.length - 1].instanceId = `waifu-${Date.now()}-${this.waifuCollection.length}`;
           this.waifuEquipment?.setCollection(this.waifuCollection);
-          this.events.emit('waifu:acquired', this.waifuCollection[this.waifuCollection.length - 1]);
+          this.events.emit('waifu:acquired', acquisition);
         }
         this.persistProgress();
       }
