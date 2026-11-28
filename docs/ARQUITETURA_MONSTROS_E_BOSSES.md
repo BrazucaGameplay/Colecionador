@@ -1,7 +1,7 @@
 # Arquitetura de monstros, Boss e bestiário
 
 **Projeto:** Conquistador de Waifu's  
-**Branch:** main · **Versão-base:** 2.10.27  
+**Branch:** main · **Versão-base:** 2.10.28  
 **Status:** arquitetura aprovada e scaffolding de catálogo criado. IA de Boss, animações direcionais completas, descoberta persistente e UI do bestiário ainda não implementadas.
 
 Este documento separa estado atual, contratos aprovados e trabalho futuro. Estrutura preparada não significa mecânica concluída.
@@ -32,7 +32,9 @@ Cada entidade deve possuir estado próprio. Nunca compartilhar o mesmo objeto mu
 
 ## 3. Monstros comuns
 
-- Quatro direções visuais: cima, baixo, esquerda e direita. Diagonais são mapeadas para a direção cardinal mais próxima.
+- A animação é opcional por espécie: alguns monstros terão sprites animados; outros podem usar uma imagem estática. A ausência de animação não impede spawn, perseguição ou combate.
+- Quando uma espécie tiver animações direcionais, o contrato previsto é de quatro direções visuais (cima, baixo, esquerda e direita); diagonais são mapeadas para a direção cardinal mais próxima. Não exigir atlas 4-way para espécies que não precisam dele.
+- **Única espécie atualmente registrada: Slime.** É representado por uma simples bola azul; não precisa de animação direcional nem de um conjunto complexo de estados. A apresentação estática é suficiente neste estágio. Não criar sprites ou animações adicionais para o Slime sem necessidade de gameplay.
 - Apenas ataque básico, respeitando `attackSpeed`.
 - Perseguição simples; sem árvore de decisão ou habilidades.
 - Ao entrar no raio de combate, interromper perseguição e atacar conforme alcance e intervalo.
@@ -127,8 +129,8 @@ Espécie comum:
     activationRadius: 3750
   },
   behavior: { kind: 'basic-melee' },
-  animation: { directions: 4, states: ['idle', 'walking', 'attack', 'death'] },
-  assets: { atlas: null, card: null }
+  animation: null, // opcional; usar somente quando a espécie tiver animações reais
+  assets: { sprite: 'assets/monsters/species-id/static.png', atlas: null, card: null }
 }
 ```
 
@@ -165,7 +167,7 @@ Exemplos são contratos, não conteúdo jogável. Zeros/nulls não são valores 
 
 - ID estável, sem duplicatas; todas as nove chaves numéricas.
 - Assets referenciados existem e são validados no build.
-- Monstro comum tem quatro direções; Boss tem oito.
+- Monstro comum: animação opcional por espécie; quando existir animação direcional, usar quatro direções. Boss tem oito.
 - Combate, alcance e cooldown cobertos por testes de comportamento.
 - Entidades inativas não executam IA individual.
 - Spawn, morte, remoção e respawn não deixam recursos órfãos.
@@ -174,8 +176,10 @@ Exemplos são contratos, não conteúdo jogável. Zeros/nulls não são valores 
 
 ## 10. Estado real na versão 2.10.27
 
-**Já existe:** entidade lógica Monster, catálogo comum com Slime, spawner por zona, perseguição simples, combate básico, renderer e loader por estado; raios documentados na seção 3.
+**Já existe:** entidade lógica Monster, catálogo comum com Slime (única espécie registrada), spawner por zona, perseguição simples, combate básico, renderer e loader por estado; raios documentados na seção 3.
+
+**Regra visual atual:** o Slime é uma bola azul simples e não requer animação direcional. A animação será definida individualmente por espécie; conteúdo sem animação usa sprite estático. Não presumir que todos os monstros terão atlas animado.
 
 **Estrutura preparada nesta versão:** catálogo vazio de Boss; projeção de catálogo do bestiário em duas categorias; diretórios reservados para sistemas, renderização e UI.
 
-**Ainda não implementado:** animação direcional 4-way dos monstros, Boss jogável/IA/habilidades 8-way, otimização espacial por células, descoberta persistente, cartas finais e UI do bestiário.
+**Ainda não implementado:** catálogo de outras espécies (cada uma poderá ter animação ou imagem estática), Boss jogável/IA/habilidades 8-way, otimização espacial por células, descoberta persistente, cartas finais e UI do bestiário.
