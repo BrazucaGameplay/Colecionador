@@ -8,6 +8,7 @@ const asset = path => BASE + path;
 const UI = Object.freeze({
   vertical: asset('assets/ui/panels/painel_vertical_900x1350_transparente.webp'),
   wide: asset('assets/ui/panels/perfil_moldura_fundo_vermelho.webp'),
+  menuWide: asset('assets/ui/panels/menu_principal_moldura_completa.svg'),
   close: asset('assets/ui/buttons/fechar_circular.svg'),
   button200: asset('assets/ui/buttons/botao_sem_ornamento_central_200x100.webp'),
   button300: asset('assets/ui/buttons/botao_sem_ornamento_central_300x100.webp'),
@@ -185,7 +186,7 @@ class HtmlPanel {
     this.node.setAttribute('aria-label', key === 'profile' ? 'Perfil do personagem' : key === 'menu' ? 'Menu principal' : (INFO[key]?.[0] || 'Painel'));
     this.node.addEventListener('pointerdown', event => event.stopPropagation());
     this.art = element('img', 'html-game-ui__panel-art');
-    this.art.src = key === 'profile' || key === 'bestiary' ? UI.vertical : UI.wide;
+    this.art.src = key === 'profile' || key === 'bestiary' ? UI.vertical : key === 'menu' ? UI.menuWide : UI.wide;
     this.art.alt = '';
     this.art.draggable = false;
     this.node.append(this.art);
