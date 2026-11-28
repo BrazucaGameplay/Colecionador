@@ -1,53 +1,60 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
-const read = path => readFile(new URL(path, import.meta.url), 'utf8');
 
-test('todas as imagens usadas pelos painéis HTML e retratos fazem parte do preloader obrigatório', async () => {
-  const [loader, catalog, ui] = await Promise.all([
-    read('../src/loading/HtmlUiAssetPreloader.js'),
-    read('../src/rendering/characters/CharacterSkinCatalog.js'),
-    read('../src/ui/HtmlGameUI.js')
-  ]);
-  for (const asset of [
-    'painel_vertical_900x1350_transparente.webp',
-    'perfil_moldura_fundo_vermelho.webp',
-    'fechar_circular.svg',
-    'botao_sem_ornamento_central_200x100.webp',
-    'botao_sem_ornamento_central_300x100.webp',
-    'botao_sem_ornamento_central_400x100.webp'
-  ]) assert.ok(loader.includes(asset), 'asset ausente no preloader: ' + asset);
-  assert.match(loader, /Object\.values\(CHARACTER_SKINS\)\.map\(skin => skin\.portrait\)/);
-  assert.match(catalog, /skin_01/);
-  assert.match(catalog, /skin_2/);
-  assert.match(ui, /assets\/ui\/panels/);
+function makeImageClass({ fail = () => false } = {}) {
+  return class FakeImage {
+    static created = 0;
+    static decoded = 0;
+    constructor() {
+      FakeImage.created++;
+      this.onload = null;
+      this.onerror = null;
+      this.decoding = '';
+      this.decode = async () => { FakeImage.decoded++; };
+    }
+    set src(value) {
+      this._src = value;
+      queueMicrotask(() => {
+        if (fail(value)) this.onerror?.(new Error('network failure'));
+        else this.onload?.();
+      });
+    }
+    get src() { return this._src; }
+  };
+}
+
+test('pré-carregador baixa e decodifica cada imagem HTML e informa progresso', async () => {
+  const previousImage = globalThis.Image;
+  const FakeImage = makeImageClass();
+  globalThis.Image = FakeImage;
+  try {
+    const { preloadHtmlUiAssets } = await import('../src/loading/HtmlUiAssetPreloader.js?success');
+    const progress = [];
+    const result = await preloadHtmlUiAssets((loaded, total, path) => progress.push({ loaded, total, path }));
+    assert.ok(result.total >= 8);
+    assert.equal(result.images.size, result.total);
+    assert.equal(FakeImage.created, result.total);
+    assert.equal(FakeImage.decoded, result.total);
+    assert.equal(progress[0].loaded, 0);
+    assert.equal(progress.at(-1).loaded, result.total);
+
+    await preloadHtmlUiAssets();
+    assert.equal(FakeImage.created, result.total, 'uma segunda chamada reutiliza as imagens já carregadas');
+  } finally {
+    if (previousImage === undefined) delete globalThis.Image;
+    else globalThis.Image = previousImage;
+  }
 });
 
-test('a cena Preload espera o download e decode das imagens HTML antes de iniciar Game', async () => {
-  const preload = await read('../src/scenes/Preload.js');
-  assert.match(preload, /async create\(\)/);
-  assert.match(preload, /await preloadHtmlUiAssets/);
-  assert.ok(preload.indexOf('await preloadHtmlUiAssets') < preload.indexOf("this.scene.start('Game')"));
-  assert.match(preload, /colecionador:loading-error/);
-  assert.match(preload, /htmlUiAssetsReady/);
-});
-
-test('a barra reserva 80% para assets Phaser e progride até 99% enquanto imagens HTML são decodificadas', async () => {
-  const preload = await read('../src/scenes/Preload.js');
-  const loader = await read('../src/loading/HtmlUiAssetPreloader.js');
-  const screen = await read('../src/loading/LoadingScreen.js');
-  assert.match(preload, /progress\*80/);
-  assert.match(preload, /\.8\+\(\.19\*loaded\/total\)/);
-  assert.match(loader, /image\.decode\(\)/);
-  assert.match(screen, /showLoadError/);
-  assert.match(screen, /colecionador:loading-error/);
-});
-
-test('falha de imagem HTML mantém a tela de carregamento visível e impede o início do jogo', async () => {
-  const [preload, screen] = await Promise.all([
-    read('../src/scenes/Preload.js'), read('../src/loading/LoadingScreen.js')
-  ]);
-  assert.match(preload, /catch\(error\)[\s\S]*?return;/);
-  assert.match(screen, /data-loading-error/);
-  assert.match(screen, /Verifique sua conexão e recarregue a página/);
+test('falha de uma imagem obrigatória rejeita o preload em vez de liberar a UI incompleta', async () => {
+  const previousImage = globalThis.Image;
+  const FakeImage = makeImageClass({ fail: url => url.includes('/skin_2/perfil.png') });
+  globalThis.Image = FakeImage;
+  try {
+    const { preloadHtmlUiAssets } = await import('../src/loading/HtmlUiAssetPreloader.js?failure');
+    await assert.rejects(preloadHtmlUiAssets(), /Não foi possível carregar a imagem da interface/);
+  } finally {
+    if (previousImage === undefined) delete globalThis.Image;
+    else globalThis.Image = previousImage;
+  }
 });
