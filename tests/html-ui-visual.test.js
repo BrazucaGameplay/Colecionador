@@ -81,7 +81,7 @@ test('perfil percorre Personagem, Status e Cartas Equipadas e executa ações re
     assert.ok(equip);
     equip.click();
     assert.equal(equipment.getEquipped()[0].waifuId, 'slime-maiden');
-    assert.match(panel.waifuEquipSlots.children[0].children[1].textContent, /Donzela Slime/);
+    assert.match(findByClass(panel.waifuEquipSlots.children[0], 'html-game-ui__waifu-equip-slot-value').textContent, /Donzela Slime/);
     findByClass(panel.node, 'html-game-ui__panel-back').click();
     assert.equal(panel.page, 1, 'o botão Voltar retorna à página anterior');
     panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 220, clientY: 220 });

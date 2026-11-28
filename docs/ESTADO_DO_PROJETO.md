@@ -3,7 +3,7 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.13.2  
+**Versão do código-base consultado:** 2.13.3  
 **Atualizado em:** 28/11/2026 (ajuste responsivo do equipamento de cartas)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
@@ -25,7 +25,7 @@
 - Skin 01 e Skin 02 com atlas PNG/JSON e retratos PNG; seleção validada pelo SkinManager.
 - Combate de ação, ataque automático do jogador, combate dos monstros, progressão, experiência, níveis, atributos, vida e energia. Habilidades automáticas são fornecidas exclusivamente pelas cartas de waifu equipadas.
 - SaveManager, WorldBootstrap, CameraController e GameSystemsBootstrap separados.
-- HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Skills; o enquadramento do retrato é adaptativo. A tela de equipamento organiza três espaços compactos acima da lista agrupada por tipo/qualidade, com rolagem independente. A navegação usa setas discretas como indicação de arrasto nos dois sentidos, mantém o botão Voltar na primeira tela e não exibe botão X/Sair no Perfil. O menu principal usa uma moldura vetorial SVG dedicada, com borda inferior contínua e ornamentos completos; o layout responsivo preserva a proporção e mantém o controle FPS compacto fora do eixo central do botão global inferior.
+- HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Equipamento de Cartas; o enquadramento do retrato é adaptativo. A tela de equipamento organiza três espaços compactos acima da lista agrupada por tipo/qualidade, com rolagem independente. A navegação usa setas discretas como indicação de arrasto nos dois sentidos, mantém o botão Voltar na primeira tela e não exibe botão X/Sair no Perfil. O menu principal usa uma moldura vetorial SVG dedicada, com borda inferior contínua e ornamentos completos; o layout responsivo preserva a proporção e mantém o controle FPS compacto fora do eixo central do botão global inferior.
 - CI executa auditoria de dependências, testes, build e verificações de assets/versão.
 
 ### Sistema de waifus e drops — primeira aquisição funcional (2.12.0)
@@ -82,8 +82,7 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 
 1. Confirmar no Android a nova arte vetorial do menu, verificando os quatro cantos e toda a borda inferior.
 2. Substituir testes frágeis baseados em leitura de código por testes de comportamento nos contratos relevantes.
-3. Validar a interface e o enquadramento do perfil em Android real.
-4. Validar visualmente no Android o layout responsivo do equipamento de cartas.
+3. Validar a interface, o enquadramento do perfil e o layout do equipamento de cartas em Android real.
 5. Planejar a segunda ilha somente após critérios e assets aprovados para a primeira transição.
 6. Completar as integrações de waifus, inventário, bestiário e drops conforme o design aprovado.
 
