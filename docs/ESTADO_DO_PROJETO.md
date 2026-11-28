@@ -3,8 +3,8 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.10.33  
-**Atualizado em:** 28/11/2026 (estado encontrado na branch)
+**Versão do código-base consultado:** 2.10.34  
+**Atualizado em:** 28/11/2026 (menu principal responsivo em revisão)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
 
@@ -25,14 +25,14 @@
 - Skin 01 e Skin 02 com atlas PNG/JSON e retratos PNG; seleção validada pelo SkinManager.
 - Combate de ação, ataque automático do jogador, combate dos monstros, progressão, experiência, níveis, atributos, vida e energia.
 - SaveManager, WorldBootstrap, CameraController e GameSystemsBootstrap separados.
-- HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Skills; o enquadramento do retrato é adaptativo.
+- HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Skills; o enquadramento do retrato é adaptativo. O menu principal tem layout próprio, usa margens de segurança do viewport e separa o botão FPS do botão global inferior.
 - CI executa auditoria de dependências, testes, build e verificações de assets/versão.
 
 ### O que falta ou não está confirmado
 - Sistema de habilidades reais/equipáveis: a tela Skills existe, mas o catálogo e o gerenciador de habilidades ainda não estão integrados.
 - Sistemas de waifus, vínculos, presentes, inventário completo e casa. O catálogo do bestiário usa Slime como primeira entrada e a galeria HTML compartilhada está integrada; descoberta persistente e conteúdo Boss ainda faltam. As outras dez cartas estão apenas arquivadas, sem registro de criatura.
 - Catálogo/carregador de ilhas, conexões, pontes, portais e transições entre ilhas.
-- Validação visual final e de desempenho em dispositivos Android reais.
+- Validação visual final e de desempenho em dispositivos Android reais. A captura Android mais recente identificou colisão entre o FPS e a navegação inferior e margem insuficiente na moldura do menu; a correção 2.10.34 está preparada para nova validação no aparelho.
 - Build nativo/APK, instalação e publicação na Play Store.
 - Confirmação de deploy correspondente ao commit mais recente, quando não houver evidência do workflow atual.
 
