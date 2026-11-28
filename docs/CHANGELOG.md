@@ -1,3 +1,11 @@
+## 28/11/2026 — Substituição da moldura incompleta do menu (2.10.35)
+
+- A inspeção do asset raster original `perfil_moldura_fundo_vermelho.webp` confirmou que sua base gráfica estava incompleta; o CSS não poderia reconstruir os trechos ausentes.
+- Adicionado `menu_principal_moldura_completa.svg`, um asset vetorial dedicado ao menu, com trilho inferior contínuo, dois cantos inferiores ornamentados e brasão central inferior.
+- O menu principal passa a usar o novo SVG; Perfil, Bestiário e demais painéis continuam usando seus assets atuais.
+- O SVG mantém o viewBox 1383 × 947, preservando o contrato de proporção e o posicionamento relativo dos controles.
+- Teste de comportamento verifica que o menu carrega o asset correto. A validação visual final depende de nova captura no Android.
+
 ## 28/11/2026 — Reformulação responsiva do menu principal para Android (2.10.34)
 
 - O menu recebe um modificador de layout próprio, com largura e altura limitadas à área útil e margens de segurança do viewport móvel.

@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1383" height="947" viewBox="0 0 1383 947">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff4b5"/>
+      <stop offset=".14" stop-color="#ffdb68"/>
+      <stop offset=".34" stop-color="#b85b08"/>
+      <stop offset=".48" stop-color="#fff2a0"/>
+      <stop offset=".66" stop-color="#d58a19"/>
+      <stop offset=".84" stop-color="#7d3006"/>
+      <stop offset="1" stop-color="#ffeaa0"/>
+    </linearGradient>
+    <linearGradient id="goldSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#713008"/>
+      <stop offset=".25" stop-color="#ffd56b"/>
+      <stop offset=".5" stop-color="#fff3b0"/>
+      <stop offset=".72" stop-color="#c57913"/>
+      <stop offset="1" stop-color="#713008"/>
+    </linearGradient>
+    <radialGradient id="velvet" cx="50%" cy="48%" r="70%">
+      <stop offset="0" stop-color="#8f0610"/>
+      <stop offset=".43" stop-color="#650008"/>
+      <stop offset="1" stop-color="#250005"/>
+    </radialGradient>
+    <radialGradient id="ruby" cx="35%" cy="25%" r="75%">
+      <stop offset="0" stop-color="#fff4d4"/>
+      <stop offset=".18" stop-color="#ff6870"/>
+      <stop offset=".52" stop-color="#c90027"/>
+      <stop offset="1" stop-color="#510014"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"/>
+      <feOffset dy="4" result="offset"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".55"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Painel de veludo: área central independente da moldura. -->
+  <path d="M72 92 Q72 67 101 67 H1282 Q1311 67 1311 96 V838 Q1311 867 1282 867 H101 Q72 867 72 838 Z"
+        fill="url(#velvet)" stroke="#6d2607" stroke-width="10"/>
+  <path d="M88 105 Q88 84 110 84 H1273 Q1295 84 1295 106 V828 Q1295 850 1273 850 H110 Q88 850 88 828 Z"
+        fill="none" stroke="#f0b84d" stroke-opacity=".34" stroke-width="2"/>
+
+  <!-- Trilhos completos: topo, laterais e base contínua. -->
+  <g filter="url(#shadow)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M113 54 H1270" stroke="url(#gold)" stroke-width="20"/>
+    <path d="M113 54 H1270" stroke="#fff0a0" stroke-opacity=".85" stroke-width="3"/>
+    <path d="M44 127 V808" stroke="url(#goldSide)" stroke-width="20"/>
+    <path d="M44 127 V808" stroke="#fff0a0" stroke-opacity=".8" stroke-width="3"/>
+    <path d="M1339 127 V808" stroke="url(#goldSide)" stroke-width="20"/>
+    <path d="M1339 127 V808" stroke="#fff0a0" stroke-opacity=".8" stroke-width="3"/>
+    <path d="M113 891 H1270" stroke="url(#gold)" stroke-width="20"/>
+    <path d="M113 891 H1270" stroke="#fff0a0" stroke-opacity=".85" stroke-width="3"/>
+    <path d="M64 112 Q64 72 111 72 H1272 Q1319 72 1319 119 V819 Q1319 866 1272 866 H111 Q64 866 64 819 Z"
+          stroke="#713008" stroke-width="13"/>
+    <path d="M64 112 Q64 72 111 72 H1272 Q1319 72 1319 119 V819 Q1319 866 1272 866 H111 Q64 866 64 819 Z"
+          stroke="url(#gold)" stroke-width="8"/>
+    <path d="M77 117 Q77 86 111 86 H1272 Q1306 86 1306 119 V819 Q1306 853 1272 853 H111 Q77 853 77 819 Z"
+          stroke="#fff0a0" stroke-opacity=".8" stroke-width="2"/>
+  </g>
+
+  <!-- Cantos superiores com volutas espelhadas. -->
+  <g fill="none" stroke="url(#gold)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" filter="url(#shadow)">
+    <path d="M116 77 C74 24 19 48 25 103 C30 139 74 151 99 126 C118 107 102 80 80 84 C62 88 62 109 75 114"/>
+    <path d="M1267 77 C1309 24 1364 48 1358 103 C1353 139 1309 151 1284 126 C1265 107 1281 80 1303 84 C1321 88 1321 109 1308 114"/>
+    <path d="M111 88 C144 51 173 62 180 91 C184 112 163 127 146 116"/>
+    <path d="M1272 88 C1239 51 1210 62 1203 91 C1199 112 1220 127 1237 116"/>
+  </g>
+  <g fill="none" stroke="#fff0a0" stroke-width="3" stroke-linecap="round">
+    <path d="M116 77 C74 24 19 48 25 103"/>
+    <path d="M1267 77 C1309 24 1364 48 1358 103"/>
+  </g>
+
+  <!-- Cantos inferiores completos, unidos à base. -->
+  <g fill="none" stroke="url(#gold)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" filter="url(#shadow)">
+    <path d="M76 823 C20 848 34 918 91 922 C133 925 158 885 132 858 C111 837 80 850 87 875 C92 891 112 894 121 881"/>
+    <path d="M1307 823 C1363 848 1349 918 1292 922 C1250 925 1225 885 1251 858 C1272 837 1303 850 1296 875 C1291 891 1271 894 1262 881"/>
+    <path d="M93 874 C128 899 161 905 192 887"/>
+    <path d="M1290 874 C1255 899 1222 905 1191 887"/>
+  </g>
+  <g fill="none" stroke="#fff0a0" stroke-width="3" stroke-linecap="round">
+    <path d="M76 823 C20 848 34 918 91 922"/>
+    <path d="M1307 823 C1363 848 1349 918 1292 922"/>
+  </g>
+
+  <!-- Filigranas laterais e pequenos rebites. -->
+  <g fill="none" stroke="url(#gold)" stroke-width="5" stroke-linecap="round">
+    <path d="M46 260 C21 244 20 213 43 202 C63 192 77 213 65 228 C58 237 46 232 48 222"/>
+    <path d="M1337 260 C1362 244 1363 213 1340 202 C1320 192 1306 213 1318 228 C1325 237 1337 232 1335 222"/>
+    <path d="M46 680 C21 696 20 727 43 738 C63 748 77 727 65 712 C58 703 46 708 48 718"/>
+    <path d="M1337 680 C1362 696 1363 727 1340 738 C1320 748 1306 727 1318 712 C1325 703 1337 708 1335 718"/>
+  </g>
+  <g fill="url(#gold)" stroke="#713008" stroke-width="3">
+    <circle cx="46" cy="370" r="7"/><circle cx="1337" cy="370" r="7"/>
+    <circle cx="46" cy="575" r="7"/><circle cx="1337" cy="575" r="7"/>
+    <circle cx="235" cy="54" r="6"/><circle cx="1148" cy="54" r="6"/>
+    <circle cx="235" cy="891" r="6"/><circle cx="1148" cy="891" r="6"/>
+  </g>
+
+  <!-- Brasão superior. -->
+  <g filter="url(#shadow)" stroke="url(#gold)" stroke-width="8" stroke-linejoin="round">
+    <path d="M691 0 C672 25 650 37 640 58 C661 66 674 82 691 111 C708 82 721 66 742 58 C732 37 710 25 691 0 Z" fill="#7b2608"/>
+    <path d="M691 9 C679 31 669 44 661 57 C674 66 684 77 691 91 C698 77 708 66 721 57 C713 44 703 31 691 9 Z" fill="url(#ruby)"/>
+    <path d="M691 97 C680 111 676 124 691 140 C706 124 702 111 691 97 Z" fill="url(#gold)"/>
+  </g>
+  <path d="M691 20 L691 82" stroke="#fff6c5" stroke-width="2" opacity=".75"/>
+
+  <!-- Brasão inferior, sobreposto à barra sem interromper sua continuidade. -->
+  <g filter="url(#shadow)" stroke="url(#gold)" stroke-width="9" stroke-linejoin="round">
+    <path d="M691 789 C668 821 644 840 617 884 C646 881 666 900 691 946 C716 900 736 881 765 884 C738 840 714 821 691 789 Z" fill="#7b2608"/>
+    <path d="M691 812 C675 839 658 862 648 883 C666 888 680 909 691 928 C702 909 716 888 734 883 C724 862 707 839 691 812 Z" fill="url(#ruby)"/>
+    <path d="M691 803 C673 832 648 850 623 872 C650 868 669 880 691 906 C713 880 732 868 759 872 C734 850 709 832 691 803 Z" fill="none" stroke="#fff0a0" stroke-width="3"/>
+  </g>
+  <path d="M691 826 V909" stroke="#fff5cb" stroke-width="3" opacity=".7"/>
+  <g fill="none" stroke="url(#gold)" stroke-width="9" stroke-linecap="round">
+    <path d="M626 884 C586 871 567 852 560 829 C548 849 558 877 588 894"/>
+    <path d="M756 884 C796 871 815 852 822 829 C834 849 824 877 794 894"/>
+  </g>
+</svg>
