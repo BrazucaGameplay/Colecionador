@@ -183,13 +183,13 @@ class HtmlPanel {
     this.game = owner.gameScene;
     this.key = key;
     this.page = 0;
-    this.node = element('section', 'html-game-ui__panel ' + (key === 'profile' ? 'html-game-ui__panel--vertical' : key === 'bestiary' ? 'html-game-ui__panel--bestiary' : key === 'menu' ? 'html-game-ui__panel--wide html-game-ui__panel--menu' : key === 'waifus' ? 'html-game-ui__panel--wide html-game-ui__panel--waifus' : 'html-game-ui__panel--wide'));
+    this.node = element('section', 'html-game-ui__panel ' + (key === 'profile' ? 'html-game-ui__panel--vertical' : key === 'bestiary' ? 'html-game-ui__panel--bestiary' : key === 'waifus' ? 'html-game-ui__panel--bestiary html-game-ui__panel--waifus' : key === 'menu' ? 'html-game-ui__panel--wide html-game-ui__panel--menu' : 'html-game-ui__panel--wide'));
     this.node.setAttribute('role', 'dialog');
     this.node.setAttribute('aria-modal', 'true');
     this.node.setAttribute('aria-label', key === 'profile' ? 'Perfil do personagem' : key === 'menu' ? 'Menu principal' : (INFO[key]?.[0] || 'Painel'));
     this.node.addEventListener('pointerdown', event => event.stopPropagation());
     this.art = element('img', 'html-game-ui__panel-art');
-    this.art.src = key === 'profile' || key === 'bestiary' ? UI.vertical : key === 'menu' ? UI.menuWide : UI.wide;
+    this.art.src = key === 'profile' || key === 'bestiary' || key === 'waifus' ? UI.vertical : key === 'menu' ? UI.menuWide : UI.wide;
     this.art.alt = '';
     this.art.draggable = false;
     this.node.append(this.art);
@@ -276,12 +276,13 @@ class HtmlPanel {
 
   renderWaifuCollection() {
     if (!this.waifuGrid) return;
-    this.waifuGrid.replaceChildren();
     const collection = Array.isArray(this.game?.waifuCollection) ? this.game.waifuCollection : [];
     const cards = collection.filter(item => item && WAIFU_CARD_ASSETS[item.waifuId]);
     const signature = cards.map(item => `${item.waifuId}:${item.name || ''}`).join('|');
     if (signature === this.waifuCollectionSignature) return;
+    if (signature === this.waifuCollectionSignature) return;
     this.waifuCollectionSignature = signature;
+    this.waifuGrid.replaceChildren();
     if (!cards.length) {
       this.waifuGrid.append(element('p', 'html-game-ui__waifu-empty', 'Nenhuma carta obtida ainda.'));
       return;
