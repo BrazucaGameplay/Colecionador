@@ -365,7 +365,7 @@ class HtmlPanel {
     this.content.append(this.waifuEquipPage);
     this.buildWaifuEquipmentPage();
 
-    this.setPage(0);
+    this.setPage(this.page);
     this.refreshProfileData();
   }
 
