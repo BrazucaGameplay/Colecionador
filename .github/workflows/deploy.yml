@@ -37,14 +37,7 @@ jobs:
           console.log(`Source and lockfile versions match: ${pkg.version}`);
           NODE
       - name: Install dependencies
-        run: |
-          if [ -s package-lock.json ]; then
-            npm ci
-          else
-            echo "Lockfile ausente neste checkout; gerando lockfile temporário para validar o build."
-            npm install --package-lock-only --ignore-scripts
-            npm ci
-          fi
+        run: npm ci
       - name: Audit all dependencies
         run: npm audit --audit-level=low
       - name: Test game systems and character action priorities
