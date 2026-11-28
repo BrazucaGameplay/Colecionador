@@ -191,18 +191,21 @@ class HtmlPanel {
     this.art.draggable = false;
     this.node.append(this.art);
 
-    this.closeButton = element('button', 'html-game-ui__close');
-    this.closeButton.type = 'button';
-    this.closeButton.setAttribute('aria-label', 'Fechar painel');
-    const closeImg = element('img');
-    closeImg.src = UI.close;
-    closeImg.alt = '';
-    this.closeButton.append(closeImg);
-    this.closeButton.addEventListener('click', event => {
-      event.preventDefault();
-      event.stopPropagation();
-      owner.closePanel();
-    });
+    this.closeButton = null;
+    if (key !== 'profile') {
+      this.closeButton = element('button', 'html-game-ui__close');
+      this.closeButton.type = 'button';
+      this.closeButton.setAttribute('aria-label', 'Fechar painel');
+      const closeImg = element('img');
+      closeImg.src = UI.close;
+      closeImg.alt = '';
+      this.closeButton.append(closeImg);
+      this.closeButton.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        owner.closePanel();
+      });
+    }
     this.backButton = element('button', 'html-game-ui__panel-back', '‹');
     this.backButton.type = 'button';
     this.backButton.setAttribute('aria-label', 'Voltar');
@@ -211,7 +214,8 @@ class HtmlPanel {
       event.stopPropagation();
       this.handleBack();
     });
-    this.node.append(this.closeButton, this.backButton);
+    if (this.closeButton) this.node.append(this.closeButton);
+    this.node.append(this.backButton);
     this.content = element('div', 'html-game-ui__panel-content');
     this.node.append(this.content);
     if (key === 'profile') this.buildProfile(skin);
@@ -270,6 +274,14 @@ class HtmlPanel {
     this.portrait.addEventListener('error', () => { this.profilePortraitFallback.hidden = false; });
     this.profilePortraitFrame.append(this.profilePortraitFallback, this.portrait);
     this.content.append(this.profilePortraitFrame);
+
+    this.swipeHints = element('div', 'html-game-ui__swipe-hints');
+    this.swipeHints.setAttribute('aria-hidden', 'true');
+    this.swipeHints.append(
+      element('span', 'html-game-ui__swipe-arrow html-game-ui__swipe-arrow--left', '‹'),
+      element('span', 'html-game-ui__swipe-arrow html-game-ui__swipe-arrow--right', '›')
+    );
+    this.content.append(this.swipeHints);
     this.profileImageFitter = new ProfileImageFitter(this.profilePortraitFrame, this.portrait);
 
     this.statsPage = element('div', 'html-game-ui__stats-page');
@@ -388,15 +400,19 @@ class HtmlPanel {
     let start = null;
     this.content.addEventListener('pointerdown', event => {
       if (event.pointerType !== 'touch' || event.target?.tagName === 'BUTTON') return;
-      start = { x: event.clientX, y: event.clientY };
+      start = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+      if (event.target?.setPointerCapture && event.pointerId !== undefined) {
+        try { event.target.setPointerCapture(event.pointerId); } catch { /* captura não suportada pelo navegador */ }
+      }
     });
     this.content.addEventListener('pointerup', event => {
-      if (!start || event.pointerType !== 'touch') return;
+      if (!start || event.pointerType !== 'touch' || (start.pointerId !== undefined && event.pointerId !== start.pointerId)) return;
       const deltaX = event.clientX - start.x;
       const deltaY = event.clientY - start.y;
       start = null;
-      if (Math.abs(deltaX) < 42 || Math.abs(deltaX) < Math.abs(deltaY) * 1.25) return;
-      this.setPage(this.page + (deltaX < 0 ? 1 : -1), deltaX < 0 ? 'forward' : 'backward');
+      if (Math.abs(deltaX) < 36 || Math.abs(deltaX) < Math.abs(deltaY) * 1.15) return;
+      const direction = deltaX < 0 ? 'forward' : 'backward';
+      this.setPage(this.page + (direction === 'forward' ? 1 : -1), direction);
     });
     this.content.addEventListener('pointercancel', () => { start = null; });
   }
