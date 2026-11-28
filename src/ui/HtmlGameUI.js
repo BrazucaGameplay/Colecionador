@@ -404,8 +404,9 @@ class HtmlPanel {
     this.skillsPage.hidden = this.page !== 2;
     const active = this.page === 0 ? this.profilePortraitFrame : this.page === 1 ? this.statsPage : this.skillsPage;
     if (previous !== this.page && active) {
-      active.classList.remove('is-entering-from-left', 'is-entering-from-right');
-      active.classList.add(direction === 'forward' ? 'is-entering-from-right' : 'is-entering-from-left');
+      active.className = active.className
+        .replace(/\s+is-entering-from-(?:left|right)/g, '')
+        + (direction === 'forward' ? ' is-entering-from-right' : ' is-entering-from-left');
     }
     this.updateBackButton();
     if (this.page === 1) this.refreshProfileData();
