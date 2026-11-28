@@ -70,7 +70,7 @@ export default class HtmlGameUI {
     this.portraitButton = element('button', 'html-game-ui__hud-portrait');
     this.portraitButton.type = 'button';
     this.portraitButton.setAttribute('aria-label', 'Abrir perfil do personagem');
-    this.portraitImage = element('img');
+    this.portraitImage = element('img', 'html-game-ui__portrait-image');
     this.portraitImage.alt = 'Retrato do personagem';
     this.portraitImage.draggable = false;
     this.portraitButton.append(this.portraitImage);
@@ -216,7 +216,7 @@ class HtmlPanel {
   }
 
   buildProfile() {
-    this.portrait = element('img', 'html-game-ui__profile-portrait');
+    this.portrait = element('img', 'html-game-ui__profile-portrait html-game-ui__portrait-image');
     this.portrait.alt = 'Personagem equipado';
     this.portrait.draggable = false;
     this.content.append(this.portrait);
@@ -298,7 +298,7 @@ class HtmlPanel {
       this.skinRows.replaceChildren();
       for (const entry of catalog) {
         const row = element('div', 'html-game-ui__skin-row');
-        const image = element('img', 'html-game-ui__skin-thumb');
+        const image = element('img', 'html-game-ui__skin-thumb html-game-ui__portrait-image');
         image.alt = entry.name;
         image.src = asset(entry.portrait);
         const name = element('span', 'html-game-ui__skin-name', entry.name);
