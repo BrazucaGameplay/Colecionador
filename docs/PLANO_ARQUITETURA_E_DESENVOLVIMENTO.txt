@@ -1,491 +1,136 @@
 CONQUISTADOR DE WAIFU'S
 PLANO DE ARQUITETURA E DESENVOLVIMENTO
-Versao do documento: 1.0
-Data: 24/11/2026
-Repositorio: BrazucaGameplay/Colecionador
-Branch de referencia: main
-
-======================================================================
-1. OBJETIVO E DIRECAO DO PROJETO
-======================================================================
-
-Este documento registra a direcao tecnica e arquitetural aprovada como
-proposta para a evolucao do Conquistador de Waifu's.
-
-O objetivo e transformar o prototipo atual em uma base de desenvolvimento
-modular, extensivel e adequada a um RPG 2D de acao, com prioridade para
-Android e possibilidade de distribuicao como PWA e aplicativo Android.
-
-Tecnologias escolhidas:
-- Phaser 4 como framework principal do jogo.
-- Vite como ferramenta de desenvolvimento e build.
-- GitHub Pages como hospedagem web.
-- Capacitor como caminho para empacotamento Android.
-
-A versao Phaser encontrada no package.json na data deste documento e
-phaser ^4.2.1. A versao efetivamente instalada deve ser confirmada pelo
-lockfile quando ele for adicionado.
-
-A publicacao bem-sucedida no GitHub Pages comprova que o pipeline de build
-e deploy funciona. Ela nao comprova, por si so, que a arquitetura do jogo
-esteja concluida ou que todos os recursos funcionem em dispositivos Android.
-
-======================================================================
-2. DIAGNOSTICO DA ESTRUTURA ATUAL
-======================================================================
-
-Estrutura identificada no repositorio:
-
-- src/main.js
-- src/config.js
-- src/scenes/Boot.js
-- src/scenes/Preload.js
-- src/scenes/Menu.js
-- src/scenes/Game.js
-- src/entities/Player.js
-- src/entities/Monster.js
-- src/systems/touch.js
-- index.html
-- package.json
-- vite.config.js
-- capacitor.config.ts
-- .github/workflows/deploy.yml
-
-Situacao observada:
-- Phaser 4 instalado.
-- Vite configurado.
-- GitHub Pages publicado.
-- Capacitor configurado inicialmente.
-- Cenas iniciais existentes.
-- Entidades Player e Monster existentes.
-- Controle de toque inicial existente.
-- Sistemas independentes ainda insuficientes.
-- Salvamento atual muito simples, baseado em localStorage na cena Game.
-- Testes automatizados ainda ausentes.
-- Game.js concentra movimentacao, combate, pontuacao, salvamento,
-  controles e atualizacao do monstro.
-
-Conclusao:
-A estrutura atual e um prototipo funcional de inicializacao, nao uma
-arquitetura completa para o RPG planejado. Nao confundir deploy bem-sucedido
-com jogo concluido.
-
-======================================================================
-3. ARQUITETURA-ALVO
-======================================================================
-
-A arquitetura deve separar responsabilidades. O Phaser continua responsavel
-pelo ciclo de jogo, renderizacao, cenas, fisica, entrada e recursos nativos.
-
-Estrutura de diretorios proposta:
-
-src/
-  core/
-    EventBus
-    SaveManager
-    configuracoes centrais
-    contratos e interfaces compartilhadas
-
-  scenes/
-    Boot
-    Preload
-    MainMenu
-    World
-    Dungeon
-    cenas de interface quando necessario
-
-  entities/
-    Player
-    Monster
-    Boss
-    NPC
-    entidades interativas
-
-  systems/
-    Combat
-    Inventory
-    Progression
-    Waifu
-    Loot
-    Quest
-    Input
-    Audio
-
-  world/
-    Map
-    Chunks
-    Collision
-    Pathfinding
-    Spawn
-    WorldManager
-
-  ui/
-    HUD
-    TouchControls
-    Skills
-    Menus
-    InventoryUI
-    WaifuGallery
-
-  data/
-    dados de monstros
-    itens
-    equipamentos
-    habilidades
-    waifus
-
-public/
-  assets/
-    spritesheets
-    cenarios
-    efeitos
-    sons
-    musicas
-
-A estrutura e uma arquitetura-alvo. Os diretorios e modulos devem ser
-introduzidos conforme a necessidade real, sem criar arquivos vazios ou
-abstracoes prematuras.
-
-======================================================================
-4. PRINCIPIOS ARQUITETURAIS OBRIGATORIOS
-======================================================================
-
-4.1. Responsabilidade unica
-Cada sistema deve possuir uma responsabilidade clara. Combate nao deve
-controlar inventario; inventario nao deve controlar waifus; cada sistema
-deve comunicar resultados por interfaces ou eventos definidos.
-
-4.2. Scenes independentes
-Usar Scenes do Phaser para separar fluxos e contextos do jogo. Quando
-adequado, cenas independentes podem funcionar simultaneamente, por exemplo
-mundo e HUD. Evitar concentrar toda a aplicacao em uma unica Scene.
-
-4.3. Entidades independentes
-Player, monstros, bosses e NPCs nao devem concentrar a logica de todos os
-sistemas. Entidades expoem comportamento proprio e colaboram com sistemas
-especializados.
-
-4.4. EventBus
-Adotar comunicacao por eventos para reduzir acoplamento e evitar
-dependencias circulares. O EventBus deve oferecer, no minimo, mecanismos
-controlados de inscricao, cancelamento e emissao, como on, off e emit.
-Eventos devem ter nomes e payloads documentados.
-
-4.5. SaveManager centralizado
-O salvamento deve ser centralizado, versionado e preparado para validacao,
-recuperacao e migracao de dados. Sistemas nao devem gravar estruturas
-arbitrarias diretamente no localStorage. O SaveManager deve ser o ponto
-responsavel por save e load.
-
-4.6. Dados separados da logica
-Dados de monstros, itens, equipamentos, habilidades e waifus devem ficar
-separados das regras de funcionamento sempre que isso simplificar a
-manutencao e expansao.
-
-4.7. Nucleo protegido
-O nucleo do mundo deve ser protegido contra alteracoes diretas feitas por
-sistemas de gameplay. Novas funcionalidades devem utilizar APIs publicas
-e contratos controlados.
-
-4.8. Mudancas minimas e justificadas
-Nao realizar mudancas estruturais sem necessidade. Antes de modificar,
-analisar os arquivos atuais e suas dependencias. Preservar comportamentos
-que ja funcionam e evitar reescritas amplas sem justificativa tecnica.
-
-======================================================================
-5. NUCLEO DO MUNDO E REGRAS DE INTEGRIDADE
-======================================================================
-
-O nucleo do mundo deve abranger:
-- World
-- Chunk
-- Collision
-- Pathfinding
-- Save e recuperacao do estado do mundo
-
-Sistemas externos nao devem escrever diretamente na GRID ou alterar
-estruturas internas protegidas.
-
-Interfaces publicas previstas:
-- isWalkable(tx, ty)
-- findPath(start, goal)
-- getPlayerBodyTile()
-- save()
-- load()
-
-As assinaturas definitivas devem ser documentadas no momento da
-implementacao. As APIs devem validar entradas e resultados.
-
-O nucleo deve ser independente de sistemas de combate, inventario,
-progressao, waifus, loot e quests.
-
-======================================================================
-6. RECOMENDACOES DE USO DO PHASER 4
-======================================================================
-
-Usar primeiro os recursos nativos do Phaser quando forem adequados:
-
-- Scene Manager para separar cenas e fluxos.
-- Animation Manager para animacoes.
-- Arcade Physics para movimentacao e colisoes 2D.
-- Camera System para acompanhamento do jogador e limites de mundo.
-- Tilemaps para mapas baseados em tiles quando apropriado.
-- Groups para organizar e gerenciar conjuntos de entidades.
-- Tweens e Timelines para efeitos e transicoes.
-- Sistema de input do Phaser para ponteiro e toque.
-- Recursos graficos do Phaser 4 para efeitos visuais, apos validar
-  compatibilidade e desempenho nos dispositivos-alvo.
-
-Arcade Physics e a escolha inicial recomendada para o RPG 2D, por ser
-adequado a movimentacao e colisoes simples. Reavaliar apenas se os
-requisitos reais do jogo exigirem outro sistema.
-
-Consultar sempre a documentacao oficial da versao Phaser 4 efetivamente
-utilizada. Nao copiar exemplos de Phaser 3 sem verificar diferencas de API.
-
-Referencias oficiais:
-- Documentacao Phaser: https://docs.phaser.io/
-- Exemplos Phaser Labs: https://labs.phaser.io/
-- Site Phaser: https://phaser.io/
-
-Referencias de jogo e design:
-- Hero of Aethric: https://www.heroesofaethric.com/
-Usar como referencia de exploracao, organizacao do mundo e progressao,
-adaptando os conceitos ao projeto. Nao copiar implementacoes sem avaliar
-adequacao.
-
-======================================================================
-7. QUALIDADE, BUILD E ENTREGA
-======================================================================
-
-Melhorias tecnicas recomendadas:
-
-7.1. Lockfile
-Adicionar e manter package-lock.json para instalacoes reproduziveis.
-No workflow de CI, preferir npm ci quando o lockfile estiver versionado
-e consistente com package.json.
-
-7.2. Lint
-Adicionar ESLint com configuracao compativel com JavaScript moderno,
-ES modules, Phaser e Vite. Corrigir problemas relevantes sem impor
-formatacao que prejudique a legibilidade.
-
-7.3. Testes
-Adicionar testes automatizados para logica independente do Phaser,
-especialmente salvamento, validacao de dados, progressao, inventario,
-loot e regras de combate. Testes de integracao devem cobrir fluxos criticos.
-
-7.4. Pipeline
-O GitHub Actions deve executar instalacao reproduzivel, lint, testes e
-build antes do deploy. O deploy so deve ocorrer quando as verificacoes
-obrigatorias passarem.
-
-7.5. Tratamento de erros
-Adicionar tratamento de erros e mensagens de diagnostico que ajudem a
-identificar falhas de inicializacao, carregamento de assets e execucao.
-Evitar telas vazias sem informacao util.
-
-7.6. Desempenho mobile
-Validar resolucao, escala, orientacao, input por toque, consumo de memoria,
-quantidade de entidades e desempenho em dispositivos Android reais.
-Nao declarar teste Android concluido sem executar em dispositivo.
-
-7.7. Assets
-Organizar spritesheets, imagens, efeitos e audio em diretorios claros.
-Padronizar nomes, dimensoes, origem, direcoes, frames e metadados de
-animacao antes de adicionar grandes quantidades de assets.
-
-======================================================================
-8. ORDEM DE DESENVOLVIMENTO
-======================================================================
-
-ETAPA 1 - FUNDACAO TECNICA
-- Organizar a estrutura de diretorios.
-- Confirmar configuracao e versao Phaser 4.
-- Padronizar inicializacao e ciclo das Scenes.
-- Organizar carregamento de assets.
-- Adicionar lockfile, lint e testes basicos.
-- Melhorar verificacoes do GitHub Actions.
-- Preservar a publicacao existente.
-
-ETAPA 2 - NUCLEO DO MUNDO
-- Mundo e configuracao de mapa.
-- GRID e coordenadas.
-- Colisoes.
-- Pathfinding.
-- Chunks e streaming, se necessario.
-- Camera e limites.
-- Recuperacao segura de posicao e estado.
-
-ETAPA 3 - PERSONAGEM
-- Movimento.
-- Animacoes por direcao.
-- Colisoes.
-- Controles exclusivamente por toque no Android.
-- Toque para definir destino, arraste para camera e pinch para zoom; sem joystick.
-- Integracao com o nucleo do mundo.
-
-ETAPA 4 - COMBATE
-- Monstros.
-- IA.
-- Dano e vida.
-- Habilidades.
-- Morte e respawn.
-- Loot e recompensas.
-- Feedback visual e sonoro.
-
-ETAPA 5 - PROGRESSAO
-- Inventario.
-- Equipamentos.
-- Experiencia e niveis.
-- Waifus.
-- Presentes e evolucao das waifus.
-- Salvamento integrado.
-
-ETAPA 6 - CONTEUDO DO MUNDO
-- NPCs.
-- Missoes.
-- Lojas.
-- Novas areas e mapas.
-- Dungeons e bosses.
-
-As etapas podem ser refinadas conforme os requisitos forem detalhados.
-Nao antecipar sistemas complexos antes de a fundacao necessaria estar
-validada.
-
-======================================================================
-9. REGRAS DE TRABALHO NO REPOSITORIO
-======================================================================
-
-- Usar a branch main como referencia atual, mas preferir branches de
-  trabalho para mudancas estruturais ou de maior risco.
-- Analisar os arquivos atuais antes de modificar.
-- Implementar a tarefa solicitada sem diagnosticos interminaveis.
-- Nao fazer alteracoes estruturais sem necessidade.
-- Preservar funcionalidades e dados existentes.
-- Verificar imports, caminhos, nomes e dependencias.
-- Executar verificacoes disponiveis antes de considerar uma alteracao pronta.
-- Conferir o resultado do GitHub Actions apos cada alteracao relevante.
-- Nao afirmar que o jogo foi testado no Android quando houve apenas
-  verificacao estatica ou build.
-- Entregar o codigo completo quando solicitado e registrar claramente
-  arquivos e commits alterados.
-- Nao introduzir sistemas diretamente em Player.update() ou em um unico
-  metodo central. Usar modulos e contratos proprios.
-
-======================================================================
-10. RELACAO COM O ESTADO ATUAL
-======================================================================
-
-Este arquivo define a arquitetura-alvo, principios e roteiro de
-desenvolvimento. Nao deve ser usado como registro do estado operacional
-mais recente.
-
-Para saber o que esta implementado, o que foi validado e quais sao as
-proximas tarefas, consultar:
-docs/ESTADO_DO_PROJETO.md
-
-Para regras especificas sobre consulta e reutilizacao de assets do
-repositorio historico, consultar:
-docs/DIRETRIZ_DE_REUSO_DO_REPOSITORIO_ORIGINAL.txt
-
-A arquitetura descrita neste plano e gradual. Nao presumir que modulos
-planejados ja existam no codigo. Antes de qualquer alteracao, conferir
-o repositorio e o documento de estado atual.
-
-FIM DO DOCUMENTO
-
-
-======================================================================
-11. DIRECAO APROVADA — MUNDO FORMADO POR ILHAS
-======================================================================
-
-Em 25/11/2026 foi aprovada uma revisao da concepcao do mundo. Esta direcao
-complementa e substitui qualquer interpretacao anterior de um mundo aberto
-gigantesco ou de varias ilhas carregadas simultaneamente.
-
-REQUISITOS DE PRODUTO:
-- O mundo e composto por pequenas ilhas independentes.
-- Somente uma ilha fica carregada como mundo jogavel por vez.
-- Pontes e portais conectam uma ilha a outra.
-- O espaco externo a ilha e apresentado como ceu e nuvens.
-- A expansao de conteudo ocorre adicionando novas ilhas, nao ampliando
-  indefinidamente um unico mapa continuo.
-
-DIRECAO VISUAL:
-- Aparencia de ambiente tridimensional, com volumes, relevo, sombras,
-  iluminacao e perspectiva isometrica.
-- Esta direcao pode ser chamada de 2.5D: o visual simula volume 3D,
-  mas a base atual permanece Phaser 4.
-- Nao migrar para Three.js ou motor 3D sem prototipo comparativo e
-  justificativa tecnica. Three.js nao faz parte das dependencias atuais.
-- Os spritesheets finais PNG/JSON sao consumidos diretamente pelo runtime;
-  a antiga ferramenta de bake baseada em GLB foi removida.
-
-ARQUITETURA DE MUNDO A ADOTAR GRADUALMENTE:
-- Catalogo leve de ilhas e metadados.
-- Carregador responsavel por assets da ilha ativa.
-- Runtime/cena responsavel por montar terreno, objetos, entidades e navegacao.
-- Transicao responsavel por salvar estado, descarregar a origem e carregar
-  destino, sem manter dois mundos completos em memoria.
-- Estado persistente por ilha.
-- Conexoes identificadas por IDs estaveis, sem referencias diretas a objetos
-  Phaser nos dados salvos.
-
-IMPORTANTE:
-A decisao esta APROVADA, mas nao esta IMPLEMENTADA no codigo. O prototipo
-atual ainda carrega uma imagem de ilha e cria jogador/monstro nessa area.
-Nao declarar sistema multi-ilhas pronto ate cumprir os criterios de
-aceitacao do documento:
-
-docs/ARQUITETURA_DO_MUNDO_POR_ILHAS.md
-
-ORDEM DE IMPLEMENTACAO:
-1. Estabilizar a ilha-base e sua navegacao.
-2. Definir dados e contrato de ilha.
-3. Criar segunda ilha com assets reais.
-4. Implementar a primeira transicao por ponte ou portal.
-5. Validar descarregamento, retorno, persistencia e memoria em Android.
-6. Expandir o catalogo de ilhas.
-
-
-
-======================================================================
-12. DIRECAO APROVADA — PERSONAGEM E MOVIMENTACAO POR TOQUE
-======================================================================
-
-Esta secao complementa os principios de responsabilidade unica e
-independencia das entidades. Para o personagem, estas regras substituem
-mencoes anteriores a joystick e teclado na secao de controles.
-
-ENTRADA E MOVIMENTACAO:
-- Entrada exclusivamente por toque.
-- Sem teclado e sem joystick virtual.
-- Um toque curto no mundo define o destino (tap-to-move).
-- Arraste de um dedo move a camera; dois dedos controlam o zoom.
-- O sistema de navegacao utiliza oito vizinhos, incluindo diagonais.
-- O terreno atual e uma imagem 2D plana; nao simular angulacao do terreno.
-- A orientacao do modelo e somente a rotacao do personagem no eixo vertical.
-
-CONTRATOS:
-- Player: estado logico sem dependencias visuais, de input ou Phaser.
-- PlayerBodyAdapter: adapta o estado logico a um corpo Arcade invisivel.
-- TouchInputController: converte gestos da tela em eventos de toque e
-  camera; nao movimenta nem conhece a entidade Player.
-- MovementSystem: recebe destinos, consulta WorldNavigation e atualiza
-  apenas o estado logico do Player.
-- CharacterSpriteRenderer: apresenta o protagonista por spritesheets
-  PNG/JSON e recebe apenas direcao, estado de movimento e acoes.
-- O caminho de renderizacao 3D por GLB foi abandonado e removido do runtime.
-  Os modelos GLB de personagem e arma nao fazem parte dos assets do jogo.
-- Os spritesheets PNG/JSON ja gerados sao os unicos recursos de animacao
-  carregados pelo jogo; nao existe pipeline GLB ativo no repositorio ou CI.
-
-A sequencia de toque curto para destino, arraste para camera e pinch para
-zoom e implementada em TouchInputController. MovementSystem permanece
-independente da camada de tela e usa o pathfinding de oito vizinhos do
-WorldNavigation. O estado logico do jogador permanece funcional sem GLB.
-
-
-ATUALIZACAO DE DIRECAO — 26/11/2026
-O renderer de personagem ativo e exclusivamente 2D (CharacterSpriteRenderer). Os modelos GLB de personagem e arma foram removidos. Nao reintroduzir CharacterRenderer3D ou dependencias GLB no runtime sem nova decisao explicita.
+Documento de princípios técnicos e arquitetura-alvo
+Repositório: BrazucaGameplay/Colecionador
+Branch: main
+
+1. FONTE DE VERDADE
+
+O estado implementado, a stack e as pendências ficam em
+docs/ESTADO_DO_PROJETO.md. O histórico fica em docs/CHANGELOG.md.
+Este documento registra princípios e arquitetura-alvo; não deve repetir
+recaps de versões nem declarar módulos planejados como implementados.
+
+2. STACK APROVADA
+
+- Phaser 4 como runtime do jogo.
+- JavaScript ES modules.
+- Vite para desenvolvimento e build.
+- GitHub Actions e GitHub Pages para CI/publicação web.
+- Capacitor como caminho de empacotamento Android.
+- Assets de personagem e monstros em formatos 2D adequados ao runtime.
+
+Não introduzir Three.js, GLB ou outro motor de renderização no runtime sem
+protótipo comparativo e nova aprovação. O histórico de uso de GLB como fonte
+de animação não é uma dependência do jogo atual.
+
+3. PRINCÍPIOS DE ARQUITETURA
+
+3.1 Responsabilidade única
+Cada módulo deve ter uma responsabilidade verificável. Evitar que Game,
+entidades ou componentes de UI acumulem regras de sistemas independentes.
+
+3.2 Composição explícita
+Cenas coordenam sistemas por APIs públicas. Inicialização, dependências e
+encerramento devem ser explícitos; cada módulo libera listeners, objetos,
+observadores e recursos que criou.
+
+3.3 Entidades e apresentação separadas
+Player e Monster mantêm estado/regras de domínio. Adaptadores conectam
+física e renderização. Renderizadores não decidem regras de combate,
+persistência ou navegação.
+
+3.4 Dados separados das regras
+Catálogos de monstros, skins, animações, itens, habilidades e conteúdo de
+mundo devem ser dados validados, não condicionais espalhadas pelo runtime.
+
+3.5 Persistência centralizada
+SaveManager é o ponto de leitura/gravação. Preservar compatibilidade dos
+saves existentes e introduzir migrações explícitas quando o formato mudar.
+
+3.6 Núcleo do mundo protegido
+Navegação, colisão, geometria e estado do mundo devem ser acessados por
+métodos públicos. Sistemas externos não devem alterar estruturas internas
+da grade ou dos índices espaciais.
+
+3.7 Mudanças incrementais
+Não criar abstrações vazias nem reescrever sistemas estáveis sem evidência.
+Preservar comportamento existente e justificar alterações por requisitos,
+testes ou medições.
+
+4. MUNDO
+
+A direção aprovada é um conjunto de ilhas independentes, com somente uma
+ilha ativa como mundo jogável por vez. Pontes e portais são conexões entre
+IDs de ilhas; a troca deve registrar o estado de origem, liberar entidades,
+navegação e listeners da ilha atual, carregar o destino e posicionar o
+jogador no ponto de entrada.
+
+A arquitetura detalhada e seus critérios de aceitação estão em
+docs/ARQUITETURA_DO_MUNDO_POR_ILHAS.md. O catálogo, carregador e transições
+só devem ser implementados quando existir uma segunda ilha real aprovada
+para validar o fluxo completo.
+
+5. CONTROLES E CÂMERA
+
+A experiência-alvo é touch-only:
+- toque curto define destino (tap-to-move);
+- arraste com um dedo movimenta a câmera;
+- pinch com dois dedos altera o zoom;
+- não adicionar joystick virtual nem teclado.
+
+TouchInputController interpreta gestos; MovementSystem navega; CameraController
+controla follow, limites, zoom e viewport. Não misturar essas responsabilidades.
+
+6. PERSONAGENS E ANIMAÇÕES
+
+O estado lógico do Player é independente do renderer. Cada skin utilizável
+deve cumprir o contrato documentado em docs/SISTEMA_DE_SKINS.md: quatro
+estados (idle, running, combat, dying), oito direções, metadados e assets
+validados antes de seleção. A ausência de arte não pode corromper o estado
+lógico do jogador.
+
+7. GAMEPLAY E UI
+
+Combate, progressão, input, monstros e persistência devem permanecer em
+sistemas separados. A UI não deve inventar conteúdo: botões de equipar,
+itens ou vínculos só ficam ativos quando o sistema de domínio correspondente
+existe e fornece dados válidos.
+
+A interface pode combinar Phaser e HTML/CSS. Elementos DOM precisam de
+responsividade, acessibilidade, limpeza de eventos e testes de interação.
+O enquadramento de imagens deve respeitar dimensões intrínsecas, transparência
+e área disponível, sem pressupor proporção fixa.
+
+8. QUALIDADE E TESTES
+
+Priorizar testes de comportamento:
+- entradas e saídas observáveis de sistemas;
+- movimento, colisões, pathfinding e limites;
+- persistência e compatibilidade de saves;
+- inicialização, interação e limpeza de recursos;
+- seleção de skin e integridade dos atlas;
+- adaptação de imagens e navegação de painéis.
+
+Evitar testes que leem arquivos de produção e procuram nomes de métodos,
+expressões regulares, comentários ou trechos de implementação. Esses testes
+quebram com refatorações que preservam o comportamento. Quando uma fronteira
+de integração não puder ser exercitada em Node, extrair uma função/componente
+puro ou usar um harness de integração real; não substituir teste por regex.
+
+9. CI E PUBLICAÇÃO
+
+O pipeline deve instalar dependências reproduzíveis, executar auditoria,
+testes e build, validar versão e assets efetivamente usados e publicar
+somente após sucesso. Uma execução antiga não valida commit posterior.
+Build web não comprova execução visual ou instalação Android.
+
+10. REFERÊNCIAS
+
+- Phaser 4: https://docs.phaser.io/
+- Phaser Labs: https://labs.phaser.io/
+- Vite: https://vite.dev/
+- Capacitor: https://capacitorjs.com/docs
+
+Consultar documentação da versão efetivamente instalada antes de adotar
+APIs ou padrões de versões anteriores.
