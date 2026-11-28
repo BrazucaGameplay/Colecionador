@@ -75,7 +75,7 @@ export default class MonsterRenderer {
     const next = Boolean(visible);
     if (this.inView === next) return;
     this.inView = next;
-    const renderVisible = next && this.currentState !== 'death';
+    const renderVisible = next;
     this.sprite?.setVisible(renderVisible);
     this.shadow?.setVisible(renderVisible && this.shadowEnabled);
   }
@@ -105,7 +105,6 @@ export default class MonsterRenderer {
     const animations = this.definition.visual?.animations || {};
     const requested = animations[state] || animations.idle;
     if (!requested || !this.scene.textures.exists(requested.key)) {
-      if (state === 'death') this.setInView(false);
       return false;
     }
     const changed = this.currentState !== state || this.sprite.texture?.key !== requested.key;
@@ -113,7 +112,7 @@ export default class MonsterRenderer {
     this.sprite.setTexture(requested.key);
     this.applyFrameScale();
     this.currentState = state;
-    const visible = this.inView && state !== 'death';
+    const visible = this.inView;
     this.sprite.setVisible(visible);
     this.shadow?.setVisible(visible && this.shadowEnabled);
     if (state === 'attack') this.actionUntil = now + (Number(this.definition.visual?.attackDurationMs) || 350);

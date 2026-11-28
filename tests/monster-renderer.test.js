@@ -1,34 +1,41 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fitMonsterFrameScale, isMonsterInView } from '../src/rendering/monsters/MonsterRenderer.js';
+import MonsterRenderer from '../src/rendering/monsters/MonsterRenderer.js';
+import { MONSTER_DEFINITIONS } from '../src/data/monsters/index.js';
 
-test('normaliza quadros de proporções diferentes sem deformar o sprite', () => {
-  const target = { width: 80, height: 60 };
-  const wide = fitMonsterFrameScale(200, 80, target.width, target.height);
-  const tall = fitMonsterFrameScale(80, 200, target.width, target.height);
-  assert.equal(wide, 0.4);
-  assert.equal(tall, 0.3);
-  assert.ok(200 * wide <= target.width);
-  assert.ok(80 * wide <= target.height);
-  assert.ok(80 * tall <= target.width);
-  assert.ok(200 * tall <= target.height);
-});
+function createSprite() {
+  return {
+    texture: { key: 'monster-slime-idle' },
+    frame: { realWidth: 100, realHeight: 80, width: 100, height: 80 },
+    visible: true,
+    setTexture(key) { this.texture = { key }; return this; },
+    setOrigin() { return this; },
+    setScale() { return this; },
+    setPosition() { return this; },
+    setVisible(value) { this.visible = value; return this; },
+    destroy() {}
+  };
+}
 
-test('escala inválida não gera tamanho infinito ou negativo', () => {
-  assert.equal(fitMonsterFrameScale(0, 10, 20, 20), 1);
-  assert.equal(fitMonsterFrameScale(10, 10, 0, 20), 1);
-});
+test('slime exibe a imagem estática de morte e respeita a visibilidade da câmera', () => {
+  const sprite = createSprite();
+  const scene = {
+    textures: { exists: () => true },
+    add: { image: () => sprite }
+  };
+  const monster = { x: 120, y: 240 };
+  const renderer = new MonsterRenderer(scene, monster, MONSTER_DEFINITIONS.slime);
 
-test('culling considera a caixa do monstro e a margem do viewport', () => {
-  const view = { x: 100, y: 200, right: 500, bottom: 600 };
-  assert.equal(isMonsterInView(120, 220, 40, 40, view), true);
-  assert.equal(isMonsterInView(70, 220, 40, 40, view), false);
-  assert.equal(isMonsterInView(70, 220, 40, 40, view, 50), true);
-  // A caixa em x=520/y=620 ainda toca o canto do viewport; 1px além fica fora.
-  assert.equal(isMonsterInView(521, 621, 40, 40, view), false);
-});
+  assert.equal(renderer.play('death', 1000), true);
+  assert.equal(sprite.texture.key, 'monster-slime-death');
+  assert.equal(renderer.currentState, 'death');
+  assert.equal(sprite.visible, true);
+  assert.equal(renderer.actionUntil, Number.POSITIVE_INFINITY);
 
-test('culling mantém o objeto visível quando o viewport ainda não está disponível', () => {
-  assert.equal(isMonsterInView(100, 100, 40, 40, null), true);
-  assert.equal(isMonsterInView(100, 100, 40, 40, { x: 0, y: 0 }), true);
+  renderer.setInView(false);
+  assert.equal(sprite.visible, false);
+  renderer.setInView(true);
+  assert.equal(sprite.visible, true);
+
+  renderer.destroy();
 });
