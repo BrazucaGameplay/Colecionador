@@ -1,3 +1,11 @@
+## 28/11/2026 — Documentação e testes de comportamento (2.10.26)
+
+- `ESTADO_DO_PROJETO.md` reduzido a um resumo atual de stack, implementação, pendências e direção vigente; o histórico foi consolidado neste arquivo.
+- Plano arquitetural, contrato de skins, README e processo de atualização alinhados às decisões e à estrutura atuais.
+- Testes de UI, carregamento, câmera, persistência, mundo e bootstrap migrados de inspeção de strings para interação com componentes e sistemas reais/harnesses.
+- Extraída a política pura de limites do oceano e escala de ação para permitir testes de comportamento.
+- Corrigida divergência herdada no lockfile: `node_modules/yauzl` volta à versão real 2.10.0; versão do projeto sincronizada em 2.10.26.
+
 # Changelog
 
 Histórico consolidado do repositório `BrazucaGameplay/Colecionador`. Registra marcos que explicam a evolução do projeto; não é uma segunda especificação do estado atual. Para o que existe hoje, consulte [ESTADO_DO_PROJETO.md](ESTADO_DO_PROJETO.md).
