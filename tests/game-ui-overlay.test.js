@@ -46,11 +46,17 @@ test('painéis e retratos usam HTML nativo sem carregar as imagens de perfil no 
   assert.match(css, /aspect-ratio/);
 });
 
-test('menu, perfil, atributos, skins e painéis informativos permanecem disponíveis', async () => {
+test('menu e painéis informativos permanecem disponíveis; perfil mostra somente o retrato', async () => {
   const html = await read('../src/ui/HtmlGameUI.js');
-  for (const value of ['bestiary','waifus','inventory','house','profile','STAT_UPGRADES','allocateStat','selectSkin','1 / 3']) {
+  for (const value of ['bestiary','waifus','inventory','house','profile','getSelectedDefinition','this.portrait.src']) {
     assert.ok(html.includes(value), 'faltou integração: ' + value);
   }
+  const start = html.indexOf('  buildProfile() {');
+  const end = html.indexOf('\n  refresh() {', start);
+  const builder = html.slice(start, end);
+  assert.match(builder, /html-game-ui__profile-portrait/);
+  assert.doesNotMatch(builder, /imageButton|addText|caption|shortcut|pager|summary|stat-row|skinRows/);
+  assert.doesNotMatch(html, /allocateStat|selectSkin|STAT_UPGRADES/);
 });
 
 test('retratos HTML acompanham troca de skin e a HUD continua clicável', async () => {

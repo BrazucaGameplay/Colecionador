@@ -35,5 +35,4 @@ test('silhueta de fallback é independente e as artes permanecem transparentes',
   assert.match(ui, /element\('span', 'html-game-ui__portrait-fallback'\)/);
   assert.match(ui, /addEventListener\('load',[\s\S]*?portraitFallback\.hidden = true/);
   assert.match(ui, /addEventListener\('error',[\s\S]*?portraitFallback\.hidden = false/);
-  assert.match(ui, /thumb\.append\(fallback, image\)/);
 });

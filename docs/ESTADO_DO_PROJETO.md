@@ -2790,3 +2790,30 @@ Auditoria:
 - Build, testes e publicação dependem do workflow do commit final.
 - A validação visual final em Android ainda depende de abrir a versão
   publicada em um aparelho real.
+
+
+======================================================================
+12. AJUSTE DAS VALIDACOES DO PERFIL MINIMALISTA — 28/11/2026
+======================================================================
+
+A primeira execução do workflow para 2.10.18 encontrou dois testes
+desatualizados, não falhas de sintaxe ou de build:
+- tests/game-ui-overlay.test.js ainda exigia STAT_UPGRADES e fluxos de
+  alocação/seleção dentro da camada HtmlGameUI, removidos intencionalmente
+  do painel Perfil minimalista.
+- tests/html-ui-visual.test.js ainda exigia a miniatura de skin dentro do
+  HtmlGameUI, estrutura que não existe mais no painel de perfil.
+
+Correção:
+- Atualizar a validação de integração para exigir o retrato isolado e
+  confirmar que os controles de atributos/skins não são montados no painel.
+- Manter testes de menu, painéis informativos, retrato dinâmico, HUD,
+  ciclo de vida e bloqueio de interação.
+- Remover somente a expectativa obsoleta de miniaturas HTML no teste
+  visual; preservar os testes de fallback da HUD e do retrato de perfil.
+- Incrementar a versão novamente para 2.10.19, sincronizando o lockfile.
+
+O workflow 2.10.18 executou 127 testes: 125 aprovados e 2 reprovados
+por expectativas antigas. O build ainda não foi autorizado a publicar.
+A versão 2.10.19 aguarda nova validação automatizada correspondente
+ao commit final.
