@@ -19,7 +19,8 @@ export default class GameSystemsBootstrap {
     camera,
     cameraController,
     monsterManager,
-    showLevelUpNotice = () => {}
+    showLevelUpNotice = () => {},
+    waifuAbilities = null
   } = {}) {
     const scene = this.scene;
     if (!scene || this.initialized) {
@@ -47,6 +48,7 @@ export default class GameSystemsBootstrap {
       onAttack: (target, damage, now, penetration, attackIntervalMs) => {
         characterRenderer?.playAction('combat', { durationMs: attackIntervalMs });
         monsterManager?.damage(target.id, damage, now, penetration);
+        waifuAbilities?.tryActivate(target, now);
       }
     });
     scene.monsterCombat = new MonsterCombatSystem({
