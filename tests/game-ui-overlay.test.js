@@ -51,17 +51,23 @@ test('menu abre painéis informativos e o toque fora ou o X fecha o overlay', ()
     assert.ok(ui.activePanel.node.className.includes('html-game-ui__panel--bestiary'));
     assert.ok(findByClass(ui.activePanel.node, 'html-game-ui__panel-art').src.endsWith('/assets/ui/panels/painel_vertical_900x1350_transparente.webp'));
 
-    const categoryArrow = findByClass(ui.activePanel.node, 'html-game-ui__card-category-arrow');
-    assert.ok(categoryArrow, 'a seta deve ficar no rodapé do painel');
-    assert.equal(categoryArrow.textContent, '›');
-    categoryArrow.click();
+    const globalBack = findByClass(ui.activePanel.node, 'html-game-ui__panel-back');
+    const globalClose = findByClass(ui.activePanel.node, 'html-game-ui__close');
+    assert.ok(globalBack, 'o botão global deve ficar no rodapé do painel');
+    assert.ok(globalClose, 'o X global deve ficar no canto superior direito');
+    assert.equal(findByClass(ui.activePanel.node, 'html-game-ui__card-category-arrow'), null);
+    assert.equal(findByClass(ui.activePanel.node, 'html-game-ui__profile-controls'), null);
+    assert.equal(ui.activePanel.cardGallery.container.className, 'html-game-ui__card-gallery-host', 'o host de posicionamento não pode perder sua classe');
+    assert.ok(findByClass(ui.activePanel.cardGallery.container, 'html-game-ui__card-gallery'), 'a galeria deve ser filha do host posicionado');
+    assert.equal(globalBack.textContent, '›');
+    globalBack.click();
     assert.equal(ui.activePanel.cardGallery.category, 'bosses');
-    assert.equal(categoryArrow.textContent, '‹');
-    assert.equal(categoryArrow.getAttribute('aria-label'), 'Voltar aos monstros');
+    assert.equal(globalBack.textContent, '‹');
+    assert.equal(globalBack.getAttribute('aria-label'), 'Voltar aos monstros');
     assert.ok(findByClass(ui.activePanel.node, 'html-game-ui__card-empty'), 'Boss sem cadastro deve exibir estado vazio no painel');
-    categoryArrow.click();
+    globalBack.click();
     assert.equal(ui.activePanel.cardGallery.category, 'monsters');
-    assert.equal(categoryArrow.textContent, '›');
+    assert.equal(globalBack.textContent, '›');
 
     const cardTile = findByClass(ui.activePanel.node, 'html-game-ui__card-tile');
     assert.ok(cardTile, 'a carta registrada deve aparecer na grade');
@@ -73,15 +79,23 @@ test('menu abre painéis informativos e o toque fora ou o X fecha o overlay', ()
     assert.ok(flipCard.className.includes('is-flipped'), 'a carta deve girar para mostrar o verso');
     assert.equal(flipCard.getAttribute('aria-pressed'), 'true');
     assert.ok(findByClass(flipCard, 'html-game-ui__card-stats'), 'o verso deve exibir os status reais');
-    findByClass(ui.activePanel.node, 'html-game-ui__card-navigation').click();
-    assert.ok(findByClass(ui.activePanel.node, 'html-game-ui__card-grid'), 'o retorno deve restaurar a grade no mesmo painel');
+    assert.equal(findByClass(ui.activePanel.node, 'html-game-ui__card-navigation'), null, 'o botão interno antigo deve ser removido');
+    globalBack.click();
+    assert.equal(ui.activePanel.cardGallery.page, 'gallery');
+    assert.ok(findByClass(ui.activePanel.node, 'html-game-ui__card-grid'), 'o botão global deve restaurar a grade no mesmo painel');
 
     const shade = dom.root.querySelector('.html-game-ui__shade');
     shade.dispatch('pointerdown', { target: shade });
     assert.equal(ui.activePanel, null);
     assert.equal(ui.isUiPointer(20, 20), false);
 
+    ui.openPanel('menu');
+    findByClass(ui.activePanel.node, 'html-game-ui__panel-back').click();
+    assert.equal(ui.activePanel, null, 'o botão global deve voltar do menu ao jogo');
+
     ui.openPanel('inventory');
+    assert.ok(findByClass(ui.activePanel.node, 'html-game-ui__panel-back'));
+    assert.ok(findByClass(ui.activePanel.node, 'html-game-ui__close'));
     findByClass(ui.activePanel.node, 'html-game-ui__close').click();
     assert.equal(ui.activePanel, null);
     ui.destroy();
