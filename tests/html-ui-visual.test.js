@@ -85,10 +85,13 @@ test('perfil percorre Personagem, Status e Skills e executa ações reais do Pla
     assert.equal(equipped, true);
     assert.match(panel.skillSlots.children[0].children[1].textContent, /Fogo/);
     findByClass(panel.node, 'html-game-ui__panel-back').click();
-    assert.equal(panel.page, 1, 'o botão global retorna à página anterior');
-
-    findByClass(panel.node, 'html-game-ui__close').click();
-    assert.equal(ui.activePanel, null);
+    assert.equal(panel.page, 1, 'o botão Voltar retorna à página anterior');
+    panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 220, clientY: 220 });
+    panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 320, clientY: 220 });
+    assert.equal(panel.page, 0, 'arrastar para a direita retorna de Status a Personagem');
+    assert.equal(findByClass(panel.node, 'html-game-ui__close'), null, 'o Perfil não deve exibir botão X/Sair');
+    findByClass(panel.node, 'html-game-ui__panel-back').click();
+    assert.equal(ui.activePanel, null, 'Voltar na primeira tela retorna ao jogo');
     assert.equal(dom.root.querySelector('.html-game-ui__shade'), null);
     ui.destroy();
     assert.equal(dom.root.children.length, 0);
