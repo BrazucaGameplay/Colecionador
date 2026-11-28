@@ -123,6 +123,12 @@ test('menu abre painéis informativos e o toque fora ou o X fecha o overlay', ()
     assert.equal(ui.isUiPointer(20, 20), false);
 
     ui.openPanel('menu');
+    const inventoryMenuButton = findByClass(ui.activePanel.node, 'html-game-ui__menu-grid').children[2];
+    inventoryMenuButton.click();
+    assert.equal(ui.activePanel.key, 'inventory');
+    findByClass(ui.activePanel.node, 'html-game-ui__panel-back').click();
+    assert.equal(ui.activePanel.key, 'menu', 'o botão global deve retornar ao painel anterior');
+
     findByClass(ui.activePanel.node, 'html-game-ui__panel-back').click();
     assert.equal(ui.activePanel, null, 'o botão global deve voltar do menu ao jogo');
 
