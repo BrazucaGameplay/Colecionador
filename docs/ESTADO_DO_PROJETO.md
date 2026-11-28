@@ -2936,3 +2936,53 @@ Correção:
 - Versão incrementada de 2.10.21 para 2.10.22; lockfile sincronizado.
 
 A versão 2.10.22 aguarda build, testes e publicação do commit final.
+
+
+======================================================================
+15. PERFIL EM TRES TELAS: PERSONAGEM, STATUS E SKILLS — 28/11/2026
+======================================================================
+
+A navegação do painel Perfil foi reorganizada:
+1. Personagem: retrato responsivo do personagem equipado.
+2. Status: nível, EXP, pontos e atributos reais do Player; permite gastar
+   pontos pelos métodos Player.allocateStat e persistir pelo Game.
+3. Skills: apresenta três slots previstos e consulta catálogo/equipamentos
+   através da interface skillManager, quando existir.
+
+As setas laterais agora navegam entre as três telas e deixam de trocar
+diretamente a skin. O X continua fechando o painel. A moldura, o botão
+ornamental e o enquadramento adaptativo do retrato são preservados.
+
+Limite verificado no repositório:
+- Não existe skillManager, catálogo de habilidades, lógica de habilidades
+  ativas ou sistema de equipar no runtime atual.
+- A tela Skills foi preparada para consumir getCatalog(),
+  getEquippedSkills() e equip(id), caso o sistema seja implementado.
+- Enquanto não houver catálogo real, a tela informa que não existem
+  habilidades cadastradas. Não são exibidas habilidades fictícias e
+  nenhum botão de equipar é apresentado sem dados válidos.
+- Portanto, a interface de status é funcional; equipar habilidades ainda
+  depende da implementação do sistema de skills no gameplay.
+
+Estado integral:
+- Produto: RPG 2D de ação anime, web/PWA e Android; Phaser 4, Vite,
+  JavaScript, GitHub Pages e Capacitor declarado.
+- Mundo: ilha explorável com terreno, vegetação, obstáculos, navegação
+  local; múltiplas ilhas/portais seguem como expansão planejada.
+- Gameplay implementado: toque para destino, câmera, combate automático
+  contra alvos próximos, monstros, progressão por experiência, níveis,
+  pontos e atributos; skins validadas pelo SkinManager.
+- Gameplay parcial/pendente: skills ativas/equipáveis, waifus, inventário
+  completo, bestiário e casa não possuem integração funcional completa.
+- Arquitetura: cenas Game e GameUI; mundo e combate no Phaser; painéis e
+  retratos em HTML/CSS; SaveManager mantém persistência; ProfileImageFitter
+  calcula enquadramento do retrato pela área visível.
+- Assets: retratos PNG, atlas de animação e artes de interface WebP/SVG;
+  nenhum asset de personagem foi alterado nesta tarefa.
+- UI mobile: painel vertical mantém moldura, X e setas laterais; telas
+  personagem/status/skills; status permite alocação real de atributos.
+- Build/publicação: workflow GitHub Actions constrói e publica GitHub Pages;
+  versão 2.10.23 precisa ser validada pelo workflow após o commit.
+- Pendências: implementar catálogo e runtime de habilidades antes de
+  habilitar equipar real; testar visualmente no Android; APK/Play Store
+  não concluídos.

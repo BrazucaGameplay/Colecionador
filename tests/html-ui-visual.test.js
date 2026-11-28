@@ -20,9 +20,11 @@ test('painel de perfil contém retrato, setas laterais ornamentadas e botão X',
   assert.match(profileBuilder, /element\('img', 'html-game-ui__profile-portrait'\)/);
   assert.match(profileBuilder, /imageButton\('‹', UI\.button200/);
   assert.match(profileBuilder, /imageButton\('›', UI\.button200/);
-  assert.match(profileBuilder, /aria-label', 'Personagem anterior'/);
-  assert.match(profileBuilder, /aria-label', 'Próximo personagem'/);
-  assert.doesNotMatch(profileBuilder, /addText|caption|shortcut|summary|stat-row|skinRows/);
+  assert.match(profileBuilder, /aria-label', 'Tela anterior do perfil'/);
+  assert.match(profileBuilder, /aria-label', 'Próxima tela do perfil'/);
+  assert.match(profileBuilder, /STAT_UPGRADES/);
+  assert.match(profileBuilder, /this\.skillsPage = element/);
+  assert.match(profileBuilder, /this\.equipSkill\(skill\.id\)/);
   assert.match(ui, /const close = element\('button', 'html-game-ui__close'\)/);
   assert.match(ui, /closeImg\.src = UI\.close/);
   assert.match(ui, /this\.profilePortraitFrame\.append\(this\.profilePortraitFallback, this\.portrait\)/);
@@ -78,9 +80,28 @@ test('o frame do perfil recorta a imagem nos limites internos e o fitter é desc
 
 test('setas percorrem apenas skins validadas e atualizam o retrato sem nomes ou indicadores', async () => {
   const ui = await read('../src/ui/HtmlGameUI.js');
-  assert.match(ui, /getCatalog\?\.\(\)\.filter\(entry => entry\.selectable\)/);
-  assert.match(ui, /manager\.selectSkin\(available\[next\]\.id\)/);
-  assert.match(ui, /this\.owner\.refresh\(\)/);
-  assert.match(ui, /this\.refreshProfileControls\(\)/);
+  assert.match(ui, /this\.setPage\(this\.page - 1\)/);
+  assert.match(ui, /this\.setPage\(this\.page \+ 1\)/);
+  assert.match(ui, /this\.page === 1/);
+  assert.match(ui, /this\.page === 2/);
+  assert.match(ui, /this\.game\?\.skillManager\?\.equip\?\.\(id\)/);
   assert.match(ui, /element\('div', 'html-game-ui__profile-controls'\)/);
+});
+
+
+test('perfil navega por personagem, status e habilidades; status usa dados reais do Player', async () => {
+  const [ui, css] = await Promise.all([
+    read('../src/ui/HtmlGameUI.js'),
+    read('../src/ui/html-game-ui.css')
+  ]);
+  assert.match(ui, /Object\.entries\(STAT_UPGRADES\)/);
+  assert.match(ui, /player\.stats\[row\.key\]/);
+  assert.match(ui, /player\.allocateStat\(key\)/);
+  assert.match(ui, /getRequiredExperience\(player\.level\)/);
+  assert.match(ui, /getEquippedSkills/);
+  assert.match(ui, /getCatalog\?\.\(\)/);
+  assert.match(ui, /Nenhuma habilidade cadastrada ainda/);
+  assert.match(css, /\.html-game-ui__skills-page/);
+  assert.match(css, /\.html-game-ui__skill-slot/);
+  assert.match(css, /\.html-game-ui__skill-equip/);
 });

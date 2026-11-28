@@ -377,3 +377,111 @@
   pointer-events: auto;
 }
 .html-game-ui__profile-arrow:disabled { opacity: .42; }
+
+
+/* Navegação entre personagem, status e habilidades no mesmo painel. */
+.html-game-ui__stats-page,
+.html-game-ui__skills-page {
+  position: absolute;
+  inset: 0;
+}
+.html-game-ui__stats-page[hidden],
+.html-game-ui__skills-page[hidden],
+.html-game-ui__profile-portrait-frame[hidden] { display: none !important; }
+.html-game-ui__profile-summary {
+  top: 22%;
+  left: 12%;
+  right: 12%;
+  min-height: 6%;
+  font-size: clamp(10px, 2.8vw, 13px);
+  font-weight: 400;
+}
+.html-game-ui__stat-row {
+  left: 13%;
+  width: 74%;
+  height: 5.8%;
+  grid-template-columns: minmax(0, 1fr) minmax(38px, .32fr) minmax(38px, .28fr);
+  column-gap: 2%;
+  font-size: clamp(9px, 2.45vw, 12px);
+}
+.html-game-ui__stat-row:nth-child(2) { top: 30%; }
+.html-game-ui__stat-row:nth-child(3) { top: 36.2%; }
+.html-game-ui__stat-row:nth-child(4) { top: 42.4%; }
+.html-game-ui__stat-row:nth-child(5) { top: 48.6%; }
+.html-game-ui__stat-row:nth-child(6) { top: 54.8%; }
+.html-game-ui__stat-row:nth-child(7) { top: 61%; }
+.html-game-ui__stat-row:nth-child(8) { top: 67.2%; }
+.html-game-ui__stat-row:nth-child(9) { top: 73.4%; }
+.html-game-ui__stat-row:nth-child(10) { top: 79.6%; }
+.html-game-ui__stat-row .html-game-ui__plus { height: 75%; }
+.html-game-ui__profile-footer {
+  left: 15%;
+  right: 15%;
+  bottom: 14%;
+  font-size: clamp(8px, 2.1vw, 10px);
+}
+.html-game-ui__skills-title {
+  position: absolute;
+  top: 22%;
+  left: 12%;
+  right: 12%;
+  text-align: center;
+  color: #ffe0a0;
+  font-size: clamp(13px, 3.5vw, 17px);
+  letter-spacing: .12em;
+  font-weight: 400;
+  text-shadow: 0 2px 4px #35100b;
+}
+.html-game-ui__skill-slots {
+  position: absolute;
+  top: 30%;
+  left: 13%;
+  right: 13%;
+  display: grid;
+  gap: 5px;
+}
+.html-game-ui__skill-slot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 9px;
+  border: 1px solid rgba(255,205,112,.5);
+  border-radius: 7px;
+  background: linear-gradient(90deg, rgba(48,7,8,.8), rgba(105,8,8,.65));
+  box-shadow: inset 0 0 8px rgba(255,190,72,.12);
+  font-size: clamp(9px, 2.4vw, 12px);
+}
+.html-game-ui__skill-slot-label { color: #e8c68d; letter-spacing: .08em; }
+.html-game-ui__skill-slot-value { color: #fff2dc; }
+.html-game-ui__skill-list {
+  position: absolute;
+  top: 47%;
+  left: 13%;
+  right: 13%;
+  bottom: 19%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.html-game-ui__skill-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 30%;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 7px;
+  border-bottom: 1px solid rgba(255,211,140,.25);
+  background: rgba(45,5,7,.35);
+}
+.html-game-ui__skill-name { color: #ffe2ad; font-size: clamp(10px, 2.6vw, 13px); }
+.html-game-ui__skill-description { margin-top: 3px; color: #f2ddc4; font-size: clamp(8px, 2vw, 10px); line-height: 1.25; }
+.html-game-ui__skill-equip { width: 100%; height: 30px; font-size: clamp(8px, 2vw, 10px); }
+.html-game-ui__skills-empty {
+  padding: 12px 8px;
+  color: #f4dfc5;
+  text-align: center;
+  font-size: clamp(10px, 2.5vw, 12px);
+  line-height: 1.5;
+}

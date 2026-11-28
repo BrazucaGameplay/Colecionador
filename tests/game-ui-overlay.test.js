@@ -55,11 +55,13 @@ test('menu e painéis informativos permanecem disponíveis; perfil mostra soment
   const end = html.indexOf('\n  refresh() {', start);
   const builder = html.slice(start, end);
   assert.match(builder, /html-game-ui__profile-portrait/);
+  assert.match(builder, /this\.statsPage = element/);
+  assert.match(builder, /this\.skillsPage = element/);
   assert.match(builder, /imageButton\('‹', UI\.button200/);
   assert.match(builder, /imageButton\('›', UI\.button200/);
   assert.match(builder, /html-game-ui__profile-controls/);
-  assert.doesNotMatch(builder, /addText|caption|shortcut|summary|stat-row|skinRows/);
-  assert.match(html, /manager\.selectSkin\(available\[next\]\.id\)/);
+  assert.match(html, /this\.setPage\(this\.page \+ 1\)/);
+  assert.match(html, /this\.game\?\.skillManager\?\.equip\?\.\(id\)/);
   assert.doesNotMatch(html, /allocateStat|STAT_UPGRADES/);
 });
 

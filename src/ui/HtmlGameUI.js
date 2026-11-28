@@ -1,6 +1,7 @@
 import './html-game-ui.css';
 import { CHARACTER_SKINS } from '../rendering/characters/CharacterSkinCatalog.js';
 import ProfileImageFitter from './ProfileImageFitter.js';
+import { STAT_UPGRADES } from '../entities/Player.js';
 
 const BASE = import.meta.env?.BASE_URL ?? '/';
 const asset = path => BASE + path;
@@ -232,36 +233,107 @@ class HtmlPanel {
     this.content.append(this.profilePortraitFrame);
     this.profileImageFitter = new ProfileImageFitter(this.profilePortraitFrame, this.portrait);
 
+    this.statsPage = element('div', 'html-game-ui__stats-page');
+    this.summary = this.addText(this.statsPage, 'html-game-ui__profile-summary', '');
+    this.statRows = [];
+    for (const [key, definition] of Object.entries(STAT_UPGRADES)) {
+      const row = element('div', 'html-game-ui__stat-row');
+      this.addText(row, 'html-game-ui__stat-label', definition.label);
+      const value = this.addText(row, 'html-game-ui__stat-value', '');
+      const plus = imageButton('+', UI.button200, () => this.allocateStat(key), 'html-game-ui__plus');
+      row.append(plus);
+      this.statsPage.append(row);
+      this.statRows.push({ key, value, plus });
+    }
+    this.statsFooter = this.addText(this.statsPage, 'html-game-ui__profile-footer', 'Use os pontos disponíveis para evoluir os atributos.');
+    this.content.append(this.statsPage);
+
+    this.skillsPage = element('div', 'html-game-ui__skills-page');
+    this.skillsTitle = this.addText(this.skillsPage, 'html-game-ui__skills-title', 'HABILIDADES');
+    this.skillSlots = element('div', 'html-game-ui__skill-slots');
+    this.skillList = element('div', 'html-game-ui__skill-list');
+    this.skillsPage.append(this.skillSlots, this.skillList);
+    this.content.append(this.skillsPage);
+    this.buildSkillPage();
+
     this.profileControls = element('div', 'html-game-ui__profile-controls');
-    this.previousSkin = imageButton('‹', UI.button200, () => this.cycleSkin(-1), 'html-game-ui__profile-arrow');
-    this.nextSkin = imageButton('›', UI.button200, () => this.cycleSkin(1), 'html-game-ui__profile-arrow');
-    this.previousSkin.setAttribute('aria-label', 'Personagem anterior');
-    this.nextSkin.setAttribute('aria-label', 'Próximo personagem');
-    this.profileControls.append(this.previousSkin, this.nextSkin);
+    this.previousPage = imageButton('‹', UI.button200, () => this.setPage(this.page - 1), 'html-game-ui__profile-arrow');
+    this.nextPage = imageButton('›', UI.button200, () => this.setPage(this.page + 1), 'html-game-ui__profile-arrow');
+    this.previousPage.setAttribute('aria-label', 'Tela anterior do perfil');
+    this.nextPage.setAttribute('aria-label', 'Próxima tela do perfil');
+    this.profileControls.append(this.previousPage, this.nextPage);
     this.content.append(this.profileControls);
-    this.refreshProfileControls();
+    this.setPage(0);
+    this.refreshProfileData();
+  }
+
+  buildSkillPage() {
+    this.skillSlots.replaceChildren();
+    const equipped = this.game?.skillManager?.getEquippedSkills?.() || [];
+    for (let index = 0; index < 3; index++) {
+      const slot = element('div', 'html-game-ui__skill-slot');
+      const label = element('span', 'html-game-ui__skill-slot-label', 'SLOT ' + (index + 1));
+      const value = element('span', 'html-game-ui__skill-slot-value', equipped[index]?.name || 'Vazio');
+      slot.append(label, value);
+      this.skillSlots.append(slot);
+    }
+    this.skillList.replaceChildren();
+    const catalog = this.game?.skillManager?.getCatalog?.() || [];
+    if (!catalog.length) {
+      this.addText(this.skillList, 'html-game-ui__skills-empty', 'Nenhuma habilidade cadastrada ainda.');
+      return;
+    }
+    for (const skill of catalog) {
+      const row = element('div', 'html-game-ui__skill-row');
+      const details = element('div', 'html-game-ui__skill-details');
+      this.addText(details, 'html-game-ui__skill-name', skill.name);
+      this.addText(details, 'html-game-ui__skill-description', skill.description || '');
+      const button = imageButton(skill.equipped ? 'EQUIPADA' : 'EQUIPAR', UI.button200,
+        () => this.equipSkill(skill.id), 'html-game-ui__skill-equip');
+      button.disabled = Boolean(skill.equipped || skill.unlocked === false);
+      row.append(details, button);
+      this.skillList.append(row);
+    }
+  }
+
+  equipSkill(id) {
+    const result = this.game?.skillManager?.equip?.(id);
+    if (!result || result.changed === false) return false;
+    this.buildSkillPage();
+    return true;
+  }
+
+  allocateStat(key) {
+    if (!this.game?.player?.allocateStat(key)) return false;
+    this.game.persistProgress?.();
+    this.refreshProfileData();
+    return true;
   }
 
   refreshProfileControls() {
-    const available = this.game?.skinManager?.getCatalog?.().filter(entry => entry.selectable) || [];
-    const hasMultiple = available.length > 1;
-    if (this.previousSkin) this.previousSkin.disabled = !hasMultiple;
-    if (this.nextSkin) this.nextSkin.disabled = !hasMultiple;
+    if (this.previousPage) this.previousPage.disabled = this.page <= 0;
+    if (this.nextPage) this.nextPage.disabled = this.page >= 2;
   }
 
-  cycleSkin(direction) {
-    const manager = this.game?.skinManager;
-    if (!manager || ![-1, 1].includes(direction)) return false;
-    const available = manager.getCatalog?.().filter(entry => entry.selectable) || [];
-    if (available.length < 2) return false;
-    const current = available.findIndex(entry => entry.selected);
-    const start = current >= 0 ? current : 0;
-    const next = (start + direction + available.length) % available.length;
-    const result = manager.selectSkin(available[next].id);
-    if (!result?.changed) return false;
-    this.owner.refresh();
+  setPage(page) {
+    this.page = Math.max(0, Math.min(2, page));
+    this.profilePortraitFrame.hidden = this.page !== 0;
+    this.statsPage.hidden = this.page !== 1;
+    this.skillsPage.hidden = this.page !== 2;
     this.refreshProfileControls();
-    return true;
+    if (this.page === 1) this.refreshProfileData();
+    if (this.page === 2) this.buildSkillPage();
+  }
+
+  refreshProfileData() {
+    const player = this.game?.player;
+    if (!player || !this.summary) return;
+    const required = this.game.progression?.getRequiredExperience(player.level) ?? 0;
+    this.summary.textContent = 'Nível ' + player.level + ' • EXP ' + player.experience + '/' + required + ' • Pontos: ' + player.statPoints;
+    for (const row of this.statRows) {
+      row.value.textContent = STAT_UPGRADES[row.key].format(player.stats[row.key]);
+      row.plus.disabled = player.statPoints <= 0;
+    }
   }
 
   refresh() {
@@ -275,12 +347,14 @@ class HtmlPanel {
     }
     this.portrait.hidden = !portrait;
     this.profilePortraitFallback.hidden = Boolean(portrait && this.portrait.complete && this.portrait.naturalWidth > 0);
+    this.refreshProfileData();
     this.refreshProfileControls();
   }
 
   destroy() {
     this.profileImageFitter?.destroy();
     this.profileImageFitter = null;
+    this.statRows?.length = 0;
     this.node?.remove();
     this.node = null;
     this.owner = null;
