@@ -81,7 +81,7 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 
 - Monstros comuns: Slime é a única espécie atualmente registrada; é uma bola azul simples e não necessita animação direcional. Outras espécies poderão ter animações próprias ou usar imagens estáticas. O sistema de spawn, perseguição simples e combate básico já existe.
 - Boss: catálogo vazio preparado; entidades, IA, habilidades e renderização 8-way ainda não implementados.
-- Bestiário: galeria HTML com abas Monstros/Boss, carta integral do Slime e navegação arte/status; descoberta e persistência ainda pendentes. Outras dez imagens permanecem arquivadas e fora do catálogo.
+- Bestiário: galeria HTML com abas Monstros/Boss, grade responsiva, carta integral do Slime e rotação frente/verso no mesmo painel; descoberta e persistência ainda pendentes. Outras dez imagens permanecem arquivadas e fora do catálogo.
 - Raios atuais preservados: ataque 2 m, perseguição 10 m, ocioso 30 m, ativação 50 m.
 - Processo obrigatório para qualquer espécie nova: [PROCESSO_ADICIONAR_MONSTRO.md](PROCESSO_ADICIONAR_MONSTRO.md).
 - Detalhes e contratos: [Arquitetura de monstros e Boss](ARQUITETURA_MONSTROS_E_BOSSES.md).
