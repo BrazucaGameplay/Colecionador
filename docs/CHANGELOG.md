@@ -1,4 +1,11 @@
-## 28/11/2026 — Navegação por arrasto bidirecional no Perfil (2.10.36)
+# 28/11/2026 — Correção documental e validação da fundação de waifus (2.11.1)
+
+- Corrigida a formatação das linhas do estado do projeto, que estavam gravadas como caracteres literais `\\n`.
+- Confirmada a coerência entre a versão do `package.json` e as duas declarações de versão raiz do `package-lock.json`.
+- Revisados os módulos de classificação, catálogo vazio, tabela de drops vazia e testes da classificação.
+- A execução de CI ainda precisa confirmar testes e build antes da publicação.
+
+# 28/11/2026 — Fundação do sistema de waifus (2.11.0)\n\n- Definidas classificações oficiais: raridades fixas Comum, Rara, Épica, Lendária e Mítica; qualidades imutáveis Plebeia, Nobre, Dama, Princesa e Rainha.\n- Criados módulos isolados para classificação, catálogo vazio e tabelas de drop vazias. Waifus só poderão ser obtidas por drops de monstros; chances permanecem sem definição.\n- Reservadas pastas para cinco molduras de raridade distintas e cinco selos pequenos de qualidade, aguardando os assets finais do usuário.\n- Documentada a composição em camadas, preservando as artes originais sem moldura e sem gerar 25 versões combinadas.\n- Nenhum personagem, monstro, atributo, taxa de drop ou asset visual provisório foi inventado. Painel e runtime continuam pendentes.\n\n## 28/11/2026 — Navegação por arrasto bidirecional no Perfil (2.10.36)
 
 - O Perfil mantém o botão inferior Voltar na primeira tela, para retornar ao jogo.
 - Removido o botão X/Sair somente do painel Perfil; os demais painéis mantêm seus controles atuais.
