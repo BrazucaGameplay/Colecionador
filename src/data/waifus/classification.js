@@ -5,19 +5,19 @@
  */
 
 export const WAIFU_RARITIES = Object.freeze({
-  COMMON: Object.freeze({ id: 'common', name: 'Comum', symbol: 'circle', frameAsset: 'rarity/common.webp' }),
-  RARE: Object.freeze({ id: 'rare', name: 'Rara', symbol: 'diamond', frameAsset: 'rarity/rare.webp' }),
-  EPIC: Object.freeze({ id: 'epic', name: 'Épica', symbol: 'star', frameAsset: 'rarity/epic.webp' }),
-  LEGENDARY: Object.freeze({ id: 'legendary', name: 'Lendária', symbol: 'crown', frameAsset: 'rarity/legendary.webp' }),
-  MYTHICAL: Object.freeze({ id: 'mythical', name: 'Mítica', symbol: 'celestial-star', frameAsset: 'rarity/mythical.webp' })
+  COMMON: Object.freeze({ id: 'common', name: 'Comum', symbol: 'circle', frameAsset: 'frames/common.webp' }),
+  RARE: Object.freeze({ id: 'rare', name: 'Rara', symbol: 'diamond', frameAsset: 'frames/rare.webp' }),
+  EPIC: Object.freeze({ id: 'epic', name: 'Épica', symbol: 'star', frameAsset: 'frames/epic.webp' }),
+  LEGENDARY: Object.freeze({ id: 'legendary', name: 'Lendária', symbol: 'crown', frameAsset: 'frames/legendary.webp' }),
+  MYTHICAL: Object.freeze({ id: 'mythical', name: 'Mítica', symbol: 'celestial-star', frameAsset: 'frames/mythical.webp' })
 });
 
 export const WAIFU_QUALITIES = Object.freeze({
-  D: Object.freeze({ id: 'D', name: 'Plebeia', sealAsset: 'quality/plebeia.webp' }),
-  C: Object.freeze({ id: 'C', name: 'Nobre', sealAsset: 'quality/nobre.webp' }),
-  B: Object.freeze({ id: 'B', name: 'Dama', sealAsset: 'quality/dama.webp' }),
-  A: Object.freeze({ id: 'A', name: 'Princesa', sealAsset: 'quality/princesa.webp' }),
-  S: Object.freeze({ id: 'S', name: 'Rainha', sealAsset: 'quality/rainha.webp' })
+  D: Object.freeze({ id: 'D', name: 'Plebeia', sealAsset: 'seals/plebeia.webp' }),
+  C: Object.freeze({ id: 'C', name: 'Nobre', sealAsset: 'seals/nobre.webp' }),
+  B: Object.freeze({ id: 'B', name: 'Dama', sealAsset: 'seals/dama.webp' }),
+  A: Object.freeze({ id: 'A', name: 'Princesa', sealAsset: 'seals/princesa.webp' }),
+  S: Object.freeze({ id: 'S', name: 'Rainha', sealAsset: 'seals/rainha.webp' })
 });
 
 export const WAIFU_RARITY_IDS = Object.freeze(
