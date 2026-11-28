@@ -106,8 +106,8 @@ export default class CardGallery {
     flip.setAttribute('aria-pressed', 'false');
     flip.textContent = '';
 
-    const inner = node('span', 'html-game-ui__card-flip-inner');
-    const front = node('span', 'html-game-ui__card-face html-game-ui__card-face--front');
+    const inner = node('div', 'html-game-ui__card-flip-inner');
+    const front = node('div', 'html-game-ui__card-face html-game-ui__card-face--front');
     const image = node('img', 'html-game-ui__card-expanded');
     image.src = asset(entry.cardAsset);
     image.alt = 'Carta original de ' + entry.name;
@@ -118,7 +118,7 @@ export default class CardGallery {
     }, { once: true });
     front.append(image);
 
-    const back = node('span', 'html-game-ui__card-face html-game-ui__card-face--back');
+    const back = node('div', 'html-game-ui__card-face html-game-ui__card-face--back');
     back.append(node('span', 'html-game-ui__card-detail-title', entry.name));
     back.append(node('span', 'html-game-ui__card-back-subtitle', 'STATUS'));
     const stats = entry.definition?.stats;
