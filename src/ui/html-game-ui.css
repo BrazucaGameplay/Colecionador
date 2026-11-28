@@ -71,9 +71,9 @@
 .html-game-ui__close {
   position: absolute;
   z-index: 3;
-  top: 8.2%;
-  right: 7.5%;
-  width: clamp(38px, 14%, 58px);
+  top: calc(15.5% - clamp(42px, 15%, 58px) / 2);
+  right: 5%;
+  width: clamp(42px, 15%, 58px);
   aspect-ratio: 1;
   padding: 0;
   border: 0;
