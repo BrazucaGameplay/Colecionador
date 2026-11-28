@@ -24,6 +24,8 @@ function harness() {
   const monitorLayer = displayObject();
   const scene = {
     navigation: {
+      width: 1000,
+      height: 1000,
       findNearestWalkablePoint: (x, y) => ({ x, y }),
       findPath: (_x, _y, x, y) => [{ x, y }],
       isAreaWalkable: () => true
