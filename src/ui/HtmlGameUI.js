@@ -160,7 +160,7 @@ class HtmlPanel {
     this.game = owner.gameScene;
     this.key = key;
     this.page = 0;
-    this.node = element('section', 'html-game-ui__panel ' + (key === 'profile' || key === 'menu' ? 'html-game-ui__panel--vertical' : 'html-game-ui__panel--wide'));
+    this.node = element('section', 'html-game-ui__panel ' + (key === 'profile' ? 'html-game-ui__panel--vertical' : 'html-game-ui__panel--wide'));
     this.node.setAttribute('role', 'dialog');
     this.node.setAttribute('aria-modal', 'true');
     this.node.setAttribute('aria-label', key === 'profile' ? 'Perfil do personagem' : key === 'menu' ? 'Menu principal' : (INFO[key]?.[0] || 'Painel'));
