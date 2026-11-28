@@ -2497,3 +2497,39 @@ ESTADO:
   0.4 e 0.6 em aparelho Android.
 - Pendente: avaliar memoria e fallback Canvas em aparelhos reais.
 
+
+
+======================================================================
+ATUALIZAÇÃO — PAINÉIS E RETRATOS EM HTML (27/11/2026)
+======================================================================
+
+IMPLEMENTADO NO CÓDIGO:
+- Os painéis Menu, Perfil, Bestiário, Waifus, Inventário e Casa passam a
+  ser construídos em HTML/CSS na camada de interface sobre o canvas.
+- O retrato da HUD e as imagens de perfil/skins usam elementos HTML img,
+  com object-fit: contain e sem cópia de textura no TextureManager Phaser.
+- A cena GameUI mantém no Phaser apenas o botão MENU e a moldura/preenchimento
+  das barras de HP e energia.
+- A camada HTML atualiza o retrato quando a skin muda, preserva atributos,
+  alocação de pontos, seleção de skin, navegação entre páginas e fechamento.
+- A camada acompanha o redimensionamento da cena e libera seus elementos
+  e listeners ao encerrar a interface.
+- Os toques no retrato e nos painéis são tratados como interface, sem
+  encaminhar comandos de movimento ao mundo.
+
+DECISÃO TÉCNICA:
+- Foi usada uma camada HTML/CSS irmã do canvas dentro de #game, em vez de
+  Phaser DOMElement. A documentação Phaser 4 confirma que DOMElement fica
+  sempre sobre o canvas, compartilha um único DOM Container entre cenas e
+  requer listeners DOM próprios; uma camada externa permite isolar melhor
+  eventos e manter os elementos screen-space fora da Display List.
+- Nenhuma alteração foi feita no renderer do mundo, árvores, monstros,
+  shader/terreno, câmera, física ou resolução do canvas.
+
+VALIDAÇÃO PENDENTE:
+- Build, testes e publicação serão confirmados pelo workflow desta versão.
+- Conferência visual e interação real em Android permanecem necessárias.
+- Nenhum ganho de FPS ou economia de memória foi declarado sem medição
+  no aparelho de destino.
+
+Versionamento: 2.10.10 → 2.10.11 (PATCH: painéis e retratos HTML).
