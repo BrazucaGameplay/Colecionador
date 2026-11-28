@@ -3,8 +3,8 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.13.0  
-**Atualizado em:** 28/11/2026 (equipamento de cartas e habilidades automáticas)
+**Versão do código-base consultado:** 2.13.1  
+**Atualizado em:** 28/11/2026 (correção de teste do sistema de cartas)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
 
