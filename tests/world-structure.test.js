@@ -151,6 +151,6 @@ test('escala de apresentação de ação deriva da escala base sem mutá-la', ()
   const baseScale = DEFAULT_CHARACTER_SCALE;
   assert.equal(getActionDisplayScale(baseScale), baseScale * 1.35);
   assert.equal(baseScale, DEFAULT_CHARACTER_SCALE);
-  assert.equal(getActionDisplayScale(1.2, 1.5), 1.8);
+  assert.ok(Math.abs(getActionDisplayScale(1.2, 1.5) - 1.8) < 1e-9);
   assert.equal(getActionDisplayScale(Number.NaN), 0);
 });
