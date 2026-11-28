@@ -1,3 +1,9 @@
+## 28/11/2026 — Correção de sintaxe CSS para liberar o build (2.10.33)
+
+- Removido seletor CSS incompleto que restou ao excluir regras antigas de navegação.
+- Nenhuma alteração visual adicional: a correção apenas restaura a validade do CSS para o pipeline de produção.
+- Os 117 testes automatizados passaram na execução 2.10.32; build e publicação serão revalidados nesta versão.
+
 ## 28/11/2026 — Controles globais e correção definitiva do posicionamento do bestiário (2.10.32)
 
 - Corrigida a causa raiz do desalinhamento: `CardGallery` não substitui mais a classe do host posicionado; a galeria é renderizada como filha do contêiner estrutural.

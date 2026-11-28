@@ -717,8 +717,6 @@
   font-size: clamp(9px, 2.3vw, 12px);
   scrollbar-width: thin;
 }
-.html-game-ui__panel--bestiary 
-
 /* Navegação de categoria no rodapé da moldura: monstros ⇄ Boss. */
 @keyframes bestiary-enter-from-right {
   from { opacity: .35; transform: translateX(7%); }
