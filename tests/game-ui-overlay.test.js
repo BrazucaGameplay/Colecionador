@@ -33,6 +33,39 @@ test('retrato HUD é clicável, atualiza fallback e bloqueia apenas sua região'
   }
 });
 
+test('perfil usa os controles globais e navega lateralmente por personagem, status e skills', () => {
+  const dom = installFakeDom();
+  try {
+    const game = { skinManager: { getSelectedDefinition: () => ({ portrait: '' }) } };
+    const scene = { scale: { width: 960, height: 540 }, scene: { get: () => game } };
+    const ui = new HtmlGameUI(scene);
+    ui.openPanel('profile');
+    const panel = ui.activePanel;
+    assert.ok(findByClass(panel.node, 'html-game-ui__panel-back'));
+    assert.ok(findByClass(panel.node, 'html-game-ui__close'));
+    assert.equal(findByClass(panel.node, 'html-game-ui__profile-controls'), null);
+    assert.equal(panel.page, 0);
+
+    panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 300, clientY: 220 });
+    panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 220, clientY: 220 });
+    assert.equal(panel.page, 1, 'arrastar para a esquerda deve abrir Status');
+    assert.ok(panel.statsPage.className.includes('is-entering-from-right'));
+
+    panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 300, clientY: 220 });
+    panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 210, clientY: 220 });
+    assert.equal(panel.page, 2, 'arrastar novamente para a esquerda deve abrir Skills');
+
+    findByClass(panel.node, 'html-game-ui__panel-back').click();
+    assert.equal(panel.page, 1, 'o botão global deve voltar uma página do perfil');
+    panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 200, clientY: 220 });
+    panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 300, clientY: 220 });
+    assert.equal(panel.page, 0, 'arrastar para a direita deve retornar à página Personagem');
+    ui.destroy();
+  } finally {
+    dom.restore();
+  }
+});
+
 test('menu abre painéis informativos e o toque fora ou o X fecha o overlay', () => {
   const dom = installFakeDom();
   try {
