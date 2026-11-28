@@ -46,9 +46,22 @@ test('menu abre painéis informativos e o toque fora ou o X fecha o overlay', ()
     assert.ok(menu);
     menu.children[0].click();
     assert.equal(ui.activePanel.key, 'bestiary');
-    assert.match(ui.activePanel.node.textContent + ui.activePanel.content.children.map(n => n.textContent).join(' '), /BESTIÁRIO/);
+    assert.equal(findByClass(ui.activePanel.node, 'html-game-ui__info-title'), null, 'o título BESTIÁRIO não deve aparecer');
+    assert.equal(findByClass(ui.activePanel.node, 'html-game-ui__card-tabs'), null, 'as caixas de categoria superiores devem ser removidas');
     assert.ok(ui.activePanel.node.className.includes('html-game-ui__panel--bestiary'));
     assert.ok(findByClass(ui.activePanel.node, 'html-game-ui__panel-art').src.endsWith('/assets/ui/panels/painel_vertical_900x1350_transparente.webp'));
+
+    const categoryArrow = findByClass(ui.activePanel.node, 'html-game-ui__card-category-arrow');
+    assert.ok(categoryArrow, 'a seta deve ficar no rodapé do painel');
+    assert.equal(categoryArrow.textContent, '›');
+    categoryArrow.click();
+    assert.equal(ui.activePanel.cardGallery.category, 'bosses');
+    assert.equal(categoryArrow.textContent, '‹');
+    assert.equal(categoryArrow.getAttribute('aria-label'), 'Voltar aos monstros');
+    assert.ok(findByClass(ui.activePanel.node, 'html-game-ui__card-empty'), 'Boss sem cadastro deve exibir estado vazio no painel');
+    categoryArrow.click();
+    assert.equal(ui.activePanel.cardGallery.category, 'monsters');
+    assert.equal(categoryArrow.textContent, '›');
 
     const cardTile = findByClass(ui.activePanel.node, 'html-game-ui__card-tile');
     assert.ok(cardTile, 'a carta registrada deve aparecer na grade');
