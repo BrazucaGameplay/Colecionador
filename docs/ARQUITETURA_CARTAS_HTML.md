@@ -18,9 +18,9 @@ Cartas ilustradas de monstros comuns, Boss e waifus usam o mesmo grupo de aprese
 ## Caminhos finais
 ```text
 public/assets/cards/
-  monsters/<species-id>/card.png
-  bosses/<boss-id>/card.png
-  waifus/<waifu-id>/card.png
+  monsters/<species-id>/card.<ext>
+  bosses/<boss-id>/card.<ext>
+  waifus/<waifu-id>/card.<ext>
 ```
 IDs estáveis, minúsculos, sem espaços/acentos. Spritesheets de gameplay não pertencem a esse diretório. A origem principal das cartas de waifus permanece no repositório separado; este repositório recebe cópia final somente quando necessária para o bundle.
 
@@ -41,6 +41,6 @@ IDs estáveis, minúsculos, sem espaços/acentos. Spritesheets de gameplay não 
 - Testar proporção, navegação arte/status, fechamento, troca de registro e limpeza.
 
 ## Estado e entrega
-Estrutura e documentação preparadas. O usuário deve colocar a carta oficial do Slime em `public/assets/cards/monsters/slime/card.png`. A referência recebida em 27/11/2026 tem 1024 × 1536 px (2:3). Nenhuma imagem foi copiada ou alterada nesta atualização.
+Estrutura e documentação preparadas. As 11 cartas JPG fornecidas pelo usuário foram organizadas em pastas individuais, preservando os blobs originais sem conversão: `public/assets/cards/monsters/<species-id>/card.jpg`. As dimensões de cada arquivo ainda precisam ser verificadas antes de validar o enquadramento final.
 
 O componente HTML compartilhado e a integração funcional da galeria/visualização/status são trabalho futuro. Esta estrutura não significa que o bestiário esteja implementado.

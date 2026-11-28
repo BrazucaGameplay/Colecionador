@@ -1,5 +1,12 @@
 # Changelog
 
+## 27/11/2026 — Organização das 11 cartas JPG de monstros
+
+- Confirmados 11 arquivos de cartas: Bear, Cyclops, Eagle, Goblin, Monkey, Ogre, Rat, Slime, Snake, Spider e Wolf.
+- Reorganizados em diretórios individuais, um por espécie, como `card.jpg`.
+- Os blobs originais foram reutilizados diretamente no Git tree: nenhuma imagem foi recomprimida, convertida ou editada.
+- Documentação ajustada para preservar extensão/formato original (`card.<ext>`), sem exigir conversão para PNG.
+
 ## 28/11/2026 — Regra de animação opcional por espécie (2.10.28)
 
 - Registrado que a animação de monstros comuns é opcional e definida individualmente por espécie; monstros sem animação usam imagem estática.
