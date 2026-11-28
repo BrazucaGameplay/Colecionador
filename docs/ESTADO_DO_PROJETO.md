@@ -3,7 +3,7 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.10.36  
+**Versão do código-base consultado:** 2.11.0  
 **Atualizado em:** 28/11/2026 (menu principal responsivo em revisão)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
@@ -28,7 +28,7 @@
 - HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Skills; o enquadramento do retrato é adaptativo. A navegação usa setas discretas como indicação de arrasto nos dois sentidos, mantém o botão Voltar na primeira tela e não exibe botão X/Sair no Perfil. O menu principal usa uma moldura vetorial SVG dedicada, com borda inferior contínua e ornamentos completos; o layout responsivo preserva a proporção e mantém o controle FPS compacto fora do eixo central do botão global inferior.
 - CI executa auditoria de dependências, testes, build e verificações de assets/versão.
 
-### O que falta ou não está confirmado
+### Sistema de waifus — fundação preparada (2.11.0)\n\n- Criadas classificações centrais de raridade fixa (Comum, Rara, Épica, Lendária, Mítica) e qualidade fixa na aquisição (Plebeia, Nobre, Dama, Princesa, Rainha).\n- Criados pontos de entrada separados para catálogo e tabelas de drop; ambos permanecem vazios até haver personagens, monstros e probabilidades confirmados.\n- Reservados diretórios para cinco molduras de raridade e cinco selos de qualidade, sem assets provisórios.\n- A origem principal das ilustrações de waifus continua no repositório separado. O painel Waifus e o runtime ainda não foram integrados.\n- Documento de referência: [Arquitetura do sistema de waifus](ARQUITETURA_DO_SISTEMA_DE_WAIFUS.md).\n\n## O que falta ou não está confirmado
 - Sistema de habilidades reais/equipáveis: a tela Skills existe, mas o catálogo e o gerenciador de habilidades ainda não estão integrados.
 - Sistemas de waifus, vínculos, presentes, inventário completo e casa. O catálogo do bestiário usa Slime como primeira entrada e a galeria HTML compartilhada está integrada; descoberta persistente e conteúdo Boss ainda faltam. As outras dez cartas estão apenas arquivadas, sem registro de criatura.
 - Catálogo/carregador de ilhas, conexões, pontes, portais e transições entre ilhas.
