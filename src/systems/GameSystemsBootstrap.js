@@ -47,8 +47,8 @@ export default class GameSystemsBootstrap {
       getTargets: () => monsterManager?.getAliveEntities() || [],
       onAttack: (target, damage, now, penetration, attackIntervalMs) => {
         characterRenderer?.playAction('combat', { durationMs: attackIntervalMs });
-        monsterManager?.damage(target.id, damage, now, penetration);
         waifuAbilities?.tryActivate(target, now);
+        monsterManager?.damage(target.id, damage, now, penetration);
       }
     });
     scene.monsterCombat = new MonsterCombatSystem({
