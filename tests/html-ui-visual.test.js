@@ -1,107 +1,95 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import Player from '../src/entities/Player.js';
+import HtmlGameUI from '../src/ui/HtmlGameUI.js';
+import { calculateContainLayout } from '../src/ui/ProfileImageFitter.js';
+import { installFakeDom, findByClass, findAllByClass } from './helpers/fake-dom.js';
 
-const read = path => readFile(new URL(path, import.meta.url), 'utf8');
-
-test('painéis HTML usam tipografia fina sans-serif', async () => {
-  const css = await read('../src/ui/html-game-ui.css');
-  assert.match(css, /font-family: system-ui, "Roboto", "Segoe UI", sans-serif/);
-  assert.match(css, /\.html-game-ui__stat-label \{ font-weight: 300; \}/);
-  assert.match(css, /\.html-game-ui__profile-footer \{ font-weight: 300; \}/);
-});
-
-test('painel de perfil contém retrato, setas laterais ornamentadas e botão X', async () => {
-  const ui = await read('../src/ui/HtmlGameUI.js');
-  const profileStart = ui.indexOf('  buildProfile() {');
-  const profileEnd = ui.indexOf('\n  refresh() {', profileStart);
-  assert.ok(profileStart >= 0 && profileEnd > profileStart);
-  const profileBuilder = ui.slice(profileStart, profileEnd);
-  assert.match(profileBuilder, /element\('img', 'html-game-ui__profile-portrait'\)/);
-  assert.match(profileBuilder, /imageButton\('‹', UI\.button200/);
-  assert.match(profileBuilder, /imageButton\('›', UI\.button200/);
-  assert.match(profileBuilder, /aria-label', 'Tela anterior do perfil'/);
-  assert.match(profileBuilder, /aria-label', 'Próxima tela do perfil'/);
-  assert.match(profileBuilder, /STAT_UPGRADES/);
-  assert.match(profileBuilder, /this\.skillsPage = element/);
-  assert.match(profileBuilder, /this\.equipSkill\(skill\.id\)/);
-  assert.match(ui, /const close = element\('button', 'html-game-ui__close'\)/);
-  assert.match(ui, /closeImg\.src = UI\.close/);
-  assert.match(ui, /this\.profilePortraitFrame\.append\(this\.profilePortraitFallback, this\.portrait\)/);
-  assert.match(ui, /this\.portrait\.src = portrait/);
-  assert.match(ui, /shade\.addEventListener\('pointerdown',[\s\S]*?this\.closePanel\(\)/);
-});
-
-test('silhueta de fallback é independente e as artes permanecem transparentes', async () => {
-  const [css, ui] = await Promise.all([
-    read('../src/ui/html-game-ui.css'),
-    read('../src/ui/HtmlGameUI.js')
-  ]);
-  assert.match(css, /\.html-game-ui__portrait-fallback[\s\S]*?background: radial-gradient/);
-  assert.match(css, /\.html-game-ui__portrait-image \{ background: transparent; \}/);
-  assert.match(ui, /element\('span', 'html-game-ui__portrait-fallback'\)/);
-  assert.match(ui, /addEventListener\('load',[\s\S]*?portraitFallback\.hidden = true/);
-  assert.match(ui, /addEventListener\('error',[\s\S]*?portraitFallback\.hidden = false/);
-});
-
-
-test('adaptador de retrato calcula encaixe pelo conteúdo visível e pela área disponível', async () => {
-  const source = await read('../src/ui/ProfileImageFitter.js');
-  assert.match(source, /calculateContainLayout/);
-  assert.match(source, /naturalWidth/);
-  assert.match(source, /naturalHeight/);
-  assert.match(source, /getImageData/);
-  assert.match(source, /ResizeObserver/);
-  assert.match(source, /this\.resizeObserver\?\.disconnect\(\)/);
-  const { calculateContainLayout } = await import('../src/ui/ProfileImageFitter.js');
+test('encaixe preserva a proporção e mantém o conteúdo alfa dentro do frame', () => {
   const layout = calculateContainLayout(
-    1200, 1800,
-    { left: 200, top: 100, right: 1000, bottom: 1700 },
-    300, 400
+    2288, 1249,
+    { left: 180, top: 80, right: 2200, bottom: 1180 },
+    280, 360
   );
   assert.ok(layout.width > 0 && layout.height > 0);
-  assert.ok(layout.left + 200 * (layout.width / 1200) >= 0);
-  assert.ok(layout.top + 100 * (layout.height / 1800) >= 0);
-  assert.ok(layout.left + 1000 * (layout.width / 1200) <= 300);
-  assert.ok(layout.top + 1700 * (layout.height / 1800) <= 400);
+  const scaleX = layout.width / 2288;
+  const scaleY = layout.height / 1249;
+  assert.ok(Math.abs(scaleX - scaleY) < 1e-9);
+  assert.ok(layout.left + 180 * scaleX >= 0);
+  assert.ok(layout.top + 80 * scaleY >= 0);
+  assert.ok(layout.left + 2200 * scaleX <= 280);
+  assert.ok(layout.top + 1180 * scaleY <= 360);
 });
 
-test('o frame do perfil recorta a imagem nos limites internos e o fitter é descartado', async () => {
-  const [css, ui] = await Promise.all([
-    read('../src/ui/html-game-ui.css'),
-    read('../src/ui/HtmlGameUI.js')
-  ]);
-  assert.match(css, /\.html-game-ui__panel--vertical \.html-game-ui__profile-portrait-frame[\s\S]*?overflow: hidden/);
-  assert.match(css, /contain: layout paint/);
-  assert.match(ui, /new ProfileImageFitter\(this\.profilePortraitFrame, this\.portrait\)/);
-  assert.match(ui, /this\.profileImageFitter\?\.destroy\(\)/);
-});
+test('perfil percorre Personagem, Status e Skills e executa ações reais do Player', () => {
+  const dom = installFakeDom();
+  try {
+    const player = new Player({ saveData: { statPoints: 1 } });
+    let saves = 0;
+    let equipped = false;
+    const game = {
+      player,
+      progression: { getRequiredExperience: level => 100 * level },
+      persistProgress() { saves++; },
+      skinManager: { getSelectedDefinition: () => ({
+        id: 'skin_01',
+        portrait: 'assets/characters/sprites/skin_01/perfil.png'
+      }) },
+      skillManager: {
+        getEquippedSkills: () => equipped ? [{ id: 'fire', name: 'Fogo' }] : [],
+        getCatalog: () => [{ id: 'fire', name: 'Fogo', description: 'Projétil de fogo', unlocked: true, equipped }],
+        equip(id) { if (id !== 'fire' || equipped) return { changed: false }; equipped = true; return { changed: true }; }
+      }
+    };
+    const scene = {
+      scale: { width: 960, height: 540 },
+      scene: { get: name => name === 'Game' ? game : null }
+    };
+    const ui = new HtmlGameUI(scene);
+    ui.openPanel('profile');
+    const panel = ui.activePanel;
 
+    assert.equal(panel.page, 0);
+    assert.equal(panel.profilePortraitFrame.hidden, false);
+    assert.equal(panel.statsPage.hidden, true);
+    assert.equal(panel.skillsPage.hidden, true);
+    assert.ok(panel.portrait.src.endsWith('/assets/characters/sprites/skin_01/perfil.png'));
 
-test('setas percorrem apenas skins validadas e atualizam o retrato sem nomes ou indicadores', async () => {
-  const ui = await read('../src/ui/HtmlGameUI.js');
-  assert.match(ui, /this\.setPage\(this\.page - 1\)/);
-  assert.match(ui, /this\.setPage\(this\.page \+ 1\)/);
-  assert.match(ui, /this\.page === 1/);
-  assert.match(ui, /this\.page === 2/);
-  assert.match(ui, /this\.game\?\.skillManager\?\.equip\?\.\(id\)/);
-  assert.match(ui, /element\('div', 'html-game-ui__profile-controls'\)/);
-});
+    panel.portrait.naturalWidth = 2288;
+    panel.portrait.naturalHeight = 1249;
+    panel.portrait.complete = true;
+    panel.portrait.dispatch('load');
+    assert.equal(panel.profilePortraitFallback.hidden, true);
+    assert.ok(panel.portrait.style.width.endsWith('px'));
 
+    panel.nextPage.click();
+    assert.equal(panel.page, 1);
+    assert.equal(panel.profilePortraitFrame.hidden, true);
+    assert.equal(panel.statsPage.hidden, false);
+    const attackPlus = findAllByClass(panel.statsPage, 'html-game-ui__plus')[0];
+    assert.ok(attackPlus);
+    attackPlus.click();
+    assert.equal(player.stats.attack, 6);
+    assert.equal(player.statPoints, 0);
+    assert.equal(saves, 1);
 
-test('perfil navega por personagem, status e habilidades; status usa dados reais do Player', async () => {
-  const [ui, css] = await Promise.all([
-    read('../src/ui/HtmlGameUI.js'),
-    read('../src/ui/html-game-ui.css')
-  ]);
-  assert.match(ui, /Object\.entries\(STAT_UPGRADES\)/);
-  assert.match(ui, /player\.stats\[row\.key\]/);
-  assert.match(ui, /allocateStat\(key\)/);
-  assert.match(ui, /getRequiredExperience\(player\.level\)/);
-  assert.match(ui, /getEquippedSkills/);
-  assert.match(ui, /getCatalog\?\.\(\)/);
-  assert.match(ui, /Nenhuma habilidade cadastrada ainda/);
-  assert.match(css, /\.html-game-ui__skills-page/);
-  assert.match(css, /\.html-game-ui__skill-slot/);
-  assert.match(css, /\.html-game-ui__skill-equip/);
+    panel.nextPage.click();
+    assert.equal(panel.page, 2);
+    assert.equal(panel.skillsPage.hidden, false);
+    assert.equal(panel.skillSlots.children.length, 3);
+    const equip = findByClass(panel.skillList, 'html-game-ui__skill-equip');
+    assert.ok(equip);
+    equip.click();
+    assert.equal(equipped, true);
+    assert.match(panel.skillSlots.children[0].children[1].textContent, /Fogo/);
+    assert.equal(panel.nextPage.disabled, true);
+
+    findByClass(panel.node, 'html-game-ui__close').click();
+    assert.equal(ui.activePanel, null);
+    assert.equal(dom.root.querySelector('.html-game-ui__shade'), null);
+    ui.destroy();
+    assert.equal(dom.root.children.length, 0);
+  } finally {
+    dom.restore();
+  }
 });
