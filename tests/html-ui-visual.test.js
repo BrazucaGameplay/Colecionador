@@ -132,3 +132,36 @@ test('painel Waifus exibe apenas cartas adquiridas sem moldura individual', () =
     dom.restore();
   }
 });
+
+
+test('coleção de waifus agrupa apenas cartas idênticas por personagem e qualidade', () => {
+  const dom = installFakeDom();
+  try {
+    const game = {
+      waifuCollection: [
+        { waifuId: 'slime-maiden', name: 'Donzela Slime', quality: 'D', level: 1 },
+        { waifuId: 'slime-maiden', name: 'Donzela Slime', quality: 'D', level: 1 },
+        { waifuId: 'slime-maiden', name: 'Donzela Slime', quality: 'A', level: 1 }
+      ]
+    };
+    const scene = {
+      scale: { width: 960, height: 540 },
+      scene: { get: name => name === 'Game' ? game : null }
+    };
+    const ui = new HtmlGameUI(scene);
+    ui.openPanel('waifus');
+    const panel = ui.activePanel;
+    const tiles = panel.waifuGrid.children.filter(node => node.className.includes('html-game-ui__waifu-tile'));
+    assert.equal(tiles.length, 2, 'qualidades diferentes continuam em pilhas separadas');
+    const stacked = findByClass(tiles[0], 'html-game-ui__waifu-stack-count');
+    assert.ok(stacked);
+    assert.equal(stacked.textContent, '2');
+    assert.equal(findByClass(tiles[1], 'html-game-ui__waifu-stack-count'), null, 'carta única não mostra contador');
+    assert.ok(findByClass(tiles[0], 'html-game-ui__waifu-image'), 'a arte original permanece sem moldura');
+    assert.match(tiles[0].getAttribute('aria-label'), /quantidade 2/);
+    ui.destroy();
+    assert.equal(dom.root.children.length, 0);
+  } finally {
+    dom.restore();
+  }
+});
