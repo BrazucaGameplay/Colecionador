@@ -1,4 +1,4 @@
-# 28/11/2026 — Tabelas de drop por espécie e aquisição da Donzela Slime (2.12.0)
+# 28/11/2026 — Pasta de artes originais das waifus (2.12.1)\n\n- Criada `public/assets/images/waifus/` como destino das ilustrações originais das cartas.\n- Documentados nomes estáveis, formatos aceitos, proporção vertical 2:3, preservação integral da arte e cadastro explícito em `cardAsset`.\n- Nenhuma imagem provisória ou personagem novo foi adicionado.\n\n# 28/11/2026 — Tabelas de drop por espécie e aquisição da Donzela Slime (2.12.0)
 
 - Criada uma tabela isolada por espécie; cada monstro consulta exclusivamente a própria lista, sem herdar drops de outra espécie.
 - Slime concede a carta Donzela Slime com 20% de chance por morte.
