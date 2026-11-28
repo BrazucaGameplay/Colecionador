@@ -41,9 +41,12 @@ test('perfil usa os controles globais e navega lateralmente por personagem, stat
     const ui = new HtmlGameUI(scene);
     ui.openPanel('profile');
     const panel = ui.activePanel;
-    assert.ok(findByClass(panel.node, 'html-game-ui__panel-back'));
-    assert.ok(findByClass(panel.node, 'html-game-ui__close'));
+    assert.ok(findByClass(panel.node, 'html-game-ui__panel-back'), 'a primeira tela mantém o botão voltar');
+    assert.equal(findByClass(panel.node, 'html-game-ui__close'), null, 'o perfil não deve exibir botão X/sair');
     assert.equal(findByClass(panel.node, 'html-game-ui__profile-controls'), null);
+    const swipeHints = findByClass(panel.node, 'html-game-ui__swipe-hints');
+    assert.ok(swipeHints, 'o perfil deve indicar o gesto apenas com setas');
+    assert.equal(swipeHints.children.length, 2, 'as duas setas indicam avançar e voltar');
     assert.equal(panel.page, 0);
 
     panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 300, clientY: 220 });
@@ -55,11 +58,14 @@ test('perfil usa os controles globais e navega lateralmente por personagem, stat
     panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 210, clientY: 220 });
     assert.equal(panel.page, 2, 'arrastar novamente para a esquerda deve abrir Skills');
 
-    findByClass(panel.node, 'html-game-ui__panel-back').click();
-    assert.equal(panel.page, 1, 'o botão global deve voltar uma página do perfil');
     panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 200, clientY: 220 });
     panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 300, clientY: 220 });
-    assert.equal(panel.page, 0, 'arrastar para a direita deve retornar à página Personagem');
+    assert.equal(panel.page, 1, 'arrastar para a direita deve voltar de Skills para Status');
+    panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 200, clientY: 220 });
+    panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 300, clientY: 220 });
+    assert.equal(panel.page, 0, 'arrastar novamente para a direita deve retornar à página Personagem');
+    findByClass(panel.node, 'html-game-ui__panel-back').click();
+    assert.equal(ui.activePanel, null, 'o botão voltar na primeira tela deve sair do perfil e retornar ao jogo');
     ui.destroy();
   } finally {
     dom.restore();
