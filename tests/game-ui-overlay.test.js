@@ -36,11 +36,7 @@ test('retrato HUD é clicável, atualiza fallback e bloqueia apenas sua região'
 test('perfil usa os controles globais e navega lateralmente por personagem, status e skills', () => {
   const dom = installFakeDom();
   try {
-    const performanceMonitor = { enabled: false, setEnabled(value) { this.enabled = value; } };
-    const game = {
-      skinManager: { getSelectedDefinition: () => ({ portrait: '' }) },
-      performanceMonitor
-    };
+    const game = { skinManager: { getSelectedDefinition: () => ({ portrait: '' }) } };
     const scene = { scale: { width: 960, height: 540 }, scene: { get: () => game } };
     const ui = new HtmlGameUI(scene);
     ui.openPanel('profile');
@@ -73,7 +69,11 @@ test('perfil usa os controles globais e navega lateralmente por personagem, stat
 test('menu abre painéis informativos e o toque fora ou o X fecha o overlay', () => {
   const dom = installFakeDom();
   try {
-    const game = { skinManager: { getSelectedDefinition: () => ({ portrait: '' }) } };
+    const performanceMonitor = { enabled: false, setEnabled(value) { this.enabled = value; } };
+    const game = {
+      skinManager: { getSelectedDefinition: () => ({ portrait: '' }) },
+      performanceMonitor
+    };
     const scene = { scale: { width: 960, height: 540 }, scene: { get: () => game } };
     const ui = new HtmlGameUI(scene);
 
