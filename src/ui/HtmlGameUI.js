@@ -58,6 +58,7 @@ export default class HtmlGameUI {
     this.openMenu = openMenu;
     this.openProfile = openProfile;
     this.activePanel = null;
+    this.panelHistory = [];
     this.page = 0;
     this.lastPortrait = '';
     this.root = element('div', 'html-game-ui');
@@ -127,8 +128,10 @@ export default class HtmlGameUI {
     return Math.abs(x - width / 2) <= 40 && Math.abs(y - centerY) <= 52;
   }
 
-  openPanel(key) {
-    this.closePanel();
+  openPanel(key, { pushHistory = true } = {}) {
+    const previousKey = this.activePanel?.key;
+    if (pushHistory && previousKey && previousKey !== key) this.panelHistory.push(previousKey);
+    this.closePanel({ clearHistory: false });
     const shade = element('div', 'html-game-ui__shade');
     shade.addEventListener('pointerdown', event => {
       if (event.target === shade) this.closePanel();
@@ -142,9 +145,19 @@ export default class HtmlGameUI {
     panel.refresh();
   }
 
-  closePanel() {
+  goBackPanel() {
+    const previousKey = this.panelHistory.pop();
+    if (previousKey) {
+      this.openPanel(previousKey, { pushHistory: false });
+      return;
+    }
+    this.closePanel();
+  }
+
+  closePanel({ clearHistory = true } = {}) {
     this.activePanel?.destroy();
     this.activePanel = null;
+    if (clearHistory) this.panelHistory.length = 0;
     this.root?.querySelector('.html-game-ui__shade')?.remove();
   }
 
@@ -177,20 +190,34 @@ class HtmlPanel {
     this.art.draggable = false;
     this.node.append(this.art);
 
-    const close = element('button', 'html-game-ui__close');
-    close.type = 'button';
-    close.setAttribute('aria-label', 'Fechar painel');
+    this.closeButton = element('button', 'html-game-ui__close');
+    this.closeButton.type = 'button';
+    this.closeButton.setAttribute('aria-label', 'Fechar painel');
     const closeImg = element('img');
     closeImg.src = UI.close;
     closeImg.alt = '';
-    close.append(closeImg);
-    close.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); owner.closePanel(); });
-    this.node.append(close);
+    this.closeButton.append(closeImg);
+    this.closeButton.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      owner.closePanel();
+    });
+    this.backButton = element('button', 'html-game-ui__panel-back', '‹');
+    this.backButton.type = 'button';
+    this.backButton.setAttribute('aria-label', 'Voltar');
+    this.backButton.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.handleBack();
+    });
+    this.node.append(this.closeButton, this.backButton);
     this.content = element('div', 'html-game-ui__panel-content');
     this.node.append(this.content);
     if (key === 'profile') this.buildProfile(skin);
     else if (key === 'menu') this.buildMenu();
     else this.buildInfo();
+    this.updateBackButton();
+    if (key === 'profile') this.bindProfileSwipe();
   }
 
   addText(parent, className, text) {
@@ -218,21 +245,7 @@ class HtmlPanel {
       this.cardGalleryHost = element('div', 'html-game-ui__card-gallery-host');
       this.cardGalleryHost.id = 'bestiary-card-gallery';
       this.cardGallery = new CardGallery(this.cardGalleryHost);
-      this.categoryArrow = element('button', 'html-game-ui__card-category-arrow', '›');
-      this.categoryArrow.type = 'button';
-      this.categoryArrow.setAttribute('aria-label', 'Mostrar Boss');
-      this.categoryArrow.setAttribute('aria-controls', 'bestiary-card-gallery');
-      this.categoryArrow.addEventListener('click', event => {
-        event.preventDefault();
-        event.stopPropagation();
-        const next = this.cardGallery.category === 'monsters' ? 'bosses' : 'monsters';
-        this.cardGallery.setCategory(next);
-        const showingBosses = next === 'bosses';
-        this.categoryArrow.textContent = showingBosses ? '‹' : '›';
-        this.categoryArrow.setAttribute('aria-label', showingBosses ? 'Voltar aos monstros' : 'Mostrar Boss');
-        this.categoryArrow.className = 'html-game-ui__card-category-arrow' + (showingBosses ? ' is-reversed' : '');
-      });
-      this.content.append(this.cardGalleryHost, this.categoryArrow);
+      this.content.append(this.cardGalleryHost);
       return;
     }
     const [title, status, description] = INFO[this.key] || INFO.bestiary;
@@ -277,13 +290,6 @@ class HtmlPanel {
     this.content.append(this.skillsPage);
     this.buildSkillPage();
 
-    this.profileControls = element('div', 'html-game-ui__profile-controls');
-    this.previousPage = imageButton('‹', UI.button200, () => this.setPage(this.page - 1), 'html-game-ui__profile-arrow');
-    this.nextPage = imageButton('›', UI.button200, () => this.setPage(this.page + 1), 'html-game-ui__profile-arrow');
-    this.previousPage.setAttribute('aria-label', 'Tela anterior do perfil');
-    this.nextPage.setAttribute('aria-label', 'Próxima tela do perfil');
-    this.profileControls.append(this.previousPage, this.nextPage);
-    this.content.append(this.profileControls);
     this.setPage(0);
     this.refreshProfileData();
   }
@@ -331,17 +337,78 @@ class HtmlPanel {
     return true;
   }
 
-  refreshProfileControls() {
-    if (this.previousPage) this.previousPage.disabled = this.page <= 0;
-    if (this.nextPage) this.nextPage.disabled = this.page >= 2;
+  handleBack() {
+    if (this.key === 'bestiary') {
+      if (this.cardGallery?.backToGallery()) {
+        this.updateBackButton();
+        return;
+      }
+      const next = this.cardGallery?.category === 'monsters' ? 'bosses' : 'monsters';
+      this.cardGallery?.setCategory(next);
+      this.updateBackButton();
+      return;
+    }
+    if (this.key === 'profile' && this.page > 0) {
+      this.setPage(this.page - 1, 'backward');
+      return;
+    }
+    this.owner.goBackPanel();
   }
 
-  setPage(page) {
+  updateBackButton() {
+    if (!this.backButton) return;
+    let label = 'Voltar';
+    let direction = '‹';
+    if (this.key === 'bestiary') {
+      if (this.cardGallery?.page === 'detail' || this.cardGallery?.category === 'bosses') {
+        label = this.cardGallery.page === 'detail' ? 'Voltar à galeria' : 'Voltar aos monstros';
+      } else {
+        label = 'Mostrar Boss';
+        direction = '›';
+      }
+    } else if (this.key === 'profile' && this.page === 0) {
+      label = 'Voltar ao menu';
+    } else if (this.key === 'profile') {
+      label = 'Voltar à página anterior';
+    } else if (this.key === 'menu') {
+      label = 'Voltar ao jogo';
+    } else {
+      label = 'Voltar ao menu';
+    }
+    this.backButton.textContent = direction;
+    this.backButton.setAttribute('aria-label', label);
+  }
+
+  bindProfileSwipe() {
+    let start = null;
+    this.content.addEventListener('pointerdown', event => {
+      if (event.pointerType !== 'touch' || event.target?.tagName === 'BUTTON') return;
+      start = { x: event.clientX, y: event.clientY };
+    });
+    this.content.addEventListener('pointerup', event => {
+      if (!start || event.pointerType !== 'touch') return;
+      const deltaX = event.clientX - start.x;
+      const deltaY = event.clientY - start.y;
+      start = null;
+      if (Math.abs(deltaX) < 42 || Math.abs(deltaX) < Math.abs(deltaY) * 1.25) return;
+      this.setPage(this.page + (deltaX < 0 ? 1 : -1), deltaX < 0 ? 'forward' : 'backward');
+    });
+    this.content.addEventListener('pointercancel', () => { start = null; });
+  }
+
+  setPage(page, direction = 'forward') {
+    const previous = this.page;
     this.page = Math.max(0, Math.min(2, page));
     this.profilePortraitFrame.hidden = this.page !== 0;
     this.statsPage.hidden = this.page !== 1;
     this.skillsPage.hidden = this.page !== 2;
-    this.refreshProfileControls();
+    const active = this.page === 0 ? this.profilePortraitFrame : this.page === 1 ? this.statsPage : this.skillsPage;
+    if (previous !== this.page && active) {
+      active.className = active.className
+        .replace(/\s+is-entering-from-(?:left|right)/g, '')
+        + (direction === 'forward' ? ' is-entering-from-right' : ' is-entering-from-left');
+    }
+    this.updateBackButton();
     if (this.page === 1) this.refreshProfileData();
     if (this.page === 2) this.buildSkillPage();
   }
@@ -369,7 +436,7 @@ class HtmlPanel {
     this.portrait.hidden = !portrait;
     this.profilePortraitFallback.hidden = Boolean(portrait && this.portrait.complete && this.portrait.naturalWidth > 0);
     this.refreshProfileData();
-    this.refreshProfileControls();
+    this.updateBackButton();
   }
 
   destroy() {
