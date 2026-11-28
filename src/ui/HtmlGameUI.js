@@ -376,13 +376,17 @@ class HtmlPanel {
     for (let index = 0; index < 3; index++) {
       const card = equipped[index];
       const slot = element('div', 'html-game-ui__waifu-equip-slot');
+      const details = element('div', 'html-game-ui__waifu-equip-slot-details');
       const label = element('span', 'html-game-ui__waifu-equip-slot-label', 'CARTA ' + (index + 1));
       const definition = WAIFU_CATALOG.find(item => item.id === card?.waifuId);
       const value = element('span', 'html-game-ui__waifu-equip-slot-value', card?.name || 'Vazio');
-      slot.append(label, value);
+      details.append(label, value);
       if (card) {
         const ability = definition?.activeAbility;
-        if (ability) slot.append(element('span', 'html-game-ui__waifu-equip-description', ability.name + ' · automática'));
+        if (ability) details.append(element('span', 'html-game-ui__waifu-equip-description', ability.name + ' · automática'));
+      }
+      slot.append(details);
+      if (card) {
         const remove = imageButton('REMOVER', UI.button200, () => this.unequipWaifu(index), 'html-game-ui__waifu-equip-equip');
         slot.append(remove);
       }
@@ -396,11 +400,19 @@ class HtmlPanel {
         collection.length ? 'Todas as cartas disponíveis já estão equipadas.' : 'Obtenha cartas derrotando monstros para liberar habilidades.');
       return;
     }
+    const availableStacks = new Map();
     for (const card of available) {
+      const key = JSON.stringify([card.waifuId, card.quality || 'D']);
+      const stack = availableStacks.get(key) || { card, quantity: 0 };
+      stack.quantity += 1;
+      availableStacks.set(key, stack);
+    }
+    for (const { card, quantity } of availableStacks.values()) {
       const definition = WAIFU_CATALOG.find(item => item.id === card.waifuId);
       const row = element('div', 'html-game-ui__waifu-equip-row');
       const details = element('div', 'html-game-ui__waifu-equip-details');
-      this.addText(details, 'html-game-ui__waifu-equip-name', card.name || definition?.name || 'Waifu');
+      const name = (card.name || definition?.name || 'Waifu') + (quantity > 1 ? ' ×' + quantity : '');
+      this.addText(details, 'html-game-ui__waifu-equip-name', name);
       this.addText(details, 'html-game-ui__waifu-equip-description',
         definition?.activeAbility ? definition.activeAbility.name + ' · recarga ' + (definition.activeAbility.cooldownMs / 1000) + 's' : 'Sem habilidade ativa cadastrada');
       const button = imageButton('EQUIPAR', UI.button200,

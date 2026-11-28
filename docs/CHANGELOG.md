@@ -1,4 +1,4 @@
-# 28/11/2026 — Correção do teste de ativação de habilidades por carta (2.13.1)
+# 28/11/2026 — Correção responsiva do equipamento de cartas (2.13.2)\n\n- Reestruturados os três espaços equipados em linhas compactas com nome, habilidade automática e botão de remoção em colunas próprias.\n- A lista de cartas disponíveis começa abaixo dos espaços, possui rolagem interna e botões dimensionados para telas estreitas.\n- Cópias disponíveis da mesma carta e qualidade são agrupadas em uma linha com contador; cada ação equipa uma instância, mantendo a identidade individual no save.\n- Mantidas a moldura, a arte, a navegação do Perfil e as regras do sistema de cartas.\n\n# 28/11/2026 — Correção do teste de ativação de habilidades por carta (2.13.1)
 
 - Corrigido o teste que esperava que o callback de projétil nunca fosse chamado mesmo depois de equipar uma carta.
 - A validação agora confirma que não há disparo sem carta equipada e que há exatamente um disparo após equipar a Donzela Slime.
