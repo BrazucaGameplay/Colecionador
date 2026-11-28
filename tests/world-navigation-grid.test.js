@@ -11,7 +11,9 @@ function rgbaMask(width, height, alpha = 255) {
 test('máscara alfa produz uma grade caminhável e respeita pixels abaixo do limiar', () => {
   const navigation = new WorldNavigation(240, 240);
   const pixels = rgbaMask(10, 10);
-  pixels[(5 * 10 + 5) * 4 + 3] = 159;
+  // A grade valida o centro e os oito pontos de apoio; (5,4) é um
+  // pixel efetivamente amostrado pela célula cujo centro está em (108,108).
+  pixels[(4 * 10 + 5) * 4 + 3] = 159;
   navigation.setAlphaMask(pixels, 10, 10, 160);
 
   assert.ok(navigation.walkableGrid instanceof Uint8Array);
