@@ -70,10 +70,14 @@ export default class HtmlGameUI {
     this.portraitButton = element('button', 'html-game-ui__hud-portrait');
     this.portraitButton.type = 'button';
     this.portraitButton.setAttribute('aria-label', 'Abrir perfil do personagem');
+    this.portraitFallback = element('span', 'html-game-ui__portrait-fallback');
+    this.portraitFallback.setAttribute('aria-hidden', 'true');
     this.portraitImage = element('img', 'html-game-ui__portrait-image');
     this.portraitImage.alt = 'Retrato do personagem';
     this.portraitImage.draggable = false;
-    this.portraitButton.append(this.portraitImage);
+    this.portraitImage.addEventListener('load', () => { this.portraitFallback.hidden = true; });
+    this.portraitImage.addEventListener('error', () => { this.portraitFallback.hidden = false; });
+    this.portraitButton.append(this.portraitFallback, this.portraitImage);
     this.portraitButton.addEventListener('pointerdown', event => event.stopPropagation());
     this.portraitButton.addEventListener('click', event => {
       event.preventDefault();
@@ -98,6 +102,7 @@ export default class HtmlGameUI {
       this.lastPortrait = portrait;
     }
     this.portraitButton.hidden = !portrait;
+    if (!portrait) this.portraitFallback.hidden = false;
     this.activePanel?.refresh?.();
   }
 
@@ -216,18 +221,26 @@ class HtmlPanel {
   }
 
   buildProfile() {
-    this.portrait = element('img', 'html-game-ui__profile-portrait html-game-ui__portrait-image');
+    this.profilePortraitFrame = element('div', 'html-game-ui__profile-portrait-frame');
+    this.profilePortraitFallback = element('span', 'html-game-ui__portrait-fallback');
+    this.profilePortraitFallback.setAttribute('aria-hidden', 'true');
+    this.portrait = element('img', 'html-game-ui__profile-portrait');
     this.portrait.alt = 'Personagem equipado';
     this.portrait.draggable = false;
-    this.content.append(this.portrait);
+    this.portrait.addEventListener('load', () => { this.profilePortraitFallback.hidden = true; });
+    this.portrait.addEventListener('error', () => { this.profilePortraitFallback.hidden = false; });
+    this.profilePortraitFrame.append(this.profilePortraitFallback, this.portrait);
+    this.content.append(this.profilePortraitFrame);
     this.caption = this.addText(this.content, 'html-game-ui__profile-caption', 'PERSONAGEM');
-    this.shortcut = imageButton('ESCOLHER SKIN', UI.button300, () => this.setPage(2), 'html-game-ui__skin-shortcut');
+    this.shortcut = imageButton('VER SKINS', UI.button300, () => this.setPage(2), 'html-game-ui__skin-shortcut');
     this.content.append(this.shortcut);
 
     this.statsPage = element('div', 'html-game-ui__stats-page');
     this.summary = this.addText(this.statsPage, 'html-game-ui__profile-summary', '');
     this.rows = [];
-    for (const [key, definition] of Object.entries(STAT_UPGRADES)) {
+    const profileStatKeys = ['attack', 'defense', 'penetration', 'attackSpeed', 'movementSpeed'];
+    for (const key of profileStatKeys) {
+      const definition = STAT_UPGRADES[key];
       const row = element('div', 'html-game-ui__stat-row');
       this.addText(row, 'html-game-ui__stat-label', definition.label);
       const value = this.addText(row, 'html-game-ui__stat-value', '');
@@ -285,7 +298,10 @@ class HtmlPanel {
     const player = this.game?.player;
     const skin = this.owner.getSelectedSkin();
     const portrait = skin?.portrait ? asset(skin.portrait) : '';
-    if (portrait && this.portrait.src !== new URL(portrait, document.baseURI).href) this.portrait.src = portrait;
+    if (portrait && this.portrait.src !== new URL(portrait, document.baseURI).href) {
+      this.profilePortraitFallback.hidden = false;
+      this.portrait.src = portrait;
+    }
     if (!player) return;
     const required = this.game.progression?.getRequiredExperience(player.level) ?? 0;
     this.summary.textContent = 'Nível ' + player.level + '  •  EXP ' + player.experience + '/' + required + '  •  Pontos: ' + player.statPoints;
@@ -298,13 +314,19 @@ class HtmlPanel {
       this.skinRows.replaceChildren();
       for (const entry of catalog) {
         const row = element('div', 'html-game-ui__skin-row');
-        const image = element('img', 'html-game-ui__skin-thumb html-game-ui__portrait-image');
+        const thumb = element('span', 'html-game-ui__skin-thumb-frame');
+        const fallback = element('span', 'html-game-ui__portrait-fallback');
+        fallback.setAttribute('aria-hidden', 'true');
+        const image = element('img', 'html-game-ui__skin-thumb');
         image.alt = entry.name;
+        image.addEventListener('load', () => { fallback.hidden = true; });
+        image.addEventListener('error', () => { fallback.hidden = false; });
         image.src = asset(entry.portrait);
+        thumb.append(fallback, image);
         const name = element('span', 'html-game-ui__skin-name', entry.name);
         const status = element('span', 'html-game-ui__skin-status', '');
         const button = imageButton('EQUIPAR', UI.button200, () => this.equipSkin(entry.id), 'html-game-ui__equip');
-        row.append(image, name, status, button);
+        row.append(thumb, name, status, button);
         this.skinRows.append(row);
       }
     }
