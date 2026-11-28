@@ -686,7 +686,7 @@
     width: min(calc(100vw - 20px), calc((100dvh - 16px) * 2 / 3));
   }
   .html-game-ui__panel--bestiary .html-game-ui__card-gallery-host {
-    inset-top: 23%;
+    top: 23%;
     bottom: 9%;
   }
   .html-game-ui__panel--bestiary .html-game-ui__card-image {
