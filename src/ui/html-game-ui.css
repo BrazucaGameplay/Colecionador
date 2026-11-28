@@ -105,7 +105,7 @@
 .html-game-ui__button:disabled { opacity: .48; cursor: default; }
 .html-game-ui__menu-grid {
   position: absolute;
-  left: 14%; right: 14%; top: 31%; height: 38%;
+  left: 14%; right: 14%; top: 33%; height: 30%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
@@ -141,7 +141,7 @@
   text-shadow: 1px 1px 2px #35100b;
 }
 .html-game-ui__skin-shortcut {
-  position: absolute; left: 29%; width: 42%; top: 80%; height: 8%;
+  position: absolute; left: 29%; width: 42%; top: 79%; height: 5.1%;
   font-size: clamp(9px, 2.6vw, 13px);
 }
 .html-game-ui__stats-page, .html-game-ui__skins-page { position: absolute; inset: 0; }
@@ -183,7 +183,7 @@
 .html-game-ui__skin-status { font-size: .82em; color: #f0d5ad; }
 .html-game-ui__equip { width: 100%; height: 38px; font-size: clamp(8px, 2vw, 10px); }
 .html-game-ui__pager {
-  position: absolute; left: 18%; right: 18%; bottom: 11.5%; height: 7%;
+  position: absolute; left: 18%; right: 18%; bottom: 11.5%; height: 5%;
   display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 12%;
 }
 .html-game-ui__pager .html-game-ui__button { height: 100%; font-size: 17px; }
