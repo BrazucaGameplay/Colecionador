@@ -35,7 +35,21 @@ test('slime usa os quatro WebP finais já existentes no repositório', () => {
   assert.equal(slime.visual.scale, 0.72);
   assert.equal(slime.visual.shadowScale, 1.5);
   assert.equal(slime.collision.radius, 18);
-  assert.deepEqual(slime.drops, []);
+  assert.equal(slime.drops.length, 1);
+  assert.deepEqual(slime.drops[0], {
+    id: 'slime-maiden-card',
+    kind: 'waifu-card',
+    waifuId: 'slime-maiden',
+    name: 'Donzela Slime',
+    chance: 0.2,
+    qualityWeights: [
+      { quality: 'S', weight: 1 },
+      { quality: 'A', weight: 2 },
+      { quality: 'B', weight: 3 },
+      { quality: 'C', weight: 4 },
+      { quality: 'D', weight: 90 }
+    ]
+  });
   assert.deepEqual(slime.stats, {
     attack: 1, defense: 1, penetration: 1, attackSpeed: 1,
     movementSpeed: 1, maxHealth: 1, maxEnergy: 1,
