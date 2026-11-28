@@ -1,7 +1,7 @@
 # Arquitetura de monstros, Boss e bestiário
 
 **Projeto:** Conquistador de Waifu's  
-**Branch:** main · **Versão-base:** 2.10.30  
+**Branch:** main · **Versão-base:** 2.12.0  
 **Status:** arquitetura aprovada e scaffolding de catálogo criado. IA de Boss, animações direcionais completas, descoberta persistente e validação visual em Android ainda não confirmadas.
 
 Este documento separa estado atual, contratos aprovados e trabalho futuro. Estrutura preparada não significa mecânica concluída.
@@ -36,6 +36,7 @@ Cada entidade deve possuir estado próprio. Nunca compartilhar o mesmo objeto mu
 - Quando uma espécie tiver animações direcionais, o contrato previsto é de quatro direções visuais (cima, baixo, esquerda e direita); diagonais são mapeadas para a direção cardinal mais próxima. Não exigir atlas 4-way para espécies que não precisam dele.
 - **Única espécie atualmente registrada: Slime.** É representado por uma simples bola azul; não precisa de animação direcional nem de um conjunto complexo de estados. A apresentação estática é suficiente neste estágio. Não criar sprites ou animações adicionais para o Slime sem necessidade de gameplay.
 - Apenas ataque básico, respeitando `attackSpeed`.
+- Cada espécie referencia uma tabela de drops exclusiva em `src/data/monsters/drop-tables.js`; não há fallback compartilhado. O Slime usa a sua tabela e concede a carta Donzela Slime com 20% de chance.
 - Perseguição simples; sem árvore de decisão ou habilidades.
 - Ao entrar no raio de combate, interromper perseguição e atacar conforme alcance e intervalo.
 - Fora da área ativa: sem IA, pathfinding, física dinâmica ou atualização individual contínua; manter apresentação estática.
@@ -181,6 +182,8 @@ Exemplos são contratos, não conteúdo jogável. Zeros/nulls não são valores 
 **Regra visual atual:** o Slime é uma bola azul simples e não requer animação direcional. A animação será definida individualmente por espécie; conteúdo sem animação usa sprite estático. Não presumir que todos os monstros terão atlas animado.
 
 **Estrutura preparada nesta versão:** catálogo vazio de Boss; projeção de catálogo do bestiário em duas categorias; diretórios reservados para sistemas, renderização e UI.
+
+**Já implementado nesta versão:** resolução isolada de drops por espécie; rolagem única de carta e qualidade condicional; aquisição persistida no save. O Slime tem 20% de chance de carta Donzela Slime, com qualidades S 1%, A 2%, B 3%, C 4%, D 90%.
 
 **Ainda não implementado:** catálogo de outras espécies (cada uma poderá ter animação ou imagem estática), Boss jogável/IA/habilidades 8-way, otimização espacial por células, descoberta persistente e validação visual final em Android.
 
