@@ -357,8 +357,8 @@ class HtmlPanel {
     this.statsFooter = this.addText(this.statsPage, 'html-game-ui__profile-footer', 'Use os pontos disponíveis para evoluir os atributos.');
     this.content.append(this.statsPage);
 
-    this.waifuEquipPage = element('div', 'html-game-ui__skills-page');
-    this.waifuEquipTitle = this.addText(this.waifuEquipPage, 'html-game-ui__skills-title', 'CARTAS EQUIPADAS');
+    this.waifuEquipPage = element('div', 'html-game-ui__waifu-equipment-page');
+    this.waifuEquipTitle = this.addText(this.waifuEquipPage, 'html-game-ui__waifu-equipment-title', 'CARTAS EQUIPADAS');
     this.waifuEquipSlots = element('div', 'html-game-ui__waifu-equip-slots');
     this.waifuEquipList = element('div', 'html-game-ui__waifu-equip-list');
     this.waifuEquipPage.append(this.waifuEquipSlots, this.waifuEquipList);
@@ -392,7 +392,7 @@ class HtmlPanel {
     const collection = equipment?.getCollection?.() || [];
     const available = collection.filter(card => !equipped.some(item => item.instanceId === card.instanceId));
     if (!available.length) {
-      this.addText(this.waifuEquipList, 'html-game-ui__skills-empty',
+      this.addText(this.waifuEquipList, 'html-game-ui__waifu-equipment-empty',
         collection.length ? 'Todas as cartas disponíveis já estão equipadas.' : 'Obtenha cartas derrotando monstros para liberar habilidades.');
       return;
     }
