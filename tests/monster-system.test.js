@@ -29,7 +29,7 @@ test('slime usa os quatro WebP finais já existentes no repositório', () => {
   assert.deepEqual(Object.values(slime.visual.animations).map(pack => pack.path), [
     'assets/monsters/slime/parado_01.webp',
     'assets/monsters/slime/slime_movimento_frame_02_webp.webp',
-    'assets/monsters/slime/slime_ataque_frame_02(1).webp',
+    'assets/monsters/slime/slime_ataque_frame_02.webp',
     'assets/monsters/slime/slime_morte_frame_02.webp'
   ]);
   assert.equal(slime.visual.scale, 0.72);
