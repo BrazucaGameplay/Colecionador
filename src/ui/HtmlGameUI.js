@@ -1,4 +1,3 @@
-import './html-game-ui.css';
 import { CHARACTER_SKINS } from '../rendering/characters/CharacterSkinCatalog.js';
 import ProfileImageFitter from './ProfileImageFitter.js';
 import { STAT_UPGRADES } from '../entities/Player.js';
