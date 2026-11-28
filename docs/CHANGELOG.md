@@ -1,5 +1,12 @@
 # Changelog
 
+## 28/11/2026 — Regra de animação opcional por espécie (2.10.28)
+
+- Registrado que a animação de monstros comuns é opcional e definida individualmente por espécie; monstros sem animação usam imagem estática.
+- Slime é a única espécie atualmente registrada. Por ser uma bola azul simples, não precisa de animação direcional nem de novos sprites de movimento neste estágio.
+- Mantida a possibilidade de outras espécies receberem animações próprias; não exigir atlas animado para todas.
+- Corrigida a documentação para não tratar quatro direções como requisito obrigatório de toda espécie comum. Quando uma espécie animada precisar de direções, o contrato comum previsto permanece 4-way; Boss permanece 8-way.
+
 ## 28/11/2026 — Estrutura de monstros, Boss e bestiário (2.10.27)
 
 - Registrada a arquitetura de conteúdo hostil: espécies comuns reutilizáveis e Boss únicos, com contratos separados.
