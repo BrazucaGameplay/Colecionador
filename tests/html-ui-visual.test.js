@@ -124,7 +124,7 @@ test('painel Waifus exibe apenas cartas adquiridas sem moldura individual', () =
     assert.ok(image.src.endsWith('/assets/cards/waifus/carta.slime.webp'));
     assert.equal(findByClass(panel.waifuGrid, 'html-game-ui__waifu-name').textContent, 'Donzela Slime');
     assert.equal(findByClass(panel.waifuGrid, 'html-game-ui__waifu-empty'), null);
-    assert.match(panel.node.className, /html-game-ui__panel--wide/);
+    assert.match(panel.node.className, /html-game-ui__panel--bestiary/);
     assert.match(panel.node.className, /html-game-ui__panel--waifus/);
     ui.destroy();
     assert.equal(dom.root.children.length, 0);
