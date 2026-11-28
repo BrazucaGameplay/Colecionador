@@ -1,5 +1,14 @@
 # Changelog
 
+## 28/11/2026 — Estrutura de monstros, Boss e bestiário (2.10.27)
+
+- Registrada a arquitetura de conteúdo hostil: espécies comuns reutilizáveis e Boss únicos, com contratos separados.
+- Documentado o contrato compartilhado de nove atributos baseado em `DEFAULT_PLAYER_STATS`, preservando os raios atuais de atividade.
+- Criado catálogo vazio de Boss e projeção de bestiário em duas categorias, alimentada pelos catálogos de conteúdo.
+- Reservados diretórios para IA/combate de Boss, persistência do bestiário, renderização e UI, sem criar entidades ou assets fictícios.
+- Adicionados testes comportamentais para a separação dos catálogos e unicidade por definição.
+- IA de Boss, animações direcionais, descoberta persistente, cartas e interface continuam como trabalho futuro.
+
 ## 28/11/2026 — Documentação e testes de comportamento (2.10.26)
 
 - `ESTADO_DO_PROJETO.md` reduzido a um resumo atual de stack, implementação, pendências e direção vigente; o histórico foi consolidado neste arquivo.
