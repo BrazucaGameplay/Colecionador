@@ -1,3 +1,13 @@
+# 28/11/2026 — Fluxo de equipamento de cartas no Bestiário (2.13.10)
+
+- A página Equipamento do Perfil agora mostra somente três espaços visuais para cartas 2:3; a lista de cartas disponíveis foi removida desse painel.
+- EQUIPAR abre o painel vertical do Bestiário em modo de seleção, exibindo somente cartas adquiridas e ainda não equipadas.
+- Selecionar uma carta equipa a instância no espaço solicitado, persiste o progresso e retorna ao Perfil na página de equipamento. REMOVER permanece disponível nos espaços ocupados.
+- O gerenciador mantém a posição dos três espaços ao equipar/remover, sem deslocar cartas entre slots vazios.
+- Adicionado o botão X ao Perfil, preservando Voltar e a navegação por deslize.
+- ProfilePanel.js foi mantido após busca por referências: a interface ativa usa HtmlGameUI; remoção não é necessária para esta correção.
+- Versão PATCH 2.13.10; package.json e package-lock.json sincronizados.
+
 # 28/11/2026 — Bootstrap de gameplay na camada core/lifecycle (2.13.9)
 
 - Movido `GameSystemsBootstrap` para `src/core/lifecycle/`, alinhando a coordenação de inicialização e encerramento dos sistemas à camada de ciclo de vida.

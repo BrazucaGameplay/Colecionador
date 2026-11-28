@@ -3,8 +3,8 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.13.9  
-**Atualizado em:** 28/11/2026 (conclusão da organização modular, com bootstrap na camada lifecycle)
+**Versão do código-base consultado:** 2.13.10  
+**Atualizado em:** 28/11/2026 (correção do fluxo de equipamento de cartas no Perfil)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
 
@@ -13,7 +13,7 @@
 ### Stack
 - **Runtime:** JavaScript ES modules, Phaser 4 (`^4.2.1`).
 - **Build/dev:** Vite (`^8.3.8`), Node.js 26.13.1, npm 11.20.0.
-- **Distribuição:** PWA/web em GitHub Pages; Capacitor 8.6.2 declarado para Android. A versão 2.13.4 foi confirmada manualmente pelo usuário em dispositivo Android; APK/Play Store não foram declarados publicados.
+- **Distribuição:** PWA/web em GitHub Pages; Capacitor 8.6.2 declarado para Android. A versão 2.13.9 foi testada e confirmada manualmente pelo usuário em dispositivo Android; APK/Play Store não foram declarados publicados.
 - **Renderização:** jogo 2D com spritesheets PNG/JSON; interface híbrida Phaser + HTML/CSS. Não há runtime GLB/Three.js.
 
 ### O que existe
@@ -25,7 +25,7 @@
 - Skin 01 e Skin 02 com atlas PNG/JSON e retratos PNG; seleção validada pelo SkinManager.
 - Combate de ação, ataque automático do jogador, combate dos monstros, progressão, experiência, níveis, atributos, vida e energia. Habilidades automáticas são fornecidas exclusivamente pelas cartas de waifu equipadas.
 - SaveManager, WorldBootstrap, CameraController e GameSystemsBootstrap separados. Configuração central em `src/core/config/`; carregamento e pré-carregadores em `src/core/lifecycle/`.
-- HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Equipamento de Cartas; o enquadramento do retrato é adaptativo. A tela de equipamento organiza três espaços compactos acima da lista agrupada por tipo/qualidade, com rolagem independente. A navegação usa setas discretas como indicação de arrasto nos dois sentidos, mantém o botão Voltar na primeira tela e não exibe botão X/Sair no Perfil. O menu principal usa uma moldura vetorial SVG dedicada, com borda inferior contínua e ornamentos completos; o layout responsivo preserva a proporção e mantém o controle FPS compacto fora do eixo central do botão global inferior.
+- HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Equipamento de Cartas; o enquadramento do retrato é adaptativo. A tela de equipamento mostra somente três espaços visuais com proporção 2:3. EQUIPAR abre o Bestiário em modo de seleção de cartas adquiridas ainda não equipadas; escolher uma carta equipa no espaço solicitado e retorna ao Perfil. REMOVER permanece nos espaços ocupados. O Perfil possui X, Voltar e navegação por deslize. O menu principal usa uma moldura vetorial SVG dedicada, com borda inferior contínua e ornamentos completos; o layout responsivo preserva a proporção e mantém o controle FPS compacto fora do eixo central do botão global inferior.
 - CI executa auditoria de dependências, testes, build e verificações de assets/versão.
 
 ### Sistema de waifus e drops — primeira aquisição funcional (2.12.0)
@@ -41,7 +41,7 @@
 - Valores passivos da Donzela Slime ainda não foram definidos; seu campo permanece vazio, sem bônus inventados. Apenas a habilidade ativa Gosma Azul está cadastrada (projétil, dano 10, recarga 10 s).
 - Sistemas de vínculos, presentes, inventário visual completo e casa. O catálogo do bestiário usa Slime como primeira entrada e a galeria HTML compartilhada está integrada; descoberta persistente e conteúdo Boss ainda faltam. As outras dez cartas estão apenas arquivadas, sem registro de criatura.
 - Catálogo/carregador de ilhas, conexões, pontes, portais e transições entre ilhas.
-- Validação visual final e de desempenho em dispositivos Android reais. A captura Android posterior à versão 2.10.34 confirmou que a arte raster original tinha a moldura inferior incompleta; a versão 2.10.35 substitui apenas a arte do menu principal por um SVG vetorial com borda inferior contínua e aguarda nova confirmação visual no aparelho.
+- Validação visual final e de desempenho em dispositivos Android reais. A versão 2.13.10 aguarda confirmação visual no Android após a publicação.
 - Build nativo/APK, instalação e publicação na Play Store.
 - Confirmação de deploy correspondente ao commit mais recente, quando não houver evidência do workflow atual.
 
@@ -53,7 +53,7 @@
 - Controles mobile por toque: tap-to-move, arraste de câmera e pinch zoom. Não adicionar joystick virtual nem controles de teclado.
 - Personagem e monstros usam assets 2D finais. GLB/Three.js não fazem parte do runtime.
 - Cada skin utilizável fornece quatro estados (idle, running, combat, dying), com oito direções.
-- O painel Perfil mantém as telas Personagem, Status e Skills, com setas laterais e X. Skills só devem permitir equipar quando existir catálogo e lógica reais.
+- O painel Perfil mantém Personagem, Status e Equipamento de Cartas, com navegação por deslize, botão Voltar e X. O equipamento usa três slots e seleção de cartas possuídas no Bestiário.
 - O repositório antigo `BrazucaGameplay/CONQUISTADOR-` é referência visual limitada a cartas/ilustrações de waifus e monstros; não é base de código nem fonte de assets ambientais.
 
 ## Arquitetura atual

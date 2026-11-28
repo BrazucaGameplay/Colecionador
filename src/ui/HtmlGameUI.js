@@ -371,7 +371,7 @@ class HtmlPanel {
 
   buildWaifuEquipmentPage() {
     const equipment = this.game?.waifuEquipment;
-    const equipped = equipment?.getEquipped?.() || [];
+    const equipped = equipment?.getEquippedSlots?.() || equipment?.getEquipped?.() || [];
     this.waifuEquipSlots.replaceChildren();
     for (let index = 0; index < 3; index++) {
       const card = equipped[index];
