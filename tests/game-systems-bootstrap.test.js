@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import GameSystemsBootstrap from '../src/systems/GameSystemsBootstrap.js';
+import GameSystemsBootstrap from '../src/core/lifecycle/GameSystemsBootstrap.js';
 
 function displayObject() {
   return {

@@ -11,7 +11,7 @@ import { SAVE_KEY } from '../core/config/index.js';
 import WorldBootstrap from '../world/WorldBootstrap.js';
 import CameraController from '../systems/camera/CameraController.js';
 import SaveManager from '../systems/persistence/SaveManager.js';
-import GameSystemsBootstrap from '../systems/GameSystemsBootstrap.js';
+import GameSystemsBootstrap from '../core/lifecycle/GameSystemsBootstrap.js';
 import WaifuEquipmentManager from '../systems/waifus/WaifuEquipmentManager.js';
 import WaifuAbilitySystem from '../systems/waifus/WaifuAbilitySystem.js';
 

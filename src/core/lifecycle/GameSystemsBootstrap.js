@@ -1,9 +1,9 @@
-import MovementSystem from './movement/MovementSystem.js';
-import CombatSystem from './combat/CombatSystem.js';
-import ProgressionSystem from './progression/ProgressionSystem.js';
-import MonsterCombatSystem from './monsters/MonsterCombatSystem.js';
-import PerformanceMonitor from '../ui/PerformanceMonitor.js';
-import TouchInputController from './input/TouchInputController.js';
+import MovementSystem from '../../systems/movement/MovementSystem.js';
+import CombatSystem from '../../systems/combat/CombatSystem.js';
+import ProgressionSystem from '../../systems/progression/ProgressionSystem.js';
+import MonsterCombatSystem from '../../systems/monsters/MonsterCombatSystem.js';
+import PerformanceMonitor from '../../ui/PerformanceMonitor.js';
+import TouchInputController from '../../systems/input/TouchInputController.js';
 
 /** Creates and owns the gameplay systems coordinated by the Game scene. */
 export default class GameSystemsBootstrap {

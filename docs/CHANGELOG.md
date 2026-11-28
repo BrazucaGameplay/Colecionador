@@ -1,3 +1,10 @@
+# 28/11/2026 — Bootstrap de gameplay na camada core/lifecycle (2.13.9)
+
+- Movido `GameSystemsBootstrap` para `src/core/lifecycle/`, alinhando a coordenação de inicialização e encerramento dos sistemas à camada de ciclo de vida.
+- Atualizados imports da cena Game, dos sistemas e do teste de integração.
+- Atualizada a documentação arquitetural do sistema de waifus para refletir os caminhos vigentes.
+- Versão PATCH 2.13.9, lockfile sincronizado.
+
 # 28/11/2026 — Correção dos imports do bootstrap após reorganização (2.13.8)
 
 - Corrigidos os imports de movimento e progressão no `GameSystemsBootstrap` para os novos diretórios de domínio.

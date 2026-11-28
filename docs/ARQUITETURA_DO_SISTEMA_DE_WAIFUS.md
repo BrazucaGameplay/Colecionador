@@ -43,7 +43,7 @@ Não criar uma habilidade em arquivo separado para depois associá-la à waifu. 
 - `src/data/waifus/drop-tables.js`: drops por espécie.
 - `src/systems/waifus/WaifuEquipmentManager.js`: equipamento e persistência dos três espaços.
 - `src/systems/waifus/WaifuAbilitySystem.js`: ativação automática e cooldown por instância.
-- `src/systems/CombatSystem.js` e `src/systems/GameSystemsBootstrap.js`: integração no ciclo do combate.
+- `src/systems/combat/CombatSystem.js` e `src/core/lifecycle/GameSystemsBootstrap.js`: integração no ciclo do combate.
 
 ## Limites atuais
 
