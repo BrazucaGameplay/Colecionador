@@ -15,7 +15,18 @@ function makeCamera() {
 
 test('retorno após arraste interpola até o sprite sem salto de câmera', () => {
   const camera = makeCamera();
-  const scene = { cameras: { main: camera }, oceanBounds: { x: -1000, y: -1000, width: 4000, height: 4000 } };
+  const resizeHandlers = new Map();
+  const scene = {
+    cameras: { main: camera },
+    scale: {
+      on(event, callback, context) { resizeHandlers.set(event, { callback, context }); },
+      off(event, callback, context) {
+        const current = resizeHandlers.get(event);
+        if (current?.callback === callback && current?.context === context) resizeHandlers.delete(event);
+      }
+    },
+    oceanBounds: { x: -1000, y: -1000, width: 4000, height: 4000 }
+  };
   const target = { x: 100, y: 120 };
   const controller = new CameraController(scene);
   controller.initialize(target);
@@ -38,4 +49,5 @@ test('retorno após arraste interpola até o sprite sem salto de câmera', () =>
   assert.ok(Math.abs(camera.scrollX - 500) < 1);
   assert.ok(Math.abs(camera.scrollY - 500) < 1);
   controller.destroy();
+  assert.equal(resizeHandlers.size, 0);
 });
