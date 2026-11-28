@@ -5,6 +5,7 @@ import WorldObjectManager from './WorldObjectManager.js';
 import { ISLAND_01_LAYOUT } from './map-layout/island-01.js';
 import validatedTreeManifest from './map-layout/island-01.validated.json';
 import { ISLAND_SHAPE } from './IslandShape.js';
+import { calculateOceanBounds } from './OceanBounds.js';
 import {
   getTerrainContentHash,
   readWalkableGrid,
@@ -13,10 +14,6 @@ import {
 } from './WalkableGridCache.js';
 
 const ISLAND_DIAMETER = 4096;
-const OCEAN_MARGIN = 256;
-const OCEAN_RADIUS = ISLAND_SHAPE.baseRadius + OCEAN_MARGIN;
-const OCEAN_PAN_BUFFER_FACTOR = 1.15;
-const MIN_CAMERA_ZOOM = 0.2;
 
 export default class WorldBootstrap {
   constructor(scene) {
@@ -168,29 +165,11 @@ async function createIslandWalkableMask(scene) {
   }
 
 function updateOceanBounds(scene, viewWidth, viewHeight) {
-    const baseDiameter = OCEAN_RADIUS * 2;
-    const aspect = Math.max(0.1, viewWidth / Math.max(1, viewHeight));
-    // Preserva 256 unidades de mar além da costa em todos os lados.
-    // A dimensão maior cresce para acompanhar o formato da tela.
-    const width = Math.max(
-      (aspect >= 1 ? baseDiameter * aspect : baseDiameter) * OCEAN_PAN_BUFFER_FACTOR,
-      viewWidth / MIN_CAMERA_ZOOM * OCEAN_PAN_BUFFER_FACTOR
-    );
-    const height = Math.max(
-      (aspect >= 1 ? baseDiameter : baseDiameter / aspect) * OCEAN_PAN_BUFFER_FACTOR,
-      viewHeight / MIN_CAMERA_ZOOM * OCEAN_PAN_BUFFER_FACTOR
-    );
-    scene.oceanBounds = Object.freeze({
-      x: ISLAND_SHAPE.centerX - width / 2,
-      y: ISLAND_SHAPE.centerY - height / 2,
-      width,
-      height
-    });
-
+    scene.oceanBounds = calculateOceanBounds(viewWidth, viewHeight);
     if (scene.oceanBackground) {
       scene.oceanBackground
         .setPosition(ISLAND_SHAPE.centerX, ISLAND_SHAPE.centerY)
-        .setSize(width, height);
+        .setSize(scene.oceanBounds.width, scene.oceanBounds.height);
     }
   }
 
