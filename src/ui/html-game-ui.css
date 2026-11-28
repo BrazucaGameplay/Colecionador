@@ -299,3 +299,26 @@
 .html-game-ui__profile-footer { font-weight: 300; }
 .html-game-ui__pager { bottom: 10.5%; }
 .html-game-ui__page-indicator { font-weight: 500; }
+
+
+/* Perfil minimalista: somente o retrato, sem rótulos ou controles internos. */
+.html-game-ui__panel--vertical .html-game-ui__panel-content {
+  overflow: visible;
+}
+.html-game-ui__profile-portrait-frame {
+  left: 12%;
+  top: 20%;
+  width: 76%;
+  height: 56%;
+  overflow: visible;
+}
+.html-game-ui__profile-portrait-frame .html-game-ui__portrait-fallback {
+  inset: 12% 20% 0;
+}
+.html-game-ui__profile-portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}

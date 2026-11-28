@@ -1,5 +1,4 @@
 import './html-game-ui.css';
-import { STAT_UPGRADES } from '../entities/Player.js';
 import { CHARACTER_SKINS } from '../rendering/characters/CharacterSkinCatalog.js';
 
 const BASE = import.meta.env?.BASE_URL ?? '/';
@@ -176,16 +175,19 @@ class HtmlPanel {
     this.art.draggable = false;
     this.node.append(this.art);
 
-    const close = element('button', 'html-game-ui__close');
-    close.type = 'button';
-    close.setAttribute('aria-label', 'Fechar painel');
-    const closeImg = element('img');
-    closeImg.src = UI.close;
-    closeImg.alt = '';
-    close.append(closeImg);
-    close.addEventListener('click', event => { event.stopPropagation(); owner.closePanel(); });
-    this.node.append(close);
-
+    if (key !== 'profile') {
+      const close = element('button', 'html-game-ui__close');
+      close.type = 'button';
+      close.setAttribute('aria-label', 'Fechar painel');
+      const closeImg = element('img');
+      closeImg.src = UI.close;
+      closeImg.alt = '';
+      close.append(closeImg);
+      close.addEventListener('click', event => { event.stopPropagation(); owner.closePanel(); });
+      this.node.append(close);
+  
+  
+    }
     this.content = element('div', 'html-game-ui__panel-content');
     this.node.append(this.content);
     if (key === 'profile') this.buildProfile(skin);
@@ -225,120 +227,25 @@ class HtmlPanel {
     this.profilePortraitFallback = element('span', 'html-game-ui__portrait-fallback');
     this.profilePortraitFallback.setAttribute('aria-hidden', 'true');
     this.portrait = element('img', 'html-game-ui__profile-portrait');
-    this.portrait.alt = 'Personagem equipado';
+    this.portrait.alt = 'Retrato do personagem';
     this.portrait.draggable = false;
     this.portrait.addEventListener('load', () => { this.profilePortraitFallback.hidden = true; });
     this.portrait.addEventListener('error', () => { this.profilePortraitFallback.hidden = false; });
     this.profilePortraitFrame.append(this.profilePortraitFallback, this.portrait);
     this.content.append(this.profilePortraitFrame);
-    this.caption = this.addText(this.content, 'html-game-ui__profile-caption', 'PERSONAGEM');
-    this.shortcut = imageButton('VER SKINS', UI.button300, () => this.setPage(2), 'html-game-ui__skin-shortcut');
-    this.content.append(this.shortcut);
-
-    this.statsPage = element('div', 'html-game-ui__stats-page');
-    this.summary = this.addText(this.statsPage, 'html-game-ui__profile-summary', '');
-    this.rows = [];
-    const profileStatKeys = ['attack', 'defense', 'penetration', 'attackSpeed', 'movementSpeed'];
-    for (const key of profileStatKeys) {
-      const definition = STAT_UPGRADES[key];
-      const row = element('div', 'html-game-ui__stat-row');
-      this.addText(row, 'html-game-ui__stat-label', definition.label);
-      const value = this.addText(row, 'html-game-ui__stat-value', '');
-      const plus = imageButton('+', UI.button200, () => this.allocate(key), 'html-game-ui__plus');
-      row.append(plus);
-      this.statsPage.append(row);
-      this.rows.push({ key, value, plus });
-    }
-    this.addText(this.statsPage, 'html-game-ui__profile-footer', 'Use os pontos disponíveis para evoluir os atributos.');
-    this.content.append(this.statsPage);
-
-    this.skinsPage = element('div', 'html-game-ui__skins-page');
-    this.addText(this.skinsPage, 'html-game-ui__skins-heading', 'APARÊNCIA DO PERSONAGEM');
-    this.skinRows = element('div', 'html-game-ui__skin-rows');
-    this.skinsPage.append(this.skinRows);
-    this.content.append(this.skinsPage);
-
-    const pager = element('div', 'html-game-ui__pager');
-    this.previous = imageButton('‹', UI.button200, () => this.setPage(this.page - 1));
-    this.indicator = this.addText(pager, 'html-game-ui__page-indicator', '1 / 3');
-    this.next = imageButton('›', UI.button200, () => this.setPage(this.page + 1));
-    pager.append(this.previous, this.next);
-    this.content.append(pager);
-    this.setPage(0);
-  }
-
-  setPage(page) {
-    this.page = Math.max(0, Math.min(2, page));
-    this.portrait.hidden = this.page !== 0;
-    this.caption.hidden = this.page !== 0;
-    this.shortcut.hidden = this.page !== 0;
-    this.statsPage.hidden = this.page !== 1;
-    this.skinsPage.hidden = this.page !== 2;
-    this.indicator.textContent = (this.page + 1) + ' / 3';
-    this.previous.disabled = this.page === 0;
-    this.next.disabled = this.page === 2;
-  }
-
-  allocate(key) {
-    if (!this.game?.player?.allocateStat(key)) return;
-    this.game.persistProgress?.();
-    this.refresh();
-  }
-
-  equipSkin(id) {
-    const result = this.game?.skinManager?.selectSkin(id);
-    this.owner.refresh();
-    this.refresh();
-    return Boolean(result?.changed);
   }
 
   refresh() {
     if (!this.node?.isConnected && !this.node?.parentNode) return;
     if (this.key !== 'profile') return;
-    const player = this.game?.player;
     const skin = this.owner.getSelectedSkin();
     const portrait = skin?.portrait ? asset(skin.portrait) : '';
     if (portrait && this.portrait.src !== new URL(portrait, document.baseURI).href) {
       this.profilePortraitFallback.hidden = false;
       this.portrait.src = portrait;
     }
-    if (!player) return;
-    const required = this.game.progression?.getRequiredExperience(player.level) ?? 0;
-    this.summary.textContent = 'Nível ' + player.level + '  •  EXP ' + player.experience + '/' + required + '  •  Pontos: ' + player.statPoints;
-    for (const row of this.rows) {
-      row.value.textContent = STAT_UPGRADES[row.key].format(player.stats[row.key]);
-      row.plus.disabled = player.statPoints <= 0;
-    }
-    const catalog = this.game?.skinManager?.getCatalog?.() || [];
-    if (this.skinRows.childElementCount !== catalog.length) {
-      this.skinRows.replaceChildren();
-      for (const entry of catalog) {
-        const row = element('div', 'html-game-ui__skin-row');
-        const thumb = element('span', 'html-game-ui__skin-thumb-frame');
-        const fallback = element('span', 'html-game-ui__portrait-fallback');
-        fallback.setAttribute('aria-hidden', 'true');
-        const image = element('img', 'html-game-ui__skin-thumb');
-        image.alt = entry.name;
-        image.addEventListener('load', () => { fallback.hidden = true; });
-        image.addEventListener('error', () => { fallback.hidden = false; });
-        image.src = asset(entry.portrait);
-        thumb.append(fallback, image);
-        const name = element('span', 'html-game-ui__skin-name', entry.name);
-        const status = element('span', 'html-game-ui__skin-status', '');
-        const button = imageButton('EQUIPAR', UI.button200, () => this.equipSkin(entry.id), 'html-game-ui__equip');
-        row.append(thumb, name, status, button);
-        this.skinRows.append(row);
-      }
-    }
-    [...this.skinRows.children].forEach((row, index) => {
-      const entry = catalog[index];
-      if (!entry) return;
-      row.querySelector('.html-game-ui__skin-status').textContent = entry.selected ? 'EQUIPADA' : entry.selectable ? 'DISPONÍVEL' : 'EM PREPARAÇÃO';
-      const button = row.querySelector('button');
-      button.querySelector('span').textContent = entry.selected ? 'EQUIPADA' : entry.selectable ? 'EQUIPAR' : 'INDISPONÍVEL';
-      button.disabled = !entry.selectable || entry.selected;
-    });
-    this.setPage(this.page);
+    this.portrait.hidden = !portrait;
+    this.profilePortraitFallback.hidden = Boolean(portrait && this.portrait.complete && this.portrait.naturalWidth > 0);
   }
 
   destroy() {

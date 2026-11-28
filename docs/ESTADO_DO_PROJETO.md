@@ -2754,3 +2754,39 @@ Resumo do produto e arquitetura:
   Waifus, inventário, bestiário funcional e casa não devem ser tratados
   como sistemas completos enquanto suas integrações não existirem.
 - Controles de toque e câmera devem ser preservados por esta correção.
+
+
+======================================================================
+11. PERFIL MINIMALISTA — RETRATO ISOLADO — 28/11/2026
+======================================================================
+
+A captura enviada mostrou que a arte do personagem ultrapassava a borda
+direita da área de retrato e que o painel ainda exibia legenda, atalho
+para skins, paginação e controles de atributos.
+
+Alterações:
+- O painel Perfil agora cria somente o elemento de imagem do personagem
+  e o fallback de silhueta independente.
+- Removidos do painel Perfil os textos, os botões de skins, os botões
+  de paginação, os controles de atributos e o botão X.
+- O botão X continua nos demais painéis. No Perfil, tocar fora da moldura
+  fecha o painel pelo comportamento já existente da camada de sombra.
+- A imagem foi reduzida para uma área interna de 76% da largura e 56%
+  da altura do painel, centralizada, com object-fit: contain.
+- O contêiner do retrato não recorta mais a arte pelas laterais.
+- A seleção de skin continua sendo refletida pelo retrato do perfil
+  quando a skin equipada muda no estado do jogo; a seleção de skin
+  continua disponível pelo sistema próprio, fora deste painel.
+
+Versionamento:
+- 2.10.17 -> 2.10.18 (correção visual e simplificação do painel).
+
+Auditoria:
+- Testes atualizados para exigir que o construtor do painel Perfil contenha
+  somente o retrato e não crie botões, nomes, paginação ou atributos.
+- Testes preservam a validação do fallback de silhueta, transparência e
+  comportamento de fechamento ao tocar fora.
+- O CSS da HUD e dos outros painéis não foi alterado funcionalmente.
+- Build, testes e publicação dependem do workflow do commit final.
+- A validação visual final em Android ainda depende de abrir a versão
+  publicada em um aparelho real.
