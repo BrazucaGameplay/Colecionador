@@ -3,8 +3,8 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.13.3  
-**Atualizado em:** 28/11/2026 (ajuste responsivo do equipamento de cartas)
+**Versão do código-base consultado:** 2.13.4  
+**Atualizado em:** 28/11/2026 (regularização de versão e documentação da correção visual de morte do Slime)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
 
@@ -88,7 +88,7 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 
 ## Conteúdo hostil
 
-- Monstros comuns: Slime é a única espécie atualmente registrada; é uma bola azul simples e não necessita animação direcional. Outras espécies poderão ter animações próprias ou usar imagens estáticas. O sistema de spawn, perseguição simples e combate básico já existe.
+- Monstros comuns: Slime é a única espécie atualmente registrada; é uma bola azul simples e não necessita animação direcional. Seu renderer usa imagens estáticas separadas para idle, attack e death, trocando a textura conforme o estado; não há reprodução de sequência de quadros para o Slime. O asset de ataque tem nome canônico `slime_ataque_frame_02.webp`. A imagem de morte permanece visível durante a janela configurada de 600 ms antes da remoção da entidade. O sistema de spawn, perseguição simples e combate básico já existe. Outras espécies poderão ter animações próprias ou usar imagens estáticas.
 - Boss: catálogo vazio preparado; entidades, IA, habilidades e renderização 8-way ainda não implementados.
 - Bestiário: galeria HTML com host de posicionamento separado do componente de galeria, grade responsiva, botão global inferior para alternar Monstros/Boss ou voltar da carta, X global para fechar, carta integral do Slime e rotação frente/verso no mesmo painel; descoberta e persistência ainda pendentes. Outras dez imagens permanecem arquivadas e fora do catálogo.
 - Raios atuais preservados: ataque 2 m, perseguição 10 m, ocioso 30 m, ativação 50 m.

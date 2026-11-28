@@ -1,3 +1,11 @@
+# 28/11/2026 — Regularização da correção visual de morte do Slime (2.13.4)
+
+- Regularizado o versionamento das alterações anteriores de asset e renderer, que haviam sido publicadas sem incremento de versão e sem atualização documental.
+- Sincronizadas as versões raiz de `package.json` e `package-lock.json` para 2.13.4 (PATCH).
+- Registrado o nome canônico `slime_ataque_frame_02.webp`, preservando o conteúdo binário original do asset.
+- Registrada a correção do renderer: o estado `death` mantém a imagem estática visível até a remoção programada; não é uma sequência de quadros.
+- A troca de imagens estáticas do Slime permanece intencional para idle, attack e death.
+
 # 28/11/2026 — Correção da regressão no teste do equipamento de cartas (2.13.3)\n\n- Atualizada a asserção do teste de UI para localizar o nome da carta pela classe semântica do valor do slot, em vez de depender da posição dos filhos no DOM.\n- A estrutura visual e o comportamento de equipar/remover não foram alterados nesta correção.\n\n# 28/11/2026 — Correção responsiva do equipamento de cartas (2.13.2)\n\n- Reestruturados os três espaços equipados em linhas compactas com nome, habilidade automática e botão de remoção em colunas próprias.\n- A lista de cartas disponíveis começa abaixo dos espaços, possui rolagem interna e botões dimensionados para telas estreitas.\n- Cópias disponíveis da mesma carta e qualidade são agrupadas em uma linha com contador; cada ação equipa uma instância, mantendo a identidade individual no save.\n- Mantidas a moldura, a arte, a navegação do Perfil e as regras do sistema de cartas.\n\n# 28/11/2026 — Correção do teste de ativação de habilidades por carta (2.13.1)
 
 - Corrigido o teste que esperava que o callback de projétil nunca fosse chamado mesmo depois de equipar uma carta.
