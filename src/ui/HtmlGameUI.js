@@ -1,4 +1,4 @@
-import { CHARACTER_SKINS } from '../rendering/characters/CharacterSkinCatalog.js';
+import { CHARACTER_SKINS } from '../data/characters/CharacterSkinCatalog.js';
 import ProfileImageFitter from './ProfileImageFitter.js';
 import CardGallery from './cards/CardGallery.js';
 import { STAT_UPGRADES } from '../entities/Player.js';

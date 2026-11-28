@@ -2,7 +2,7 @@ import {
   CHARACTER_SKINS,
   DEFAULT_CHARACTER_SKIN,
   REQUIRED_SKIN_ANIMATIONS
-} from './CharacterSkinCatalog.js';
+} from '../../data/characters/CharacterSkinCatalog.js';
 
 export default class SkinManager {
   constructor({

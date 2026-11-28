@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { registerPlayerSpriteAnimations, attachPlayerSpriteRegistry } from '../src/rendering/characters/CharacterSpriteAssetLoader.js';
 import SkinManager from '../src/rendering/characters/SkinManager.js';
-import { CHARACTER_SKINS } from '../src/rendering/characters/CharacterSkinCatalog.js';
+import { CHARACTER_SKINS } from '../src/data/characters/CharacterSkinCatalog.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const skinDirectory = path.join(root, 'public/assets/characters/sprites/skin_2');

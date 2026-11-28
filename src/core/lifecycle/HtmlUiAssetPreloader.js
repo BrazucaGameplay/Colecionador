@@ -1,4 +1,4 @@
-import { CHARACTER_SKINS } from '../rendering/characters/CharacterSkinCatalog.js';
+import { CHARACTER_SKINS } from '../../data/characters/CharacterSkinCatalog.js';
 
 const HTML_UI_ASSETS = Object.freeze([
   'assets/ui/panels/painel_vertical_900x1350_transparente.webp',

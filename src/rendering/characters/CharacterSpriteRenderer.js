@@ -6,8 +6,8 @@ import {
   DEFAULT_CHARACTER_SCALE,
   DEFAULT_IDLE_ANIMATION,
   DEFAULT_MOVEMENT_ANIMATION
-} from './CharacterAnimationCatalog.js';
-import { DEFAULT_CHARACTER_SKIN } from './CharacterSkinCatalog.js';
+} from '../../data/characters/CharacterAnimationCatalog.js';
+import { DEFAULT_CHARACTER_SKIN } from '../../data/characters/CharacterSkinCatalog.js';
 
 import { queuePlayerSpriteAssets, registerPlayerSpriteAnimations } from './CharacterSpriteAssetLoader.js';
 export { queuePlayerSpriteAssets, registerPlayerSpriteAnimations };

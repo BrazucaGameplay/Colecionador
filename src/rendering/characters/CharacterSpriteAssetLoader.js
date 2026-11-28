@@ -1,8 +1,8 @@
 import {
   CHARACTER_ANIMATIONS,
   getCharacterAnimationsForSkin
-} from './CharacterAnimationCatalog.js';
-import { CHARACTER_SKINS } from './CharacterSkinCatalog.js';
+} from '../../data/characters/CharacterAnimationCatalog.js';
+import { CHARACTER_SKINS } from '../../data/characters/CharacterSkinCatalog.js';
 
 const BASE = import.meta.env?.BASE_URL ?? '/';
 // Incrementado quando atlas/metadados mudam para impedir que o navegador reutilize pacotes antigos.

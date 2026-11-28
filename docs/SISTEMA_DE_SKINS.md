@@ -17,8 +17,8 @@ quadro. O runtime usa spritesheets 2D; GLB/Three.js não são necessários.
 
 ## Arquitetura
 
-- `CharacterSkinCatalog.js`: catálogo, retrato e quatro atlas por skin.
-- `CharacterAnimationCatalog.js`: comportamento dos quatro estados.
+- `src/data/characters/CharacterSkinCatalog.js`: catálogo, retrato e quatro atlas por skin.
+- `src/data/characters/CharacterAnimationCatalog.js`: comportamento dos quatro estados.
 - `SkinManager.js`: valida assets e controla seleção.
 - `CharacterSpriteAssetLoader.js` e `CharacterSpriteRenderer.js`: carregamento,
   registro das animações e apresentação.

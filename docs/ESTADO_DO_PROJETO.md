@@ -3,8 +3,8 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.13.6  
-**Atualizado em:** 28/11/2026 (conclusão da organização modular de core, sistemas e estilos)
+**Versão do código-base consultado:** 2.13.7  
+**Atualizado em:** 28/11/2026 (conclusão da organização modular, incluindo catálogos de personagens em data)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
 
@@ -58,7 +58,7 @@
 
 ## Arquitetura atual
 
-A estrutura 2.13.5 separa configuração (`core/config`), carregamento (`core/lifecycle`), combate, movimento e progressão (`systems/combat`, `systems/movement`, `systems/progression`) e estilos (`ui/styles`). Os estilos HTML da interface e da tela de carregamento estão ambos em `ui/styles/`. Sistemas especializados de monstros, câmera, input, persistência e waifus permanecem em subpastas próprias. Os assets existentes foram preservados.
+A estrutura 2.13.7 separa configuração (`core/config`), carregamento (`core/lifecycle`), combate, movimento e progressão (`systems/combat`, `systems/movement`, `systems/progression`) e estilos (`ui/styles`). Os estilos HTML da interface e da tela de carregamento estão ambos em `ui/styles/`. Sistemas especializados de monstros, câmera, input, persistência e waifus permanecem em subpastas próprias. Os assets existentes foram preservados.
 
 | Área | Implementação atual |
 |---|---|
@@ -69,7 +69,7 @@ A estrutura 2.13.5 separa configuração (`core/config`), carregamento (`core/li
 | Gameplay | `systems/movement`, `systems/combat`, `systems/progression`, `systems/monsters`; catálogo de Boss/bestiário preparado |
 | Persistência | `src/systems/persistence/SaveManager.js`; chave legada `colecionador-save-v1` preservada |
 | UI | `GameUI.js`, `HtmlGameUI.js`, CSS da interface, HUD Phaser e `ProfileImageFitter.js` |
-| Assets | `public/assets/`; catálogos em `src/data/` e `src/rendering/`, validadores em `scripts/` |
+| Assets | `public/assets/`; catálogos em `src/data/` e implementação de renderização em `src/rendering/`, validadores em `scripts/` |
 
 ## Critérios para declarar algo concluído
 

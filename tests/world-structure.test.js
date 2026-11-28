@@ -118,7 +118,7 @@ test('profundidade respeita o ponto de apoio e desempata personagem acima da est
 });
 
 
-import { CHARACTER_ANIMATIONS, DEFAULT_CHARACTER_SCALE, DEFAULT_IDLE_ANIMATION, DEFAULT_MOVEMENT_ANIMATION } from '../src/rendering/characters/CharacterAnimationCatalog.js';
+import { CHARACTER_ANIMATIONS, DEFAULT_CHARACTER_SCALE, DEFAULT_IDLE_ANIMATION, DEFAULT_MOVEMENT_ANIMATION } from '../src/data/characters/CharacterAnimationCatalog.js';
 
 test('o protagonista possui exatamente quatro animações', () => {
   assert.equal(DEFAULT_IDLE_ANIMATION, 'idle');

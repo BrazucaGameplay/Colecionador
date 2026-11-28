@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import SkinManager from '../src/rendering/characters/SkinManager.js';
-import {CHARACTER_SKINS,DEFAULT_CHARACTER_SKIN,REQUIRED_SKIN_ANIMATIONS} from '../src/rendering/characters/CharacterSkinCatalog.js';
-import {getCharacterAnimationsForSkin} from '../src/rendering/characters/CharacterAnimationCatalog.js';
+import {CHARACTER_SKINS,DEFAULT_CHARACTER_SKIN,REQUIRED_SKIN_ANIMATIONS} from '../src/data/characters/CharacterSkinCatalog.js';
+import {getCharacterAnimationsForSkin} from '../src/data/characters/CharacterAnimationCatalog.js';
 
 const testCatalog={...CHARACTER_SKINS,skin_test:{...CHARACTER_SKINS.skin_01,id:'skin_test',name:'Skin de teste'}};
 test('skin original é padrão e pronta',()=>{

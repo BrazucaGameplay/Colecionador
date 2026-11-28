@@ -1,3 +1,10 @@
+# 28/11/2026 — Catálogos de personagens separados em data (2.13.7)
+
+- Movidos os catálogos de skins e animações do protagonista para `src/data/characters/`, separando definições de personagem do renderer.
+- Atualizados os imports do carregador, renderer, SkinManager, interface, pré-carregador e testes.
+- Os assets e contratos das duas skins foram preservados; nenhuma animação ou arte foi alterada.
+- Versão PATCH 2.13.7, com `package-lock.json` sincronizado.
+
 # 28/11/2026 — Conclusão da separação dos módulos de combate e estilos (2.13.6)
 
 - Movido `CombatSystem.js` para `src/systems/combat/`, alinhando o caminho de runtime aos testes e à estrutura de domínio.
