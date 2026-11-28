@@ -279,6 +279,9 @@ class HtmlPanel {
     this.waifuGrid.replaceChildren();
     const collection = Array.isArray(this.game?.waifuCollection) ? this.game.waifuCollection : [];
     const cards = collection.filter(item => item && WAIFU_CARD_ASSETS[item.waifuId]);
+    const signature = cards.map(item => `${item.waifuId}:${item.name || ''}`).join('|');
+    if (signature === this.waifuCollectionSignature) return;
+    this.waifuCollectionSignature = signature;
     if (!cards.length) {
       this.waifuGrid.append(element('p', 'html-game-ui__waifu-empty', 'Nenhuma carta obtida ainda.'));
       return;
