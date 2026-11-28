@@ -1,17 +1,24 @@
 /**
- * Catálogo central de waifus.
- *
- * Permanece vazio até que cada personagem seja cadastrada com seus dados
- * confirmados e sua arte original final. Não registrar personagens fictícias
- * nem inferir waifus apenas pela existência de arquivos de imagem.
- *
- * Contrato esperado por entrada:
- * {
- *   id: string,
- *   name: string,
- *   rarity: WAIFU_RARITIES.*.id, // fixa no cadastro
- *   cardAsset: string,          // ilustração original, sem moldura
- *   monsterDropIds: string[]    // IDs reais dos monstros que podem concedê-la
- * }
+ * Catálogo único de waifus. Toda habilidade e passiva do jogador nasce
+ * exclusivamente de uma carta cadastrada aqui.
  */
-export const WAIFU_CATALOG = Object.freeze([]);
+export const WAIFU_CATALOG = Object.freeze([
+  Object.freeze({
+    id: 'slime-maiden',
+    name: 'Donzela Slime',
+    cardAsset: 'assets/cards/waifus/carta.slime.webp',
+    activeAbility: Object.freeze({
+      id: 'blue-slime-projectile',
+      name: 'Gosma Azul',
+      description: 'Dispara automaticamente um projétil contra o alvo do combate.',
+      kind: 'projectile',
+      damage: 10,
+      cooldownMs: 10000,
+      projectileSpeed: 520
+    }),
+    passiveStats: Object.freeze({})
+  })
+]);
+export function getWaifuDefinition(id) {
+  return WAIFU_CATALOG.find(entry => entry.id === id) || null;
+}
