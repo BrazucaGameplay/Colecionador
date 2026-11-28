@@ -164,6 +164,7 @@ class HtmlPanel {
     this.node.setAttribute('role', 'dialog');
     this.node.setAttribute('aria-modal', 'true');
     this.node.setAttribute('aria-label', key === 'profile' ? 'Perfil do personagem' : key === 'menu' ? 'Menu principal' : (INFO[key]?.[0] || 'Painel'));
+    this.node.addEventListener('pointerdown', event => event.stopPropagation());
     this.art = element('img', 'html-game-ui__panel-art');
     this.art.src = key === 'profile' ? UI.vertical : UI.wide;
     this.art.alt = '';
