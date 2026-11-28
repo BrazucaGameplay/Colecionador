@@ -134,3 +134,28 @@ Build web não comprova execução visual ou instalação Android.
 
 Consultar documentação da versão efetivamente instalada antes de adotar
 APIs ou padrões de versões anteriores.
+
+
+11. CONTEÚDO HOSTIL: MONSTROS, BOSS E BESTIÁRIO
+
+A especificação detalhada e o estado de implementação ficam em
+docs/ARQUITETURA_MONSTROS_E_BOSSES.md. Não duplicar aqui listas de espécies,
+balanceamento ou caminhos de assets.
+
+Princípios obrigatórios:
+- Monstros comuns são espécies reutilizáveis; instâncias compartilham dados.
+- Boss são entidades únicas com catálogo, IA, habilidades e atividade próprios.
+- Player, Monster e Boss compartilham o mesmo contrato de nove atributos,
+  com estado independente por entidade.
+- Monstros comuns usam quatro direções e ataque básico; Boss usam oito direções
+  e IA/habilidades avançadas.
+- O bestiário apresenta duas categorias derivadas de catálogos estáticos;
+  descoberta e derrotas são estado persistente do jogador.
+- Culling visual não deve ativar simulação. Preservar raios atuais: 2 m combate,
+  10 m perseguição, 30 m ocioso e 50 m ativação visual.
+- Não adicionar conteúdo ou cartas provisórias para preencher catálogos vazios.
+
+A estrutura de dados deve crescer por novas definições, sem condicionais por
+espécie nos managers. Sistemas de Boss, bestiário, renderização e UI só devem
+ser conectados ao runtime quando tiverem comportamento testado, limpeza de
+recursos e assets reais validados.
