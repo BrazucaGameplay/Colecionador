@@ -11,7 +11,7 @@ const HTML_UI_ASSETS = Object.freeze([
 ]);
 
 const decodedImages = new Map();
-const BASE_URL = import.meta.env.BASE_URL;
+const BASE_URL = import.meta.env?.BASE_URL ?? '/';
 
 /**
  * Downloads and decodes every image that can appear in the HTML panels/HUD.
