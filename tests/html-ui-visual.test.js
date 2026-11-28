@@ -4,6 +4,7 @@ import Player from '../src/entities/Player.js';
 import HtmlGameUI from '../src/ui/HtmlGameUI.js';
 import { calculateContainLayout } from '../src/ui/ProfileImageFitter.js';
 import { installFakeDom, findByClass, findAllByClass } from './helpers/fake-dom.js';
+import WaifuEquipmentManager from '../src/systems/waifus/WaifuEquipmentManager.js';
 
 test('encaixe preserva a proporção e mantém o conteúdo alfa dentro do frame', () => {
   const layout = calculateContainLayout(
@@ -26,7 +27,8 @@ test('perfil percorre Personagem, Status e Skills e executa ações reais do Pla
   try {
     const player = new Player({ saveData: { statPoints: 1 } });
     let saves = 0;
-    let equipped = false;
+    const ownedCard = { instanceId: 'owned-slime-1', waifuId: 'slime-maiden', name: 'Donzela Slime', quality: 'D' };
+    const equipment = new WaifuEquipmentManager({ collection: [ownedCard] });
     const game = {
       player,
       progression: { getRequiredExperience: level => 100 * level },
@@ -79,11 +81,11 @@ test('perfil percorre Personagem, Status e Skills e executa ações reais do Pla
     assert.equal(panel.page, 2);
     assert.equal(panel.skillsPage.hidden, false);
     assert.equal(panel.skillSlots.children.length, 3);
-    const equip = findByClass(panel.skillList, 'html-game-ui__skill-equip');
+    const equip = findByClass(panel.waifuEquipList, 'html-game-ui__waifu-equip-equip');
     assert.ok(equip);
     equip.click();
-    assert.equal(equipped, true);
-    assert.match(panel.skillSlots.children[0].children[1].textContent, /Fogo/);
+    assert.equal(equipment.getEquipped()[0].waifuId, 'slime-maiden');
+    assert.match(panel.waifuEquipSlots.children[0].children[1].textContent, /Donzela Slime/);
     findByClass(panel.node, 'html-game-ui__panel-back').click();
     assert.equal(panel.page, 1, 'o botão Voltar retorna à página anterior');
     panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 220, clientY: 220 });
