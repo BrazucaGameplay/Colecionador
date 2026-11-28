@@ -1,3 +1,11 @@
+# 28/11/2026 — Conclusão da separação dos módulos de combate e estilos (2.13.6)
+
+- Movido `CombatSystem.js` para `src/systems/combat/`, alinhando o caminho de runtime aos testes e à estrutura de domínio.
+- Movido `html-game-ui.css` para `src/ui/styles/` junto aos estilos de carregamento.
+- Removidas as cópias antigas dos caminhos de origem para evitar duas fontes de verdade.
+- Corrigida a normalização do caminho de imagens na tela de carregamento após a mudança de diretório.
+- Atualizados os imports do bootstrap; versão PATCH 2.13.6 e lockfile sincronizado.
+
 # 28/11/2026 — Organização de core, sistemas e estilos (2.13.5)
 
 - Centralizada a configuração em `src/core/config/`.

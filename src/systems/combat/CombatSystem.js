@@ -1,7 +1,7 @@
 import {
   PLAYER_ATTACK_RANGE_WORLD_UNITS,
   MONSTER_PURSUIT_DISTANCE_WORLD_UNITS
-} from '../config.js';
+} from '../../core/config/index.js';
 
 export default class CombatSystem {
   constructor({ player, movement, getTargets, onAttack = () => {},
@@ -26,7 +26,6 @@ export default class CombatSystem {
     this.targets = [];
     this.destroyed = false;
   }
-
   selectTarget() {
     let selected = null;
     let selectedDistanceSquared = this.detectionRange * this.detectionRange;
@@ -35,14 +34,10 @@ export default class CombatSystem {
       const dx = target.x - this.player.x;
       const dy = target.y - this.player.y;
       const distanceSquared = dx * dx + dy * dy;
-      if (distanceSquared <= selectedDistanceSquared) {
-        selected = target;
-        selectedDistanceSquared = distanceSquared;
-      }
+      if (distanceSquared <= selectedDistanceSquared) { selected = target; selectedDistanceSquared = distanceSquared; }
     }
     return selected;
   }
-
   refreshTarget(now) {
     this.targets = this.getTargets() || [];
     this.target = this.selectTarget();
@@ -50,44 +45,24 @@ export default class CombatSystem {
     this.nextRetargetAt = now + this.retargetIntervalMs;
     this.nextPathAt = now;
   }
-
   update(now) {
     if (this.destroyed || !this.player.alive) {
-      this.target = null;
-      this.targetId = null;
-      this.movement.stopAutomaticMovement();
-      return;
+      this.target = null; this.targetId = null; this.movement.stopAutomaticMovement(); return;
     }
     if (this.movement.hasManualDestination) {
-      this.target = null;
-      this.targetId = null;
-      this.movement.stopAutomaticMovement();
-      return;
+      this.target = null; this.targetId = null; this.movement.stopAutomaticMovement(); return;
     }
-    // Sem alvo, a consulta continua limitada ao intervalo de retarget; alvo
-    // morto, por outro lado, provoca uma substituição imediata.
     if ((this.target && !this.target.alive) || now >= this.nextRetargetAt) this.refreshTarget(now);
     const target = this.target;
-    if (!target) {
-      this.movement.stopAutomaticMovement();
-      this.player.setMoving(false);
-      return;
-    }
-    const dx = target.x - this.player.x;
-    const dy = target.y - this.player.y;
+    if (!target) { this.movement.stopAutomaticMovement(); this.player.setMoving(false); return; }
+    const dx = target.x - this.player.x, dy = target.y - this.player.y;
     const distanceSquared = dx * dx + dy * dy;
     this.player.setFacing(dx, dy);
     if (distanceSquared > this.attackRange * this.attackRange) {
-      if (now >= this.nextPathAt) {
-        this.movement.setAutomaticDestination(target.x, target.y);
-        this.nextPathAt = now + this.pathRefreshIntervalMs;
-      }
+      if (now >= this.nextPathAt) { this.movement.setAutomaticDestination(target.x, target.y); this.nextPathAt = now + this.pathRefreshIntervalMs; }
       return;
     }
-
-    this.movement.stopAutomaticMovement();
-    this.player.setMoving(false);
-    this.nextPathAt = now;
+    this.movement.stopAutomaticMovement(); this.player.setMoving(false); this.nextPathAt = now;
     if (now < this.nextAttackAt) return;
     const configuredAps = Number(this.player.stats?.attackSpeed);
     const aps = Math.max(0.1, Number.isFinite(configuredAps) ? configuredAps : 1);
@@ -99,16 +74,9 @@ export default class CombatSystem {
       : this.player.getAttackDamage(target.defense);
     this.onAttack(target, baseAttack, now, this.player.stats.penetration, attackIntervalMs);
   }
-
   destroy() {
-    this.destroyed = true;
-    this.movement?.stopAutomaticMovement();
-    this.player = null;
-    this.movement = null;
-    this.getTargets = null;
-    this.onAttack = null;
-    this.target = null;
-    this.targets = [];
-    this.targetId = null;
+    this.destroyed = true; this.movement?.stopAutomaticMovement();
+    this.player = null; this.movement = null; this.getTargets = null; this.onAttack = null;
+    this.target = null; this.targets = []; this.targetId = null;
   }
 }

@@ -27,7 +27,7 @@ export default class LoadingScreen {
   showNextImage() {
     if (!this.images.length || !this.art) return;
     this.imageIndex = (this.imageIndex + 1) % this.images.length;
-    const src = BASE_URL + this.images[this.imageIndex].replace(/^\\//, '');
+    const src = BASE_URL + this.images[this.imageIndex].replace(/^\//, '');
     const probe = new Image();
     probe.onload = () => {
       if (!this.root || this.root.classList.contains('is-hidden')) return;
@@ -35,7 +35,11 @@ export default class LoadingScreen {
       this.backdrop.style.backgroundImage = `url("${src}")`;
       this.art.classList.add('is-visible');
     };
-    probe.onerror = () => { this.images.splice(this.imageIndex, 1); this.imageIndex--; if (!this.images.length) this.showFallback(); };
+    probe.onerror = () => {
+      this.images.splice(this.imageIndex, 1);
+      this.imageIndex--;
+      if (!this.images.length) this.showFallback();
+    };
     probe.src = src;
   }
   showFallback() { this.art?.classList.remove('is-visible'); if (this.hint) this.hint.textContent = 'Preparando o mundo para sua aventura'; }
@@ -54,7 +58,8 @@ export default class LoadingScreen {
   }
   hide() {
     if (!this.root) return;
-    this.setProgress(1, 'Aventura pronta'); this.root.classList.add('is-hidden');
+    this.setProgress(1, 'Aventura pronta');
+    this.root.classList.add('is-hidden');
     if (this.rotationTimer) window.clearInterval(this.rotationTimer);
     window.removeEventListener('colecionador:loading-progress', this.onProgress);
     window.removeEventListener('colecionador:loading-error', this.onError);

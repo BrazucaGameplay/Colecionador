@@ -1,5 +1,5 @@
 import MovementSystem from './MovementSystem.js';
-import CombatSystem from './CombatSystem.js';
+import CombatSystem from './combat/CombatSystem.js';
 import ProgressionSystem from './ProgressionSystem.js';
 import MonsterCombatSystem from './monsters/MonsterCombatSystem.js';
 import PerformanceMonitor from '../ui/PerformanceMonitor.js';
