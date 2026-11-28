@@ -62,7 +62,8 @@ test('menu e painéis informativos permanecem disponíveis; perfil mostra soment
   assert.match(builder, /html-game-ui__profile-controls/);
   assert.match(html, /this\.setPage\(this\.page \+ 1\)/);
   assert.match(html, /this\.game\?\.skillManager\?\.equip\?\.\(id\)/);
-  assert.doesNotMatch(html, /allocateStat|STAT_UPGRADES/);
+  assert.match(html, /STAT_UPGRADES/);
+  assert.match(html, /allocateStat\(key\)/);
 });
 
 test('retratos HTML acompanham troca de skin e a HUD continua clicável', async () => {

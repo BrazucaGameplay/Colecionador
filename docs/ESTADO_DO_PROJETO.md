@@ -2994,3 +2994,12 @@ Correção de auditoria 2.10.24:
   em alvo de atribuição.
 - Versão 2.10.23 não deve ser considerada pronta para deploy; a versão
   2.10.24 contém a correção antes de validar publicação.
+
+
+Correção de testes 2.10.25:
+- Atualizadas duas expectativas antigas que proibiam a presença de
+  STAT_UPGRADES/allocateStat no HTML UI, apesar de a tela Status passar
+  a utilizar deliberadamente os dados e o método oficial de alocação
+  do Player.
+- A validação agora exige essa integração real em vez de rejeitá-la.
+- Versão 2.10.25 sincronizada no package.json e package-lock.json.

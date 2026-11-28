@@ -96,7 +96,7 @@ test('perfil navega por personagem, status e habilidades; status usa dados reais
   ]);
   assert.match(ui, /Object\.entries\(STAT_UPGRADES\)/);
   assert.match(ui, /player\.stats\[row\.key\]/);
-  assert.match(ui, /player\.allocateStat\(key\)/);
+  assert.match(ui, /allocateStat\(key\)/);
   assert.match(ui, /getRequiredExperience\(player\.level\)/);
   assert.match(ui, /getEquippedSkills/);
   assert.match(ui, /getCatalog\?\.\(\)/);
