@@ -80,6 +80,10 @@ test('menu abre painéis informativos e o toque fora ou o X fecha o overlay', ()
     ui.openPanel('menu');
     assert.equal(ui.isUiPointer(20, 20), true);
     assert.ok(ui.activePanel.node.className.includes('html-game-ui__panel--menu'), 'o menu deve ter layout responsivo próprio');
+    assert.ok(
+      findByClass(ui.activePanel.node, 'html-game-ui__panel-art').src.endsWith('/assets/ui/panels/menu_principal_moldura_completa.svg'),
+      'o menu deve usar a moldura vetorial completa, não a arte larga antiga com base incompleta'
+    );
     const menu = findByClass(ui.activePanel.node, 'html-game-ui__menu-grid');
     assert.ok(menu);
     const fps = findByClass(ui.activePanel.node, 'html-game-ui__fps-button');
