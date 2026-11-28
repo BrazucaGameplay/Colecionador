@@ -3,7 +3,7 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.10.28  
+**Versão do código-base consultado:** 2.10.29  
 **Atualizado em:** 28/11/2026 (estado encontrado na branch)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
@@ -83,11 +83,14 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 - Boss: catálogo vazio preparado; entidades, IA, habilidades e renderização 8-way ainda não implementados.
 - Bestiário: galeria HTML com abas Monstros/Boss, carta integral do Slime e navegação arte/status; descoberta e persistência ainda pendentes. Outras dez imagens permanecem arquivadas e fora do catálogo.
 - Raios atuais preservados: ataque 2 m, perseguição 10 m, ocioso 30 m, ativação 50 m.
+- Processo obrigatório para qualquer espécie nova: [PROCESSO_ADICIONAR_MONSTRO.md](PROCESSO_ADICIONAR_MONSTRO.md).
 - Detalhes e contratos: [Arquitetura de monstros e Boss](ARQUITETURA_MONSTROS_E_BOSSES.md).
 
 ## Documentos relacionados
 
+- [Processo oficial para adicionar um monstro](PROCESSO_ADICIONAR_MONSTRO.md) — sequência obrigatória de asset, catálogo, `bestiary.cardAsset`, dados reais, testes e validação.
 - [Arquitetura de monstros e Boss](ARQUITETURA_MONSTROS_E_BOSSES.md) — contratos de conteúdo, status, atividade, IA, assets e bestiário.
+- [Arquitetura de cartas HTML](ARQUITETURA_CARTAS_HTML.md) — apresentação compartilhada e integridade das cartas.
 - [Arquitetura do mundo por ilhas](ARQUITETURA_DO_MUNDO_POR_ILHAS.md) — decisão e plano de transição entre ilhas.
 - [Sistema de skins](SISTEMA_DE_SKINS.md) — contrato de atlas e seleção.
 - [Plano de arquitetura e desenvolvimento](PLANO_ARQUITETURA_E_DESENVOLVIMENTO.txt) — princípios técnicos, sem duplicar o estado atual.

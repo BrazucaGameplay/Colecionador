@@ -1,8 +1,8 @@
 # Arquitetura de monstros, Boss e bestiário
 
 **Projeto:** Conquistador de Waifu's  
-**Branch:** main · **Versão-base:** 2.10.28  
-**Status:** arquitetura aprovada e scaffolding de catálogo criado. IA de Boss, animações direcionais completas, descoberta persistente e UI do bestiário ainda não implementadas.
+**Branch:** main · **Versão-base:** 2.10.29  
+**Status:** arquitetura aprovada e scaffolding de catálogo criado. IA de Boss, animações direcionais completas, descoberta persistente e validação visual em Android ainda não confirmadas.
 
 Este documento separa estado atual, contratos aprovados e trabalho futuro. Estrutura preparada não significa mecânica concluída.
 
@@ -174,7 +174,7 @@ Exemplos são contratos, não conteúdo jogável. Zeros/nulls não são valores 
 - Bestiário apresenta uma carta por definição e mantém descoberta após reiniciar.
 - Build e testes de carga validam o pacote final.
 
-## 10. Estado real na versão 2.10.27
+## 10. Estado real na versão 2.10.29
 
 **Já existe:** entidade lógica Monster, catálogo comum com Slime (única espécie registrada), spawner por zona, perseguição simples, combate básico, renderer e loader por estado; raios documentados na seção 3.
 
@@ -182,11 +182,10 @@ Exemplos são contratos, não conteúdo jogável. Zeros/nulls não são valores 
 
 **Estrutura preparada nesta versão:** catálogo vazio de Boss; projeção de catálogo do bestiário em duas categorias; diretórios reservados para sistemas, renderização e UI.
 
-**Ainda não implementado:** catálogo de outras espécies (cada uma poderá ter animação ou imagem estática), Boss jogável/IA/habilidades 8-way, otimização espacial por células, descoberta persistente, cartas finais e UI do bestiário.
-
+**Ainda não implementado:** catálogo de outras espécies (cada uma poderá ter animação ou imagem estática), Boss jogável/IA/habilidades 8-way, otimização espacial por células, descoberta persistente e validação visual final em Android.
 
 ## 11. Processo de entrada de novas espécies — piloto Slime
 
-Slime é a implementação de referência para o caminho de inclusão de monstros. O procedimento futuro deve ser orientado por dados: asset oficial em pasta própria, definição completa em `src/data/monsters/index.js`, referência `bestiary.cardAsset`, testes e validação de build. A UI compartilhada consome o catálogo e não deve receber ramificações por espécie.
+O Slime é a implementação de referência. Toda nova espécie comum deve seguir, sem exceção, o [processo oficial para adicionar um monstro](PROCESSO_ADICIONAR_MONSTRO.md): colocar a carta original na pasta da espécie, criar sua definição no catálogo, declarar `bestiary.cardAsset`, cadastrar atributos e dados reais e adicionar testes/validar.
 
 As outras cartas atualmente arquivadas em `public/assets/cards/monsters/<id>/card.jpg` não representam espécies cadastradas. Não as importar, exibir ou associar a dados até que cada monstro seja implementado individualmente.

@@ -3,7 +3,8 @@
 - Slime declara sua carta oficial no catálogo (`bestiary.cardAsset`).
 - Criado componente HTML compartilhado `CardGallery`, dirigido pelas definições registradas, com abas Monstros/Boss, visualização integral e navegação arte/status.
 - O bestiário exibe somente Slime, pois é a única espécie cadastrada. As outras dez cartas continuam arquivadas e não são carregadas nem registradas.
-- Documentado o procedimento reutilizável para adicionar futuras espécies sem criar UI específica por monstro.
+- Consolidado em `docs/PROCESSO_ADICIONAR_MONSTRO.md` o procedimento obrigatório em cinco etapas: carta original na pasta da espécie; definição no catálogo; caminho em `bestiary.cardAsset`; atributos e dados reais; testes e validação.
+- A documentação de arquitetura e estado do projeto aponta para esse procedimento como fonte única, evitando instruções duplicadas ou divergentes.
 - Adicionado teste para garantir que a presença de outras imagens não aumenta automaticamente o catálogo.
 
 # Changelog
@@ -67,7 +68,6 @@ Histórico consolidado do repositório `BrazucaGameplay/Colecionador`. Registra 
 - Navegação derivada da máscara alfa, grade pré-calculada, cache versionado no IndexedDB e validação do layout de árvores no build.
 - Criados managers de objetos, profundidade e colisão; layout da floresta e área de nascimento refinados.
 - Spawn, ativação, perseguição e combate dos monstros separados e escalonados para reduzir trabalho por frame.
-- Limpeza removeu renderizadores GLB, pipeline de bake e código sem consumidores. O runtime permaneceu 2D com spritesheets PNG/JSON.
 - Foram experimentadas abordagens de terreno, oceano e zoom. A implementação vigente é a descrita no estado atual; tentativas substituídas não são requisitos.
 
 ## 25/11/2026 — Base de gameplay e arquitetura
@@ -82,7 +82,6 @@ Histórico consolidado do repositório `BrazucaGameplay/Colecionador`. Registra 
 
 - Definidos Phaser 4, Vite, GitHub Pages e Capacitor como stack do projeto.
 - Estabelecida a separação entre implementação nova no Colecionador e referência visual limitada do repositório original.
-- Criados os primeiros documentos de arquitetura e continuidade.
 
 ## Direções substituídas (não reintroduzir sem nova aprovação)
 

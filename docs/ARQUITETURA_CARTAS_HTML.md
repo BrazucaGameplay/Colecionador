@@ -40,16 +40,8 @@ IDs estáveis, minúsculos, sem espaços/acentos. Spritesheets de gameplay não 
 - Preloader valida imagens obrigatórias apenas quando fornecidas e declaradas.
 - Testar proporção, navegação arte/status, fechamento, troca de registro e limpeza.
 
-## Fluxo-padrão para introduzir um monstro novo (usar Slime como referência)
-
-1. Criar `public/assets/cards/monsters/<species-id>/` e colocar a carta final original como `card.<ext>`, sem conversão.
-2. Criar/expandir a definição em `src/data/monsters/index.js` com ID estável, nome, nove atributos reais e dados de gameplay aprovados.
-3. Declarar o caminho da carta em `bestiary.cardAsset` na própria definição.
-4. A projeção `src/data/bestiary/index.js` disponibiliza automaticamente a definição registrada; `CardGallery` apresenta a carta sem código específico por espécie.
-5. Adicionar testes de catálogo, caminho do asset e dados; validar carregamento e comportamento no build.
-6. Só então a espécie passa a aparecer no bestiário. Um arquivo na pasta de assets, sozinho, não cadastra uma criatura.
-
-Não criar componentes ou telas individuais por monstro. Slime é o caso de referência para o fluxo completo; futuras espécies devem seguir o mesmo contrato.
+## Processo de inclusão de monstros
+O procedimento oficial, em cinco etapas, está centralizado em [PROCESSO_ADICIONAR_MONSTRO.md](PROCESSO_ADICIONAR_MONSTRO.md). Slime é a implementação-piloto. A galeria consome as definições cadastradas e não deve receber código específico por espécie.
 
 ## Estado e entrega
 As 11 cartas JPG continuam organizadas em pastas individuais e preservadas sem conversão. Apenas Slime está ligado ao catálogo e à galeria. As outras dez imagens permanecem arquivadas e não são carregadas nem registradas no jogo. O componente compartilhado usa a definição cadastrada como fonte de dados e não faz varredura automática de arquivos.
