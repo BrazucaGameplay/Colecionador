@@ -7,7 +7,7 @@
 - A documentação de arquitetura e estado do projeto aponta para esse procedimento como fonte única, evitando instruções duplicadas ou divergentes.
 - Adicionado teste para garantir que a presença de outras imagens não aumenta automaticamente o catálogo.
 
-# Changelog
+## 28/11/2026 — Painel adaptativo e cartas com verso de status (2.10.30)\n\n- Bestiário passa a usar a moldura vertical existente para ampliar a área útil em telas mobile, mantendo as cartas originais intactas.\n- Grade responsiva com três colunas e pelo menos duas linhas visíveis; listas maiores continuam roláveis.\n- Toque na carta abre a visualização no mesmo painel; tocar nela gira a carta para mostrar os nove status reais no verso. Removida a etapa separada “Ver status”.\n- Mantidos abas Monstros/Boss, retorno à grade e botão X.\n- Testes de UI cobrem moldura, seleção, rotação, status e retorno.\n\n# Changelog
 
 ## 27/11/2026 — Organização das 11 cartas JPG de monstros
 
