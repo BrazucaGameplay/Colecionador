@@ -25,6 +25,7 @@ export default class GameUI extends Phaser.Scene {
   create() {
     this.gameScene = this.scene.get('Game');
     this.gameScene.uiScene = this;
+    this.gameScene.events.on('waifu:acquired', this.showWaifuDropNotice, this);
     this.input.setGlobalTopOnly(false);
     this.htmlUI = new HtmlGameUI(this, {
       openMenu: () => this.htmlUI?.activePanel?.key === 'menu' ? this.htmlUI.closePanel() : this.htmlUI.openPanel('menu'),
@@ -36,6 +37,22 @@ export default class GameUI extends Phaser.Scene {
     this.scale.on('resize', this.handleResize, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
     this.refreshHud();
+  }
+
+  showWaifuDropNotice(acquisition) {
+    if (!acquisition || !this.add) return;
+    this.waifuDropNotice?.destroy();
+    const qualityNames = { S: 'Rainha', A: 'Princesa', B: 'Dama', C: 'Nobre', D: 'Plebeia' };
+    const label = `CARTA OBTIDA\n${acquisition.name || 'Nova Waifu'} · ${qualityNames[acquisition.quality] || acquisition.quality || 'Qualidade desconhecida'}`;
+    const notice = this.add.text(this.scale.width / 2, this.scale.height * 0.2, label, {
+      fontFamily: 'Georgia, serif', fontSize: '18px', color: '#fff1c2', align: 'center',
+      backgroundColor: '#24162ddd', padding: { x: 18, y: 12 },
+      stroke: '#100b18', strokeThickness: 3, shadow: { color: '#000000', blur: 8, fill: true }
+    }).setOrigin(0.5).setScrollFactor(0).setDepth(2000);
+    this.waifuDropNotice = notice;
+    this.tweens.add({ targets: notice, y: notice.y - 22, alpha: 0, delay: 2600, duration: 650,
+      onComplete: () => { if (this.waifuDropNotice === notice) this.waifuDropNotice = null; notice.destroy(); }
+    });
   }
 
   isUiPointer(x, y) {
@@ -71,6 +88,9 @@ export default class GameUI extends Phaser.Scene {
 
   shutdown() {
     this.scale.off('resize', this.handleResize, this);
+    this.gameScene?.events?.off('waifu:acquired', this.showWaifuDropNotice, this);
+    this.waifuDropNotice?.destroy();
+    this.waifuDropNotice = null;
     this.htmlUI?.destroy();
     this.htmlUI = null;
     this.hud?.destroy();
