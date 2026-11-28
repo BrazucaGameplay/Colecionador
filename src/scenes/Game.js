@@ -5,6 +5,7 @@ import CharacterSpriteRenderer from '../rendering/characters/CharacterSpriteRend
 import { attachPlayerSpriteRegistry } from '../rendering/characters/CharacterSpriteAssetLoader.js';
 import SkinManager from '../rendering/characters/SkinManager.js';
 import MonsterManager from '../systems/monsters/MonsterManager.js';
+import { rollMonsterDrops } from '../systems/monsters/MonsterDropResolver.js';
 import { ISLAND_01_MONSTER_SPAWNS } from '../world/spawn-layout/island-01.js';
 import { SAVE_KEY } from '../config.js';
 import WorldBootstrap from '../world/WorldBootstrap.js';
@@ -26,6 +27,7 @@ export default class Game extends Phaser.Scene {
     this.saveManager = new SaveManager({ key: SAVE_KEY });
     this.savedProgress = this.saveManager.load();
     this.score = Math.max(0, Number(this.savedProgress.score) || 0);
+    this.waifuCollection = Array.isArray(this.savedProgress.waifus) ? [...this.savedProgress.waifus] : [];
 
     this.worldBootstrap = new WorldBootstrap(this);
     const playerSpawn = await this.worldBootstrap.initialize();
@@ -54,9 +56,23 @@ export default class Game extends Phaser.Scene {
       playerBody: this.playerBody,
       depthManager: this.depthManager,
       spawnZones: ISLAND_01_MONSTER_SPAWNS,
-      onKill: ({ experience = 0 } = {}) => {
+      onKill: ({ monster, experience = 0 } = {}) => {
         this.score += 1;
         this.progression.award(this.player, experience);
+        const drops = rollMonsterDrops(monster?.definition?.id);
+        for (const drop of drops) {
+          if (drop.kind !== 'waifu-card') continue;
+          const acquisition = Object.freeze({
+            waifuId: drop.waifuId,
+            name: drop.name,
+            quality: drop.quality,
+            level: 1,
+            obtainedAt: Date.now(),
+            sourceSpeciesId: monster.definition.id
+          });
+          this.waifuCollection.push(acquisition);
+          this.events.emit('waifu:acquired', acquisition);
+        }
         this.persistProgress();
       }
     });
@@ -85,7 +101,7 @@ export default class Game extends Phaser.Scene {
 
   persistProgress() {
     if (!this.player || !this.saveManager) return false;
-    return this.saveManager.save({score:this.score,player:this.player.toSaveData(),selectedSkin:this.skinManager?.getSelectedSkin()});
+    return this.saveManager.save({score:this.score,player:this.player.toSaveData(),selectedSkin:this.skinManager?.getSelectedSkin(),waifus:this.waifuCollection || []});
   }
 
   update(time, delta = 16.67) {
