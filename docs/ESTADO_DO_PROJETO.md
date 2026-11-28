@@ -2598,3 +2598,36 @@ VALIDAÇÃO DESTA ALTERAÇÃO:
 - Testes/build/deploy da versão 2.10.12 pendentes da execução do workflow.
 
 Versionamento: 2.10.11 → 2.10.12 (PATCH: gate de carregamento das imagens HTML).
+
+
+======================================================================
+ATUALIZACAO — 27/11/2026 — INTERFACE HTML DOS PAINEIS
+======================================================================
+
+Versao do jogo: 2.10.13
+
+Implementado nesta etapa:
+- A tipografia da camada HTML foi substituida por uma familia sans-serif
+  legivel em telas Android, com pesos, espacamentos, contraste e sombras
+  ajustados ao acabamento dourado/vermelho dos paineis.
+- A pagina de atributos do perfil recebeu hierarquia tipografica e
+  distribuicao vertical revisadas. Rotulos deixam de quebrar palavras
+  arbitrariamente; valores ficam alinhados e usam numerais tabulares.
+- Titulos, estados, descricoes, botoes, paginacao e listas de skins
+  receberam padronizacao de fonte e legibilidade.
+- Os elementos HTML de retrato (HUD, perfil e miniaturas de skins) agora
+  exibem uma silhueta vetorial discreta como fundo. As imagens reais das
+  skins permanecem sobrepostas, sem serem modificadas ou substituidas.
+
+Preservado:
+- Molduras, botoes e artes aprovadas.
+- Sistema de paginas do perfil, pontos de atributos e selecao de skins.
+- Separacao entre interface HTML e renderizacao do mundo/HUD Phaser.
+- Preload obrigatorio das imagens HTML ja implementado em 2.10.12.
+
+Validacao pendente:
+- Teste visual em navegador Android apos a publicacao.
+- Confirmar no aparelho se a silhueta fica visivel apenas nas areas
+  transparentes dos retratos e se o painel permanece legivel em diferentes
+  escalas/orientacoes.
+
