@@ -44,6 +44,7 @@ O build web e o deploy PWA não substituem a sincronização, compilação e val
 
 - [Estado atual e continuidade](docs/ESTADO_DO_PROJETO.md) — resumo curto da stack, implementação e pendências.
 - [Changelog](docs/CHANGELOG.md) — histórico consolidado de decisões e marcos.
+- [Arquitetura de monstros e Boss](docs/ARQUITETURA_MONSTROS_E_BOSSES.md) — contratos de espécies, Boss, status, atividade e bestiário.
 - [Arquitetura do mundo por ilhas](docs/ARQUITETURA_DO_MUNDO_POR_ILHAS.md) — direção aprovada e plano incremental.
 - [Plano de arquitetura e desenvolvimento](docs/PLANO_ARQUITETURA_E_DESENVOLVIMENTO.txt) — princípios técnicos e roteiro.
 - [Processo obrigatório de atualização](docs/PROCESSO_OBRIGATORIO_DE_ATUALIZACAO.md) — versionamento, auditoria e critérios de publicação.
