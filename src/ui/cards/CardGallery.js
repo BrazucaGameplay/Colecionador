@@ -104,6 +104,7 @@ export default class CardGallery {
           : 'Mostrar status no verso da carta de ' + entry.name);
       });
     flip.setAttribute('aria-pressed', 'false');
+    flip.textContent = '';
 
     const inner = node('span', 'html-game-ui__card-flip-inner');
     const front = node('span', 'html-game-ui__card-face html-game-ui__card-face--front');
