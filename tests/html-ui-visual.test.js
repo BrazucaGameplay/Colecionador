@@ -75,7 +75,7 @@ test('perfil percorre Personagem, Status e Cartas Equipadas e executa ações re
     panel.content.dispatch('pointerdown', { pointerType: 'touch', clientX: 320, clientY: 220 });
     panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 220, clientY: 220 });
     assert.equal(panel.page, 2);
-    assert.equal(panel.skillsPage.hidden, false);
+    assert.equal(panel.waifuEquipPage.hidden, false);
     assert.equal(panel.waifuEquipSlots.children.length, 3);
     const equip = findByClass(panel.waifuEquipList, 'html-game-ui__waifu-equip-equip');
     assert.ok(equip);
