@@ -26,7 +26,7 @@ A raridade é definida no cadastro da personagem e não muda.
 | A | Princesa |
 | S | Rainha |
 
-A qualidade é determinada uma única vez quando a waifu é obtida por drop. Não pode ser rerrolada, melhorada, rebaixada ou substituída posteriormente. As probabilidades ainda não foram definidas.
+A qualidade é determinada uma única vez quando a waifu é obtida por drop. Não pode ser rerrolada, melhorada, rebaixada ou substituída posteriormente. Probabilidades aprovadas para a aquisição atual: Rainha 1%, Princesa 2%, Dama 3%, Nobre 4% e Plebeia 90%. A soma é 100% e a qualidade é sorteada somente depois de a carta passar na rolagem de drop.
 
 ### Nível — progressão independente
 
@@ -103,15 +103,15 @@ A origem principal das artes das waifus permanece no repositório separado do pr
 
 A galeria HTML compartilhada de cartas é reutilizável, mas o catálogo/runtime de waifus permanece separado do bestiário de monstros e Boss. O painel Waifus atual continua como placeholder e não deve apresentar personagens, atributos ou bônus fictícios.
 
-A fundação desta etapa não ativa drops, não concede waifus, não altera saves e não habilita habilidades. Essas integrações serão feitas em etapas próprias, depois que os dados e assets necessários estiverem disponíveis.
+A aquisição inicial já está ativa para o Slime: o runtime rola a chance de carta, define qualidade uma única vez e persiste a instância no save existente. A arte final, raridade fixa no catálogo, interface da coleção, duplicatas, presentes e habilidades continuam pendentes.
 
 ## 6. Próximas etapas
 
 1. Receber as cinco molduras de raridade e os cinco selos de qualidade finais.
 2. Validar transparência, proporção, alinhamento e área interna das artes.
-3. Cadastrar as waifus reais e suas raridades fixas.
-4. Definir e balancear probabilidades de qualidade e chances de drop por monstro.
-5. Integrar aquisição, qualidade permanente, inventário/coleção e persistência.
+3. Cadastrar as waifus reais e suas raridades fixas, incluindo arte original e raridade da Donzela Slime.
+4. Criar a tabela exclusiva e os testes de cada nova espécie quando ela for cadastrada.
+5. Integrar a coleção ao painel visual e definir as regras de duplicatas.
 6. Implementar presentes, níveis, vínculos, passivas e os três espaços de habilidades equipáveis.
 7. Integrar o painel Waifus à galeria e validar comportamento em Android.
 
