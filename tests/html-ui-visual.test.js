@@ -22,7 +22,7 @@ test('encaixe preserva a proporção e mantém o conteúdo alfa dentro do frame'
   assert.ok(layout.top + 1180 * scaleY <= 360);
 });
 
-test('perfil percorre Personagem, Status e Skills e executa ações reais do Player', () => {
+test('perfil percorre Personagem, Status e Cartas Equipadas e executa ações reais do Player', () => {
   const dom = installFakeDom();
   try {
     const player = new Player({ saveData: { statPoints: 1 } });
@@ -37,11 +37,7 @@ test('perfil percorre Personagem, Status e Skills e executa ações reais do Pla
         id: 'skin_01',
         portrait: 'assets/characters/sprites/skin_01/perfil.png'
       }) },
-      skillManager: {
-        getEquippedSkills: () => equipped ? [{ id: 'fire', name: 'Fogo' }] : [],
-        getCatalog: () => [{ id: 'fire', name: 'Fogo', description: 'Projétil de fogo', unlocked: true, equipped }],
-        equip(id) { if (id !== 'fire' || equipped) return { changed: false }; equipped = true; return { changed: true }; }
-      }
+      waifuEquipment: equipment
     };
     const scene = {
       scale: { width: 960, height: 540 },
@@ -54,7 +50,7 @@ test('perfil percorre Personagem, Status e Skills e executa ações reais do Pla
     assert.equal(panel.page, 0);
     assert.equal(panel.profilePortraitFrame.hidden, false);
     assert.equal(panel.statsPage.hidden, true);
-    assert.equal(panel.skillsPage.hidden, true);
+    assert.equal(panel.waifuEquipPage.hidden, true);
     assert.ok(panel.portrait.src.endsWith('/assets/characters/sprites/skin_01/perfil.png'));
 
     panel.portrait.naturalWidth = 2288;
@@ -80,7 +76,7 @@ test('perfil percorre Personagem, Status e Skills e executa ações reais do Pla
     panel.content.dispatch('pointerup', { pointerType: 'touch', clientX: 220, clientY: 220 });
     assert.equal(panel.page, 2);
     assert.equal(panel.skillsPage.hidden, false);
-    assert.equal(panel.skillSlots.children.length, 3);
+    assert.equal(panel.waifuEquipSlots.children.length, 3);
     const equip = findByClass(panel.waifuEquipList, 'html-game-ui__waifu-equip-equip');
     assert.ok(equip);
     equip.click();
