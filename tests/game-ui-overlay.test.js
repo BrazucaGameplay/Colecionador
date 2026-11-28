@@ -36,7 +36,11 @@ test('retrato HUD é clicável, atualiza fallback e bloqueia apenas sua região'
 test('perfil usa os controles globais e navega lateralmente por personagem, status e skills', () => {
   const dom = installFakeDom();
   try {
-    const game = { skinManager: { getSelectedDefinition: () => ({ portrait: '' }) } };
+    const performanceMonitor = { enabled: false, setEnabled(value) { this.enabled = value; } };
+    const game = {
+      skinManager: { getSelectedDefinition: () => ({ portrait: '' }) },
+      performanceMonitor
+    };
     const scene = { scale: { width: 960, height: 540 }, scene: { get: () => game } };
     const ui = new HtmlGameUI(scene);
     ui.openPanel('profile');
@@ -75,8 +79,19 @@ test('menu abre painéis informativos e o toque fora ou o X fecha o overlay', ()
 
     ui.openPanel('menu');
     assert.equal(ui.isUiPointer(20, 20), true);
+    assert.ok(ui.activePanel.node.className.includes('html-game-ui__panel--menu'), 'o menu deve ter layout responsivo próprio');
     const menu = findByClass(ui.activePanel.node, 'html-game-ui__menu-grid');
     assert.ok(menu);
+    const fps = findByClass(ui.activePanel.node, 'html-game-ui__fps-button');
+    assert.ok(fps, 'o controle FPS continua disponível');
+    assert.equal(fps.children.length, 1, 'o FPS deve usar uma cápsula compacta, sem a placa larga que colidia com voltar');
+    fps.click();
+    assert.equal(performanceMonitor.enabled, true);
+    assert.equal(fps.getAttribute('aria-pressed'), 'true');
+    assert.equal(fps.children[0].textContent, 'FPS ON');
+    fps.click();
+    assert.equal(performanceMonitor.enabled, false);
+    assert.equal(fps.getAttribute('aria-pressed'), 'false');
     menu.children[0].click();
     assert.equal(ui.activePanel.key, 'bestiary');
     assert.equal(findByClass(ui.activePanel.node, 'html-game-ui__info-title'), null, 'o título BESTIÁRIO não deve aparecer');
