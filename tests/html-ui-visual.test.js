@@ -36,3 +36,36 @@ test('silhueta de fallback é independente e as artes permanecem transparentes',
   assert.match(ui, /addEventListener\('load',[\s\S]*?portraitFallback\.hidden = true/);
   assert.match(ui, /addEventListener\('error',[\s\S]*?portraitFallback\.hidden = false/);
 });
+
+
+test('adaptador de retrato calcula encaixe pelo conteúdo visível e pela área disponível', async () => {
+  const source = await read('../src/ui/ProfileImageFitter.js');
+  assert.match(source, /calculateContainLayout/);
+  assert.match(source, /naturalWidth/);
+  assert.match(source, /naturalHeight/);
+  assert.match(source, /getImageData/);
+  assert.match(source, /ResizeObserver/);
+  assert.match(source, /this\.resizeObserver\?\.disconnect\(\)/);
+  const { calculateContainLayout } = await import('../src/ui/ProfileImageFitter.js');
+  const layout = calculateContainLayout(
+    1200, 1800,
+    { left: 200, top: 100, right: 1000, bottom: 1700 },
+    300, 400
+  );
+  assert.ok(layout.width > 0 && layout.height > 0);
+  assert.ok(layout.left + 200 * (layout.width / 1200) >= 0);
+  assert.ok(layout.top + 100 * (layout.height / 1800) >= 0);
+  assert.ok(layout.left + 1000 * (layout.width / 1200) <= 300);
+  assert.ok(layout.top + 1700 * (layout.height / 1800) <= 400);
+});
+
+test('o frame do perfil recorta a imagem nos limites internos e o fitter é descartado', async () => {
+  const [css, ui] = await Promise.all([
+    read('../src/ui/html-game-ui.css'),
+    read('../src/ui/HtmlGameUI.js')
+  ]);
+  assert.match(css, /\.html-game-ui__panel--vertical \.html-game-ui__profile-portrait-frame[\s\S]*?overflow: hidden/);
+  assert.match(css, /contain: layout paint/);
+  assert.match(ui, /new ProfileImageFitter\(this\.profilePortraitFrame, this\.portrait\)/);
+  assert.match(ui, /this\.profileImageFitter\?\.destroy\(\)/);
+});

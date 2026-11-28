@@ -1,5 +1,6 @@
 import './html-game-ui.css';
 import { CHARACTER_SKINS } from '../rendering/characters/CharacterSkinCatalog.js';
+import ProfileImageFitter from './ProfileImageFitter.js';
 
 const BASE = import.meta.env?.BASE_URL ?? '/';
 const asset = path => BASE + path;
@@ -233,6 +234,7 @@ class HtmlPanel {
     this.portrait.addEventListener('error', () => { this.profilePortraitFallback.hidden = false; });
     this.profilePortraitFrame.append(this.profilePortraitFallback, this.portrait);
     this.content.append(this.profilePortraitFrame);
+    this.profileImageFitter = new ProfileImageFitter(this.profilePortraitFrame, this.portrait);
   }
 
   refresh() {
@@ -249,6 +251,8 @@ class HtmlPanel {
   }
 
   destroy() {
+    this.profileImageFitter?.destroy();
+    this.profileImageFitter = null;
     this.node?.remove();
     this.node = null;
     this.owner = null;

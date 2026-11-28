@@ -2817,3 +2817,49 @@ O workflow 2.10.18 executou 127 testes: 125 aprovados e 2 reprovados
 por expectativas antigas. O build ainda não foi autorizado a publicar.
 A versão 2.10.19 aguarda nova validação automatizada correspondente
 ao commit final.
+
+
+======================================================================
+13. ADAPTADOR UNIVERSAL DE IMAGEM DE PERFIL — 28/11/2026
+======================================================================
+
+A validação visual da versão 2.10.19 no Android mostrou que o personagem
+continuava ultrapassando a moldura. A causa estrutural foi identificada:
+o frame CSS permitia overflow visível, e o layout dependia de uma caixa
+com proporção fixa, sem considerar a área realmente opaca de PNGs com
+transparência.
+
+Nova arquitetura:
+- Criado src/ui/ProfileImageFitter.js como componente independente.
+- O componente lê dimensões intrínsecas da imagem e amostra a transparência
+  em canvas reduzido (até 384 px no maior eixo) para encontrar os limites
+  reais do conteúdo visível.
+- Calcula escala e deslocamento por contain, considerando somente o
+  conteúdo visível, mas preservando a imagem original e sua resolução.
+- ResizeObserver recalcula o enquadramento quando o painel muda de tamanho;
+  fallback de resize da janela para ambientes sem ResizeObserver.
+- O frame do perfil usa overflow:hidden e contain:layout paint para
+  impedir que a imagem invada a ornamentação ou a área externa.
+- A classe é destruída ao fechar o painel, liberando observadores e listeners.
+- Não depende de 384x384, retrato 2:3 ou qualquer proporção específica:
+  PNG transparente, imagem opaca, retrato vertical, quadrado ou horizontal
+  usam a mesma rotina.
+
+Referências técnicas:
+- MDN — object-fit e object-position: dimensões intrínsecas e ajuste
+  de conteúdo substituído dentro da caixa.
+- MDN — aspect-ratio: proporção intrínseca e comportamento de elementos
+  substituídos.
+- Phaser 4 — DOMElement: camada DOM alinhada ao canvas e necessidade de
+  dimensões explícitas e listeners nativos.
+Fontes:
+https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Images/Replaced_element_properties
+https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Box_sizing/Aspect_ratios
+https://docs.phaser.io/api-documentation/class/gameobjects-domelement
+
+Versionamento:
+- 2.10.19 -> 2.10.20.
+
+Validação pendente:
+- Executar testes, build, workflow e verificação da publicação da versão
+  2.10.20. A confirmação visual final depende do navegador Android.

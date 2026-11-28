@@ -322,3 +322,29 @@
   object-fit: contain;
   object-position: center;
 }
+
+
+/* Frame geométrico real: limita o retrato ao espaço interno da moldura.
+   O tamanho e o deslocamento da imagem são calculados pelo ProfileImageFitter. */
+.html-game-ui__panel--vertical .html-game-ui__panel-content {
+  overflow: hidden;
+}
+.html-game-ui__panel--vertical .html-game-ui__profile-portrait-frame {
+  position: absolute;
+  left: 13%;
+  top: 18%;
+  width: 74%;
+  height: 66%;
+  overflow: hidden;
+  display: block;
+  contain: layout paint;
+}
+.html-game-ui__panel--vertical .html-game-ui__profile-portrait {
+  position: absolute;
+  display: block;
+  max-width: none;
+  max-height: none;
+  object-fit: fill;
+  object-position: 0 0;
+  pointer-events: none;
+}
