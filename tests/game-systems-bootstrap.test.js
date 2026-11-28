@@ -49,7 +49,7 @@ function harness() {
     }
   };
   const player = {
-    x: 100, y: 100, speed: 200, alive: true, moving: false,
+    x: 100, y: 100, speed: 200, alive: true, moving: false, level: 1, experience: 0, statPoints: 0,
     stats: { attack: 5, attackSpeed: 1, penetration: 0 },
     setMoving(value) { this.moving = Boolean(value); },
     setFacing(x, y) { this.facing = { x, y }; },
