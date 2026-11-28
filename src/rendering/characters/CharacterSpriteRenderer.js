@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import CharacterActionState from './CharacterActionState.js';
+import { getActionDisplayScale } from './CharacterSpriteScale.js';
 import {
   CHARACTER_ANIMATIONS,
   DEFAULT_CHARACTER_SCALE,
@@ -133,7 +134,7 @@ export default class CharacterSpriteRenderer {
     this.sprite.off(Phaser.Animations.Events.ANIMATION_COMPLETE, this.onActionComplete, this);
     this.actionToken = started.action.token;
     this.currentAnimation = actionId;
-    this.sprite.setScale(this.baseScale * this.actionScaleMultiplier);
+    this.sprite.setScale(getActionDisplayScale(this.baseScale, this.actionScaleMultiplier));
     const playConfig = {
       key,
       frameRate: Number.isFinite(durationMs) && durationMs > 0 ? null : undefined,
