@@ -39,7 +39,7 @@ test('painéis e retratos usam HTML nativo sem carregar as imagens de perfil no 
     read('../src/ui/html-game-ui.css')
   ]);
   assert.doesNotMatch(ui, /CHARACTER_SKINS|skin\.portrait/);
-  assert.match(html, /createElement\('img'\)/);
+  assert.match(html, /document\.createElement\(tag\)/);
   assert.match(html, /skin\.portrait/);
   assert.match(html, /assets\/ui\/panels/);
   assert.match(css, /object-fit: contain/);
