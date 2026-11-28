@@ -1,3 +1,5 @@
+import { getMonsterDropTable } from './drop-tables.js';
+
 const animation = (id, file, loop) => Object.freeze({ id, key: 'monster-slime-' + id, path: 'assets/monsters/slime/' + file, loop });
 const slimeAnimations = Object.freeze({
   idle: animation('idle', 'parado_01.webp', true),
@@ -13,7 +15,7 @@ export const MONSTER_DEFINITIONS = Object.freeze({
       movementSpeed: 1, maxHealth: 1, maxEnergy: 1,
       healthRegen: 1, energyRegen: 1
     }),
-    experience: 25, drops: Object.freeze([]),
+    experience: 25, drops: getMonsterDropTable('slime'),
     bestiary: Object.freeze({ cardAsset: 'assets/cards/monsters/slime/card.jpg' }),
     collision: Object.freeze({ radius: 18 }), deathDurationMs: 600,
     visual: Object.freeze({

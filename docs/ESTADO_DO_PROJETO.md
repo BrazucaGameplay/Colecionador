@@ -3,7 +3,7 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.11.1  
+**Versão do código-base consultado:** 2.12.0  
 **Atualizado em:** 28/11/2026 (menu principal responsivo em revisão)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
@@ -28,17 +28,17 @@
 - HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Skills; o enquadramento do retrato é adaptativo. A navegação usa setas discretas como indicação de arrasto nos dois sentidos, mantém o botão Voltar na primeira tela e não exibe botão X/Sair no Perfil. O menu principal usa uma moldura vetorial SVG dedicada, com borda inferior contínua e ornamentos completos; o layout responsivo preserva a proporção e mantém o controle FPS compacto fora do eixo central do botão global inferior.
 - CI executa auditoria de dependências, testes, build e verificações de assets/versão.
 
-### Sistema de waifus — fundação preparada (2.11.0)
+### Sistema de waifus e drops — primeira aquisição funcional (2.12.0)
 
 - Criadas classificações centrais de raridade fixa (Comum, Rara, Épica, Lendária, Mítica) e qualidade fixa na aquisição (Plebeia, Nobre, Dama, Princesa, Rainha).
-- Criados pontos de entrada separados para catálogo e tabelas de drop; ambos permanecem vazios até haver personagens, monstros e probabilidades confirmados.
+- Criados pontos de entrada separados para catálogo e tabelas de drop. A tabela do Slime concede a carta Donzela Slime com 20% de chance; as demais espécies ainda não estão cadastradas.
 - Reservados diretórios para cinco molduras de raridade e cinco selos de qualidade, sem assets provisórios.
 - A origem principal das ilustrações de waifus continua no repositório separado. O painel Waifus e o runtime ainda não foram integrados.
 - Documento de referência: [Arquitetura do sistema de waifus](ARQUITETURA_DO_SISTEMA_DE_WAIFUS.md).
 
 ## O que falta ou não está confirmado
 - Sistema de habilidades reais/equipáveis: a tela Skills existe, mas o catálogo e o gerenciador de habilidades ainda não estão integrados.
-- Sistemas de waifus, vínculos, presentes, inventário completo e casa. O catálogo do bestiário usa Slime como primeira entrada e a galeria HTML compartilhada está integrada; descoberta persistente e conteúdo Boss ainda faltam. As outras dez cartas estão apenas arquivadas, sem registro de criatura.
+- Sistemas de vínculos, presentes, inventário visual completo e casa. O catálogo do bestiário usa Slime como primeira entrada e a galeria HTML compartilhada está integrada; descoberta persistente e conteúdo Boss ainda faltam. As outras dez cartas estão apenas arquivadas, sem registro de criatura.
 - Catálogo/carregador de ilhas, conexões, pontes, portais e transições entre ilhas.
 - Validação visual final e de desempenho em dispositivos Android reais. A captura Android posterior à versão 2.10.34 confirmou que a arte raster original tinha a moldura inferior incompleta; a versão 2.10.35 substitui apenas a arte do menu principal por um SVG vetorial com borda inferior contínua e aguarda nova confirmação visual no aparelho.
 - Build nativo/APK, instalação e publicação na Play Store.
@@ -63,7 +63,7 @@
 | Mundo | `src/world/WorldBootstrap.js`, `WorldNavigation.js`, layout e managers de objetos, profundidade e colisão |
 | Câmera/input | `CameraController.js`, `TouchInputController.js` |
 | Personagem | `Player.js`, `PlayerBodyAdapter.js`, `CharacterSpriteRenderer.js`, `SkinManager.js` |
-| Gameplay | MovementSystem, CombatSystem, ProgressionSystem, MonsterManager e MonsterCombatSystem; catálogo de Boss/bestiário preparado |
+| Gameplay | MovementSystem, CombatSystem, ProgressionSystem, MonsterManager, MonsterCombatSystem e MonsterDropResolver; catálogo de Boss/bestiário preparado |
 | Persistência | `src/systems/persistence/SaveManager.js`; chave legada `colecionador-save-v1` preservada |
 | UI | `GameUI.js`, `HtmlGameUI.js`, CSS da interface, HUD Phaser e `ProfileImageFitter.js` |
 | Assets | `public/assets/`; catálogos e validadores em `src/rendering/` e `scripts/` |
