@@ -1,3 +1,12 @@
+# 28/11/2026 — Tabelas de drop por espécie e aquisição da Donzela Slime (2.12.0)
+
+- Criada uma tabela isolada por espécie; cada monstro consulta exclusivamente a própria lista, sem herdar drops de outra espécie.
+- Slime concede a carta Donzela Slime com 20% de chance por morte.
+- Quando a carta cai, a qualidade é sorteada uma única vez: Rainha 1%, Princesa 2%, Dama 3%, Nobre 4% e Plebeia 90%.
+- A coleção salva cada aquisição com qualidade permanente, nível inicial 1, data e espécie de origem; saves antigos continuam válidos e recebem uma coleção vazia quando ainda não possuem esse campo.
+- Criados testes de limites, probabilidades, tabela inexistente e quantidade de rolagens.
+- Somente Slime possui tabela preenchida porque continua sendo a única espécie registrada no catálogo. Outras espécies receberão listas próprias ao serem cadastradas.
+
 # 28/11/2026 — Correção documental e validação da fundação de waifus (2.11.1)
 
 - Corrigida a formatação das linhas do estado do projeto, que estavam gravadas como caracteres literais `\\n`.
