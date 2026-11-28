@@ -14,7 +14,7 @@ RPG 2D de ação com estética anime, desenvolvido com Phaser 4, JavaScript ES m
 npm ci
 ```
 
-Se o lockfile ainda não estiver presente no clone, aguarde o workflow **Dependency lockfile** concluir na branch `main` ou gere-o com `npm install`.
+O `package-lock.json` é versionado; use `npm ci` para instalar as dependências reproduzíveis.
 
 ## Desenvolvimento web
 
