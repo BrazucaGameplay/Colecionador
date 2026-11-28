@@ -720,12 +720,7 @@
   font-size: clamp(9px, 2.3vw, 12px);
   scrollbar-width: thin;
 }
-.html-game-ui__panel--bestiary .html-game-ui__card-navigation {
-  flex: 0 0 auto;
-  min-height: 32px;
-  min-width: 48%;
-  font-size: clamp(10px, 2.6vw, 13px);
-}
+.html-game-ui__panel--bestiary 
 
 /* Navegação de categoria no rodapé da moldura: monstros ⇄ Boss. */
 @keyframes bestiary-enter-from-right {
@@ -743,9 +738,7 @@
   .html-game-ui__panel--bestiary .html-game-ui__card-image {
     max-height: 18dvh;
   }
-  .html-game-ui__panel--bestiary .html-game-ui__card-category-arrow {
-    bottom: 8%;
-  }
+  
 }
 @media (prefers-reduced-motion: reduce) {
   .html-game-ui__panel--bestiary .html-game-ui__card-gallery {
