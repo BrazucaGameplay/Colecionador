@@ -25,14 +25,14 @@
 - Skin 01 e Skin 02 com atlas PNG/JSON e retratos PNG; seleção validada pelo SkinManager.
 - Combate de ação, ataque automático do jogador, combate dos monstros, progressão, experiência, níveis, atributos, vida e energia.
 - SaveManager, WorldBootstrap, CameraController e GameSystemsBootstrap separados.
-- HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Skills; o enquadramento do retrato é adaptativo. O menu principal tem layout próprio, usa margens de segurança do viewport e separa o botão FPS do botão global inferior.
+- HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Skills; o enquadramento do retrato é adaptativo. O menu principal usa modificador de layout próprio, margens de segurança do viewport, moldura preservada em `object-fit: contain` e controle FPS compacto fora do eixo central do botão global inferior. O menu principal tem layout próprio, usa margens de segurança do viewport e separa o botão FPS do botão global inferior.
 - CI executa auditoria de dependências, testes, build e verificações de assets/versão.
 
 ### O que falta ou não está confirmado
 - Sistema de habilidades reais/equipáveis: a tela Skills existe, mas o catálogo e o gerenciador de habilidades ainda não estão integrados.
 - Sistemas de waifus, vínculos, presentes, inventário completo e casa. O catálogo do bestiário usa Slime como primeira entrada e a galeria HTML compartilhada está integrada; descoberta persistente e conteúdo Boss ainda faltam. As outras dez cartas estão apenas arquivadas, sem registro de criatura.
 - Catálogo/carregador de ilhas, conexões, pontes, portais e transições entre ilhas.
-- Validação visual final e de desempenho em dispositivos Android reais. A captura Android mais recente identificou colisão entre o FPS e a navegação inferior e margem insuficiente na moldura do menu; a correção 2.10.34 está preparada para nova validação no aparelho.
+- Validação visual final e de desempenho em dispositivos Android reais. A captura Android mais recente apontou colisão entre FPS e voltar e corte visual inferior da moldura do menu; a versão 2.10.34 corrige o layout e ainda requer confirmação visual após o novo deploy. A captura Android mais recente identificou colisão entre o FPS e a navegação inferior e margem insuficiente na moldura do menu; a correção 2.10.34 está preparada para nova validação no aparelho.
 - Build nativo/APK, instalação e publicação na Play Store.
 - Confirmação de deploy correspondente ao commit mais recente, quando não houver evidência do workflow atual.
 
@@ -71,11 +71,12 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 
 ## Próximas prioridades
 
-1. Substituir testes frágeis baseados em leitura de código por testes de comportamento nos contratos relevantes.
-2. Validar a interface e o enquadramento do perfil em Android real.
-3. Implementar o catálogo/runtime de Skills antes de habilitar equipar.
-4. Planejar a segunda ilha somente após critérios e assets aprovados para a primeira transição.
-5. Completar as integrações de waifus, inventário, bestiário e drops conforme o design aprovado.
+1. Confirmar no Android o enquadramento completo da moldura do menu e a separação visual entre FPS e o botão global de voltar.
+2. Substituir testes frágeis baseados em leitura de código por testes de comportamento nos contratos relevantes.
+3. Validar a interface e o enquadramento do perfil em Android real.
+4. Implementar o catálogo/runtime de Skills antes de habilitar equipar.
+5. Planejar a segunda ilha somente após critérios e assets aprovados para a primeira transição.
+6. Completar as integrações de waifus, inventário, bestiário e drops conforme o design aprovado.
 
 ## Conteúdo hostil
 
