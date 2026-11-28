@@ -1,3 +1,12 @@
+## 28/11/2026 — Reformulação responsiva do menu principal para Android (2.10.34)
+
+- O menu recebe um modificador de layout próprio, com largura e altura limitadas à área útil e margens de segurança do viewport móvel.
+- A arte da moldura do menu é exibida com `object-fit: contain`, preservando a proporção e evitando recortes por preenchimento forçado.
+- Os quatro botões permanecem em grade 2×2, com área de conteúdo e respiro inferior mais consistentes.
+- O controle FPS deixa de usar a placa horizontal larga; passa a ser uma cápsula compacta na região inferior esquerda, sem ocupar a área central do botão global de voltar.
+- O FPS informa visualmente quando está ligado e mantém o mesmo comportamento de alternância.
+- Testes verificam o modificador exclusivo do menu e o controle FPS compacto. A validação final do enquadramento continua dependendo de nova captura no Android.
+
 ## 28/11/2026 — Correção de sintaxe CSS para liberar o build (2.10.33)
 
 - Removido seletor CSS incompleto que restou ao excluir regras antigas de navegação.

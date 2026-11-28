@@ -179,7 +179,7 @@ class HtmlPanel {
     this.game = owner.gameScene;
     this.key = key;
     this.page = 0;
-    this.node = element('section', 'html-game-ui__panel ' + (key === 'profile' ? 'html-game-ui__panel--vertical' : key === 'bestiary' ? 'html-game-ui__panel--bestiary' : 'html-game-ui__panel--wide'));
+    this.node = element('section', 'html-game-ui__panel ' + (key === 'profile' ? 'html-game-ui__panel--vertical' : key === 'bestiary' ? 'html-game-ui__panel--bestiary' : key === 'menu' ? 'html-game-ui__panel--wide html-game-ui__panel--menu' : 'html-game-ui__panel--wide'));
     this.node.setAttribute('role', 'dialog');
     this.node.setAttribute('aria-modal', 'true');
     this.node.setAttribute('aria-label', key === 'profile' ? 'Perfil do personagem' : key === 'menu' ? 'Menu principal' : (INFO[key]?.[0] || 'Painel'));
@@ -233,10 +233,14 @@ class HtmlPanel {
       grid.append(imageButton(label, UI.button400, () => this.owner.openPanel(key)));
     }
     this.content.append(grid);
-    const monitor = imageButton('FPS', UI.button200, () => {
+    const monitor = imageButton('FPS', null, () => {
       const target = this.owner.scene.scene.get('Game')?.performanceMonitor;
-      target?.setEnabled(!Boolean(target?.enabled));
+      const enabled = !Boolean(target?.enabled);
+      target?.setEnabled(enabled);
+      monitor.setAttribute('aria-pressed', String(enabled));
+      monitor.querySelector('span').textContent = enabled ? 'FPS ON' : 'FPS';
     }, 'html-game-ui__fps-button');
+    monitor.setAttribute('aria-pressed', 'false');
     this.content.append(monitor);
   }
 
