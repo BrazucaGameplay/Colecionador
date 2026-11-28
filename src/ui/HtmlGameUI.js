@@ -363,13 +363,13 @@ class HtmlPanel {
     this.waifuEquipList = element('div', 'html-game-ui__waifu-equip-list');
     this.waifuEquipPage.append(this.waifuEquipSlots, this.waifuEquipList);
     this.content.append(this.waifuEquipPage);
-    this.buildSkillPage();
+    this.buildWaifuEquipmentPage();
 
     this.setPage(0);
     this.refreshProfileData();
   }
 
-  buildSkillPage() {
+  buildWaifuEquipmentPage() {
     const equipment = this.game?.waifuEquipment;
     const equipped = equipment?.getEquipped?.() || [];
     this.waifuEquipSlots.replaceChildren();
@@ -415,7 +415,7 @@ class HtmlPanel {
     const result = this.game?.waifuEquipment?.equip?.(instanceId);
     if (!result?.changed) return false;
     this.game?.persistProgress?.();
-    this.buildSkillPage();
+    this.buildWaifuEquipmentPage();
     return true;
   }
 
@@ -423,7 +423,7 @@ class HtmlPanel {
     const result = this.game?.waifuEquipment?.unequip?.(slot);
     if (!result?.changed) return false;
     this.game?.persistProgress?.();
-    this.buildSkillPage();
+    this.buildWaifuEquipmentPage();
     return true;
   }
 
@@ -511,7 +511,7 @@ class HtmlPanel {
     }
     this.updateBackButton();
     if (this.page === 1) this.refreshProfileData();
-    if (this.page === 2) this.buildSkillPage();
+    if (this.page === 2) this.buildWaifuEquipmentPage();
   }
 
   refreshProfileData() {
@@ -542,7 +542,7 @@ class HtmlPanel {
     this.portrait.hidden = !portrait;
     this.profilePortraitFallback.hidden = Boolean(portrait && this.portrait.complete && this.portrait.naturalWidth > 0);
     this.refreshProfileData();
-    if (this.page === 2) this.buildSkillPage();
+    if (this.page === 2) this.buildWaifuEquipmentPage();
     this.updateBackButton();
   }
 
