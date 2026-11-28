@@ -5,7 +5,7 @@
   z-index: 20;
   pointer-events: none;
   overflow: hidden;
-  font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+  font-family: system-ui, "Roboto", "Segoe UI", sans-serif;
   color: #fff3df;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
@@ -34,13 +34,7 @@
   image-rendering: auto;
   pointer-events: none;
 }
-.html-game-ui__portrait-image {
-  background-color: rgba(42, 14, 19, .28);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 240'%3E%3Cpath fill='%23e8c58c' fill-opacity='.62' d='M100 22a48 48 0 1 0 0 96 48 48 0 0 0 0-96ZM18 226c3-51 37-83 82-83s79 32 82 83H18Z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 62% 72%;
-}
+.html-game-ui__portrait-image { background: transparent; }
 .html-game-ui__shade {
   position: absolute;
   inset: 0;
@@ -226,3 +220,82 @@
   font-variant-numeric: tabular-nums;
 }
 [hidden] { display: none !important; }
+
+
+/* Retratos: silhueta real de fallback, separada da arte transparente. */
+.html-game-ui__hud-portrait { overflow: hidden; }
+.html-game-ui__portrait-fallback {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 32%, rgba(236,205,157,.42) 0 19%, transparent 20%),
+    radial-gradient(ellipse at 50% 100%, rgba(236,205,157,.34) 0 43%, transparent 44%);
+  clip-path: inset(4% 8% 0 round 40% 40% 8% 8%);
+}
+.html-game-ui__portrait-fallback[hidden] { display: none !important; }
+.html-game-ui__hud-portrait .html-game-ui__portrait-image {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: transparent;
+}
+.html-game-ui__profile-portrait-frame {
+  position: absolute;
+  left: 6%; top: 17%; width: 88%; height: 58%;
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+.html-game-ui__profile-portrait-frame .html-game-ui__portrait-fallback {
+  inset: 12% 20% 0;
+}
+.html-game-ui__profile-portrait {
+  position: relative;
+  z-index: 1;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+  pointer-events: none;
+}
+.html-game-ui__skin-thumb-frame {
+  position: relative;
+  width: 100%; height: 90px;
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+.html-game-ui__skin-thumb-frame .html-game-ui__portrait-fallback { inset: 8% 18%; }
+.html-game-ui__skin-thumb {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%; max-height: 90px;
+  object-fit: contain; background: transparent;
+}
+.html-game-ui__profile-caption {
+  top: 75.5%;
+  font-weight: 500;
+  letter-spacing: .16em;
+  font-size: clamp(11px, 3vw, 14px);
+}
+.html-game-ui__skin-shortcut {
+  left: 32%; width: 36%; top: 79.2%; height: 4.2%;
+  font-size: clamp(8px, 2.2vw, 10px);
+  font-weight: 400;
+  letter-spacing: .09em;
+  white-space: nowrap;
+}
+.html-game-ui__skin-shortcut > span { white-space: nowrap; }
+.html-game-ui__profile-summary {
+  font-weight: 500;
+  letter-spacing: .025em;
+}
+.html-game-ui__stat-row {
+  font-weight: 400;
+  letter-spacing: .01em;
+}
+.html-game-ui__stat-label { font-weight: 300; }
+.html-game-ui__stat-value { font-weight: 500; }
+.html-game-ui__profile-footer { font-weight: 300; }
+.html-game-ui__pager { bottom: 10.5%; }
+.html-game-ui__page-indicator { font-weight: 500; }
