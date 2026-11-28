@@ -1,5 +1,3 @@
-import * as Phaser from 'phaser';
-
 /** Diagnóstico de frame e do subsistema de monstros, em camada independente da câmera. */
 export default class PerformanceMonitor {
   constructor(scene) {
@@ -47,7 +45,7 @@ export default class PerformanceMonitor {
     this.elapsed = 0;
     const fps = Number(this.scene.game?.loop?.actualFps) || 0;
     const cpuMs = Math.max(0, sceneUpdateMs || 0);
-    const cpuPercent = Phaser.Math.Clamp((cpuMs / (fps > 0 ? 1000 / fps : 16.67)) * 100, 0, 999);
+    const cpuPercent = Math.max(0, Math.min(999, (cpuMs / (fps > 0 ? 1000 / fps : 16.67)) * 100));
     const memory = performance.memory;
     const memoryText = memory
       ? `${(memory.usedJSHeapSize / 1048576).toFixed(1)} / ${(memory.jsHeapSizeLimit / 1048576).toFixed(0)} MB`
