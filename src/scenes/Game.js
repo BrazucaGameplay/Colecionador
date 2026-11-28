@@ -12,6 +12,8 @@ import WorldBootstrap from '../world/WorldBootstrap.js';
 import CameraController from '../systems/camera/CameraController.js';
 import SaveManager from '../systems/persistence/SaveManager.js';
 import GameSystemsBootstrap from '../systems/GameSystemsBootstrap.js';
+import WaifuEquipmentManager from '../systems/waifus/WaifuEquipmentManager.js';
+import WaifuAbilitySystem from '../systems/waifus/WaifuAbilitySystem.js';
 
 // Teste de escala: ilha circular com 4096 px de diâmetro.
 
@@ -27,7 +29,9 @@ export default class Game extends Phaser.Scene {
     this.saveManager = new SaveManager({ key: SAVE_KEY });
     this.savedProgress = this.saveManager.load();
     this.score = Math.max(0, Number(this.savedProgress.score) || 0);
-    this.waifuCollection = Array.isArray(this.savedProgress.waifus) ? [...this.savedProgress.waifus] : [];
+    this.waifuCollection = Array.isArray(this.savedProgress.waifus) ? this.savedProgress.waifus.map((card, index) => ({ ...card, instanceId: card.instanceId || `legacy-${card.waifuId}-${card.obtainedAt || index}` })) : [];
+    this.waifuEquipment = new WaifuEquipmentManager({ collection: this.waifuCollection, equippedIds: this.savedProgress.equippedWaifuIds, onChange: () => this.persistProgress() });
+    this.waifuAbilities = new WaifuAbilitySystem({ equipment: this.waifuEquipment, onProjectile: payload => this.launchWaifuProjectile(payload) });
 
     this.worldBootstrap = new WorldBootstrap(this);
     const playerSpawn = await this.worldBootstrap.initialize();
@@ -68,9 +72,11 @@ export default class Game extends Phaser.Scene {
             quality: drop.quality,
             level: 1,
             obtainedAt: Date.now(),
-            sourceSpeciesId: monster.definition.id
+            sourceSpeciesId: monster.definition.id,
+            instanceId: `waifu-${Date.now()}-${this.waifuCollection.length}`
           });
           this.waifuCollection.push(acquisition);
+          this.waifuEquipment?.setCollection(this.waifuCollection);
           this.events.emit('waifu:acquired', acquisition);
         }
         this.persistProgress();
@@ -87,7 +93,8 @@ export default class Game extends Phaser.Scene {
       camera: this.camera,
       cameraController: this.cameraController,
       monsterManager: this.monsterManager,
-      showLevelUpNotice: level => this.showLevelUpNotice(level)
+      showLevelUpNotice: level => this.showLevelUpNotice(level),
+      waifuAbilities: this.waifuAbilities
     });
 
     // Game permanece ativo enquanto a interface é exibida em cena própria.
@@ -99,9 +106,21 @@ export default class Game extends Phaser.Scene {
     window.dispatchEvent(new CustomEvent('colecionador:game-ready'));
   }
 
+  launchWaifuProjectile({ ability, target }) {
+    if (!target?.alive || !this.add || !this.tweens) return false;
+    const projectile = this.add.circle(this.player.x, this.player.y - 18, 7, 0x63d9ed, 1)
+      .setStrokeStyle(2, 0xe7fbff, 1).setDepth(1200);
+    const travelMs = Math.max(120, Math.hypot(target.x - this.player.x, target.y - this.player.y) / Math.max(1, ability.projectileSpeed) * 1000);
+    this.tweens.add({ targets: projectile, x: target.x, y: target.y, duration: travelMs, ease: 'Linear', onComplete: () => {
+      projectile.destroy();
+      if (target.alive) this.monsterManager?.damage(target.id, ability.damage, this.time.now, 0);
+    } });
+    return true;
+  }
+
   persistProgress() {
     if (!this.player || !this.saveManager) return false;
-    return this.saveManager.save({score:this.score,player:this.player.toSaveData(),selectedSkin:this.skinManager?.getSelectedSkin(),waifus:this.waifuCollection || []});
+    return this.saveManager.save({score:this.score,player:this.player.toSaveData(),selectedSkin:this.skinManager?.getSelectedSkin(),waifus:this.waifuCollection || [],equippedWaifuIds:this.waifuEquipment?.toSaveData() || []});
   }
 
   update(time, delta = 16.67) {
@@ -146,6 +165,8 @@ export default class Game extends Phaser.Scene {
     this.cameraController = null;
     this.camera = null;
     this.gameSystemsBootstrap?.destroy();
+    this.waifuAbilities?.destroy(); this.waifuAbilities = null;
+    this.waifuEquipment?.destroy(); this.waifuEquipment = null;
     this.gameSystemsBootstrap = null;
     this.saveManager = null;
     this.skinManager?.destroy();

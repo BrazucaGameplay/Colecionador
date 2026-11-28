@@ -457,12 +457,12 @@
 
 /* Navegação entre personagem, status e habilidades no mesmo painel. */
 .html-game-ui__stats-page,
-.html-game-ui__skills-page {
+.html-game-ui__waifu-equipment-page {
   position: absolute;
   inset: 0;
 }
 .html-game-ui__stats-page[hidden],
-.html-game-ui__skills-page[hidden],
+.html-game-ui__waifu-equipment-page[hidden],
 .html-game-ui__profile-portrait-frame[hidden] { display: none !important; }
 .html-game-ui__profile-summary {
   top: 22%;
@@ -496,7 +496,7 @@
   bottom: 14%;
   font-size: clamp(8px, 2.1vw, 10px);
 }
-.html-game-ui__skills-title {
+.html-game-ui__waifu-equipment-title {
   position: absolute;
   top: 22%;
   left: 12%;
@@ -508,7 +508,7 @@
   font-weight: 400;
   text-shadow: 0 2px 4px #35100b;
 }
-.html-game-ui__skill-slots {
+.html-game-ui__waifu-equip-slots {
   position: absolute;
   top: 30%;
   left: 13%;
@@ -516,7 +516,7 @@
   display: grid;
   gap: 5px;
 }
-.html-game-ui__skill-slot {
+.html-game-ui__waifu-equip-slot {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -528,9 +528,9 @@
   box-shadow: inset 0 0 8px rgba(255,190,72,.12);
   font-size: clamp(9px, 2.4vw, 12px);
 }
-.html-game-ui__skill-slot-label { color: #e8c68d; letter-spacing: .08em; }
-.html-game-ui__skill-slot-value { color: #fff2dc; }
-.html-game-ui__skill-list {
+.html-game-ui__waifu-equip-slot-label { color: #e8c68d; letter-spacing: .08em; }
+.html-game-ui__waifu-equip-slot-value { color: #fff2dc; }
+.html-game-ui__waifu-equip-list {
   position: absolute;
   top: 47%;
   left: 13%;
@@ -542,7 +542,7 @@
   overflow-y: auto;
   scrollbar-width: thin;
 }
-.html-game-ui__skill-row {
+.html-game-ui__waifu-equip-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 30%;
   align-items: center;
@@ -551,10 +551,10 @@
   border-bottom: 1px solid rgba(255,211,140,.25);
   background: rgba(45,5,7,.35);
 }
-.html-game-ui__skill-name { color: #ffe2ad; font-size: clamp(10px, 2.6vw, 13px); }
-.html-game-ui__skill-description { margin-top: 3px; color: #f2ddc4; font-size: clamp(8px, 2vw, 10px); line-height: 1.25; }
-.html-game-ui__skill-equip { width: 100%; height: 30px; font-size: clamp(8px, 2vw, 10px); }
-.html-game-ui__skills-empty {
+.html-game-ui__waifu-equip-name { color: #ffe2ad; font-size: clamp(10px, 2.6vw, 13px); }
+.html-game-ui__waifu-equip-description { margin-top: 3px; color: #f2ddc4; font-size: clamp(8px, 2vw, 10px); line-height: 1.25; }
+.html-game-ui__waifu-equip-equip { width: 100%; height: 30px; font-size: clamp(8px, 2vw, 10px); }
+.html-game-ui__waifu-equipment-empty {
   padding: 12px 8px;
   color: #f4dfc5;
   text-align: center;
@@ -845,12 +845,12 @@
 }
 .html-game-ui__profile-portrait-frame.is-entering-from-right,
 .html-game-ui__stats-page.is-entering-from-right,
-.html-game-ui__skills-page.is-entering-from-right {
+.html-game-ui__waifu-equipment-page.is-entering-from-right {
   animation: profile-page-from-right 240ms ease-out both;
 }
 .html-game-ui__profile-portrait-frame.is-entering-from-left,
 .html-game-ui__stats-page.is-entering-from-left,
-.html-game-ui__skills-page.is-entering-from-left {
+.html-game-ui__waifu-equipment-page.is-entering-from-left {
   animation: profile-page-from-left 240ms ease-out both;
 }
 @keyframes profile-page-from-right {
@@ -867,7 +867,7 @@
 @media (prefers-reduced-motion: reduce) {
   .html-game-ui__profile-portrait-frame,
   .html-game-ui__stats-page,
-  .html-game-ui__skills-page { animation: none !important; }
+  .html-game-ui__waifu-equipment-page { animation: none !important; }
 }
 
 /* Menu principal: margem de segurança para moldura e controles no Android. */

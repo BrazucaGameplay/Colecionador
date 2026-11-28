@@ -5,9 +5,8 @@ import { STAT_UPGRADES } from '../entities/Player.js';
 
 const BASE = import.meta.env?.BASE_URL ?? '/';
 const asset = path => BASE + path;
-const WAIFU_CARD_ASSETS = Object.freeze({
-  'slime-maiden': 'assets/cards/waifus/carta.slime.webp'
-});
+import { WAIFU_CATALOG } from '../data/waifus/catalog.js';
+const WAIFU_CARD_ASSETS = Object.freeze(Object.fromEntries(WAIFU_CATALOG.map(card => [card.id, card.cardAsset])));
 const UI = Object.freeze({
   vertical: asset('assets/ui/panels/painel_vertical_900x1350_transparente.webp'),
   wide: asset('assets/ui/panels/perfil_moldura_fundo_vermelho.webp'),
@@ -358,51 +357,73 @@ class HtmlPanel {
     this.statsFooter = this.addText(this.statsPage, 'html-game-ui__profile-footer', 'Use os pontos disponíveis para evoluir os atributos.');
     this.content.append(this.statsPage);
 
-    this.skillsPage = element('div', 'html-game-ui__skills-page');
-    this.skillsTitle = this.addText(this.skillsPage, 'html-game-ui__skills-title', 'HABILIDADES');
-    this.skillSlots = element('div', 'html-game-ui__skill-slots');
-    this.skillList = element('div', 'html-game-ui__skill-list');
-    this.skillsPage.append(this.skillSlots, this.skillList);
-    this.content.append(this.skillsPage);
-    this.buildSkillPage();
+    this.waifuEquipPage = element('div', 'html-game-ui__waifu-equipment-page');
+    this.waifuEquipTitle = this.addText(this.waifuEquipPage, 'html-game-ui__waifu-equipment-title', 'CARTAS EQUIPADAS');
+    this.waifuEquipSlots = element('div', 'html-game-ui__waifu-equip-slots');
+    this.waifuEquipList = element('div', 'html-game-ui__waifu-equip-list');
+    this.waifuEquipPage.append(this.waifuEquipSlots, this.waifuEquipList);
+    this.content.append(this.waifuEquipPage);
+    this.buildWaifuEquipmentPage();
 
     this.setPage(0);
     this.refreshProfileData();
   }
 
-  buildSkillPage() {
-    this.skillSlots.replaceChildren();
-    const equipped = this.game?.skillManager?.getEquippedSkills?.() || [];
+  buildWaifuEquipmentPage() {
+    const equipment = this.game?.waifuEquipment;
+    const equipped = equipment?.getEquipped?.() || [];
+    this.waifuEquipSlots.replaceChildren();
     for (let index = 0; index < 3; index++) {
-      const slot = element('div', 'html-game-ui__skill-slot');
-      const label = element('span', 'html-game-ui__skill-slot-label', 'SLOT ' + (index + 1));
-      const value = element('span', 'html-game-ui__skill-slot-value', equipped[index]?.name || 'Vazio');
+      const card = equipped[index];
+      const slot = element('div', 'html-game-ui__waifu-equip-slot');
+      const label = element('span', 'html-game-ui__waifu-equip-slot-label', 'CARTA ' + (index + 1));
+      const definition = WAIFU_CATALOG.find(item => item.id === card?.waifuId);
+      const value = element('span', 'html-game-ui__waifu-equip-slot-value', card?.name || 'Vazio');
       slot.append(label, value);
-      this.skillSlots.append(slot);
+      if (card) {
+        const ability = definition?.activeAbility;
+        if (ability) slot.append(element('span', 'html-game-ui__waifu-equip-description', ability.name + ' · automática'));
+        const remove = imageButton('REMOVER', UI.button200, () => this.unequipWaifu(index), 'html-game-ui__waifu-equip-equip');
+        slot.append(remove);
+      }
+      this.waifuEquipSlots.append(slot);
     }
-    this.skillList.replaceChildren();
-    const catalog = this.game?.skillManager?.getCatalog?.() || [];
-    if (!catalog.length) {
-      this.addText(this.skillList, 'html-game-ui__skills-empty', 'Nenhuma habilidade cadastrada ainda.');
+    this.waifuEquipList.replaceChildren();
+    const collection = equipment?.getCollection?.() || [];
+    const available = collection.filter(card => !equipped.some(item => item.instanceId === card.instanceId));
+    if (!available.length) {
+      this.addText(this.waifuEquipList, 'html-game-ui__waifu-equipment-empty',
+        collection.length ? 'Todas as cartas disponíveis já estão equipadas.' : 'Obtenha cartas derrotando monstros para liberar habilidades.');
       return;
     }
-    for (const skill of catalog) {
-      const row = element('div', 'html-game-ui__skill-row');
-      const details = element('div', 'html-game-ui__skill-details');
-      this.addText(details, 'html-game-ui__skill-name', skill.name);
-      this.addText(details, 'html-game-ui__skill-description', skill.description || '');
-      const button = imageButton(skill.equipped ? 'EQUIPADA' : 'EQUIPAR', UI.button200,
-        () => this.equipSkill(skill.id), 'html-game-ui__skill-equip');
-      button.disabled = Boolean(skill.equipped || skill.unlocked === false);
+    for (const card of available) {
+      const definition = WAIFU_CATALOG.find(item => item.id === card.waifuId);
+      const row = element('div', 'html-game-ui__waifu-equip-row');
+      const details = element('div', 'html-game-ui__waifu-equip-details');
+      this.addText(details, 'html-game-ui__waifu-equip-name', card.name || definition?.name || 'Waifu');
+      this.addText(details, 'html-game-ui__waifu-equip-description',
+        definition?.activeAbility ? definition.activeAbility.name + ' · recarga ' + (definition.activeAbility.cooldownMs / 1000) + 's' : 'Sem habilidade ativa cadastrada');
+      const button = imageButton('EQUIPAR', UI.button200,
+        () => this.equipWaifu(card.instanceId), 'html-game-ui__waifu-equip-equip');
+      button.disabled = equipped.length >= 3 || !definition;
       row.append(details, button);
-      this.skillList.append(row);
+      this.waifuEquipList.append(row);
     }
   }
 
-  equipSkill(id) {
-    const result = this.game?.skillManager?.equip?.(id);
-    if (!result || result.changed === false) return false;
-    this.buildSkillPage();
+  equipWaifu(instanceId) {
+    const result = this.game?.waifuEquipment?.equip?.(instanceId);
+    if (!result?.changed) return false;
+    this.game?.persistProgress?.();
+    this.buildWaifuEquipmentPage();
+    return true;
+  }
+
+  unequipWaifu(slot) {
+    const result = this.game?.waifuEquipment?.unequip?.(slot);
+    if (!result?.changed) return false;
+    this.game?.persistProgress?.();
+    this.buildWaifuEquipmentPage();
     return true;
   }
 
@@ -481,8 +502,8 @@ class HtmlPanel {
     this.page = Math.max(0, Math.min(2, page));
     this.profilePortraitFrame.hidden = this.page !== 0;
     this.statsPage.hidden = this.page !== 1;
-    this.skillsPage.hidden = this.page !== 2;
-    const active = this.page === 0 ? this.profilePortraitFrame : this.page === 1 ? this.statsPage : this.skillsPage;
+    this.waifuEquipPage.hidden = this.page !== 2;
+    const active = this.page === 0 ? this.profilePortraitFrame : this.page === 1 ? this.statsPage : this.waifuEquipPage;
     if (previous !== this.page && active) {
       active.className = active.className
         .replace(/\s+is-entering-from-(?:left|right)/g, '')
@@ -490,7 +511,7 @@ class HtmlPanel {
     }
     this.updateBackButton();
     if (this.page === 1) this.refreshProfileData();
-    if (this.page === 2) this.buildSkillPage();
+    if (this.page === 2) this.buildWaifuEquipmentPage();
   }
 
   refreshProfileData() {
@@ -521,6 +542,7 @@ class HtmlPanel {
     this.portrait.hidden = !portrait;
     this.profilePortraitFallback.hidden = Boolean(portrait && this.portrait.complete && this.portrait.naturalWidth > 0);
     this.refreshProfileData();
+    if (this.page === 2) this.buildWaifuEquipmentPage();
     this.updateBackButton();
   }
 

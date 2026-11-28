@@ -3,8 +3,8 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.12.5  
-**Atualizado em:** 28/11/2026 (painel de waifus adaptado ao Bestiário)
+**Versão do código-base consultado:** 2.13.0  
+**Atualizado em:** 28/11/2026 (equipamento de cartas e habilidades automáticas)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
 
@@ -23,7 +23,7 @@
 - Controles exclusivamente por toque: toque define destino, arraste move a câmera e pinça altera o zoom. Zoom atual: mínimo 0.2×, inicial 0.4×, máximo 0.6×.
 - Player lógico, adaptador de corpo, renderização 2D, quatro animações por skin e oito direções.
 - Skin 01 e Skin 02 com atlas PNG/JSON e retratos PNG; seleção validada pelo SkinManager.
-- Combate de ação, ataque automático do jogador, combate dos monstros, progressão, experiência, níveis, atributos, vida e energia.
+- Combate de ação, ataque automático do jogador, combate dos monstros, progressão, experiência, níveis, atributos, vida e energia. Habilidades automáticas são fornecidas exclusivamente pelas cartas de waifu equipadas.
 - SaveManager, WorldBootstrap, CameraController e GameSystemsBootstrap separados.
 - HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Skills; o enquadramento do retrato é adaptativo. A navegação usa setas discretas como indicação de arrasto nos dois sentidos, mantém o botão Voltar na primeira tela e não exibe botão X/Sair no Perfil. O menu principal usa uma moldura vetorial SVG dedicada, com borda inferior contínua e ornamentos completos; o layout responsivo preserva a proporção e mantém o controle FPS compacto fora do eixo central do botão global inferior.
 - CI executa auditoria de dependências, testes, build e verificações de assets/versão.
@@ -33,12 +33,12 @@
 - Criadas classificações centrais de raridade fixa (Comum, Rara, Épica, Lendária, Mítica) e qualidade fixa na aquisição (Plebeia, Nobre, Dama, Princesa, Rainha).
 - Criados pontos de entrada separados para catálogo e tabelas de drop. A tabela do Slime concede a carta Donzela Slime com 20% de chance; as demais espécies ainda não estão cadastradas.
 - Reservados diretórios para cinco molduras de raridade e cinco selos de qualidade, sem assets provisórios.
-- A coleção usa `public/assets/cards/waifus/carta.slime.webp` como arte original da Donzela Slime. O painel Waifus exibe as cartas efetivamente adquiridas em grade de três colunas por duas linhas, sem moldura individual, borda ou texto sobre a ilustração; a moldura do painel segue o padrão largo já usado pela interface. A galeria agrupa cópias da mesma waifu e qualidade em pilhas com contador; qualidades diferentes permanecem separadas. A galeria só reconstrói o DOM quando a composição ou quantidade das pilhas muda. O painel de Waifus usa a mesma arte vertical `painel_vertical_900x1350_transparente.webp` e a mesma proporção/área de conteúdo do Bestiário; as cartas usam dimensões constantes (largura máxima 116 px, altura máxima 150 px, proporção 2:3) e a grade se adapta com rolagem.
-- A origem principal das ilustrações de waifus continua no repositório separado. O painel Waifus e o runtime ainda não foram integrados.
+- A coleção usa `public/assets/cards/waifus/carta.slime.webp` como arte original da Donzela Slime. O catálogo `src/data/waifus/catalog.js` é a fonte única das habilidades e passivas. `WaifuEquipmentManager` equipa até três instâncias possuídas e persiste seus IDs; `WaifuAbilitySystem` dispara as habilidades no ciclo do ataque automático, com cooldown individual por instância. O painel Waifus exibe as cartas efetivamente adquiridas em grade de três colunas por duas linhas, sem moldura individual, borda ou texto sobre a ilustração; a moldura do painel segue o padrão largo já usado pela interface. A galeria agrupa cópias da mesma waifu e qualidade em pilhas com contador; qualidades diferentes permanecem separadas. A galeria só reconstrói o DOM quando a composição ou quantidade das pilhas muda. O painel de Waifus usa a mesma arte vertical `painel_vertical_900x1350_transparente.webp` e a mesma proporção/área de conteúdo do Bestiário; as cartas usam dimensões constantes (largura máxima 116 px, altura máxima 150 px, proporção 2:3) e a grade se adapta com rolagem.
+- A origem principal das ilustrações de waifus continua no repositório separado. A integração de equipamento e habilidade automática está implementada; presentes, evolução de nível e passivas ainda não foram implementados.
 - Documento de referência: [Arquitetura do sistema de waifus](ARQUITETURA_DO_SISTEMA_DE_WAIFUS.md).
 
 ## O que falta ou não está confirmado
-- Sistema de habilidades reais/equipáveis: a tela Skills existe, mas o catálogo e o gerenciador de habilidades ainda não estão integrados.
+- Valores passivos da Donzela Slime ainda não foram definidos; seu campo permanece vazio, sem bônus inventados. Apenas a habilidade ativa Gosma Azul está cadastrada (projétil, dano 10, recarga 10 s).
 - Sistemas de vínculos, presentes, inventário visual completo e casa. O catálogo do bestiário usa Slime como primeira entrada e a galeria HTML compartilhada está integrada; descoberta persistente e conteúdo Boss ainda faltam. As outras dez cartas estão apenas arquivadas, sem registro de criatura.
 - Catálogo/carregador de ilhas, conexões, pontes, portais e transições entre ilhas.
 - Validação visual final e de desempenho em dispositivos Android reais. A captura Android posterior à versão 2.10.34 confirmou que a arte raster original tinha a moldura inferior incompleta; a versão 2.10.35 substitui apenas a arte do menu principal por um SVG vetorial com borda inferior contínua e aguarda nova confirmação visual no aparelho.
