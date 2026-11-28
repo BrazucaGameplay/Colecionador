@@ -30,7 +30,7 @@
 
 ### O que falta ou não está confirmado
 - Sistema de habilidades reais/equipáveis: a tela Skills existe, mas o catálogo e o gerenciador de habilidades ainda não estão integrados.
-- Sistemas de waifus, vínculos, presentes, inventário completo e casa. O catálogo-base do bestiário está preparado; UI, descoberta persistente e conteúdo Boss ainda faltam.
+- Sistemas de waifus, vínculos, presentes, inventário completo e casa. O catálogo do bestiário usa Slime como primeira entrada e a galeria HTML compartilhada está integrada; descoberta persistente e conteúdo Boss ainda faltam. As outras dez cartas estão apenas arquivadas, sem registro de criatura.
 - Catálogo/carregador de ilhas, conexões, pontes, portais e transições entre ilhas.
 - Validação visual final e de desempenho em dispositivos Android reais.
 - Build nativo/APK, instalação e publicação na Play Store.
@@ -81,7 +81,7 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 
 - Monstros comuns: Slime é a única espécie atualmente registrada; é uma bola azul simples e não necessita animação direcional. Outras espécies poderão ter animações próprias ou usar imagens estáticas. O sistema de spawn, perseguição simples e combate básico já existe.
 - Boss: catálogo vazio preparado; entidades, IA, habilidades e renderização 8-way ainda não implementados.
-- Bestiário: projeção de catálogo separada em Monstros/Boss preparada; interface, descoberta e persistência ainda pendentes.
+- Bestiário: galeria HTML com abas Monstros/Boss, carta integral do Slime e navegação arte/status; descoberta e persistência ainda pendentes. Outras dez imagens permanecem arquivadas e fora do catálogo.
 - Raios atuais preservados: ataque 2 m, perseguição 10 m, ocioso 30 m, ativação 50 m.
 - Detalhes e contratos: [Arquitetura de monstros e Boss](ARQUITETURA_MONSTROS_E_BOSSES.md).
 

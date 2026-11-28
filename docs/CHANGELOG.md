@@ -1,3 +1,11 @@
+## 28/11/2026 — Slime como piloto do fluxo de cartas (2.10.29)
+
+- Slime declara sua carta oficial no catálogo (`bestiary.cardAsset`).
+- Criado componente HTML compartilhado `CardGallery`, dirigido pelas definições registradas, com abas Monstros/Boss, visualização integral e navegação arte/status.
+- O bestiário exibe somente Slime, pois é a única espécie cadastrada. As outras dez cartas continuam arquivadas e não são carregadas nem registradas.
+- Documentado o procedimento reutilizável para adicionar futuras espécies sem criar UI específica por monstro.
+- Adicionado teste para garantir que a presença de outras imagens não aumenta automaticamente o catálogo.
+
 # Changelog
 
 ## 27/11/2026 — Organização das 11 cartas JPG de monstros

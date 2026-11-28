@@ -1,6 +1,6 @@
 # Arquitetura de cartas HTML
 
-**Status:** contrato e diretórios preparados; componente funcional e tela do bestiário ainda não implementados.
+**Status:** Slime integrado como piloto; galeria HTML compartilhada e navegação arte/status implementadas. Boss, waifus e demais monstros permanecem fora do runtime.
 
 ## Escopo
 Cartas ilustradas de monstros comuns, Boss e waifus usam o mesmo grupo de apresentação HTML. Componente visual, enquadramento, acessibilidade e responsividade são compartilhados; catálogos, status, progressão, descoberta e regras de domínio permanecem separados. O painel HTML se adapta às dimensões intrínsecas da carta.
@@ -40,7 +40,16 @@ IDs estáveis, minúsculos, sem espaços/acentos. Spritesheets de gameplay não 
 - Preloader valida imagens obrigatórias apenas quando fornecidas e declaradas.
 - Testar proporção, navegação arte/status, fechamento, troca de registro e limpeza.
 
-## Estado e entrega
-Estrutura e documentação preparadas. As 11 cartas JPG fornecidas pelo usuário foram organizadas em pastas individuais, preservando os blobs originais sem conversão: `public/assets/cards/monsters/<species-id>/card.jpg`. As dimensões de cada arquivo ainda precisam ser verificadas antes de validar o enquadramento final.
+## Fluxo-padrão para introduzir um monstro novo (usar Slime como referência)
 
-O componente HTML compartilhado e a integração funcional da galeria/visualização/status são trabalho futuro. Esta estrutura não significa que o bestiário esteja implementado.
+1. Criar `public/assets/cards/monsters/<species-id>/` e colocar a carta final original como `card.<ext>`, sem conversão.
+2. Criar/expandir a definição em `src/data/monsters/index.js` com ID estável, nome, nove atributos reais e dados de gameplay aprovados.
+3. Declarar o caminho da carta em `bestiary.cardAsset` na própria definição.
+4. A projeção `src/data/bestiary/index.js` disponibiliza automaticamente a definição registrada; `CardGallery` apresenta a carta sem código específico por espécie.
+5. Adicionar testes de catálogo, caminho do asset e dados; validar carregamento e comportamento no build.
+6. Só então a espécie passa a aparecer no bestiário. Um arquivo na pasta de assets, sozinho, não cadastra uma criatura.
+
+Não criar componentes ou telas individuais por monstro. Slime é o caso de referência para o fluxo completo; futuras espécies devem seguir o mesmo contrato.
+
+## Estado e entrega
+As 11 cartas JPG continuam organizadas em pastas individuais e preservadas sem conversão. Apenas Slime está ligado ao catálogo e à galeria. As outras dez imagens permanecem arquivadas e não são carregadas nem registradas no jogo. O componente compartilhado usa a definição cadastrada como fonte de dados e não faz varredura automática de arquivos.

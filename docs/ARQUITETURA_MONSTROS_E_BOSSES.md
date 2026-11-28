@@ -183,3 +183,10 @@ Exemplos são contratos, não conteúdo jogável. Zeros/nulls não são valores 
 **Estrutura preparada nesta versão:** catálogo vazio de Boss; projeção de catálogo do bestiário em duas categorias; diretórios reservados para sistemas, renderização e UI.
 
 **Ainda não implementado:** catálogo de outras espécies (cada uma poderá ter animação ou imagem estática), Boss jogável/IA/habilidades 8-way, otimização espacial por células, descoberta persistente, cartas finais e UI do bestiário.
+
+
+## 11. Processo de entrada de novas espécies — piloto Slime
+
+Slime é a implementação de referência para o caminho de inclusão de monstros. O procedimento futuro deve ser orientado por dados: asset oficial em pasta própria, definição completa em `src/data/monsters/index.js`, referência `bestiary.cardAsset`, testes e validação de build. A UI compartilhada consome o catálogo e não deve receber ramificações por espécie.
+
+As outras cartas atualmente arquivadas em `public/assets/cards/monsters/<id>/card.jpg` não representam espécies cadastradas. Não as importar, exibir ou associar a dados até que cada monstro seja implementado individualmente.

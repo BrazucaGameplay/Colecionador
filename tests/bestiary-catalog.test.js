@@ -21,3 +21,12 @@ test('consulta do bestiário retorna uma entrada por definição, não por inst�
   assert.equal(getBestiaryEntries('unknown').length, 0);
   assert.equal(getBestiaryEntries('bosses').length, 0);
 });
+
+
+test('Slime é a primeira carta conectada; imagens arquivadas não viram registros automaticamente', () => {
+  const catalog = getBestiaryCatalog();
+  assert.equal(catalog.monsters.length, 1);
+  assert.equal(catalog.monsters[0].id, 'slime');
+  assert.equal(catalog.monsters[0].cardAsset, 'assets/cards/monsters/slime/card.jpg');
+  assert.deepEqual(catalog.bosses, []);
+});

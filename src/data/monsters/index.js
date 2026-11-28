@@ -14,6 +14,7 @@ export const MONSTER_DEFINITIONS = Object.freeze({
       healthRegen: 1, energyRegen: 1
     }),
     experience: 25, drops: Object.freeze([]),
+    bestiary: Object.freeze({ cardAsset: 'assets/cards/monsters/slime/card.jpg' }),
     collision: Object.freeze({ radius: 18 }), deathDurationMs: 600,
     visual: Object.freeze({
       enabled: true, scale: 0.72, shadowScale: 1.5, originX: 0.5, originY: 0.92,

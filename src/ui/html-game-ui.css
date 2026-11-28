@@ -485,3 +485,51 @@
   font-size: clamp(10px, 2.5vw, 12px);
   line-height: 1.5;
 }
+
+
+/* Galeria de cartas: imagem integral, sem recorte ou deformação. */
+.html-game-ui__info-title { z-index: 2; }
+.html-game-ui__card-gallery-host { position: absolute; inset: 29% 11% 15%; overflow: hidden; pointer-events: auto; }
+.html-game-ui__card-gallery { width: 100%; height: 100%; display: flex; flex-direction: column; gap: 8px; }
+.html-game-ui__card-tabs { display: flex; justify-content: center; gap: 8px; flex: 0 0 auto; }
+.html-game-ui__card-tab {
+  min-width: 34%; min-height: 30px; padding: 4px 10px;
+  border: 1px solid rgba(255,211,140,.55); border-radius: 7px;
+  color: #f8e4c6; background: rgba(45,5,7,.72);
+  font: inherit; font-size: clamp(9px, 2.4vw, 12px); letter-spacing: .08em;
+}
+.html-game-ui__card-tab.is-active { color: #ffe0a0; border-color: #e7b85f; background: rgba(105,35,13,.82); }
+.html-game-ui__card-grid {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  align-content: start; justify-items: center; gap: 10px; padding: 4px;
+}
+.html-game-ui__card-tile {
+  width: min(100%, 116px); min-width: 0; padding: 5px;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  border: 1px solid rgba(255,211,140,.42); border-radius: 7px;
+  background: rgba(35,8,10,.72); color: #fff0d5; font: inherit;
+}
+.html-game-ui__card-image { display: block; width: 100%; height: auto; max-height: 150px; aspect-ratio: 2 / 3; object-fit: contain; object-position: center; }
+.html-game-ui__card-name { font-size: clamp(9px, 2.3vw, 11px); text-align: center; }
+.html-game-ui__card-empty { grid-column: 1 / -1; margin: 18px 4px; text-align: center; color: #f2ddc4; font-size: 12px; }
+.html-game-ui__card-detail { height: 100%; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; }
+.html-game-ui__card-detail-title { margin: 0; color: #ffe0a0; text-align: center; font-size: clamp(12px, 3vw, 15px); letter-spacing: .08em; }
+.html-game-ui__card-expanded { display: block; width: auto; height: auto; max-width: 100%; max-height: min(62%, 390px); object-fit: contain; object-position: center; }
+.html-game-ui__card-navigation {
+  min-height: 30px; min-width: 42%; padding: 5px 12px;
+  border: 1px solid rgba(255,211,140,.55); border-radius: 7px;
+  background: rgba(65,9,10,.82); color: #ffe8c4;
+  font: inherit; font-size: clamp(10px, 2.6vw, 13px);
+}
+.html-game-ui__card-stats {
+  width: min(86%, 340px); max-height: 62%; overflow-y: auto;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px 12px; margin: 0; padding: 10px;
+  border: 1px solid rgba(255,211,140,.35); border-radius: 7px;
+  background: rgba(35,8,10,.66); font-size: clamp(9px, 2.4vw, 12px);
+}
+.html-game-ui__card-stats dt { color: #e8c68d; }
+.html-game-ui__card-stats dd { margin: 0; color: #fff2dc; text-align: right; font-variant-numeric: tabular-nums; }
+.html-game-ui__card-no-stats { grid-column: 1 / -1; text-align: center; }
+.html-game-ui__card-error { color: #ffd0c5; font-size: 11px; text-align: center; }

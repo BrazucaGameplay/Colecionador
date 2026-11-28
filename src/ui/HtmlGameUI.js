@@ -1,5 +1,6 @@
 import { CHARACTER_SKINS } from '../rendering/characters/CharacterSkinCatalog.js';
 import ProfileImageFitter from './ProfileImageFitter.js';
+import CardGallery from './cards/CardGallery.js';
 import { STAT_UPGRADES } from '../entities/Player.js';
 
 const BASE = import.meta.env?.BASE_URL ?? '/';
@@ -213,6 +214,13 @@ class HtmlPanel {
   }
 
   buildInfo() {
+    if (this.key === 'bestiary') {
+      this.addText(this.content, 'html-game-ui__info-title', 'BESTIÁRIO');
+      this.cardGalleryHost = element('div', 'html-game-ui__card-gallery-host');
+      this.content.append(this.cardGalleryHost);
+      this.cardGallery = new CardGallery(this.cardGalleryHost);
+      return;
+    }
     const [title, status, description] = INFO[this.key] || INFO.bestiary;
     this.addText(this.content, 'html-game-ui__info-title', title);
     this.addText(this.content, 'html-game-ui__info-status', status);
@@ -353,6 +361,8 @@ class HtmlPanel {
   destroy() {
     this.profileImageFitter?.destroy();
     this.profileImageFitter = null;
+    this.cardGallery?.destroy();
+    this.cardGallery = null;
     if (this.statRows) this.statRows.length = 0;
     this.node?.remove();
     this.node = null;
