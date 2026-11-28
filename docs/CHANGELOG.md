@@ -1,3 +1,12 @@
+## 28/11/2026 — Controles globais e correção definitiva do posicionamento do bestiário (2.10.32)
+
+- Corrigida a causa raiz do desalinhamento: `CardGallery` não substitui mais a classe do host posicionado; a galeria é renderizada como filha do contêiner estrutural.
+- Padronizados o X no canto superior direito e o botão circular inferior em todos os painéis, com a mesma posição, dimensão e acabamento.
+- Removidos os controles locais de navegação do perfil e o botão interno de retorno da carta; a navegação contextual usa o controle global.
+- O perfil mantém Personagem, Status e Skills com gestos horizontais: deslizar para a esquerda avança e para a direita retorna; o botão inferior volta à página anterior ou ao menu.
+- No bestiário, o botão inferior alterna Monstros/Boss e retorna da carta para a grade.
+- Testes cobrem host estrutural, controles compartilhados, troca de categoria, retorno da carta e navegação por gesto.
+
 ## 28/11/2026 — Correção estrutural do painel do bestiário (2.10.31)
 
 - Corrigido o posicionamento da galeria usando a área interna da moldura como referência; a grade fica contida e centralizada no painel.
