@@ -3,7 +3,7 @@ import {
   MONSTER_PURSUIT_DISTANCE_WORLD_UNITS,
   MONSTER_IDLE_DISTANCE_WORLD_UNITS,
   MONSTER_ACTIVATION_DISTANCE_WORLD_UNITS
-} from '../../config.js';
+} from '../../core/config/index.js';
 import { MONSTER_DEFINITIONS } from '../../data/monsters/index.js';
 import { isMonsterInView } from '../../rendering/monsters/MonsterRenderer.js';
 import MonsterFactory from './MonsterFactory.js';

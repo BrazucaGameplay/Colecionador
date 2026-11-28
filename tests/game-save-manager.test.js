@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import Player from '../src/entities/Player.js';
 import SaveManager from '../src/systems/persistence/SaveManager.js';
-import { SAVE_KEY } from '../src/config.js';
+import { SAVE_KEY } from '../src/core/config/index.js';
 
 function memoryStorage() {
   const values = new Map();

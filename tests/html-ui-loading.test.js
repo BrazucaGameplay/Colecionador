@@ -28,7 +28,7 @@ test('pré-carregador baixa e decodifica cada imagem HTML e informa progresso', 
   const FakeImage = makeImageClass();
   globalThis.Image = FakeImage;
   try {
-    const { preloadHtmlUiAssets } = await import('../src/loading/HtmlUiAssetPreloader.js?success');
+    const { preloadHtmlUiAssets } = await import('../src/core/lifecycle/HtmlUiAssetPreloader.js?success');
     const progress = [];
     const result = await preloadHtmlUiAssets((loaded, total, path) => progress.push({ loaded, total, path }));
     assert.ok(result.total >= 8);
@@ -51,7 +51,7 @@ test('falha de uma imagem obrigatória rejeita o preload em vez de liberar a UI 
   const FakeImage = makeImageClass({ fail: url => url.includes('/skin_2/perfil.png') });
   globalThis.Image = FakeImage;
   try {
-    const { preloadHtmlUiAssets } = await import('../src/loading/HtmlUiAssetPreloader.js?failure');
+    const { preloadHtmlUiAssets } = await import('../src/core/lifecycle/HtmlUiAssetPreloader.js?failure');
     await assert.rejects(preloadHtmlUiAssets(), /Não foi possível carregar a imagem da interface/);
   } finally {
     if (previousImage === undefined) delete globalThis.Image;

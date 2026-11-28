@@ -7,7 +7,7 @@ import SkinManager from '../rendering/characters/SkinManager.js';
 import MonsterManager from '../systems/monsters/MonsterManager.js';
 import { rollMonsterDrops } from '../systems/monsters/MonsterDropResolver.js';
 import { ISLAND_01_MONSTER_SPAWNS } from '../world/spawn-layout/island-01.js';
-import { SAVE_KEY } from '../config.js';
+import { SAVE_KEY } from '../core/config/index.js';
 import WorldBootstrap from '../world/WorldBootstrap.js';
 import CameraController from '../systems/camera/CameraController.js';
 import SaveManager from '../systems/persistence/SaveManager.js';

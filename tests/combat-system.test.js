@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import CombatSystem from '../src/systems/CombatSystem.js';
-import MovementSystem from '../src/systems/MovementSystem.js';
+import CombatSystem from '../src/systems/combat/CombatSystem.js';
+import MovementSystem from '../src/systems/movement/MovementSystem.js';
 import Player from '../src/entities/Player.js';
 
 function setup() {

@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import { queuePlayerSpriteAssets, registerPlayerSpriteAnimations } from '../rendering/characters/CharacterSpriteRenderer.js';
 import { queueMonsterAssets } from '../rendering/monsters/MonsterAssetLoader.js';
 import TreeTexturePipeline from '../rendering/world/TreeTexturePipeline.js';
-import { preloadHtmlUiAssets } from '../loading/HtmlUiAssetPreloader.js';
+import { preloadHtmlUiAssets } from '../core/lifecycle/HtmlUiAssetPreloader.js';
 
 const WORLD_ASSETS=[
  ['ocean-pattern','assets/world/terrain/ocean-pattern-seamless-512.webp'],

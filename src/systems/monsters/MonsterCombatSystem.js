@@ -1,4 +1,4 @@
-import { PLAYER_ATTACK_RANGE_WORLD_UNITS } from '../../config.js';
+import { PLAYER_ATTACK_RANGE_WORLD_UNITS } from '../../core/config/index.js';
 
 /** Percorre apenas a coleção estável de atacantes em alcance de combate. */
 export default class MonsterCombatSystem {

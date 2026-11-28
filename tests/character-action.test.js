@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import CharacterActionState, { ACTION_PRIORITY } from '../src/rendering/characters/CharacterActionState.js';
 import Player from '../src/entities/Player.js';
-import MovementSystem from '../src/systems/MovementSystem.js';
+import MovementSystem from '../src/systems/movement/MovementSystem.js';
 
 test('corrida não substitui uma ação de combate protegida', () => {
   const state = new CharacterActionState();

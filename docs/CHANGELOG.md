@@ -1,3 +1,12 @@
+# 28/11/2026 — Organização de core, sistemas e estilos (2.13.5)
+
+- Centralizada a configuração em `src/core/config/`.
+- Movidos o carregamento inicial e o pré-carregamento HTML para `src/core/lifecycle/`.
+- Separados os sistemas genéricos em `systems/combat/`, `systems/movement/` e `systems/progression/`.
+- Centralizados os estilos da interface em `src/ui/styles/`.
+- Atualizados imports e testes afetados sem alterar regras de gameplay ou conteúdo visual.
+- Versão 2.13.5 (PATCH), com lockfile sincronizado.
+
 # 28/11/2026 — Regularização da correção visual de morte do Slime (2.13.4)
 
 - Regularizado o versionamento das alterações anteriores de asset e renderer, que haviam sido publicadas sem incremento de versão e sem atualização documental.

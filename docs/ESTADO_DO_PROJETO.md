@@ -3,8 +3,8 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.13.4  
-**Atualizado em:** 28/11/2026 (regularização de versão e documentação da correção visual de morte do Slime)
+**Versão do código-base consultado:** 2.13.5  
+**Atualizado em:** 28/11/2026 (organização modular de core, sistemas e estilos)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
 
@@ -13,7 +13,7 @@
 ### Stack
 - **Runtime:** JavaScript ES modules, Phaser 4 (`^4.2.1`).
 - **Build/dev:** Vite (`^8.3.8`), Node.js 26.13.1, npm 11.20.0.
-- **Distribuição:** PWA/web em GitHub Pages; Capacitor 8.6.2 declarado para Android.
+- **Distribuição:** PWA/web em GitHub Pages; Capacitor 8.6.2 declarado para Android. A versão 2.13.4 foi confirmada manualmente pelo usuário em dispositivo Android; APK/Play Store não foram declarados publicados.
 - **Renderização:** jogo 2D com spritesheets PNG/JSON; interface híbrida Phaser + HTML/CSS. Não há runtime GLB/Three.js.
 
 ### O que existe
@@ -24,7 +24,7 @@
 - Player lógico, adaptador de corpo, renderização 2D, quatro animações por skin e oito direções.
 - Skin 01 e Skin 02 com atlas PNG/JSON e retratos PNG; seleção validada pelo SkinManager.
 - Combate de ação, ataque automático do jogador, combate dos monstros, progressão, experiência, níveis, atributos, vida e energia. Habilidades automáticas são fornecidas exclusivamente pelas cartas de waifu equipadas.
-- SaveManager, WorldBootstrap, CameraController e GameSystemsBootstrap separados.
+- SaveManager, WorldBootstrap, CameraController e GameSystemsBootstrap separados. Configuração central em `src/core/config/`; carregamento e pré-carregadores em `src/core/lifecycle/`.
 - HUD e painéis HTML. O Perfil tem três páginas: Personagem, Status e Equipamento de Cartas; o enquadramento do retrato é adaptativo. A tela de equipamento organiza três espaços compactos acima da lista agrupada por tipo/qualidade, com rolagem independente. A navegação usa setas discretas como indicação de arrasto nos dois sentidos, mantém o botão Voltar na primeira tela e não exibe botão X/Sair no Perfil. O menu principal usa uma moldura vetorial SVG dedicada, com borda inferior contínua e ornamentos completos; o layout responsivo preserva a proporção e mantém o controle FPS compacto fora do eixo central do botão global inferior.
 - CI executa auditoria de dependências, testes, build e verificações de assets/versão.
 
@@ -58,16 +58,18 @@
 
 ## Arquitetura atual
 
+A estrutura 2.13.5 separa configuração (`core/config`), carregamento (`core/lifecycle`), combate, movimento e progressão (`systems/combat`, `systems/movement`, `systems/progression`) e estilos (`ui/styles`). Sistemas especializados de monstros, câmera, input, persistência e waifus permanecem em subpastas próprias. Os assets existentes foram preservados.
+
 | Área | Implementação atual |
 |---|---|
 | Inicialização | `src/main.js`, cenas Boot/Preload/Menu/Game/GameUI |
 | Mundo | `src/world/WorldBootstrap.js`, `WorldNavigation.js`, layout e managers de objetos, profundidade e colisão |
 | Câmera/input | `CameraController.js`, `TouchInputController.js` |
 | Personagem | `Player.js`, `PlayerBodyAdapter.js`, `CharacterSpriteRenderer.js`, `SkinManager.js` |
-| Gameplay | MovementSystem, CombatSystem, ProgressionSystem, MonsterManager, MonsterCombatSystem e MonsterDropResolver; catálogo de Boss/bestiário preparado |
+| Gameplay | `systems/movement`, `systems/combat`, `systems/progression`, `systems/monsters`; catálogo de Boss/bestiário preparado |
 | Persistência | `src/systems/persistence/SaveManager.js`; chave legada `colecionador-save-v1` preservada |
 | UI | `GameUI.js`, `HtmlGameUI.js`, CSS da interface, HUD Phaser e `ProfileImageFitter.js` |
-| Assets | `public/assets/`; catálogos e validadores em `src/rendering/` e `scripts/` |
+| Assets | `public/assets/`; catálogos em `src/data/` e `src/rendering/`, validadores em `scripts/` |
 
 ## Critérios para declarar algo concluído
 
@@ -80,11 +82,11 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 
 ## Próximas prioridades
 
-1. Confirmar no Android a nova arte vetorial do menu, verificando os quatro cantos e toda a borda inferior.
+1. Validar interface e desempenho no Android após a reorganização 2.13.5.
 2. Substituir testes frágeis baseados em leitura de código por testes de comportamento nos contratos relevantes.
-3. Validar a interface, o enquadramento do perfil e o layout do equipamento de cartas em Android real.
-5. Planejar a segunda ilha somente após critérios e assets aprovados para a primeira transição.
-6. Completar as integrações de waifus, inventário, bestiário e drops conforme o design aprovado.
+3. Gerar e validar o APK nativo antes de qualquer publicação na Play Store.
+4. Planejar a segunda ilha somente após critérios e assets aprovados para a primeira transição.
+5. Completar as integrações de waifus, inventário, bestiário e drops conforme o design aprovado.
 
 ## Conteúdo hostil
 

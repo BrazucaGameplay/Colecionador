@@ -1,4 +1,4 @@
-import '../ui/html-game-ui.css';
+import '../ui/styles/html-game-ui.css';
 import * as Phaser from 'phaser';
 import PlayerHUD from '../ui/HUD/PlayerHUD.js';
 import HtmlGameUI from '../ui/HtmlGameUI.js';

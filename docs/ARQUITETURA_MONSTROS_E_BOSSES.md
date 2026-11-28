@@ -44,7 +44,7 @@ Cada entidade deve possuir estado próprio. Nunca compartilhar o mesmo objeto mu
 
 ### Raios atuais — preservar
 
-Escala atual: 75 unidades de mundo por metro. Valores vigentes em `src/config.js` e `MonsterManager.js`:
+Escala atual: 75 unidades de mundo por metro. Valores vigentes em `src/core/config/index.js` e `MonsterManager.js`:
 
 | Estado | Raio |
 |---|---:|
