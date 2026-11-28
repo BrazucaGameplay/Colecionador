@@ -40,9 +40,11 @@ test('habilidade da carta dispara automaticamente e respeita cooldown individual
 
 test('habilidade não dispara sem alvo vivo ou sem carta equipada', () => {
   const equipment = new WaifuEquipmentManager({ collection: [card('a')] });
-  const abilities = new WaifuAbilitySystem({ equipment, onProjectile: () => assert.fail('não deveria disparar') });
+  let shots = 0;
+  const abilities = new WaifuAbilitySystem({ equipment, onProjectile: () => { shots++; } });
   assert.deepEqual(abilities.tryActivate({ id: 'dead', alive: false }, 0), []);
   assert.deepEqual(abilities.tryActivate({ id: 'live', alive: true }, 0), []);
   equipment.equip('a');
   assert.equal(abilities.tryActivate({ id: 'live', alive: true }, 0).length, 1);
+  assert.equal(shots, 1);
 });
