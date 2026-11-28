@@ -2604,7 +2604,7 @@ Versionamento: 2.10.11 → 2.10.12 (PATCH: gate de carregamento das imagens HTML
 ATUALIZACAO — 27/11/2026 — INTERFACE HTML DOS PAINEIS
 ======================================================================
 
-Versao do jogo: 2.10.13
+Versao do jogo: 2.10.14
 
 Implementado nesta etapa:
 - A tipografia da camada HTML foi substituida por uma familia sans-serif
@@ -2631,3 +2631,6 @@ Validacao pendente:
   transparentes dos retratos e se o painel permanece legivel em diferentes
   escalas/orientacoes.
 
+
+Ajuste de consistencia: o lockfile foi sincronizado em todos os seus
+campos-raiz de versao; a versao final desta entrega e 2.10.14.
