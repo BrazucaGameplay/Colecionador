@@ -3,8 +3,8 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.12.1  
-**Atualizado em:** 28/11/2026 (pasta de artes originais das waifus criada)
+**Versão do código-base consultado:** 2.12.2  
+**Atualizado em:** 28/11/2026 (coleção de waifus conectada ao painel)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
 
@@ -33,7 +33,7 @@
 - Criadas classificações centrais de raridade fixa (Comum, Rara, Épica, Lendária, Mítica) e qualidade fixa na aquisição (Plebeia, Nobre, Dama, Princesa, Rainha).
 - Criados pontos de entrada separados para catálogo e tabelas de drop. A tabela do Slime concede a carta Donzela Slime com 20% de chance; as demais espécies ainda não estão cadastradas.
 - Reservados diretórios para cinco molduras de raridade e cinco selos de qualidade, sem assets provisórios.
-- A pasta pública `public/assets/images/waifus/` está criada para receber as artes originais das cartas; as regras de nome, formato e preservação estão em seu README. Nenhuma arte foi adicionada nesta alteração.
+- A coleção usa `public/assets/cards/waifus/carta.slime.webp` como arte original da Donzela Slime. O painel Waifus exibe as cartas efetivamente adquiridas em grade de três colunas por duas linhas, sem moldura individual, borda ou texto sobre a ilustração; a moldura do painel segue o padrão largo já usado pela interface.
 - A origem principal das ilustrações de waifus continua no repositório separado. O painel Waifus e o runtime ainda não foram integrados.
 - Documento de referência: [Arquitetura do sistema de waifus](ARQUITETURA_DO_SISTEMA_DE_WAIFUS.md).
 
