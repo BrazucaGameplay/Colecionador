@@ -47,6 +47,21 @@ test('menu abre painéis informativos e o toque fora ou o X fecha o overlay', ()
     menu.children[0].click();
     assert.equal(ui.activePanel.key, 'bestiary');
     assert.match(ui.activePanel.node.textContent + ui.activePanel.content.children.map(n => n.textContent).join(' '), /BESTIÁRIO/);
+    assert.ok(ui.activePanel.node.className.includes('html-game-ui__panel--bestiary'));
+    assert.ok(findByClass(ui.activePanel.node, 'html-game-ui__panel-art').src.endsWith('/assets/ui/panels/painel_vertical_900x1350_transparente.webp'));
+
+    const cardTile = findByClass(ui.activePanel.node, 'html-game-ui__card-tile');
+    assert.ok(cardTile, 'a carta registrada deve aparecer na grade');
+    cardTile.click();
+    const flipCard = findByClass(ui.activePanel.node, 'html-game-ui__card-flip');
+    assert.ok(flipCard, 'clicar na carta deve abrir a mesma carta com frente e verso');
+    assert.equal(flipCard.getAttribute('aria-pressed'), 'false');
+    flipCard.click();
+    assert.ok(flipCard.className.includes('is-flipped'), 'a carta deve girar para mostrar o verso');
+    assert.equal(flipCard.getAttribute('aria-pressed'), 'true');
+    assert.ok(findByClass(flipCard, 'html-game-ui__card-stats'), 'o verso deve exibir os status reais');
+    findByClass(ui.activePanel.node, 'html-game-ui__card-navigation').click();
+    assert.ok(findByClass(ui.activePanel.node, 'html-game-ui__card-grid'), 'o retorno deve restaurar a grade no mesmo painel');
 
     const shade = dom.root.querySelector('.html-game-ui__shade');
     shade.dispatch('pointerdown', { target: shade });

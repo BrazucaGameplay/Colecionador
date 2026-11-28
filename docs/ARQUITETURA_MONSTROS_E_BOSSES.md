@@ -1,7 +1,7 @@
 # Arquitetura de monstros, Boss e bestiário
 
 **Projeto:** Conquistador de Waifu's  
-**Branch:** main · **Versão-base:** 2.10.29  
+**Branch:** main · **Versão-base:** 2.10.30  
 **Status:** arquitetura aprovada e scaffolding de catálogo criado. IA de Boss, animações direcionais completas, descoberta persistente e validação visual em Android ainda não confirmadas.
 
 Este documento separa estado atual, contratos aprovados e trabalho futuro. Estrutura preparada não significa mecânica concluída.
@@ -174,7 +174,7 @@ Exemplos são contratos, não conteúdo jogável. Zeros/nulls não são valores 
 - Bestiário apresenta uma carta por definição e mantém descoberta após reiniciar.
 - Build e testes de carga validam o pacote final.
 
-## 10. Estado real na versão 2.10.29
+## 10. Estado real na versão 2.10.30
 
 **Já existe:** entidade lógica Monster, catálogo comum com Slime (única espécie registrada), spawner por zona, perseguição simples, combate básico, renderer e loader por estado; raios documentados na seção 3.
 

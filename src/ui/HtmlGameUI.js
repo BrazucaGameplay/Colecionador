@@ -166,13 +166,13 @@ class HtmlPanel {
     this.game = owner.gameScene;
     this.key = key;
     this.page = 0;
-    this.node = element('section', 'html-game-ui__panel ' + (key === 'profile' ? 'html-game-ui__panel--vertical' : 'html-game-ui__panel--wide'));
+    this.node = element('section', 'html-game-ui__panel ' + (key === 'profile' ? 'html-game-ui__panel--vertical' : key === 'bestiary' ? 'html-game-ui__panel--bestiary' : 'html-game-ui__panel--wide'));
     this.node.setAttribute('role', 'dialog');
     this.node.setAttribute('aria-modal', 'true');
     this.node.setAttribute('aria-label', key === 'profile' ? 'Perfil do personagem' : key === 'menu' ? 'Menu principal' : (INFO[key]?.[0] || 'Painel'));
     this.node.addEventListener('pointerdown', event => event.stopPropagation());
     this.art = element('img', 'html-game-ui__panel-art');
-    this.art.src = key === 'profile' ? UI.vertical : UI.wide;
+    this.art.src = key === 'profile' || key === 'bestiary' ? UI.vertical : UI.wide;
     this.art.alt = '';
     this.art.draggable = false;
     this.node.append(this.art);

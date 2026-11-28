@@ -1,6 +1,6 @@
 # Arquitetura de cartas HTML
 
-**Status:** Slime integrado como piloto; galeria HTML compartilhada e navegação arte/status implementadas. Boss, waifus e demais monstros permanecem fora do runtime.
+**Status:** Slime integrado como piloto; galeria HTML compartilhada com grade responsiva e carta com frente/verso em rotação no mesmo painel. Boss, waifus e demais monstros permanecem fora do runtime.
 
 ## Escopo
 Cartas ilustradas de monstros comuns, Boss e waifus usam o mesmo grupo de apresentação HTML. Componente visual, enquadramento, acessibilidade e responsividade são compartilhados; catálogos, status, progressão, descoberta e regras de domínio permanecem separados. O painel HTML se adapta às dimensões intrínsecas da carta.
@@ -25,11 +25,11 @@ public/assets/cards/
 IDs estáveis, minúsculos, sem espaços/acentos. Spritesheets de gameplay não pertencem a esse diretório. A origem principal das cartas de waifus permanece no repositório separado; este repositório recebe cópia final somente quando necessária para o bundle.
 
 ## Navegação aprovada
-1. Galeria em grade responsiva: uma carta por definição cadastrada.
-2. Toque/clique abre a carta ampliada, sem recorte.
-3. Seta avança para a página de status do mesmo conteúdo; seta de retorno volta à arte; X fecha.
-4. Status vem dos dados reais. Monstros e Boss usam as nove chaves documentadas em `ARQUITETURA_MONSTROS_E_BOSSES.md`. Não inventar valores.
-5. Categorias, bloqueio/descoberta e persistência consomem os catálogos e estado real do jogador.
+1. Galeria em grade responsiva com três colunas e pelo menos duas linhas visíveis em telas mobile; uma carta por definição cadastrada.
+2. O painel do bestiário usa a moldura vertical já existente para disponibilizar área útil maior. A grade e o painel se adaptam ao viewport, nunca o arquivo da carta.
+3. Toque/clique abre a carta selecionada dentro do mesmo painel; tocar na carta executa rotação 3D horizontal para alternar frente e verso. Não existe uma etapa separada por botão “Ver status”.
+4. O verso apresenta somente os dados reais. Monstros e Boss usam as nove chaves documentadas em `ARQUITETURA_MONSTROS_E_BOSSES.md`. Não inventar valores.
+5. O botão de retorno restaura a grade; as abas Monstros/Boss e o X permanecem disponíveis.
 
 ## Implementação
 - HTML semântico, botões acessíveis e imagem com texto alternativo.
@@ -38,7 +38,7 @@ IDs estáveis, minúsculos, sem espaços/acentos. Spritesheets de gameplay não 
 - Limpar observers/listeners no ciclo de vida.
 - Não importar módulos incompletos no runtime.
 - Preloader valida imagens obrigatórias apenas quando fornecidas e declaradas.
-- Testar proporção, navegação arte/status, fechamento, troca de registro e limpeza.
+- Testar proporção integral da imagem, grade 3 × 2, rotação frente/verso, dados de status, retorno à grade, fechamento, troca de categoria e limpeza.
 
 ## Processo de inclusão de monstros
 O procedimento oficial, em cinco etapas, está centralizado em [PROCESSO_ADICIONAR_MONSTRO.md](PROCESSO_ADICIONAR_MONSTRO.md). Slime é a implementação-piloto. A galeria consome as definições cadastradas e não deve receber código específico por espécie.
