@@ -533,3 +533,163 @@
 .html-game-ui__card-stats dd { margin: 0; color: #fff2dc; text-align: right; font-variant-numeric: tabular-nums; }
 .html-game-ui__card-no-stats { grid-column: 1 / -1; text-align: center; }
 .html-game-ui__card-error { color: #ffd0c5; font-size: 11px; text-align: center; }
+
+
+/* Bestiário: moldura vertical existente para dar área útil real à grade 3 x 2.
+   A arte da carta permanece integral; somente o painel e a grade se adaptam. */
+.html-game-ui__panel--bestiary {
+  width: min(560px, calc(100vw - 24px), calc((100dvh - 24px) * 2 / 3));
+  aspect-ratio: 2 / 3;
+}
+.html-game-ui__panel--bestiary .html-game-ui__close {
+  top: 11%;
+  right: 5%;
+  width: clamp(42px, 12%, 62px);
+}
+.html-game-ui__panel--bestiary .html-game-ui__info-title {
+  top: 17%;
+  left: 12%;
+  right: 12%;
+  font-size: clamp(15px, 4vw, 20px);
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-gallery-host {
+  inset: 24% 10% 11%;
+  overflow: hidden;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-gallery {
+  gap: clamp(5px, 1.2dvh, 9px);
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-tabs {
+  gap: clamp(6px, 2vw, 12px);
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-tab {
+  min-width: 34%;
+  min-height: clamp(29px, 4.5dvh, 38px);
+  font-size: clamp(10px, 2.7vw, 13px);
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, auto);
+  align-content: start;
+  justify-items: stretch;
+  gap: clamp(6px, 1.2dvh, 10px);
+  padding: 3px;
+  scrollbar-width: thin;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-tile {
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 4px 3px;
+  justify-content: flex-start;
+  gap: 4px;
+  border-radius: 7px;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: clamp(82px, 16dvh, 132px);
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-name {
+  flex: 0 0 auto;
+  font-size: clamp(9px, 2.4vw, 12px);
+  line-height: 1.15;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-detail {
+  gap: clamp(6px, 1.5dvh, 10px);
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-flip {
+  position: relative;
+  display: block;
+  width: min(72%, 250px);
+  height: min(100%, 420px);
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: inherit;
+  perspective: 1100px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-flip-inner {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-style: preserve-3d;
+  transition: transform 560ms cubic-bezier(.2,.72,.2,1);
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-flip.is-flipped .html-game-ui__card-flip-inner {
+  transform: rotateY(180deg);
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,211,140,.58);
+  border-radius: 9px;
+  background: linear-gradient(155deg, rgba(88,13,14,.98), rgba(34,5,9,.98));
+  box-shadow: inset 0 0 16px rgba(255,190,72,.12), 0 5px 16px rgba(0,0,0,.28);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-face--front {
+  padding: 5px;
+  box-sizing: border-box;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-face--back {
+  transform: rotateY(180deg);
+  padding: 10px 8px;
+  box-sizing: border-box;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-expanded {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-back-subtitle {
+  color: #e8c68d;
+  font-size: clamp(10px, 2.6vw, 13px);
+  letter-spacing: .18em;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-stats {
+  width: 100%;
+  max-height: 74%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  gap: 5px 8px;
+  margin: 0;
+  padding: 8px;
+  font-size: clamp(9px, 2.3vw, 12px);
+  scrollbar-width: thin;
+}
+.html-game-ui__panel--bestiary .html-game-ui__card-navigation {
+  flex: 0 0 auto;
+  min-height: 32px;
+  min-width: 48%;
+  font-size: clamp(10px, 2.6vw, 13px);
+}
+@media (max-height: 620px) {
+  .html-game-ui__panel--bestiary {
+    width: min(calc(100vw - 20px), calc((100dvh - 16px) * 2 / 3));
+  }
+  .html-game-ui__panel--bestiary .html-game-ui__card-gallery-host {
+    inset-top: 23%;
+    bottom: 9%;
+  }
+  .html-game-ui__panel--bestiary .html-game-ui__card-image {
+    max-height: 13dvh;
+  }
+}
