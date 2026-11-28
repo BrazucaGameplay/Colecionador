@@ -1,3 +1,13 @@
+## 28/11/2026 — Navegação por arrasto bidirecional no Perfil (2.10.36)
+
+- O Perfil mantém o botão inferior Voltar na primeira tela, para retornar ao jogo.
+- Removido o botão X/Sair somente do painel Perfil; os demais painéis mantêm seus controles atuais.
+- Adicionadas apenas duas setas discretas (esquerda/direita) como indicação visual de que as telas podem ser percorridas por arrasto, sem texto de instrução.
+- O gesto horizontal usa `touch-action: pan-y`, permitindo capturar o movimento lateral sem bloquear a rolagem vertical do navegador.
+- A captura do ponteiro durante o gesto melhora a continuidade quando o dedo ultrapassa a área inicial.
+- Arrastar para a esquerda avança Personagem → Status → Skills; arrastar para a direita retorna Skills → Status → Personagem.
+- Testes cobrem a ausência do X, as duas setas, o botão Voltar na primeira tela e o retorno por arrasto em ambas as etapas.
+
 ## 28/11/2026 — Substituição da moldura incompleta do menu (2.10.35)
 
 - A inspeção do asset raster original `perfil_moldura_fundo_vermelho.webp` confirmou que sua base gráfica estava incompleta; o CSS não poderia reconstruir os trechos ausentes.
