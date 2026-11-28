@@ -3,7 +3,7 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.10.31  
+**Versão do código-base consultado:** 2.10.32  
 **Atualizado em:** 28/11/2026 (estado encontrado na branch)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
@@ -81,7 +81,7 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 
 - Monstros comuns: Slime é a única espécie atualmente registrada; é uma bola azul simples e não necessita animação direcional. Outras espécies poderão ter animações próprias ou usar imagens estáticas. O sistema de spawn, perseguição simples e combate básico já existe.
 - Boss: catálogo vazio preparado; entidades, IA, habilidades e renderização 8-way ainda não implementados.
-- Bestiário: galeria HTML com grade responsiva, navegação lateral inferior entre Monstros/Boss, carta integral do Slime e rotação frente/verso no mesmo painel; descoberta e persistência ainda pendentes. Outras dez imagens permanecem arquivadas e fora do catálogo.
+- Bestiário: galeria HTML com host de posicionamento separado do componente de galeria, grade responsiva, botão global inferior para alternar Monstros/Boss ou voltar da carta, X global para fechar, carta integral do Slime e rotação frente/verso no mesmo painel; descoberta e persistência ainda pendentes. Outras dez imagens permanecem arquivadas e fora do catálogo.
 - Raios atuais preservados: ataque 2 m, perseguição 10 m, ocioso 30 m, ativação 50 m.
 - Processo obrigatório para qualquer espécie nova: [PROCESSO_ADICIONAR_MONSTRO.md](PROCESSO_ADICIONAR_MONSTRO.md).
 - Detalhes e contratos: [Arquitetura de monstros e Boss](ARQUITETURA_MONSTROS_E_BOSSES.md).
