@@ -2533,3 +2533,68 @@ VALIDAÇÃO PENDENTE:
   no aparelho de destino.
 
 Versionamento: 2.10.10 → 2.10.11 (PATCH: painéis e retratos HTML).
+
+
+======================================================================
+ATUALIZAÇÃO — PRÉ-CARREGAMENTO OBRIGATÓRIO DAS IMAGENS HTML (2.10.12)
+======================================================================
+
+COMPORTAMENTO IMPLEMENTADO:
+- A barra de carregamento reserva 80% do progresso para os recursos Phaser
+  (mundo, personagens e monstros).
+- Os 19% seguintes são destinados ao download e decode das imagens usadas
+  pelos painéis HTML e pelos retratos de perfil.
+- O jogo só inicia a cena Game depois que todas as imagens HTML obrigatórias
+  terminarem o download e o decode pelo navegador.
+- O conjunto inclui as duas molduras de painel, botão de fechar, três
+  fundos de botão e retratos de todas as skins catalogadas.
+- O pré-carregador mantém referências aos objetos Image decodificados para
+  reutilização quando os elementos HTML forem criados.
+- Se uma imagem obrigatória falhar, a cena Game não inicia. A tela permanece
+  visível e informa a falha para que a conexão seja verificada e a página
+  recarregada.
+- O último 1% fica reservado à finalização e a tela só desaparece após o
+  evento game-ready, emitido pela inicialização real do jogo.
+
+ARQUITETURA:
+- Phaser 4 continua carregando seus próprios assets na cena Preload.
+- HtmlUiAssetPreloader trata somente as imagens HTML e é aguardado com
+  await dentro do fluxo de criação da cena Preload.
+- A camada HTML não cria texturas Phaser para retratos ou artes de painéis.
+- A alteração não muda o carregamento de mundo, renderer, câmera, física,
+  monstros, árvores ou resolução.
+
+RECAP DO ESTADO DO JOGO:
+- Produto/plataforma: RPG 2D de ação em Phaser 4, Vite e GitHub Pages;
+  suporte mobile por toque. Capacitor está no repositório como caminho
+  de empacotamento Android; publicação em Play Store não foi verificada.
+- Mundo: ilha e terreno são carregados na cena Preload; pipeline de texturas
+  de árvores está presente. Expansão em ilhas/chunks permanece evolutiva.
+- Gameplay: jogador, movimentação por toque, câmera, combate, monstros,
+  progressão, atributos e salvamento estão implementados em módulos.
+  Sistemas completos de waifus, inventário e casa ainda não estão integrados.
+- Personagens: catálogo de skins 01 e 02, atlas/animações e retratos PNG
+  existem; as duas skins constam no catálogo como selecionáveis.
+- Arquitetura: cenas Boot, Preload, Game e GameUI; Phaser 4.2.1, Vite,
+  JavaScript e Arcade Physics; interface HTML sobreposta ao canvas para
+  painéis e retratos; botão MENU e barras permanecem em Phaser.
+- Assets: sprites de jogador/monstros, terreno, árvores, artes de loading,
+  molduras e botões de UI estão em public/assets; HTML UI agora tem
+  pré-carregamento e decode obrigatório.
+- Interface/mobile: tela de carregamento HTML, painéis HTML, retratos HTML,
+  controles de toque e layout responsivo; validação visual em aparelhos
+  Android continua dependendo de teste real.
+- Build/publicação: npm test, npm run build e GitHub Actions são usados;
+  GitHub Pages é o destino publicado. A versão desta alteração ainda
+  depende da execução do workflow correspondente.
+- Pendências/riscos: sistemas de waifus, inventário e casa ainda não
+  funcionam como sistemas completos; teste de latência/cache e falha de
+  rede no Android deve ser observado em aparelho real.
+
+VALIDAÇÃO DESTA ALTERAÇÃO:
+- Testes adicionados para garantir a presença de todos os assets HTML,
+  espera pelo decode antes de iniciar Game, progresso da barra e bloqueio
+  de inicialização em caso de falha.
+- Testes/build/deploy da versão 2.10.12 pendentes da execução do workflow.
+
+Versionamento: 2.10.11 → 2.10.12 (PATCH: gate de carregamento das imagens HTML).
