@@ -90,12 +90,3 @@ Ao terminar cada solicitação de modificação, apresentar:
 ## 7. Princípio de execução
 
 O objetivo é que cada alteração deixe o repositório coerente, versionado e em condição verificável de atualização. Trabalhar diretamente no GitHub, na branch correta, respeitando o estado real dos arquivos. Não pedir ao usuário para executar tarefas técnicas que possam ser realizadas com as ferramentas disponíveis. Não alegar que executou build, testes, auditoria ou publicação sem evidência concreta.
-
-
-## 7. Acordo de trabalho e divisão de responsabilidades
-
-O procedimento permanente de colaboração está detalhado em [ACORDO_DE_TRABALHO.md](ACORDO_DE_TRABALHO.md). O assistente prepara estrutura, código, testes e documentação dentro das permissões disponíveis; o usuário fornece assets finais e executa ações que dependem de aparelho, conta, autenticação, ferramentas locais ou aprovação humana. Quando faltar uma etapa do usuário, deixar pasta final, README, caminho e requisitos prontos. Nunca inventar assets, afirmar uploads inexistentes ou declarar integração funcional enquanto o arquivo não tiver sido verificado.
-
-## 8. Regra de preservação de cartas e imagens HTML
-
-Cartas de monstros, Boss e waifus compartilham o contrato HTML descrito em [ARQUITETURA_CARTAS_HTML.md](ARQUITETURA_CARTAS_HTML.md). A arte oficial permanece intacta; o layout se adapta à imagem, não o contrário. Preservar resolução e proporção, sem crop, stretch, filtros ou recompressão não autorizada. Assets ainda não fornecidos permanecem pendentes, com seus caminhos finais documentados.
