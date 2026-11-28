@@ -1,3 +1,9 @@
+# 28/11/2026 — Correção do teste de ativação de habilidades por carta (2.13.1)
+
+- Corrigido o teste que esperava que o callback de projétil nunca fosse chamado mesmo depois de equipar uma carta.
+- A validação agora confirma que não há disparo sem carta equipada e que há exatamente um disparo após equipar a Donzela Slime.
+- Nenhuma regra de jogo foi alterada.
+
 # 28/11/2026 — Equipamento de cartas e habilidades automáticas exclusivas das waifus (2.13.0)
 
 - Criado catálogo único de waifus como fonte exclusiva de habilidades ativas e atributos passivos.
