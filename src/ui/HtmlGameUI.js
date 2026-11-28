@@ -277,9 +277,22 @@ class HtmlPanel {
   renderWaifuCollection() {
     if (!this.waifuGrid) return;
     const collection = Array.isArray(this.game?.waifuCollection) ? this.game.waifuCollection : [];
-    const cards = collection.filter(item => item && WAIFU_CARD_ASSETS[item.waifuId]);
-    const signature = cards.map(item => `${item.waifuId}:${item.name || ''}`).join('|');
-    if (signature === this.waifuCollectionSignature) return;
+    const stacks = new Map();
+    for (const acquisition of collection) {
+      if (!acquisition || !WAIFU_CARD_ASSETS[acquisition.waifuId]) continue;
+      // Uma pilha representa apenas cópias da mesma carta e da mesma qualidade.
+      const key = JSON.stringify([acquisition.waifuId, acquisition.quality || 'D']);
+      const stack = stacks.get(key) || {
+        waifuId: acquisition.waifuId,
+        name: acquisition.name || 'Waifu',
+        quality: acquisition.quality || 'D',
+        quantity: 0
+      };
+      stack.quantity += 1;
+      stacks.set(key, stack);
+    }
+    const cards = [...stacks.values()];
+    const signature = cards.map(item => `${item.waifuId}:${item.quality}:${item.quantity}:${item.name}`).join('|');
     if (signature === this.waifuCollectionSignature) return;
     this.waifuCollectionSignature = signature;
     this.waifuGrid.replaceChildren();
@@ -287,17 +300,23 @@ class HtmlPanel {
       this.waifuGrid.append(element('p', 'html-game-ui__waifu-empty', 'Nenhuma carta obtida ainda.'));
       return;
     }
-    for (const acquisition of cards) {
+    for (const stack of cards) {
       const card = element('div', 'html-game-ui__waifu-tile');
+      card.setAttribute('aria-label', `${stack.name}, qualidade ${stack.quality}, quantidade ${stack.quantity}`);
       const image = element('img', 'html-game-ui__waifu-image');
-      image.src = asset(WAIFU_CARD_ASSETS[acquisition.waifuId]);
-      image.alt = 'Carta original de ' + (acquisition.name || 'waifu');
+      image.src = asset(WAIFU_CARD_ASSETS[stack.waifuId]);
+      image.alt = 'Carta original de ' + stack.name;
       image.draggable = false;
       image.addEventListener('error', () => {
         card.replaceChildren(element('span', 'html-game-ui__waifu-error', 'Falha ao carregar a carta.'));
       }, { once: true });
       card.append(image);
-      const caption = element('span', 'html-game-ui__waifu-name', acquisition.name || 'Waifu');
+      if (stack.quantity > 1) {
+        const count = element('span', 'html-game-ui__waifu-stack-count', String(stack.quantity));
+        count.setAttribute('aria-label', `${stack.quantity} cartas nesta pilha`);
+        card.append(count);
+      }
+      const caption = element('span', 'html-game-ui__waifu-name', stack.name);
       card.append(caption);
       this.waifuGrid.append(card);
     }
