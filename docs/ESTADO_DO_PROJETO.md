@@ -3,7 +3,7 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.10.27  
+**Versão do código-base consultado:** 2.10.28  
 **Atualizado em:** 28/11/2026 (estado encontrado na branch)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
@@ -79,7 +79,7 @@ Não inferir conclusão visual, Android ou publicação a partir da existência 
 
 ## Conteúdo hostil
 
-- Monstros comuns: entidade, catálogo Slime, spawner, perseguição simples, combate básico e renderização já existem. Direções de animação 4-way ainda pendentes.
+- Monstros comuns: Slime é a única espécie atualmente registrada; é uma bola azul simples e não necessita animação direcional. Outras espécies poderão ter animações próprias ou usar imagens estáticas. O sistema de spawn, perseguição simples e combate básico já existe.
 - Boss: catálogo vazio preparado; entidades, IA, habilidades e renderização 8-way ainda não implementados.
 - Bestiário: projeção de catálogo separada em Monstros/Boss preparada; interface, descoberta e persistência ainda pendentes.
 - Raios atuais preservados: ataque 2 m, perseguição 10 m, ocioso 30 m, ativação 50 m.
