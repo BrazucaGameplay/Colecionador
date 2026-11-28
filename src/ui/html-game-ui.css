@@ -1015,7 +1015,7 @@
   padding: 4px;
   scrollbar-width: thin;
 }
-.html-game-ui--waifus .html-game-ui__waifu-tile {
+.html-game-ui__panel--waifus .html-game-ui__waifu-tile {
   width: min(100%, 116px);
   min-width: 0;
   min-height: 0;
