@@ -17,7 +17,9 @@ export default class LoadingScreen {
     this.rotationTimer = null;
     this.onProgress = event => this.setProgress(event.detail?.progress ?? 0, event.detail?.message);
     this.onReady = () => this.hide();
+    this.onError = event => this.showLoadError(event.detail?.message);
     window.addEventListener('colecionador:loading-progress', this.onProgress);
+    window.addEventListener('colecionador:loading-error', this.onError);
     window.addEventListener('colecionador:game-ready', this.onReady, { once: true });
     this.showNextImage();
     if (this.images.length > 1) {
@@ -46,7 +48,7 @@ export default class LoadingScreen {
 
   showFallback() {
     this.art?.classList.remove('is-visible');
-    this.hint && (this.hint.textContent = 'Preparando o mundo para sua aventura');
+    if (this.hint) this.hint.textContent = 'Preparando o mundo para sua aventura';
   }
 
   setProgress(progress, message) {
@@ -57,11 +59,19 @@ export default class LoadingScreen {
     if (this.hint && !message) this.hint.textContent = value < 100 ? 'Carregando recursos do mundo' : 'Finalizando...';
   }
 
+  showLoadError(message) {
+    if (this.message) this.message.textContent = 'Falha ao carregar a interface';
+    if (this.hint) this.hint.textContent = (message || 'Verifique sua conexão e recarregue a página').slice(0, 140);
+    if (this.root) this.root.setAttribute('data-loading-error', 'true');
+    if (this.rotationTimer) window.clearInterval(this.rotationTimer);
+  }
+
   hide() {
     if (!this.root) return;
     this.setProgress(1, 'Aventura pronta');
     this.root.classList.add('is-hidden');
     if (this.rotationTimer) window.clearInterval(this.rotationTimer);
     window.removeEventListener('colecionador:loading-progress', this.onProgress);
+    window.removeEventListener('colecionador:loading-error', this.onError);
   }
 }
