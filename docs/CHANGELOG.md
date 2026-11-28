@@ -7,6 +7,7 @@
 - Testes de UI, carregamento, câmera, persistência, mundo e bootstrap migrados de inspeção de strings para interação com componentes e sistemas reais/harnesses.
 - Extraída a política pura de limites do oceano e escala de ação para permitir testes de comportamento.
 - Corrigida divergência herdada no lockfile: `node_modules/yauzl` volta à versão real 2.10.0; versão do projeto sincronizada em 2.10.26.
+- Workflow de deploy passou a exigir o lockfile versionado e executar `npm ci`, sem gerar lockfile temporário.
 
 Histórico consolidado do repositório `BrazucaGameplay/Colecionador`. Registra marcos que explicam a evolução do projeto; não é uma segunda especificação do estado atual. Para o que existe hoje, consulte [ESTADO_DO_PROJETO.md](ESTADO_DO_PROJETO.md).
 
