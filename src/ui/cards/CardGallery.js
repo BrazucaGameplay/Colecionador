@@ -27,6 +27,8 @@ function button(label, className, onClick) {
 export default class CardGallery {
   constructor(container, { catalog = getBestiaryCatalog() } = {}) {
     this.container = container;
+    this.gallery = node('div', 'html-game-ui__card-gallery');
+    this.container.replaceChildren(this.gallery);
     this.catalog = catalog;
     this.category = 'monsters';
     this.selected = null;
@@ -36,9 +38,9 @@ export default class CardGallery {
   }
 
   render(transition = '') {
-    if (!this.container) return;
-    this.container.replaceChildren();
-    this.container.className = 'html-game-ui__card-gallery' + (transition ? ' ' + transition : '');
+    if (!this.gallery) return;
+    this.gallery.replaceChildren();
+    this.gallery.className = 'html-game-ui__card-gallery' + (transition ? ' ' + transition : '');
     if (this.page === 'gallery') this.renderGrid();
     else this.renderDetail();
   }
@@ -78,7 +80,7 @@ export default class CardGallery {
       card.append(image, node('span', 'html-game-ui__card-name', entry.name));
       grid.append(card);
     }
-    this.container.append(grid);
+    this.gallery.append(grid);
   }
 
   renderDetail() {
@@ -128,19 +130,23 @@ export default class CardGallery {
     inner.append(front, back);
     flip.append(inner);
 
-    const backButton = button('‹ Voltar ao bestiário', 'html-game-ui__card-navigation', () => {
-      this.selected = null;
-      this.flipped = false;
-      this.page = 'gallery';
-      this.render();
-    });
-    detail.append(flip, backButton);
-    this.container.append(detail);
+    detail.append(flip);
+    this.gallery.append(detail);
+  }
+
+  backToGallery() {
+    if (this.page !== 'detail') return false;
+    this.selected = null;
+    this.flipped = false;
+    this.page = 'gallery';
+    this.render();
+    return true;
   }
 
   destroy() {
     this.container?.replaceChildren();
     this.container = null;
+    this.gallery = null;
     this.catalog = null;
     this.selected = null;
   }
