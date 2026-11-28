@@ -2677,3 +2677,21 @@ PENDÊNCIAS:
 - Confirmar o resultado visual no navegador Android após publicação.
 - A geração de APK e testes em aparelho instalado não fazem parte desta
   alteração e continuam pendentes.
+
+
+ATUALIZAÇÃO 28/11/2026 — AJUSTE DOS TESTES VISUAIS
+Versão: 2.10.16.
+
+A auditoria do workflow 46090707018 identificou dois testes visuais
+desatualizados em tests/html-ui-visual.test.js. Eles ainda exigiam a fonte
+Trebuchet e uma silhueta aplicada como background-image no próprio IMG,
+comportamentos substituídos pela alteração de tipografia system-ui/Roboto
+e pelo fallback independente para evitar a silhueta por trás da arte.
+
+Os testes foram atualizados para validar o comportamento novo: fonte fina,
+pesos tipográficos, fallback separado, imagem transparente, alternância
+por load/error e lista de cinco atributos na página 2 do perfil.
+
+A falha era de expectativas antigas dos testes, não uma falha de instalação
+ou compilação. A nova execução completa do workflow ainda precisa confirmar
+os testes e o build para que a publicação possa ocorrer.
