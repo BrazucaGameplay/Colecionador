@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
 import WorldDepthManager from '../src/world/WorldDepthManager.js';
 import WorldCollisionManager from '../src/world/WorldCollisionManager.js';
 import { ISLAND_01_LAYOUT, TREE_SPACING } from '../src/world/map-layout/island-01.js';
+import { getActionDisplayScale } from '../src/rendering/characters/CharacterSpriteScale.js';
 
 test('layout da floresta usa dois tipos de árvores, coordenadas fixas e uma ancestral', () => {
   const ids = new Set();
@@ -147,9 +147,10 @@ test('a escala visual padrão do protagonista foi aumentada sem alterar os quadr
   assert.ok(DEFAULT_CHARACTER_SCALE > 0.95);
 });
 
-test('ações de combate compensam a escala menor dos atlas sem alterar a escala base', () => {
-  const source = readFileSync(new URL('../src/rendering/characters/CharacterSpriteRenderer.js', import.meta.url), 'utf8');
-  assert.match(source, /this\.actionScaleMultiplier = 1\.35/);
-  assert.match(source, /setScale\(this\.baseScale \* this\.actionScaleMultiplier\)/);
-  assert.match(source, /setScale\(this\.baseScale\)/);
+test('escala de apresentação de ação deriva da escala base sem mutá-la', () => {
+  const baseScale = DEFAULT_CHARACTER_SCALE;
+  assert.equal(getActionDisplayScale(baseScale), baseScale * 1.35);
+  assert.equal(baseScale, DEFAULT_CHARACTER_SCALE);
+  assert.equal(getActionDisplayScale(1.2, 1.5), 1.8);
+  assert.equal(getActionDisplayScale(Number.NaN), 0);
 });
