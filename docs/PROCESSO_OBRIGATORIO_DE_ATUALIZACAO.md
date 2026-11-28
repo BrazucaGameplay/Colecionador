@@ -1,6 +1,6 @@
 # Processo obrigatório de modificações, versionamento e atualização
 
-Este arquivo complementa `CONTEXTO_DO_PROJETO.md` (ou o arquivo de contexto principal vigente) e deve ser seguido em toda tarefa realizada no repositório `BrazucaGameplay/Colecionador`, branch `main`.
+Este arquivo complementa `docs/ESTADO_DO_PROJETO.md` e `docs/CHANGELOG.md`. O estado atual é mantido no primeiro; marcos históricos no segundo. Seguir este processo em toda tarefa realizada no repositório `BrazucaGameplay/Colecionador`, branch `main`.
 
 ## 1. Regra de versionamento: toda modificação exige nova versão
 
