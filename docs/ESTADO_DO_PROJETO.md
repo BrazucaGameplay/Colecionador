@@ -2917,3 +2917,22 @@ Estado integral:
   conferência da versão e integridade de arquivos.
 - Pendências: testar interação visual e troca de skin em Android; APK/
   Play Store e integrações dos sistemas ainda não concluídos.
+
+
+======================================================================
+14. AJUSTE DA EXPECTATIVA DO TESTE DE NAVEGACAO — 28/11/2026
+======================================================================
+
+A execução 2.10.21 executou 130 testes: 129 passaram e um falhou porque
+o teste procurava o seletor CSS .html-game-ui__profile-controls dentro do
+arquivo JavaScript, embora o JavaScript crie o elemento usando o nome de
+classe sem o ponto. A classe CSS existe e está definida em
+src/ui/html-game-ui.css. O erro foi exclusivamente a expectativa do teste.
+
+Correção:
+- O teste agora procura a criação DOM real do elemento com
+  element('div', 'html-game-ui__profile-controls').
+- Não foi removida nenhuma asserção funcional ou de estilo.
+- Versão incrementada de 2.10.21 para 2.10.22; lockfile sincronizado.
+
+A versão 2.10.22 aguarda build, testes e publicação do commit final.

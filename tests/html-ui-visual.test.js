@@ -82,5 +82,5 @@ test('setas percorrem apenas skins validadas e atualizam o retrato sem nomes ou 
   assert.match(ui, /manager\.selectSkin\(available\[next\]\.id\)/);
   assert.match(ui, /this\.owner\.refresh\(\)/);
   assert.match(ui, /this\.refreshProfileControls\(\)/);
-  assert.match(ui, /\.html-game-ui__profile-controls/);
+  assert.match(ui, /element\('div', 'html-game-ui__profile-controls'\)/);
 });
