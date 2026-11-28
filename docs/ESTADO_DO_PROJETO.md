@@ -3,8 +3,8 @@
 **Projeto:** Conquistador de Waifu's  
 **Repositório:** [BrazucaGameplay/Colecionador](https://github.com/BrazucaGameplay/Colecionador)  
 **Branch de referência:** `main`  
-**Versão do código-base consultado:** 2.12.3  
-**Atualizado em:** 28/11/2026 (painel de waifus e atualização eficiente da galeria)
+**Versão do código-base consultado:** 2.12.4  
+**Atualizado em:** 28/11/2026 (painel de waifus adaptado ao Bestiário)
 
 > Este documento descreve o estado presente. O histórico de mudanças fica em [CHANGELOG.md](CHANGELOG.md); decisões especializadas e contratos ficam nos documentos próprios. O código e os testes da `main` prevalecem sobre descrições antigas.
 
@@ -33,7 +33,7 @@
 - Criadas classificações centrais de raridade fixa (Comum, Rara, Épica, Lendária, Mítica) e qualidade fixa na aquisição (Plebeia, Nobre, Dama, Princesa, Rainha).
 - Criados pontos de entrada separados para catálogo e tabelas de drop. A tabela do Slime concede a carta Donzela Slime com 20% de chance; as demais espécies ainda não estão cadastradas.
 - Reservados diretórios para cinco molduras de raridade e cinco selos de qualidade, sem assets provisórios.
-- A coleção usa `public/assets/cards/waifus/carta.slime.webp` como arte original da Donzela Slime. O painel Waifus exibe as cartas efetivamente adquiridas em grade de três colunas por duas linhas, sem moldura individual, borda ou texto sobre a ilustração; a moldura do painel segue o padrão largo já usado pela interface. A galeria só reconstrói o DOM quando a coleção muda.
+- A coleção usa `public/assets/cards/waifus/carta.slime.webp` como arte original da Donzela Slime. O painel Waifus exibe as cartas efetivamente adquiridas em grade de três colunas por duas linhas, sem moldura individual, borda ou texto sobre a ilustração; a moldura do painel segue o padrão largo já usado pela interface. A galeria só reconstrói o DOM quando a coleção muda. O painel de Waifus usa a mesma arte vertical `painel_vertical_900x1350_transparente.webp` e a mesma proporção/área de conteúdo do Bestiário; as cartas usam dimensões constantes (largura máxima 116 px, altura máxima 150 px, proporção 2:3) e a grade se adapta com rolagem.
 - A origem principal das ilustrações de waifus continua no repositório separado. O painel Waifus e o runtime ainda não foram integrados.
 - Documento de referência: [Arquitetura do sistema de waifus](ARQUITETURA_DO_SISTEMA_DE_WAIFUS.md).
 
