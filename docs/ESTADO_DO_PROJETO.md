@@ -2863,3 +2863,57 @@ Versionamento:
 Validação pendente:
 - Executar testes, build, workflow e verificação da publicação da versão
   2.10.20. A confirmação visual final depende do navegador Android.
+
+
+======================================================================
+13. NAVEGACAO E FECHAMENTO DO PAINEL DE PERFIL — 28/11/2026
+======================================================================
+
+Solicitação: restaurar as setas laterais de navegação e o botão X de saída,
+preservando a moldura dourada e o painel visual já existente.
+
+Implementado:
+- O botão circular X usa o mesmo asset oficial fechar_circular.svg e a
+  mesma classe/posição visual aplicada aos demais painéis.
+- Duas setas laterais usam os botões ornamentais UI.button200 já existentes,
+  com glifos discretos e rótulos de acessibilidade, sem nomes ou textos
+  visíveis no painel.
+- As setas percorrem em ciclo apenas as skins que SkinManager informa como
+  selecionáveis/validadas. A skin escolhida é aplicada pelo método oficial
+  SkinManager.selectSkin; a atualização do retrato usa o fluxo normal da HUD.
+- O painel continua sem nomes de personagens, indicadores numéricos,
+  atributos, legendas ou botão textual. Permanecem apenas o retrato,
+  as setas laterais e o X.
+- Quando há menos de duas skins válidas, as setas ficam desabilitadas.
+- O ProfileImageFitter continua responsável por adaptar o retrato ao espaço
+  interno do painel, e não foi alterada a estrutura de enquadramento.
+
+Auditoria:
+- Testes verificam os botões e os rótulos de acessibilidade, o uso dos
+  assets ornamentais, a navegação somente por skins selecionáveis e a
+  ausência de nomes/indicadores no painel.
+- Versão anterior 2.10.20; nova versão 2.10.21.
+- O workflow do commit final precisa aprovar testes, build, deploy e
+  verificação de integridade do GitHub Pages antes de declarar publicação.
+
+Estado integral:
+- Produto: RPG 2D de ação anime para web/PWA e Android; Phaser 4, Vite,
+  JavaScript e Capacitor declarado para empacotamento Android.
+- Mundo: mapa 2D de exploração com floresta, árvores, obstáculos e
+  navegação; expansão por novas áreas permanece trabalho futuro.
+- Gameplay: movimentação por toque, combate e personagem com skins
+  validadas; seleção de skin permanece protegida pelo SkinManager.
+  Progressão e atributos existem; waifus, inventário completo, bestiário
+  funcional e casa ainda aguardam integrações.
+- Arquitetura: cenas Phaser separadas; camada screen-space HTML/CSS para
+  painéis e retratos; HUD de status e mundo continuam no Phaser.
+  ProfileImageFitter mede limites alpha da arte e recalcula com ResizeObserver.
+- Assets: retratos PNG das skins, molduras WebP, botões WebP e fechar SVG
+  são reutilizados sem editar as artes originais.
+- UI mobile: painel vertical responsivo, moldura ornamental, retrato
+  adaptativo, setas laterais e X; validação visual real Android permanece
+  necessária após deploy.
+- Build/publicação: GitHub Actions constrói e publica GitHub Pages, com
+  conferência da versão e integridade de arquivos.
+- Pendências: testar interação visual e troca de skin em Android; APK/
+  Play Store e integrações dos sistemas ainda não concluídos.

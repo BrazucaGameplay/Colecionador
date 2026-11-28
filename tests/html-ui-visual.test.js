@@ -11,15 +11,20 @@ test('painéis HTML usam tipografia fina sans-serif', async () => {
   assert.match(css, /\.html-game-ui__profile-footer \{ font-weight: 300; \}/);
 });
 
-test('painel de perfil contém somente o retrato, sem botões ou textos', async () => {
+test('painel de perfil contém retrato, setas laterais ornamentadas e botão X', async () => {
   const ui = await read('../src/ui/HtmlGameUI.js');
   const profileStart = ui.indexOf('  buildProfile() {');
   const profileEnd = ui.indexOf('\n  refresh() {', profileStart);
   assert.ok(profileStart >= 0 && profileEnd > profileStart);
   const profileBuilder = ui.slice(profileStart, profileEnd);
   assert.match(profileBuilder, /element\('img', 'html-game-ui__profile-portrait'\)/);
-  assert.doesNotMatch(profileBuilder, /imageButton|addText|caption|shortcut|pager|summary|stat-row|skinRows/);
-  assert.match(ui, /if \(key !== 'profile'\) \{/);
+  assert.match(profileBuilder, /imageButton\('‹', UI\.button200/);
+  assert.match(profileBuilder, /imageButton\('›', UI\.button200/);
+  assert.match(profileBuilder, /aria-label', 'Personagem anterior'/);
+  assert.match(profileBuilder, /aria-label', 'Próximo personagem'/);
+  assert.doesNotMatch(profileBuilder, /addText|caption|shortcut|summary|stat-row|skinRows/);
+  assert.match(ui, /const close = element\('button', 'html-game-ui__close'\)/);
+  assert.match(ui, /closeImg\.src = UI\.close/);
   assert.match(ui, /this\.profilePortraitFrame\.append\(this\.profilePortraitFallback, this\.portrait\)/);
   assert.match(ui, /this\.portrait\.src = portrait/);
   assert.match(ui, /shade\.addEventListener\('pointerdown',[\s\S]*?this\.closePanel\(\)/);
@@ -68,4 +73,14 @@ test('o frame do perfil recorta a imagem nos limites internos e o fitter é desc
   assert.match(css, /contain: layout paint/);
   assert.match(ui, /new ProfileImageFitter\(this\.profilePortraitFrame, this\.portrait\)/);
   assert.match(ui, /this\.profileImageFitter\?\.destroy\(\)/);
+});
+
+
+test('setas percorrem apenas skins validadas e atualizam o retrato sem nomes ou indicadores', async () => {
+  const ui = await read('../src/ui/HtmlGameUI.js');
+  assert.match(ui, /getCatalog\?\.\(\)\.filter\(entry => entry\.selectable\)/);
+  assert.match(ui, /manager\.selectSkin\(available\[next\]\.id\)/);
+  assert.match(ui, /this\.owner\.refresh\(\)/);
+  assert.match(ui, /this\.refreshProfileControls\(\)/);
+  assert.match(ui, /\.html-game-ui__profile-controls/);
 });

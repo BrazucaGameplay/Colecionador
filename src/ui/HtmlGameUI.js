@@ -176,19 +176,15 @@ class HtmlPanel {
     this.art.draggable = false;
     this.node.append(this.art);
 
-    if (key !== 'profile') {
-      const close = element('button', 'html-game-ui__close');
-      close.type = 'button';
-      close.setAttribute('aria-label', 'Fechar painel');
-      const closeImg = element('img');
-      closeImg.src = UI.close;
-      closeImg.alt = '';
-      close.append(closeImg);
-      close.addEventListener('click', event => { event.stopPropagation(); owner.closePanel(); });
-      this.node.append(close);
-  
-  
-    }
+    const close = element('button', 'html-game-ui__close');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Fechar painel');
+    const closeImg = element('img');
+    closeImg.src = UI.close;
+    closeImg.alt = '';
+    close.append(closeImg);
+    close.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); owner.closePanel(); });
+    this.node.append(close);
     this.content = element('div', 'html-game-ui__panel-content');
     this.node.append(this.content);
     if (key === 'profile') this.buildProfile(skin);
@@ -235,6 +231,37 @@ class HtmlPanel {
     this.profilePortraitFrame.append(this.profilePortraitFallback, this.portrait);
     this.content.append(this.profilePortraitFrame);
     this.profileImageFitter = new ProfileImageFitter(this.profilePortraitFrame, this.portrait);
+
+    this.profileControls = element('div', 'html-game-ui__profile-controls');
+    this.previousSkin = imageButton('‹', UI.button200, () => this.cycleSkin(-1), 'html-game-ui__profile-arrow');
+    this.nextSkin = imageButton('›', UI.button200, () => this.cycleSkin(1), 'html-game-ui__profile-arrow');
+    this.previousSkin.setAttribute('aria-label', 'Personagem anterior');
+    this.nextSkin.setAttribute('aria-label', 'Próximo personagem');
+    this.profileControls.append(this.previousSkin, this.nextSkin);
+    this.content.append(this.profileControls);
+    this.refreshProfileControls();
+  }
+
+  refreshProfileControls() {
+    const available = this.game?.skinManager?.getCatalog?.().filter(entry => entry.selectable) || [];
+    const hasMultiple = available.length > 1;
+    if (this.previousSkin) this.previousSkin.disabled = !hasMultiple;
+    if (this.nextSkin) this.nextSkin.disabled = !hasMultiple;
+  }
+
+  cycleSkin(direction) {
+    const manager = this.game?.skinManager;
+    if (!manager || ![-1, 1].includes(direction)) return false;
+    const available = manager.getCatalog?.().filter(entry => entry.selectable) || [];
+    if (available.length < 2) return false;
+    const current = available.findIndex(entry => entry.selected);
+    const start = current >= 0 ? current : 0;
+    const next = (start + direction + available.length) % available.length;
+    const result = manager.selectSkin(available[next].id);
+    if (!result?.changed) return false;
+    this.owner.refresh();
+    this.refreshProfileControls();
+    return true;
   }
 
   refresh() {
@@ -248,6 +275,7 @@ class HtmlPanel {
     }
     this.portrait.hidden = !portrait;
     this.profilePortraitFallback.hidden = Boolean(portrait && this.portrait.complete && this.portrait.naturalWidth > 0);
+    this.refreshProfileControls();
   }
 
   destroy() {
